@@ -24,41 +24,33 @@ class ServiceBase extends \think\Model
     protected function setInfo($data = [], $where = [], $get_id = true, $replace = false)
     {
         
-        $model = self::$model[$this->name];
-        
-        return $model->allowField(true)->save($data, $where, $get_id, $replace);
+        return self::$model[$this->name]->allowField(true)->save($data, $where, $get_id, $replace);
     }
     
     //写入多条信息
     protected function setList($data_list = [], $replace = false)
     {
         
-        $model = self::$model[$this->name];
-        
-        return $model->saveAll($data_list, $replace);
+        return self::$model[$this->name]->saveAll($data_list, $replace);
     }
     
     //更新信息
     protected function updateInfo($data = [], $where = [])
     {
         
-        $model = self::$model[$this->name];
-        
-        return $model->update($data, $where);
+        return self::$model[$this->name]->update($data, $where);
     }
     
     //删除信息
     protected function deleteInfo($data = [])
     {
         
-        $model = self::$model[$this->name];
-        
         if (empty($data)) {
             
-            return $model->delete();
+            return self::$model[$this->name]->delete();
         } else {
             
-            return $model->destroy($data);
+            return self::$model[$this->name]->destroy($data);
         }
     }
     
