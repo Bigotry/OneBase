@@ -37,7 +37,7 @@ class Member extends AdminBase
         
         $this->assign('meta_title', '新增用户');
         
-        return view('add_member');
+        return $this->fetch('add_member');
     }
     
 

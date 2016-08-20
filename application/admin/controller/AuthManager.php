@@ -9,18 +9,31 @@ use app\admin\model\AuthGroup;
 class AuthManager extends AdminBase
 {
     
+    public $model;
+    
+    //基类初始化
+    public function _initialize()
+    {
+        
+        parent::_initialize();
+        
+        $this->model =  model('AuthGroup');
+    }
+    
+    
     //权限管理
     public function index()
     {
         
-        $list = Db::name('AuthGroup')->where('module', 'admin')->order('id', 'asc')->paginate(10);
+        $condition['status'] = 1;
+        $condition['module'] = 'admin';
         
-        // 把分页数据赋值给模板变量list
+        $list = $this->model->getAuthGroupList($condition);
+        
         $this->assign('list', $list);
         
         $this->assign('meta_title', '权限管理');
         
-        // 渲染模板输出
         return $this->fetch();
     }
     
@@ -28,56 +41,12 @@ class AuthManager extends AdminBase
     //编辑权限组
     public function editGroup()
     {
-        $data = $this->request->param();
         
-        if (IS_POST) {
-            
-            $validate = validate('AuthGroup');
-            $validate_result = $validate->check($data);
-            
-            if (!$validate_result) {
-                $this->error($validate->getError());
-            }
-            
-            $auth_group_model = model('AuthGroup');
-            
-            if ($data['id']) {
-                
-                $res = $auth_group_model->allowField(true)->save($data, array('id' => $data['id']));
-            } else {
-                
-                $res = $auth_group_model->allowField(true)->save($data);
-            }
-            
-            if ($res) {
-                
-                $this->success('操作成功!', url('index'));
-            } else {
-                
-                $this->error('操作失败!');
-            }
-            
-            
-        } else {
+        $this->model->editGroup($this->param);
         
-            if (!empty($data['id'])) {
-                
-                $auth_group_model = model('AuthGroup');
-                
-                $info = $auth_group_model->get($data['id']);
-                
-                $this->assign('meta_title', '编辑权限组');
-                
-                $this->assign('info', $info);
-            } else {
-                
-                $this->assign('meta_title', '新增权限组');
-            }
-
-            // 渲染模板输出
-            return $this->fetch('edit_group');
-        }
-
+        $this->assign('meta_title', '编辑权限组');
+        
+        return $this->fetch('edit_group');
     }
     
     

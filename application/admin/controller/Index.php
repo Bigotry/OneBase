@@ -10,7 +10,7 @@ class Index extends AdminBase
         
         $this->assign('meta_title', '管理首页');
         
-        return view('index');
+        return $this->fetch('index');
     }
 
 }

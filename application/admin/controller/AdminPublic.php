@@ -26,7 +26,7 @@ class AdminPublic extends CommonBase
         
         $this->model->login($username, $password, $verify);
         
-        return view('public/login');
+        return $this->fetch('public/login');
     }
     
     /* 退出登录 */
