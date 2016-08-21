@@ -140,6 +140,11 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
             } else {
                 if (isset($refer[$parentId])) {
                     $parent =& $refer[$parentId];
+                    
+                    if(is_object($parent)) {
+                        
+                        $parent = $parent->toArray();
+                    }
                     $parent[$child][] =& $list[$key];
                 }
             }

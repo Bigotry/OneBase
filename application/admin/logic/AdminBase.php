@@ -87,7 +87,7 @@ class AdminBase extends AdminServiceBase
         
         if ((int)$tree) {
             
-            $list = $menu_model->getListAll('id,pid,title,url,tip,hide', 'sort asc');
+            $list = $menu_model->getMenuList([], 'id,pid,title,url,tip,hide', 'sort asc');
             
             foreach ($list as $key => $value) {
                 
@@ -97,8 +97,11 @@ class AdminBase extends AdminServiceBase
                 }
             }
             
-            
             $nodes = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = 'operator', $root = 0);
+
+            
+            dump($nodes);
+            die;
             
             foreach ($nodes as $key => $value) {
                 if (!empty($value['operator'])) {
@@ -109,7 +112,7 @@ class AdminBase extends AdminServiceBase
             }
         } else {
             
-            $nodes = $menu_model->getListAll('title,url,tip,pid', 'sort asc');
+            $nodes = $menu_model->getMenuList([], 'title,url,tip,pid', 'sort asc');
             
             foreach ($nodes as $key => $value) {
                 
