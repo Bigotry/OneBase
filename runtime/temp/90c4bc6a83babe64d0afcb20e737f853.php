@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:66:"E:\Wamp\www\OneBase/application/admin\view\auth_manager\index.html";i:1472387479;s:59:"E:\Wamp\www\OneBase/application/admin\view\Public\base.html";i:1471186081;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:60:"E:\Wamp\www\OneBase/application/admin\view\config\index.html";i:1470231579;s:59:"E:\Wamp\www\OneBase/application/admin\view\Public\base.html";i:1471186081;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -99,62 +99,79 @@
             
 
             
-	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2><?php echo $meta_title; ?></h2>
+            <h2>配置管理 
+                [ 
+                <?php if(isset($group)): ?>
+                    <a href="<?php echo url('index'); ?>">全部</a>
+                    <?php else: ?>
+                    <strong>全部</strong>
+                <?php endif; ?>
+                &nbsp;
+                <?php if(is_array($group) || $group instanceof \think\Collection): if( count($group)==0 ) : echo "" ;else: foreach($group as $key=>$vo): if($group_id != $key): ?>
+                        <a href="<?php echo url('index?group='.$key); ?>"><?php echo $vo; ?></a>
+                        <?php else: ?>
+                        <strong><?php echo $vo; ?></strong>
+                    <?php endif; ?>
+                    &nbsp;     
+                <?php endforeach; endif; else: echo "" ;endif; ?> 
+                ]
+            </h2>
 	</div>
 
-    <div class="tools auth-botton">
-        <a id="add-group" class="btn" href="<?php echo url('editGroup'); ?>">新 增</a>
-        <a url="<?php echo url('changestatus?method=resumeGroup'); ?>" class="btn ajax-post" target-form="ids" >启 用</a>
-        <a url="<?php echo url('changestatus?method=forbidGroup'); ?>" class="btn ajax-post" target-form="ids" >禁 用</a>
-        <a url="<?php echo url('changestatus?method=deleteGroup'); ?>" class="btn ajax-post confirm" target-form="ids" >删 除</a>
-    </div>
-	<!-- 数据列表 -->
+	<div class="cf">
+		<a class="btn" href="<?php echo url('edit'); ?>">新 增</a>
+		<a class="btn" href="javascript:;">删 除</a>
+        
+		<!-- 高级搜索 -->
+		<div class="search-form fr cf">
+			<div class="sleft">
+				<input type="text" name="name" class="search-input" value="<?php echo $name; ?>" placeholder="请输入配置名称">
+				<a class="sch-btn" href="javascript:;" id="search" url="<?php echo url('config/index'); ?>"><i class="btn-search"></i></a>
+			</div>
+		</div>
+	</div>
+
 	<div class="data-table table-striped">
-	<table class="">
-    <thead>
-        <tr>
-		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
-		<th class="">用户组</th>
-		<th class="">描述</th>
-
-		<th class="">授权</th>
-		<th class="">状态</th>
-		<th class="">操作</th>
-		</tr>
-    </thead>
-    <tbody>
-		<?php if(!(empty($list) || ($list instanceof \think\Collection && $list->isEmpty()))): if(is_array($list) || $list instanceof \think\Collection): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-		<tr>
-            <td><input class="ids" type="checkbox" name="id[]" value="<?php echo $vo['id']; ?>" /></td>
-			<td><a href="<?php echo url('editGroup?id='.$vo['id']); ?>"><?php echo $vo['title']; ?></a> </td>
-			<td><span><?php echo mb_strimwidth($vo['description'],0,60,"...","utf-8"); ?></span></td>
-
-
-			<td>
-                            <a href="<?php echo url('AuthManager/access?group_name='.$vo['title'].'&group_id='.$vo['id']); ?>" >访问授权</a>
-                            <a href="<?php echo url('AuthManager/memberAccess?group_name='.$vo['title'].'&group_id='.$vo['id']); ?>" >成员授权</a>
-			</td>
-			<td><?php echo $vo['status']; ?></td>
-			<td><?php if($vo['status'] == '1'): ?>
-				<a href="<?php echo url('AuthManager/changeStatus?method=forbidGroup&id='.$vo['id']); ?>" class="ajax-get">禁用</a>
-				<?php else: ?>
-				<a href="<?php echo url('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id']); ?>" class="ajax-get">启用</a>
-				<?php endif; ?>
-				<a href="<?php echo url('AuthManager/changeStatus?method=deleteGroup&id='.$vo['id']); ?>" class="confirm ajax-get">删除</a>
-                </td>
-		</tr>
-		<?php endforeach; endif; else: echo "" ;endif; else: ?>
-		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
-		<?php endif; ?>
-	</tbody>
-    </table>
-
+		<table>
+			<thead>
+				<tr>
+					<th class="row-selected">
+                                        <input class="checkbox check-all" type="checkbox">
+					</th>
+					<th>ID</th>
+					<th>名称</th>
+					<th>标题</th>
+					<th>分组</th>
+					<th>类型</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+                            <?php if(!(empty($list) || ($list instanceof \think\Collection && $list->isEmpty()))): if(is_array($list) || $list instanceof \think\Collection): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$config): $mod = ($i % 2 );++$i;?>
+                                    <tr>
+                                            <td><input class="ids row-selected" type="checkbox" name="id[]" value="<?php echo $config['id']; ?>"></td>
+                                            <td><?php echo $config['id']; ?></td>
+                                            <td><a href="<?php echo url('edit?id='.$config['id']); ?>"><?php echo $config['name']; ?></a></td>
+                                            <td><?php echo $config['title']; ?></td>
+                                            <td><?php echo get_config_group($config['group']); ?></td>
+                                            <td><?php echo get_config_type($config['type']); ?></td>
+                                            <td>
+                                                    <a title="编辑" href="<?php echo url('edit?id='.$config['id']); ?>">编辑</a>
+                                                    <a class="confirm ajax-get" title="删除" href="<?php echo url('del?id='.$config['id']); ?>">删除</a>
+                                            </td>
+                                    </tr>
+                            <?php endforeach; endif; else: echo "" ;endif; else: ?>
+                            <td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+                            <?php endif; ?>
+			</tbody>
+		</table>
+		<!-- 分页 -->
+	    <div class="page">
+                <?php echo $list->render(); ?>
+	    </div>
 	</div>
-    <div class="page">
-        <?php echo $list->render(); ?>
-    </div>
+
 
         </div>
         <div class="cont-ft">
@@ -249,9 +266,48 @@
         }();
     </script>
     
-<script type="text/javascript" charset="utf-8">
-    //导航高亮
-    highlight_subnav('<?php echo url('auth_manager/index'); ?>');
+<script type="text/javascript">
+    
+highlight_subnav('<?php echo url('Config/index'); ?>');
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	//点击排序
+	$('.list_sort').click(function(){
+		var url = $(this).attr('url');
+		var ids = $('.ids:checked');
+		var param = '';
+		if(ids.length > 0){
+			var str = new Array();
+			ids.each(function(){
+				str.push($(this).val());
+			});
+			param = str.join(',');
+		}
+
+		if(url != undefined && url != ''){
+			window.location.href = url + '/ids/' + param;
+		}
+	});
+});
 </script>
 
 </body>

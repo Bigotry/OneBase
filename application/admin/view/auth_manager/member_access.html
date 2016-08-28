@@ -7,7 +7,7 @@
         <li class="fr">
             <select name="group">
                 {volist name="auth_group" id="vo"}
-                    <option value="{:url('AuthManager/user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" {eq name="vo['id']" value="$this_group['id']"} selected {/eq} >{$vo.title}</option>
+                    <option value="{:url('AuthManager/memberAccess',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" {eq name="vo['id']" value="$this_group['id']"} selected {/eq} >{$vo.title}</option>
                 {/volist}
             </select>
         </li>
@@ -17,24 +17,18 @@
 	<table class="">
     <thead>
         <tr>
-		<th class="">UID</th>
+		<th class="">ID</th>
 		<th class="">昵称</th>
-		<th class="">最后登录时间</th>
-		<th class="">最后登录IP</th>
-		<th class="">状态</th>
 		<th class="">操作</th>
 		</tr>
     </thead>
     <tbody>
 		{volist name="list" id="vo"}
                     <tr>
-                            <td>{$vo.uid} </td>
+                            <td>{$vo.member_id} </td>
                             <td>{$vo.nickname}</td>
-                            <td><span>{$vo.last_login_time|time_format}</span></td>
-                            <td><span>{$vo.last_login_ip|long2ip}</span></td>
-                            <td>{$vo.status}</td>
                             <td>
-                                <a href="{:url('AuthManager/removeGroupUser?uid='.$vo['uid'].'&group_id='.$group_id)}" class="ajax-get">
+                                <a href="{:url('AuthManager/delMemberAccess?member_id='.$vo['member_id'].'&group_id='.$group_id)}" class="ajax-get">
                                     解除授权
                                 </a>
                             </td>
@@ -50,8 +44,8 @@
                     {$list->render()}
 		</div>
 		<div id="add-to-group" class="tools fr">
-                    <form class="add-user" action="{:url('addToGroup')}" method="post">
-                        <input class="text input-4x" type="text" name="uid" placeholder="请输入uid">
+                    <form class="add-user" action="{:url('setMemberToGroup')}" method="post">
+                        <input class="text input-4x" type="text" name="member_id" placeholder="请输入会员ID">
                         <input type="hidden" name="group_id" value="{$group_id}">
                         <button type="submit" class="btn ajax-post" target-form="add-user">新 增</button>
                     </form>
@@ -67,6 +61,6 @@
 		location.href = this.value;
 	});
     //导航高亮
-    highlight_subnav('{:url('AuthManager/index')}');
+    highlight_subnav('{:url('auth_manager/index')}');
 </script>
 {/block}

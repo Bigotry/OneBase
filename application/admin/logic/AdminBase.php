@@ -38,6 +38,7 @@ class AdminBase extends AdminServiceBase
             }
         }
         
+        return $this->getMenus();
     }
     
     
@@ -55,7 +56,7 @@ class AdminBase extends AdminServiceBase
         if (!$Auth) {
             $Auth = new \com\Auth();
         }
-
+        
         if (!$Auth->check($rule, MEMBER_ID, $type, $mode)) {
             return false;
         }
@@ -98,10 +99,6 @@ class AdminBase extends AdminServiceBase
             }
             
             $nodes = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = 'operator', $root = 0);
-
-            
-            dump($nodes);
-            die;
             
             foreach ($nodes as $key => $value) {
                 if (!empty($value['operator'])) {
@@ -143,7 +140,7 @@ class AdminBase extends AdminServiceBase
         $where['hide']  =   0;
 
         $menus['main']  =  $menu_model->getMenuList($where, 'id,title,url', 'sort asc');
-
+        
         $menus['child'] =   array(); //设置子节点
 
         foreach ($menus['main'] as $key => $item) {
@@ -157,9 +154,8 @@ class AdminBase extends AdminServiceBase
             if (CONTROLLER_NAME.'/'.ACTION_NAME == strtolower($item['url'])) {
                 $menus['main'][$key]['class']='current';
             }
-
         }
-
+        
         // 查找当前子菜单
         $pid = $menu_model->getFieldSingleMenu("pid !=0 AND url like '%{$controller}/".ACTION_NAME."%'",'pid');
 

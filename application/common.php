@@ -338,6 +338,7 @@ function createClosureFunc( $func_name = '' , $parameter = array() )
  */
 function createJump($jump_method  = '', $msg = '', $url = '', $data = '', $wait = 0)
 {
+    
     $exe_string = 'return $this->'.$jump_method.'(\''.$msg.'\'';
     
     if (!empty($url)) {

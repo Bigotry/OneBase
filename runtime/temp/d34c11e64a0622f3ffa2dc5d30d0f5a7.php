@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:66:"E:\Wamp\www\OneBase/application/admin\view\auth_manager\index.html";i:1472387479;s:59:"E:\Wamp\www\OneBase/application/admin\view\Public\base.html";i:1471186081;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:60:"E:\Wamp\www\OneBase/application/admin\view\config\group.html";i:1469957820;s:59:"E:\Wamp\www\OneBase/application/admin\view\Public\base.html";i:1471186081;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -99,62 +99,61 @@
             
 
             
-	<!-- 标题栏 -->
 	<div class="main-title">
-		<h2><?php echo $meta_title; ?></h2>
+		<h2>网站设置</h2>
 	</div>
+		<div class="tab-wrap">
+		<ul class="tab-nav nav">
+		<?php if(is_array($config_group_list) || $config_group_list instanceof \think\Collection): $i = 0; $__LIST__ = $config_group_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$group): $mod = ($i % 2 );++$i;?>
 
-    <div class="tools auth-botton">
-        <a id="add-group" class="btn" href="<?php echo url('editGroup'); ?>">新 增</a>
-        <a url="<?php echo url('changestatus?method=resumeGroup'); ?>" class="btn ajax-post" target-form="ids" >启 用</a>
-        <a url="<?php echo url('changestatus?method=forbidGroup'); ?>" class="btn ajax-post" target-form="ids" >禁 用</a>
-        <a url="<?php echo url('changestatus?method=deleteGroup'); ?>" class="btn ajax-post confirm" target-form="ids" >删 除</a>
-    </div>
-	<!-- 数据列表 -->
-	<div class="data-table table-striped">
-	<table class="">
-    <thead>
-        <tr>
-		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
-		<th class="">用户组</th>
-		<th class="">描述</th>
+			<li <?php if($id == $key): ?> class="current" <?php endif; ?> > <a href="<?php echo url('?id='.$key); ?>"><?php echo $group; ?>配置</a></li>
 
-		<th class="">授权</th>
-		<th class="">状态</th>
-		<th class="">操作</th>
-		</tr>
-    </thead>
-    <tbody>
-		<?php if(!(empty($list) || ($list instanceof \think\Collection && $list->isEmpty()))): if(is_array($list) || $list instanceof \think\Collection): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-		<tr>
-            <td><input class="ids" type="checkbox" name="id[]" value="<?php echo $vo['id']; ?>" /></td>
-			<td><a href="<?php echo url('editGroup?id='.$vo['id']); ?>"><?php echo $vo['title']; ?></a> </td>
-			<td><span><?php echo mb_strimwidth($vo['description'],0,60,"...","utf-8"); ?></span></td>
+		<?php endforeach; endif; else: echo "" ;endif; ?>
+		</ul>
+		<div class="tab-content">
+	<form action="<?php echo url('save'); ?>" method="post" class="form-horizontal">
+	<?php if(is_array($list) || $list instanceof \think\Collection): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$config): $mod = ($i % 2 );++$i;?>
+		<div class="form-item">
+			<label class="item-label"><?php echo $config['title']; ?><span class="check-tips">（<?php echo $config['remark']; ?>）</span> </label>
+			<div class="controls">
+			<?php switch($config['type']): case "0": ?>
+			<input type="text" class="text input-small" name="config[<?php echo $config['name']; ?>]" value="<?php echo $config['value']; ?>">
+			<?php break; case "1": ?>
+			<input type="text" class="text input-large" name="config[<?php echo $config['name']; ?>]" value="<?php echo $config['value']; ?>">
+			<?php break; case "2": ?>
+			<label class="textarea input-large">
+				<textarea name="config[<?php echo $config['name']; ?>]"><?php echo $config['value']; ?></textarea>
+			</label>
+			<?php break; case "3": ?>
+			<label class="textarea input-large">
+				<textarea name="config[<?php echo $config['name']; ?>]"><?php echo $config['value']; ?></textarea>
+			</label>
+			<?php break; case "4": ?>
+			<select name="config[<?php echo $config['name']; ?>]">
+                            <?php $_result=parse_config_attr($config['extra']);if(is_array($_result) || $_result instanceof \think\Collection): $i = 0; $__LIST__ = $_result;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                                    <option value="<?php echo $key; ?>" <?php if($config['value'] == $key): ?> selected <?php endif; ?> ><?php echo $vo; ?></option>
+                            <?php endforeach; endif; else: echo "" ;endif; ?>
+			</select>
+			<?php break; endswitch; ?>
+				
+			</div>
+		</div>
+		<?php endforeach; endif; else: echo "" ;endif; ?>
+		<div class="form-item">
+			<label class="item-label"></label>
+			<div class="controls">
+                            <?php if(empty($list) || ($list instanceof \think\Collection && $list->isEmpty())): ?>
+                                <button type="submit" disabled class="btn submit-btn disabled" target-form="form-horizontal">确 定</button>
+                                <?php else: ?>
+                                <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+                            <?php endif; ?>
 
-
-			<td>
-                            <a href="<?php echo url('AuthManager/access?group_name='.$vo['title'].'&group_id='.$vo['id']); ?>" >访问授权</a>
-                            <a href="<?php echo url('AuthManager/memberAccess?group_name='.$vo['title'].'&group_id='.$vo['id']); ?>" >成员授权</a>
-			</td>
-			<td><?php echo $vo['status']; ?></td>
-			<td><?php if($vo['status'] == '1'): ?>
-				<a href="<?php echo url('AuthManager/changeStatus?method=forbidGroup&id='.$vo['id']); ?>" class="ajax-get">禁用</a>
-				<?php else: ?>
-				<a href="<?php echo url('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id']); ?>" class="ajax-get">启用</a>
-				<?php endif; ?>
-				<a href="<?php echo url('AuthManager/changeStatus?method=deleteGroup&id='.$vo['id']); ?>" class="confirm ajax-get">删除</a>
-                </td>
-		</tr>
-		<?php endforeach; endif; else: echo "" ;endif; else: ?>
-		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
-		<?php endif; ?>
-	</tbody>
-    </table>
-
+                            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+			</div>
+		</div>
+	</form>
+			</div>
 	</div>
-    <div class="page">
-        <?php echo $list->render(); ?>
-    </div>
 
         </div>
         <div class="cont-ft">
@@ -249,10 +248,7 @@
         }();
     </script>
     
-<script type="text/javascript" charset="utf-8">
-    //导航高亮
-    highlight_subnav('<?php echo url('auth_manager/index'); ?>');
-</script>
+
 
 </body>
 </html>

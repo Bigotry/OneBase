@@ -5,16 +5,16 @@
 	</div>
 
     <div id="auth_groups">
-        <form class="form-horizontal" action="{:url('addToGroup')}" method="post">
-            <label class="item-label">{$nickname} 所属的用户组列表</label>
+        <form class="form-horizontal" action="{:url('setMemberToGroup')}" method="post">
+            <label class="item-label">{$nickname} 所属的权限组设置</label>
+            <br/>
             {volist name="auth_groups" id="vo"}
                 <label class="checkbox">
                     <input class="auth_groups" type="checkbox" name="group_id[]" value="{$vo.id}">{$vo.title}
                 </label>
             {/volist}
-            <input type="hidden" name="uid" value="{$uid}">
-            
-            <div style="margin-top: 10px;">
+            <input type="hidden" name="member_id" value="{$member_id}">
+            <div style="margin-top: 20px;">
                 <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
                 <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
             </div>
@@ -33,6 +33,6 @@
         });
     });
     // 导航高亮
-    highlight_subnav('{:url('User/index')}');
+    highlight_subnav('{:url('Member/index')}');
 </script>
 {/block}

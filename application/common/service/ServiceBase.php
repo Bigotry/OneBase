@@ -109,6 +109,21 @@ class ServiceBase extends \think\Model
         return $model::where($data)->field($field)->order($order)->paginate($listRows, $simple, $config);
     }
     
+    //获取多条信息连接支持分页
+    protected function getListJoin($table = null, $join = [], $field = true, $order = '', $data = [], $is_page = true,  $listRows = 15, $simple = false, $config = [])
+    {
+        
+        if ($is_page) {
+            
+            $list = $table->join($join)->field($field)->where($data)->order($order)->paginate($listRows, $simple, $config);
+        } else {
+            
+            $list = $table->join($join)->field($field)->where($data)->order($order)->select();
+        }
+        
+        return $list;
+    }
+    
     //获取所有的信息
     protected function getListAll($field = true, $order = '')
     {

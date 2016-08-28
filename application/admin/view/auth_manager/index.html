@@ -36,7 +36,7 @@
 
 			<td>
                             <a href="{:url('AuthManager/access?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >访问授权</a>
-                            <a href="{:url('AuthManager/user?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >成员授权</a>
+                            <a href="{:url('AuthManager/memberAccess?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >成员授权</a>
 			</td>
 			<td>{$vo.status}</td>
 			<td>{eq name="vo.status" value="1"}
@@ -63,6 +63,6 @@
 {block name="script"}
 <script type="text/javascript" charset="utf-8">
     //导航高亮
-    highlight_subnav('{:url('AuthManager/index')}');
+    highlight_subnav('{:url('auth_manager/index')}');
 </script>
 {/block}

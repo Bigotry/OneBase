@@ -3,7 +3,7 @@
 	<div class="tab-wrap">
 		<ul class="tab-nav nav">
 			<li class="current"><a href="javascript:;">访问授权</a></li>
-			<li><a href="{:url('AuthManager/User',array('group_name'=>$group_name ,'group_id'=> $group_id))}">成员授权</a></li>
+			<li><a href="{:url('AuthManager/memberAccess',array('group_name'=>$group_name ,'group_id'=> $group_id))}">成员授权</a></li>
 			<li class="fr">
 				<select name="group">
 					{volist name="auth_group" id="vo"}
@@ -15,7 +15,7 @@
 		<div class="tab-content">
 			<!-- 访问授权 -->
 			<div class="tab-pane in">
-				<form action="{:url('AuthManager/writeGroup')}" method="POST" class="form-horizontal auth-form">
+				<form action="{:url('AuthManager/setGroupRules')}" method="POST" class="form-horizontal auth-form">
 					{volist name="node_list" id="node"}
 						<dl class="checkmod">
                                                     <dt class="hd">
@@ -109,7 +109,7 @@
 			location.href = this.value;
         });
         //导航高亮
-        highlight_subnav('{:url('AuthManager/index')}');
+        highlight_subnav('{:url('auth_manager/index')}');
     }(jQuery);
 </script>
 {/block}

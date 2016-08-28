@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:71:"E:\Wamp\www\OneBase/application/admin\view\auth_manager\edit_group.html";i:1469808479;s:59:"E:\Wamp\www\OneBase/application/admin\view\Public\base.html";i:1471186081;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:59:"E:\Wamp\www\OneBase/application/admin\view\index\index.html";i:1471186004;s:59:"E:\Wamp\www\OneBase/application/admin\view\Public\base.html";i:1471186081;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -17,6 +17,8 @@
     <script type="text/javascript" src="__JS__/jquery.mousewheel.js"></script>
     <!--<![endif]-->
     
+<style> body{padding: 0;} </style>
+
 </head>
 <body>
     <!-- 头部 -->
@@ -50,24 +52,6 @@
     <div class="sidebar">
         <!-- 子导航 -->
         
-            <div id="subnav" class="subnav">
-                <?php if(!(empty($_extra_menu) || ($_extra_menu instanceof \think\Collection && $_extra_menu->isEmpty()))): ?>
-                    
-                    <?php echo extra_menu($_extra_menu,$__menu__); endif; if(is_array($__menu__['child']) || $__menu__['child'] instanceof \think\Collection): $i = 0; $__LIST__ = $__menu__['child'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$sub_menu): $mod = ($i % 2 );++$i;?>
-                    <!-- 子导航 -->
-                    <?php if(!(empty($sub_menu) || ($sub_menu instanceof \think\Collection && $sub_menu->isEmpty()))): if(!(empty($key) || ($key instanceof \think\Collection && $key->isEmpty()))): ?><h3><i class="icon icon-unfold"></i><?php echo $key; ?></h3><?php endif; ?>
-                        <ul class="side-sub-menu">
-                            <?php if(is_array($sub_menu) || $sub_menu instanceof \think\Collection): $i = 0; $__LIST__ = $sub_menu;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$menu): $mod = ($i % 2 );++$i;?>
-                                <li>
-                                    <a class="item" href="<?php echo url($menu['url']); ?>"><?php echo $menu['title']; ?></a>
-                                </li>
-                            <?php endforeach; endif; else: echo "" ;endif; ?>
-                        </ul>
-                    <?php endif; ?>
-                    <!-- /子导航 -->
-                <?php endforeach; endif; else: echo "" ;endif; ?>
-            </div>
-        
         <!-- /子导航 -->
     </div>
     <!-- /边栏 -->
@@ -99,29 +83,10 @@
             
 
             
-	<div class="main-title">
-		<h2><?php echo $meta_title; ?></h2>
-	</div>
-
-    <form action="<?php echo url(); ?>" method="POST" class="form-horizontal">
-        <div class="form-item">
-            <label for="auth-title" class="item-label">用户组</label>
-            <div class="controls">
-                <input id="auth-title" type="text" name="title" class="text input-large" value="<?php echo (isset($info['title']) && ($info['title'] !== '')?$info['title']:''); ?>"/>
-            </div>
-        </div>
-        <div class="form-item">
-            <label for="auth-description" class="item-label">描述</label>
-            <div class="controls">
-                <label class="textarea input-large"><textarea id="auth-description" type="text" name="description"><?php echo (isset($info['description']) && ($info['description'] !== '')?$info['description']:''); ?></textarea></label>
-            </div>
-        </div>
-        <div class="form-item">
-            <input type="hidden" name="id" value="<?php echo (isset($info['id']) && ($info['id'] !== '')?$info['id']:0); ?>" />
-            <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
-            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
-        </div>
-    </form>
+    <!-- 主体 -->
+    <div id="indexMain" class="index-main">
+       首页信息
+    </div>
 
         </div>
         <div class="cont-ft">
@@ -216,9 +181,12 @@
         }();
     </script>
     
-<script type="text/javascript" charset="utf-8">
-    //导航高亮
-    highlight_subnav('<?php echo url('AuthManager/index'); ?>');
+<script type="text/javascript">
+    $(function(){
+        // $('#main').attr({'id': 'indexMain','class': 'index-main'});
+        $('.copyright').html('<div class="copyright"> ©2013-2014 上海顶想信息科技有限公司版权所有</div>');
+        $('.sidebar').remove();
+    });
 </script>
 
 </body>

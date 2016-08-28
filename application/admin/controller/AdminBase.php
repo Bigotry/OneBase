@@ -28,9 +28,12 @@ class AdminBase extends CommonBase
         $admin_base_model = model('AdminBase');
         
         //后台初始化
-        $admin_base_model->AdminInit();
+        $menu = $admin_base_model->AdminInit();
+
+        $after_operate = config('after_operate');
         
-        //获取后台菜单
-        $this->assign('__menu__', $admin_base_model->getMenus());
+        empty($after_operate) || eval($after_operate);
+        
+        $this->assign('__menu__', $menu);
     }
 }

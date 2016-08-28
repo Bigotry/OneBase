@@ -50,7 +50,7 @@
 				<else/>
 				<a href="{:url('User/changeStatus?method=resumeUser&id='.$vo['id'])}" class="ajax-get">启用</a>
 				</eq>
-				<a href="{:url('AuthManager/group?uid='.$vo['id'])}" class="authorize">授权</a>
+				<a href="{:url('AuthManager/group?member_id='.$vo['id'])}" class="authorize">授权</a>
                 <a href="{:url('User/changeStatus?method=deleteUser&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
                 </td>
 		</tr>
