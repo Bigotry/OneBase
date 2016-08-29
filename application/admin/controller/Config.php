@@ -5,6 +5,16 @@ namespace app\admin\controller;
 class Config extends AdminBase
 {
     
+    public $model;
+    
+    //基类初始化
+    public function _initialize()
+    {
+        
+        parent::_initialize();
+        
+        $this->model =  model('Config');
+    }
     
     /**
      * 配置管理
@@ -12,33 +22,13 @@ class Config extends AdminBase
     public function index()
     {
         
-        /* 查询条件初始化 */
-        $map  = array('status' => 1);
+        //获取配置数据
+        $data = $this->model->getConfigList($this->param);
         
-        if (isset($this->param['group'])) {
-            
-            $map['group']   =   $this->param['group'];
-            $this->assign('group_id', $this->param['group']);
-        } else {
-            $this->assign('group_id', 0);
-        }
-        
-        if (isset($this->param['name'])) {
-            
-            $map['name']    =   array('like', '%'.(string)$this->param['name'].'%');
-            $this->assign('name', $map['name']);
-        } else {
-            $this->assign('name', '');
-        }
-        
-        $config_model = db('config');
-
-        $list = $config_model->where($map)->order('sort,id')->paginate(10);
-
-        $config_group_list = parse_config(3, config('config_group_list'));
-        
-        $this->assign('group', $config_group_list);
-        $this->assign('list', $list);
+        $this->assign('group', $data['config_group_list']);
+        $this->assign('list', $data['list']);
+        $this->assign('group_id', $data['group_id']);
+        $this->assign('name', $data['name']);
         $this->assign('meta_title', '配置管理');
         
         return $this->fetch();
