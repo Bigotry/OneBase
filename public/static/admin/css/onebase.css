@@ -1,0 +1,63 @@
+#control-sidebar-home-tab{
+    margin-top: -10px;
+}
+#control-sidebar-settings-tab{
+    margin-top: -10px;
+}
+
+.admin-login-captcha-img{
+    width: 320px; height: 80px;
+}
+
+.admin-login-captcha-input-icon{
+    margin-right: 15px;
+}
+
+.admin-login-verify-msg-p{
+    color: red;
+}
+
+
+.admin-login-box {
+    left: 50%;
+    margin: auto auto auto -180px;
+    position: absolute;
+    text-align: center;
+    top: 10%;
+    width: 360px;
+    opacity: 0.8;
+}
+
+.admin-login-body-background {
+
+    background-color: #000;
+    overflow: hidden;
+}
+
+.login-logo-a{
+    color: #fff !important;
+}
+
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover{
+ 
+    background-color:#777;
+    border-color:#777;
+}
+
+
+.table-search {
+    
+    width: 150px;
+}
+
+.form-control:focus {
+    border: 1px solid #d1d1d1;
+    box-shadow: 0 0 12px #ececec;
+}
+
+.breadcrumb > li + li::before {
+    color: #000;
+    content: "/ ";
+    padding: 0 5px;
+}
