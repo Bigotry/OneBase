@@ -10,7 +10,43 @@ class Menu extends AdminBase
     
     //面包屑
     public static $crumbs   = array();
+    
+    //菜单树结构视图
+    public static $menuTree   = array();
+    
+    //将格式数组转换为树
+    public function menuToTree($menu_list = array(), $level = 0, $name = 'name', $child = 'child')
+    {
+        
+        foreach ($menu_list as $info) {
+            
+            $tmp_str = str_repeat("&nbsp;", $level * 4);
+            
+            $tmp_str .= "├";
 
+            $info['level'] = $level;
+            
+            $info[$name] = empty($level) ? $info[$name]."&nbsp;" : $tmp_str . $info[$name] . "&nbsp;";
+            
+            if (!array_key_exists($child, $info)) {
+
+                array_push(self::$menuTree, $info);
+            } else {
+                
+                $tmp_ary = $info[$child];
+                
+                unset($info[$child]);
+                
+                array_push(self::$menuTree, $info);
+                
+                $this->menuToTree($tmp_ary, ++$level, $name, $child); //进行下一层递归
+            }
+        }
+        
+        return self::$menuTree;
+    }
+    
+    
     //将菜单转为视图
     public function menuToView($menu_list = array(), $child = 'child')
     {

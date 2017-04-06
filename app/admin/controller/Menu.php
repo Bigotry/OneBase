@@ -29,6 +29,21 @@ class Menu extends AdminBase
         return $this->fetch('menu_list');
     }
     
+    
+    /**
+     * 菜单树获取
+     */
+    public function getMenuTreeData()
+    {
+        
+        $menu_tree_data = load_model('AdminBase')->getMenuList();
+        
+        $menu_tree = self::$menuLogic->menuToTree($menu_tree_data);
+        
+        $this->assign('menu_tree', $menu_tree);
+    }
+    
+    
     /**
      * 菜单添加
      */
@@ -38,6 +53,8 @@ class Menu extends AdminBase
         $this->setTitle('菜单添加');
         
         IS_POST && $this->jump(self::$menuLogic->menuAdd($this->param));
+        
+        $this->getMenuTreeData();
         
         return  $this->fetch('menu_edit');
     }
@@ -55,6 +72,8 @@ class Menu extends AdminBase
         $info = self::$menuLogic->getMenuInfo(array('id' => $this->param['id']));
         
         $this->assign('info', $info);
+        
+        $this->getMenuTreeData();
         
         return $this->fetch('menu_edit');
     }
