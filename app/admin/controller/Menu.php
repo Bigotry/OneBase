@@ -24,7 +24,11 @@ class Menu extends AdminBase
         
         $this->setTitle('菜单管理');
         
-        $this->assign('list', self::$menuLogic->getMenuList());
+        $where = empty($this->param['pid']) ? [] : array('pid' => $this->param['pid']);
+        
+        $this->assign('list', self::$menuLogic->getMenuList($where));
+        
+        $this->assign('pid', $where ? $this->param['pid'] : 0);
         
         return $this->fetch('menu_list');
     }
@@ -52,9 +56,13 @@ class Menu extends AdminBase
         
         $this->setTitle('菜单添加');
         
+        $this->param['module'] = MODULE_NAME;
+        
         IS_POST && $this->jump(self::$menuLogic->menuAdd($this->param));
         
         $this->getMenuTreeData();
+        
+        !empty($this->param['pid']) && $this->assign('info', array('pid'=> $this->param['pid']));
         
         return  $this->fetch('menu_edit');
     }

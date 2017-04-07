@@ -9,19 +9,20 @@ namespace app\admin\model;
 class Menu extends AdminBase
 {
     
-    public function getStatusAttr($value)
+    public function getStatusTextAttr()
     {
         
         $status = [-1=>'删除', 0=>'禁用',1=>'启用'];
         
-        return $status[$value];
+        return $status[$this->data['status']];
     }
     
-    public function getIsHideAttr($value)
+    
+    public function getIsHideTextAttr()
     {
         
         $is_hide = [0=>'否', 1=>'是'];
         
-        return $is_hide[$value];
+        return $is_hide[$this->data['is_hide']];
     }
 }

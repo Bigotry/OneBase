@@ -31,6 +31,7 @@
                 <label>上级菜单</label>
                 <span class="skin-btn">（所属的上级菜单）</span>
                 <select name="pid" class="form-control">
+                    <option value="0">顶级菜单</option>
                     {volist name='menu_tree' id='vo'}
                         <option value="{$vo.id}">{$vo.name}</option>
                     {/volist}
@@ -65,8 +66,15 @@
         <button  type="submit" class="btn skin-btn ladda-button ajax-post" data-style="slide-up" target-form="form_single">
             <span class="ladda-label">确 定</span>
         </button>
-
-        <a class="btn skin-btn" href="{:url('menu/menuList')}"> 返 回</a>
+         
+        <a class="btn skin-btn" onclick="javascript:history.back(-1);return false;"> 返 回</a>
       </div>
     </div>
 </form>
+
+<script type="text/javascript">
+    
+   ob.setValue("is_hide", {$info.is_hide|default=0});
+   ob.setValue("pid", {$info.pid|default=0});
+       
+</script>

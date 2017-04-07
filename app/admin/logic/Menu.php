@@ -165,7 +165,9 @@ class Menu extends AdminBase
         
         $model = load_model($this->name);
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '菜单添加成功', url('menuList')] : [RESULT_ERROR, $model->getError(), null];
+        $url = url('menuList', array('pid' => $data['pid'] ? $data['pid'] : 0));
+        
+        return $model->setInfo($data) ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
     //菜单添加
@@ -183,7 +185,9 @@ class Menu extends AdminBase
         
         $model = load_model($this->name);
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '菜单编辑成功', url('menuList')] : [RESULT_ERROR, $model->getError(), null];
+        $url = url('menuList', array('pid' => $data['pid'] ? $data['pid'] : 0));
+        
+        return $model->setInfo($data) ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
     //菜单删除

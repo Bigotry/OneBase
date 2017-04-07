@@ -134,6 +134,7 @@
         return false;
     });
     
+    
 });
 
 
@@ -161,6 +162,14 @@ var obalert = function (data) {
         },1500);
     }
 };
+
+
+
+
+
+
+
+
 
 /**
  * 按钮状态便捷类
@@ -288,4 +297,4 @@ var toast = {
         };
         toastr.warning(text, title);
     }
-}
+};
