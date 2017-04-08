@@ -170,7 +170,7 @@ class Menu extends AdminBase
         return $model->setInfo($data) ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
-    //菜单添加
+    //菜单编辑
     public function menuEdit($data = [])
     {
         

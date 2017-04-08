@@ -220,40 +220,7 @@ function time_format($time = NULL, $format='Y-m-d H:i')
     return date($format, $time);
 }
 
-/**
- * 根据配置类型解析配置
- * @param  integer $type  配置类型
- * @param  string  $value 配置值
- */
-function parse_config ($type, $value)
-{
-    switch ($type)
-    {
-        
-        case 3: //解析数组
-            
-            $array = preg_split('/[,;\r\n]+/', trim($value, ",;\r\n"));
-            
-            if (strpos($value, ':')) {
-                
-                $value  = array();
-                
-                foreach ($array as $val) {
-                    
-                    list($k, $v) = explode(':', $val);
-                    
-                    $value[$k] = $v;
-                }
-            } else {
-                $value = $array;
-            }
-            break;
-    }
-    
-    return $value;
-}
-
- // 分析枚举类型配置值 格式 a:名称1,b:名称2
+ // 分析数组及枚举类型配置值 格式 a:名称1,b:名称2
 function parse_config_attr($string)
 {
     
@@ -271,6 +238,7 @@ function parse_config_attr($string)
         }
         
     } else {
+        
         $value  =   $array;
     }
     

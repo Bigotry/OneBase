@@ -24,11 +24,11 @@ class Menu extends AdminBase
         
         $this->setTitle('菜单管理');
         
-        $where = empty($this->param['pid']) ? [] : array('pid' => $this->param['pid']);
+        $where = empty($this->param['pid']) ? array('pid' => 0) : array('pid' => $this->param['pid']);
         
         $this->assign('list', self::$menuLogic->getMenuList($where));
         
-        $this->assign('pid', $where ? $this->param['pid'] : 0);
+        $this->assign('pid', $where['pid']);
         
         return $this->fetch('menu_list');
     }
