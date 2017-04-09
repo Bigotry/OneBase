@@ -1,0 +1,95 @@
+<form action="{:url()}" method="post" class="form_single">
+    
+    <div class="box">
+        
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              {volist name='config_group_list' id='vo'}
+                  {neq name="group" value="$key"}
+                     <li><a href="{:url('setting',array('group' => $key))}">{$vo}</a></li>
+                         {else/}
+                     <li class="active"><a>{$vo}</a></li>
+                  {/neq}
+              {/volist}
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane">
+
+                  
+                <div class="box-body">
+                  <div class="row">
+                      
+                      
+                    {volist name='list' id='vo'}
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label>{$vo.title}</label>
+                            
+                                {notempty name="vo['describe']"}
+                                    <span class="skin-btn">（{$vo.describe}）</span>
+                                {/notempty}
+                        
+                                {switch name="vo.type"}
+
+
+                                    {case value="0"}
+
+                                        <input class="form-control" name="config[{$vo.name}]" placeholder="请输入设置值" value="{$vo.value}" type="text">
+
+                                    {/case}
+
+                                    {case value="1"}
+                                    
+                                        <input class="form-control" name="config[{$vo.name}]" placeholder="请输入设置值" value="{$vo.value}" type="text">
+                                        
+                                    {/case}
+
+                                    {case value="2"}
+                                    
+                                        <textarea class="form-control" name="config[{$vo.name}]" rows="3" placeholder="请输入设置值">{$vo.value}</textarea>
+
+                                    {/case}
+
+                                    {case value="3"}
+                                    
+                                        <textarea class="form-control" name="config[{$vo.name}]" rows="3" placeholder="请输入设置值">{$vo.value}</textarea>
+                                        
+                                    {/case}
+
+                                    {case value="4"}
+                                    
+                                        <select name="config[{$vo.name}]" class="form-control">
+                                            {volist name=":parse_config_attr($vo['extra'])" id='vv'}
+                                                <option value="{$key}" {eq name="vo.value" value="$key"} selected {/eq} >{$vv}</option>
+                                            {/volist}
+                                        </select>
+                                    
+                                    {/case}
+
+                                {/switch}
+                           </div>
+                        </div>
+
+                    {/volist}
+
+                  </div>
+                </div>
+                  
+                  
+              </div>
+            </div>
+          </div>
+        
+        
+
+      <div class="box-footer">
+          
+        <button  type="submit" class="btn skin-btn ladda-button ajax-post" data-style="slide-up" target-form="form_single">
+            <span class="ladda-label">确 定</span>
+        </button>
+         
+        <a class="btn skin-btn" onclick="javascript:history.back(-1);return false;"> 返 回</a>
+      </div>
+    </div>
+</form>

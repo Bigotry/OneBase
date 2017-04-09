@@ -23,6 +23,23 @@ class Config extends AdminBase
         return load_model($this->name)->getInfo($where, $field);
     }
     
+    //系统设置
+    public function settingSave($data = [])
+    {
+        
+        $model = load_model($this->name);
+            
+        foreach ($data as $name => $value) {
+            
+            $where = array('name' => $name);
+            
+            $model->setInfo(array('value' => $value), $where);
+        }
+        
+        return [RESULT_SUCCESS, '设置保存成功', null];
+    }
+    
+    
     //配置添加
     public function configAdd($data = [])
     {

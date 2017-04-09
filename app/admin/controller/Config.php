@@ -16,6 +16,29 @@ class Config extends AdminBase
         !isset(self::$configLogic) && self::$configLogic = load_model('Config');
     }
     
+    
+    /**
+     * 系统设置
+     */
+    public function setting($config = [])
+    {
+        
+        IS_POST && $this->jump(self::$configLogic->settingSave($config));
+        
+        $where = empty($this->param['group']) ? array('group' => 1) : array('group' => $this->param['group']);
+        
+        $this->getConfigCommonData();
+        
+        $this->assign('list', self::$configLogic->getConfigList($where, true, 'sort', null));
+        
+        $this->assign('group', $where['group']);
+        
+        $this->setTitle('系统设置');
+        
+        return  $this->fetch('setting');
+    }
+    
+
     /**
      * 配置列表
      */
