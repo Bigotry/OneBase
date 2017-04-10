@@ -1,0 +1,48 @@
+<div class="box">
+  <div class="box-header">
+      
+    <a class="btn skin-btn" href="{:url('memberAdd')}"><i class="fa fa-plus"></i> 新 增</a>
+      
+  </div>
+    
+  <div class="box-body">
+    <table  class="table table-bordered table-hover">
+      <thead>
+      <tr>
+          <th>昵称</th>
+          <th>用户名</th>
+          <th>邮箱</th>
+          <th>手机</th>
+          <th>注册时间</th>
+          <th>状态</th>
+          <th>操作</th>
+      </tr>
+      </thead>
+      
+      {notempty name='list'}
+        <tbody>
+            {volist name='list' id='vo'}
+                <tr>
+                  <td>{$vo.nickname}</td>
+                  <td>{$vo.username}</td>
+                  <td>{$vo.email|default='未绑定'}</td>
+                  <td>{$vo.mobile|default='未绑定'}</td>
+                  <td>{$vo.create_time}</td>
+                  <td>{$vo.status_text}</td>
+                  <td>
+                      <a class="btn skin-btn confirm ajax-get"  href="{:url('memberDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a>
+                  </td>
+                </tr>
+            {/volist}
+        </tbody>
+        {else/}
+        <tbody><tr class="odd"><td colspan="7" class="text-center" valign="top">aOh! 暂时还没有数据! </td></tr></tbody>
+      {/notempty}
+    </table>
+  </div>
+
+  <div class="box-footer clearfix text-center">
+      {$list->render()}
+  </div>
+
+</div>
