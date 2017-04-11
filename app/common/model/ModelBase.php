@@ -19,7 +19,7 @@ class ModelBase extends Model
         
         $pk = $this->getPk();
         
-        return empty($data[$pk]) ? $this->save($data, $where, $sequence) : $this->update($data, $where);
+        return empty($data[$pk]) ? $this->allowField(true)->save($data, $where, $sequence) : $this->allowField(true)->update($data, $where);
     }
     
     //写入多条信息

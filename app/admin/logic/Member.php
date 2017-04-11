@@ -32,8 +32,6 @@ class Member extends AdminBase
         
         $url = url('memberList');
         
-        unset($data['password_confirm']);
-        
         $data['nickname'] = $data['username'];
         
         return $model->setInfo($data) ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
