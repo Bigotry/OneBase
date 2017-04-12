@@ -67,3 +67,14 @@
     
     border-top-color:#888;
 }
+
+.admin-node-label{
+    
+    margin-left: 20px;
+    font-weight : normal !important;
+}
+
+.admin-node-header label{
+    
+    font-weight : normal !important;
+}

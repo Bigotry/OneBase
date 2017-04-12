@@ -81,6 +81,51 @@ class Menu extends AdminBase
        return $menu_view;
     }
     
+    
+    
+    
+    
+    //将菜单转为节点视图
+    public function menuToNode($menu_list = array(), $child = 'child')
+    {
+        $menu_view = '';
+        
+        //遍历菜单列表
+        foreach ($menu_list as $menu_info) {
+            
+            
+            $icon = empty($menu_info['icon']) ? 'fa-dot-circle-o' : $menu_info['icon'];
+            
+            if (!empty($menu_info[$child])) {
+                
+                $menu_view.=  "<div class='box box-header admin-node-header'>
+
+                                          <div class='box-header'>
+                                              <div class='checkbox'>
+                                                <label>
+                                                  <input class='rules_all' type='checkbox'> <i class='fa $icon'></i>  ".$menu_info['name']."
+                                                </label>
+                                              </div>
+                                          </div>
+
+                                    <div class='box-body'> ".$this->menuToNode($menu_info[$child],  $child)." </div>
+                                </div>";
+                
+            } else {
+                
+                $menu_view.=    "<label class='admin-node-label'>  <input type='checkbox'> &nbsp;<i class='fa $icon'></i>  ".$menu_info['name']."  </label>";
+            }
+       }
+       
+       return $menu_view;
+    }
+    
+    
+    
+    
+    
+    
+    
     //菜单选择
     public function selectMenu($menu_view = '')
     {

@@ -9,34 +9,94 @@ class AuthGroup extends AdminBase
 {
     
     /**
-     * 获取权限分组信息
+     * 获取权限分组列表
      */
-    public function getAuthGroupList($data = [], $field = true, $order = '', $is_page = true)
+    public function getAuthGroupList($where = [], $field = true, $order = '', $paginate = 10)
     {
         
-        if ($is_page) {
-            
-            $list = $this->getListPage($data, $field, $order);
-        } else {
-            
-            $list = $this->getList($data, $field, $order);
-        }
-        
-        return $list;
+        return load_model($this->name)->getList($where, $field, $order, array('rows' => $paginate));
     }
     
-    //获取分组信息
-    public function getGroupInfo($data = array(), $field = true)
+    
+    /**
+     * 权限组添加
+     */
+    public function groupAdd($data = [])
     {
         
-        if (empty($data)) {
+        $validate = validate($this->name);
+        
+        $validate_result = $validate->scene('add')->check($data);
+        
+        if (!$validate_result) {
             
-            return [];
-        } else {
-            
-            return $this->getInfo($data, $field);
+            return [RESULT_ERROR, $validate->getError(), null];
         }
+        
+        $model = load_model($this->name);
+        
+        $url = url('groupList');
+        
+        return $model->setInfo($data) ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
+    
+    
+    /**
+     * 权限组编辑
+     */
+    public function groupEdit($data = [])
+    {
+        
+        $validate = validate($this->name);
+        
+        $validate_result = $validate->scene('edit')->check($data);
+        
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $validate->getError(), null];
+        }
+        
+        $model = load_model($this->name);
+        
+        $url = url('groupList');
+        
+        return $model->setInfo($data) ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, $model->getError(), null];
+    }
+    
+    
+    //权限组删除
+    public function groupDel($where = [])
+    {
+        
+        $model = load_model($this->name);
+        
+        return $model->deleteInfo($where) ? [RESULT_SUCCESS, '权限组删除成功', null] : [RESULT_ERROR, $model->getError(), null];
+    }
+    
+    
+    //获取权限组信息
+    public function getGroupInfo($where = [], $field = true)
+    {
+        
+        return load_model($this->name)->getInfo($where, $field);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     //设置用户组权限节点
     public function setGroupRules($data = array())
@@ -336,43 +396,7 @@ class AuthGroup extends AdminBase
         
         return compact('auth_group', 'node_list', 'main_rules', 'child_rules');
     }
-    
-    /**
-     * 编辑权限组
-     */
-    public function editGroup($data = [])
-    {
-        
-        if (IS_POST) {
-            
-            $validate = validate('AuthGroup');
-            $validate_result = $validate->check($data);
-            
-            if (!$validate_result) {
-                
-                return createJump('error', $validate->getError());
-            }
-            
-            
-            if ($data['id']) {
-                
-                $res = $this->setInfo($data, array('id' => $data['id']));
-            } else {
-                
-                unset($data['id']);
-                $res = $this->setInfo($data);
-            }
-            
-            if ($res) {
-                
-                return createJump('success', '操作成功！', url('index'));
-            } else {
-                
-                return createJump('error', '操作失败！');
-            }
-        }
-        
-    }
+
     
     /**
      * 后台节点配置的url作为规则存入auth_rule

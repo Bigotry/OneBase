@@ -8,19 +8,13 @@ namespace app\admin\model;
 class AuthGroup extends AdminBase
 {
     
-    const TYPE_ADMIN = 1;  // 管理员用户组类型标识
-    const AUTH_GROUP_ACCESS = 'auth_group_access'; // 关系表表名
-    const AUTH_GROUP        = 'auth_group';        // 用户组表名
 
-    
-// 修改器
-    public function setTitleAttr($value)
+    public function getStatusTextAttr()
     {
         
-        $this->data['module'] = 'admin';
-        $this->data['type']   = AuthGroup::TYPE_ADMIN;
+        $status = [-1=>'删除', 0=>'禁用',1=>'启用'];
         
-        return $value;
+        return $status[$this->data['status']];
     }
 
 }

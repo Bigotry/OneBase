@@ -1,0 +1,53 @@
+<form action="{:url()}" method="post" class="form_single">
+    
+    <div class="box">
+        
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="{:url()}">菜单授权</a></li>
+                <li><a>会员授权</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane">
+
+                  
+                <div class="box-body">
+                      
+                    {$list}
+                      
+                </div>
+                  
+                  
+              </div>
+            </div>
+          </div>
+        
+        
+
+      <div class="box-footer">
+          
+        <button  type="submit" class="btn skin-btn ladda-button ajax-post" data-style="slide-up" target-form="form_single">
+            <span class="ladda-label">确 定</span>
+        </button>
+         
+        <a class="btn skin-btn" onclick="javascript:history.back(-1);return false;"> 返 回</a>
+      </div>
+    </div>
+</form>
+
+
+
+<script type="text/javascript" charset="utf-8">
+    
+    +function($){
+
+        //全选节点
+        $('.rules_all').on('change',function(){
+            
+           $(this).parent().parent().parent().parent().closest('div').find('input').prop('checked',this.checked);
+        });
+        
+
+    }(jQuery);
+    
+</script>
