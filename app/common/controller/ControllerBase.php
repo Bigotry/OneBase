@@ -11,6 +11,8 @@ use think\Controller;
 
 class ControllerBase extends Controller
 {
+	protected $param;
+
     //基类初始化
     public function _initialize()
     {
