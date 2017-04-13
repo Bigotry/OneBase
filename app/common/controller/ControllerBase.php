@@ -11,11 +11,14 @@ use think\Controller;
 
 class ControllerBase extends Controller
 {
-	protected $param;
+    
+    protected $param;
 
     //基类初始化
     public function _initialize()
     {
+        
+        $database_config = config('database');
         
         defined('IS_POST')          or define('IS_POST',         $this->request->isPost());
         defined('IS_GET')           or define('IS_GET',          $this->request->isGet());
@@ -24,6 +27,7 @@ class ControllerBase extends Controller
         defined('ACTION_NAME')      or define('ACTION_NAME',     $this->request->action());
         defined('URL')              or define('URL',             strtolower($this->request->controller() . '/' . $this->request->action()));
         defined('URL_MODULE')       or define('URL_MODULE',      strtolower($this->request->module()) . '/' . URL);
+        defined('DB_PREFIX')        or define('DB_PREFIX',       $database_config['prefix']);
         
         $this->param = $this->request->param();
     }

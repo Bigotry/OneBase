@@ -72,6 +72,11 @@ class AuthRule extends AdminBase
                         ->where("a.member_id = $member_id and g.status = 1")
                         ->field('a.member_id,a.group_id,g.name,g.rules,g.status')
                         ->select();
+        
+        
+                dump($list);
+                die;
+        
         return $list;
     }
     

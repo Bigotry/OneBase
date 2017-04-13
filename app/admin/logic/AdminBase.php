@@ -10,17 +10,15 @@ use app\admin\logic\AuthRule;
 */
 class AdminBase extends LogicBase
 {
-	// TODO 不确定属性是否定定义在当前类中还是上层类中
-	protected $url;
+    // TODO 不确定属性是否定定义在当前类中还是上层类中
+    protected $url;
 
     //检查权限
-    public function checkAuth()
+    public function checkAuth($url = '')
     {
         
-        $request = request();
-        
         // 检测系统权限
-        if (!IS_ROOT && !AuthRule::check(MEMBER_ID, $request->module().'/'.$request->controller().'/'.$request->action())) {
+        if (!IS_ROOT && !AuthRule::check(MEMBER_ID, $url)) {
                 
             return [RESULT_ERROR, '访问未授权'];
         }

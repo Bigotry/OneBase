@@ -88,13 +88,23 @@ class Menu extends AdminBase
     //将菜单转为节点视图
     public function menuToNode($menu_list = array(), $child = 'child')
     {
+        
         $menu_view = '';
+        
+        $id = input('id');
+        
+        $model = model('AuthGroup', 'logic');
+        
+        $auth_group_info = $model->getGroupInfo(array('id' => $id), 'rules');
+        
+        $rules_array = str2arr($auth_group_info['rules']);
         
         //遍历菜单列表
         foreach ($menu_list as $menu_info) {
             
-            
             $icon = empty($menu_info['icon']) ? 'fa-dot-circle-o' : $menu_info['icon'];
+            
+            $checkbox_select = in_array($menu_info['id'], $rules_array) ? "checked='checked'" : '';
             
             if (!empty($menu_info[$child])) {
                 
@@ -103,7 +113,7 @@ class Menu extends AdminBase
                                           <div class='box-header'>
                                               <div class='checkbox'>
                                                 <label>
-                                                  <input class='rules_all' type='checkbox'> <i class='fa $icon'></i>  ".$menu_info['name']."
+                                                  <input class='rules_all' type='checkbox' name='rules[]' value='".$menu_info['id']."' $checkbox_select > <i class='fa $icon'></i>  ".$menu_info['name']."
                                                 </label>
                                               </div>
                                           </div>
@@ -113,7 +123,7 @@ class Menu extends AdminBase
                 
             } else {
                 
-                $menu_view.=    "<label class='admin-node-label'>  <input type='checkbox'> &nbsp;<i class='fa $icon'></i>  ".$menu_info['name']."  </label>";
+                $menu_view.=    "<label class='admin-node-label'>  <input type='checkbox' name='rules[]' value='".$menu_info['id']."'  $checkbox_select > &nbsp;<i class='fa $icon'></i>  ".$menu_info['name']."  </label>";
             }
        }
        

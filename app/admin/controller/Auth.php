@@ -74,6 +74,8 @@ class Auth extends AdminBase
     public function menuAuth()
     {
         
+        IS_POST && $this->jump(self::$authGroupLogic->setGroupRules($this->param));
+        
         $AdminBaseLogic = load_model('AdminBase');
         
         //获取权限验证通过的菜单列表
@@ -85,10 +87,11 @@ class Auth extends AdminBase
         //菜单转换为节点视图，支持无限级
         $menu_view = $MenuLogic->menuToNode($list);
         
-        //节点自动选择
-//        $menu_data = $MenuLogic->selectMenu($menu_view);
-        
         $this->assign('list', $menu_view);
+        
+        $this->assign('id', $this->param['id']);
+        
+        $this->setTitle('菜单授权');
         
         return $this->fetch('menu_auth');
     }

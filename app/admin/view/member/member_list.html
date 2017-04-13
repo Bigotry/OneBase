@@ -30,6 +30,8 @@
                   <td>{$vo.create_time}</td>
                   <td>{$vo.status_text}</td>
                   <td>
+                      <a class="btn skin-btn"  href="{:url('memberAuth', array('id' => $vo['id']))}"><i class="fa fa-user-plus"></i> 授 权</a>
+                      &nbsp;
                       <a class="btn skin-btn confirm ajax-get"  href="{:url('memberDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a>
                   </td>
                 </tr>

@@ -36,4 +36,26 @@ class AuthGroupAccess extends AdminBase
         return $this->getInfo($data, $field);
     }
     
+    
+    //返回会员所属权限组信息
+    public function getMemberGroupInfo($member_id = 0)
+    {
+        
+        $model = load_model($this->name);
+        
+        $model->alias('a');
+
+        $where['a.member_id'] = $member_id;
+        
+        $field = 'a.member_id, a.group_id, g.name, g.describe, g.rules';
+        
+        $join = [
+                    [DB_PREFIX.'auth_group g', 'a.group_id = g.id'],
+                ];
+        
+        return $model->getList($where, $field, '', null, array('join' => $join));
+    }
+    
+    
+    
 }

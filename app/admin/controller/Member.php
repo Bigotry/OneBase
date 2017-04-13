@@ -17,6 +17,36 @@ class Member extends AdminBase
     }
 
     /**
+     * 会员授权
+     */
+    public function memberAuth()
+    {
+        
+        IS_POST && $this->jump(self::$memberLogic->addToGroup($this->param));
+        
+        $this->setTitle('会员授权');
+        
+        $AuthGroupLogic = load_model('AuthGroup');
+        
+        $AuthGroupAccessLogic = load_model('AuthGroupAccess');
+        
+        //所有的权限组
+        $group_list = $AuthGroupLogic->getAuthGroupList(array(), true, '', false);
+        
+        //会员当前权限组
+        $member_group_list = $AuthGroupAccessLogic->getMemberGroupInfo($this->param['id']);
+        
+        //选择权限组
+        $list = $AuthGroupLogic->selectAuthGroupList($group_list, $member_group_list);
+        
+        $this->assign('list', $list);
+        
+        $this->assign('id', $this->param['id']);
+        
+        return $this->fetch('member_auth');
+    }
+    
+    /**
      * 会员列表
      */
     public function memberList()

@@ -17,7 +17,6 @@ class AuthGroup extends AdminBase
         return load_model($this->name)->getList($where, $field, $order, array('rows' => $paginate));
     }
     
-    
     /**
      * 权限组添加
      */
@@ -39,7 +38,6 @@ class AuthGroup extends AdminBase
         
         return $model->setInfo($data) ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
-    
     
     /**
      * 权限组编辑
@@ -63,7 +61,6 @@ class AuthGroup extends AdminBase
         return $model->setInfo($data) ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
-    
     //权限组删除
     public function groupDel($where = [])
     {
@@ -73,110 +70,69 @@ class AuthGroup extends AdminBase
         return $model->deleteInfo($where) ? [RESULT_SUCCESS, '权限组删除成功', null] : [RESULT_ERROR, $model->getError(), null];
     }
     
-    
     //获取权限组信息
     public function getGroupInfo($where = [], $field = true)
     {
         
         return load_model($this->name)->getInfo($where, $field);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     //设置用户组权限节点
-    public function setGroupRules($data = array())
+    public function setGroupRules($data = [])
     {
         
-        if (isset($data['rules'])) {
-            
-            sort($data['rules']);
-            $data['rules']  = implode(',', array_unique($data['rules']));
-        } else {
-            
-            $data['rules'] = '';
-        }
+        $data['rules'] = !empty($data['rules']) ? implode(',', array_unique($data['rules'])) : '';
         
-        $data['module'] =  'admin';
+        $model = load_model($this->name);
+
+        $url = url('groupList');
         
-        $auth_group_model = model('AuthGroup');
-        
-        $data['type']   =  $auth_group_model::TYPE_ADMIN;
-
-        if (!empty($data['id'])) {
-            
-            $res = $this->setInfo($data, array('id' => $data['id']));
-        } else {
-
-            $res = $this->setInfo($data);
-        }
-
-        if ($res) {
-
-            return createJump('success', '操作成功！', url('index'));
-        } else {
-
-            return createJump('error', '操作失败！');
-        }
-        
+        return $model->setInfo($data) ? [RESULT_SUCCESS, '权限设置成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
-    //获取分组多列数据
-    public function getGroupFieldMulti($data = array(), $field = 'id', $key = '', $distinct = false)
+
+    //选择权限组
+    public function selectAuthGroupList($group_list = [], $member_group_list = [])
     {
         
-        return $this->getFieldMulti($data, $field, $key, $distinct);
+        $member_group_ids = array_extract($member_group_list, 'group_id');
+        
+        foreach ($group_list as &$info) {
+            
+            in_array($info['id'], $member_group_ids) ? $info['tag'] = 'active' :  $info['tag'] = '';
+        }
+            
+        return $group_list;
     }
     
-    //获取功能节点
-    public function getReturnNodes($tree = true)
-    {
-        
-        return $this->returnNodes($tree);
-    }
+
     
-    /**
-     * 检查权限组id是否全部存在
-     * @param array|string $gid  权限组id列表
-     */
-    public function checkGroupId($gid)
-    {
-        
-        if (is_array($gid)) {
-            
-            $ids   = implode(',', $gid);
-        } else {
-            
-            $ids   = explode(',', $gid);
-        }
-        
-        $count = count($gid);
-        
-        $map['id']  = array('in', $ids);
-        
-        $s = $this->getFieldMulti($map, 'id');
-        
-        if (count($s) === $count) {
-            
-            return true;
-        }
-        
-        return false;
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     //将会员添加到权限组
     public function setMemberToGroup($data = array())
@@ -272,19 +228,12 @@ class AuthGroup extends AdminBase
     }
     
     //获取会员添加到权限组所需数据
-    public function getGroupData($data = array())
+    public function getGroupData($member_id = 0)
     {
          
-        $auth_group_model = model('AuthGroup');
-        
-        $map['status'] = 1;
-        $map['module'] = 'admin';
-        $map['type']   = $auth_group_model::TYPE_ADMIN;
-        
         $auth_groups = $this->getAuthGroupList(array(), true, '', false);
         
-        
-        $user_groups = $this->getMemberGroupInfo($data['member_id']);
+        $user_groups = $this->getMemberGroupInfo($member_id);
         
         $ids = array();
         
@@ -295,45 +244,13 @@ class AuthGroup extends AdminBase
         
         $member_info_model = model('MemberInfo');
         
-        $member_info = $member_info_model->getMemberInfo($data['member_id']);
+        $member_info = $member_info_model->getMemberInfo($member_id);
+        
         $nickname = $member_info['nickname'];
         
         return compact('auth_groups', 'user_groups', 'ids', 'nickname');
     }
-    
-    //返回会员所属用户组信息
-    public function getMemberGroupInfo($member_id = 0)
-    {
-        
-        static $groups = array();
-        
-        if (isset($groups[$member_id])) {
-            
-            return $groups[$member_id];
-        }
-        
-        
-        $database_config = config('database');
-        $prefix  = $database_config['prefix'];
-        
-        $Db = new \think\Db;
-        $table = $Db::table($prefix.'auth_group_access')->alias('a');
 
-        $join = [
-                    [$prefix.'auth_group g', 'a.group_id = g.id'],
-                ];
-        
-        $field = 'a.member_id, a.group_id, g.title, g.description, g.rules';
-        
-        $where['a.member_id'] = $member_id;
-        $where['g.status'] = 1;
-        
-        $list = $this->getListJoin($table, $join, $field, '', $where, false);
-        
-        $groups[$member_id] = $list ? $list : array();
-        
-        return $groups[$member_id];
-    }
     
     //获取会员授权所需数据
     public function getMemberAccessData($data = array())

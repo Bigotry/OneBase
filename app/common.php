@@ -43,46 +43,6 @@ function data_md5($str, $key = 'OneBase')
     return '' === $str ? '' : md5(sha1($str) . $key);
 }
 
-
-/**
- * 获取客户端IP地址
- * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
- * @param boolean $adv 是否进行高级模式获取（有可能被伪装） 
- * @return mixed
- */
-//function get_client_ip($type = 0,$adv=false)
-//{
-//    $type       =  $type ? 1 : 0;
-//    static $ip  =   NULL;
-//
-//    if ($ip !== NULL) {
-//        return $ip[$type];   
-//    }
-//
-//    if ($adv) {
-//
-//        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-//            $arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-//            $pos    =   array_search('unknown',$arr);
-//            if(false !== $pos) unset($arr[$pos]);
-//            $ip     =   trim($arr[0]);
-//        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-//            $ip     =   $_SERVER['HTTP_CLIENT_IP'];
-//        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
-//            $ip     =   $_SERVER['REMOTE_ADDR'];
-//        }
-//    } elseif (isset($_SERVER['REMOTE_ADDR'])) {
-//        $ip     =   $_SERVER['REMOTE_ADDR'];
-//    }
-//    // IP地址合法验证
-//    $long = sprintf("%u",ip2long($ip));
-//
-//    $ip   = $long ? array($ip, $long) : array('0.0.0.0', 0);
-//
-//    return $ip[$type];
-//}
-
-
 /**
  * 数据签名认证
  * @param  array  $data 被认证的数据
@@ -385,4 +345,32 @@ function array_extract( $array, $key = 'id' )
     }
     
     return $new_arr;
+}
+
+
+
+/**
+ * 字符串转换为数组，主要用于把分隔符调整到第二个参数
+ * @param  string $str  要分割的字符串
+ * @param  string $glue 分割符
+ * @return array
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function str2arr($str, $glue = ',')
+{
+    
+    return explode($glue, $str);
+}
+
+/**
+ * 数组转换为字符串，主要用于把分隔符调整到第二个参数
+ * @param  array  $arr  要连接的数组
+ * @param  string $glue 分割符
+ * @return string
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function arr2str($arr, $glue = ',')
+{
+    
+    return implode($glue, $arr);
 }

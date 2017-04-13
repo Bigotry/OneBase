@@ -15,6 +15,13 @@ class Member extends AdminBase
         return load_model($this->name)->getList($where, $field, $order, array('rows' => $paginate));
     }
     
+    //会员添加到用户组
+    public function addToGroup($data = [])
+    {
+        
+        return [RESULT_ERROR, 'todo..', null];
+    }
+    
     //会员添加
     public function memberAdd($data = [])
     {
