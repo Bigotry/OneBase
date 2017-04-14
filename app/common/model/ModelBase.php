@@ -26,14 +26,7 @@ class ModelBase extends Model
     protected function setList($data_list = [], $replace = false)
     {
         
-        return self::$model[$this->name]->saveAll($data_list, $replace);
-    }
-    
-    //更新信息
-    protected function updateInfo($data = [], $where = [])
-    {
-        
-        return self::$model[$this->name]->update($data, $where);
+        return $this->saveAll($data_list, $replace);
     }
     
     //删除信息
@@ -48,29 +41,6 @@ class ModelBase extends Model
     {
         
         return $this->where($where)->field($field)->find();
-    }
-    
-    //获取某列单个值
-    protected function getFieldSingle($data = [], $field = 'id', $default = null)
-    {
-        
-        $model = self::$model[$this->name];
-        
-        return $model::where($data)->value($field, $default);
-    }
-    
-    //获取多列多个值
-    protected function getFieldMulti($data = [], $field = 'id', $key = '', $distinct = false)
-    {
-        
-        $model = self::$model[$this->name];
-        
-        if ($distinct) {
-            
-           return $model::where($data)->distinct($distinct)->column($field, $key); 
-        }
-        
-        return $model::where($data)->column($field, $key);
     }
     
     //通用列表数据查询方法

@@ -195,7 +195,9 @@ class Menu extends AdminBase
     public function getMenuList($where = [], $field = true, $order = '', $paginate = 10)
     {
         
-        return load_model($this->name)->getList($where, $field, $order, array('rows' => $paginate));
+        $paginate_data = false === $paginate ? false : ['rows' => $paginate];
+        
+        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
     }
     
     //获取菜单信息

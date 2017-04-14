@@ -3,63 +3,59 @@
 namespace app\admin\logic;
 
 use app\common\logic\LogicBase;
-use app\admin\logic\AuthRule;
 
 /**
 * admin模型逻辑基类
 */
 class AdminBase extends LogicBase
 {
-    // TODO 不确定属性是否定定义在当前类中还是上层类中
-    protected $url;
 
-    //检查权限
-    public function checkAuth($url = '')
+    /**
+    * 权限检测
+    * @return boolean
+    */
+    public function authCheck($member_id = 0, $url = '')
     {
+
+        $pass_data = [RESULT_SUCCESS, '权限检查通过'];
         
-        // 检测系统权限
-        if (!IS_ROOT && !AuthRule::check(MEMBER_ID, $url)) {
-                
-            return [RESULT_ERROR, '访问未授权'];
+        if (IS_ROOT) {
+            
+            return $pass_data;
         }
         
-        return [RESULT_SUCCESS, '权限验证通过'];
+        $model = model('AuthGroupAccess', 'logic');
+        
+        $url_list = $model->getAuthList($member_id);
+        
+        $result = in_array(strtolower($url), $url_list) ? true : false;
+        
+        return $result ? $pass_data : [RESULT_ERROR, '未授权操作'];
     }
     
-
-    
-    //admin模块初始化操作
-    public function AdminInit()
-    {
-        
-        // 检测系统权限
-        if (!IS_ROOT) {
-                
-            if (!$this->checkRule($this->url)) {
-
-                return createJump('error', '未授权访问!');
-            }
-        }
-        
-        return $this->getMenus();
-    }
     
     // 获取后台菜单
     public function getMenuList()
     {
-        
-        $module = request()->module();
     
         $where['is_hide']  =   0;
-        $where['module']  =  $module;
+        $where['module']   =  MODULE_NAME;
         
-        $menu_list = \think\Db::name('menu')->where($where)->field(true)->order('sort asc')->select();
+        $model = model('Menu', 'logic');
+        
+        $menu_list = $model->getMenuList($where, true, '', false);
         
         foreach ($menu_list as $key => $menu_info) {
             
-            if (!IS_ROOT && !AuthRule::check(MEMBER_ID, $module.'/'.$menu_info['url'])) {
+            
+            list($status, $message) = $this->authCheck(MEMBER_ID, MODULE_NAME.'/'.$menu_info['url']);
+            
+            [$message];
+            
+            if (!IS_ROOT && RESULT_ERROR == $status) {
 
                 unset($menu_list[$key]);
+                
                 continue;
             }
         }

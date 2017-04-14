@@ -8,34 +8,46 @@ namespace app\admin\logic;
 class AuthGroupAccess extends AdminBase
 {
     
-    //删除
-    public function delAuthGroupAccessInfo($data = array())
+    /**
+    * 获得权限菜单列表
+    * @return boolean
+    */
+    public function getAuthList($member_id = 0)
     {
         
-        return $this->deleteInfo($data);
-    }
-    
-    //单条保存
-    public function setAuthGroupAccess($data = array(), $where = array(), $getId = true, $replace = false)
-    {
+        //获取用户组列表
+        $group_list = $this->getMemberGroupInfo($member_id);
         
-        return $this->save($data, $where, $getId, $replace);
-    }
-    
-    //批量保存
-    public function setAllAuthGroupAccess($data = array(), $replace = false)
-    {
+        $menu_ids = array();
         
-        return $this->saveAll($data, $replace);
-    }
-    
-    //获取信息
-    public function getAuthGroupAccessInfo($data = array(), $field = true)
-    {
+        foreach ($group_list as $group_info) {
+            
+            //合并多个分组的权限节点并去重
+            !empty($group_info['rules']) && $menu_ids = array_unique(array_merge($menu_ids, explode(',', trim($group_info['rules'], ','))));
+        }
         
-        return $this->getInfo($data, $field);
+        //若没有权限节点则返回
+        if (empty($menu_ids)) {
+            
+            return $menu_ids;
+        }
+        
+        //查询条件
+        $where = ['id' => ['in', $menu_ids]];
+        
+        $model = model('Menu', 'logic');
+        
+        $menu_list = $model->getMenuList($where, true, '', false);
+        
+        $auth_list = [];
+        
+        foreach ($menu_list as $info) {
+            
+            $auth_list[] = $info['module'].'/'.$info['url'];
+        }
+
+        return $auth_list;
     }
-    
     
     //返回会员所属权限组信息
     public function getMemberGroupInfo($member_id = 0)
@@ -55,7 +67,5 @@ class AuthGroupAccess extends AdminBase
         
         return $model->getList($where, $field, '', null, array('join' => $join));
     }
-    
-    
     
 }

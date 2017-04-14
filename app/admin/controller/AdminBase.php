@@ -35,14 +35,14 @@ class AdminBase extends ControllerBase
         $this->AdminBaseLogic = load_model('AdminBase'); 
         
         //检查权限
-        list($status, $message) = $this->AdminBaseLogic->checkAuth(URL_MODULE);
+        list($status, $message) = $this->AdminBaseLogic->authCheck(MEMBER_ID, URL_MODULE);
         
         //验证不通过则提示无权限访问
         RESULT_SUCCESS == $status ?: $this->jump($status, $message);
         
         //获取权限验证通过的菜单列表
         $menu_list = $this->AdminBaseLogic->getMenuList();
-        
+       
         //获取菜单逻辑模型
         $this->MenuLogic = load_model('Menu');
         
@@ -65,6 +65,7 @@ class AdminBase extends ControllerBase
     {
         
         $this->assign('ob_title', $title);
+        
         $this->assign('ob_describe', $describe);
     }
 }

@@ -19,7 +19,32 @@ class Member extends AdminBase
     public function addToGroup($data = [])
     {
         
-        return [RESULT_ERROR, 'todo..', null];
+        if (ADMINISTRATOR_ID == $data['id']) {
+            
+            return [RESULT_ERROR, '天神不能授权哦~', null];
+        }
+        
+        $model = load_model('AuthGroupAccess');
+        
+        $where = ['member_id' => ['in', $data['id']]];
+        
+        $model->deleteInfo($where);
+        
+        $url = url('memberList');
+        
+        if (empty($data['group_id'])) {
+            
+            return [RESULT_SUCCESS, '会员授权成功', $url];
+        }
+        
+        $add_data = [];
+        
+        foreach ($data['group_id'] as $group_id) {
+            
+            $add_data[] = ['member_id' => $data['id'], 'group_id' => $group_id];
+        }
+        
+        return $model->setList($add_data) ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
     //会员添加
