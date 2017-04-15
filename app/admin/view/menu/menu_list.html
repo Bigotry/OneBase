@@ -31,7 +31,9 @@
         <tbody>
             {volist name='list' id='vo'}
                 <tr>
-                  <td>{$vo.name}</td>
+                  <td>
+                      <a href="{:url('menuList', array('pid' => $vo['id']))}" class="btn">{$vo.name}</a>
+                  </td>
                   <td>{$vo.sort}</td>
                   <td>{$vo.url}</td>
                   <td>{$vo.icon}</td>
