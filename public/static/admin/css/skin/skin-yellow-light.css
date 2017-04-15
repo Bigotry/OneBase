@@ -1,0 +1,21 @@
+a{
+    color: #c8800e;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active{
+    
+    border-top-color:#f7ecb5;
+}
+
+.form-control:focus {
+    border: 1px solid #c8800e;
+    box-shadow: 0 0 12px #ececec;
+}
+
+.content-wrapper{
+    background-color: #f7ecb5;
+}
+
+.box {
+    border-top: 3px solid #c8800e;
+}
