@@ -35,7 +35,7 @@ class Login extends ControllerBase
         
         is_login() && $this->jump(RESULT_REDIRECT, '已经登录跳转主页', 'Index/index');
         
-        //关闭布局
+        // 关闭布局
         $this->view->engine->layout(false);
         
         return $this->fetch('login');
