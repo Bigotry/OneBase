@@ -1,13 +1,22 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\controller;
 
+/**
+ * 配置控制器
+ */
 class Config extends AdminBase
 {
     
-    public static $configLogic = null;
+    // 配置逻辑
+    private static $configLogic = null;
     
-    //基类初始化
+    /**
+     * 构造方法
+     */
     public function _initialize()
     {
         
@@ -15,7 +24,6 @@ class Config extends AdminBase
         
         !isset(self::$configLogic) && self::$configLogic = load_model('Config');
     }
-    
     
     /**
      * 系统设置
@@ -25,7 +33,7 @@ class Config extends AdminBase
         
         IS_POST && $this->jump(self::$configLogic->settingSave($config));
         
-        $where = empty($this->param['group']) ? array('group' => 1) : array('group' => $this->param['group']);
+        $where = empty($this->param['group']) ? ['group' => 1] : ['group' => $this->param['group']];
         
         $this->getConfigCommonData();
         
@@ -37,7 +45,6 @@ class Config extends AdminBase
         
         return  $this->fetch('setting');
     }
-    
 
     /**
      * 配置列表
@@ -47,7 +54,7 @@ class Config extends AdminBase
         
         $this->setTitle('配置列表');
         
-        $where = empty($this->param['group']) ? [] : array('group' => $this->param['group']);
+        $where = empty($this->param['group']) ? [] : ['group' => $this->param['group']];
         
         $this->getConfigCommonData();
         
@@ -57,7 +64,6 @@ class Config extends AdminBase
         
         return $this->fetch('config_list');
     }
-    
     
     /**
      * 获取通用数据
@@ -74,7 +80,6 @@ class Config extends AdminBase
         $this->assign('config_type_list' , $config_type_list);
     }
     
-    
     /**
      * 配置添加
      */
@@ -87,7 +92,7 @@ class Config extends AdminBase
         
         $this->getConfigCommonData();
         
-        !empty($this->param['group']) && $this->assign('info', array('group'=> $this->param['group']));
+        !empty($this->param['group']) && $this->assign('info', ['group'=> $this->param['group']]);
         
         return  $this->fetch('config_edit');
     }
@@ -102,7 +107,7 @@ class Config extends AdminBase
         
         IS_POST && $this->jump(self::$configLogic->configEdit($this->param));
         
-        $info = self::$configLogic->getConfigInfo(array('id' => $this->param['id']));
+        $info = self::$configLogic->getConfigInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -117,6 +122,6 @@ class Config extends AdminBase
     public function configDel($id = 0)
     {
         
-        $this->jump(self::$configLogic->configDel(array('id' => $id)));
+        $this->jump(self::$configLogic->configDel(['id' => $id]));
     }
 }

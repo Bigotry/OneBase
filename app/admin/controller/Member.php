@@ -1,13 +1,24 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\controller;
 
+/**
+ * 会员控制器
+ */
 class Member extends AdminBase
 {
     
-    public static $memberLogic = null;
+    /**
+     * 会员逻辑
+     */
+    private static $memberLogic = null;
     
-    //基类初始化
+    /**
+     * 构造方法
+     */
     public function _initialize()
     {
         
@@ -31,7 +42,7 @@ class Member extends AdminBase
         $AuthGroupAccessLogic = load_model('AuthGroupAccess');
         
         //所有的权限组
-        $group_list = $AuthGroupLogic->getAuthGroupList(array(), true, '', false);
+        $group_list = $AuthGroupLogic->getAuthGroupList([], true, '', false);
         
         //会员当前权限组
         $member_group_list = $AuthGroupAccessLogic->getMemberGroupInfo($this->param['id']);
@@ -69,7 +80,7 @@ class Member extends AdminBase
         
         IS_POST && $this->jump(self::$memberLogic->memberAdd($this->param));
         
-        return  $this->fetch('member_edit');
+        return $this->fetch('member_edit');
     }
     
     /**
@@ -78,6 +89,6 @@ class Member extends AdminBase
     public function memberDel($id = 0)
     {
         
-        $this->jump(self::$memberLogic->memberDel(array('id' => $id)));
+        $this->jump(self::$memberLogic->memberDel(['id' => $id]));
     }
 }

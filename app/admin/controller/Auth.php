@@ -1,13 +1,22 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\controller;
 
+/**
+ * 权限控制器
+ */
 class Auth extends AdminBase
 {
     
+    // 权限组逻辑
     public static $authGroupLogic = null;
     
-    //基类初始化
+    /**
+     * 构造方法
+     */
     public function _initialize()
     {
         
@@ -39,7 +48,7 @@ class Auth extends AdminBase
         
         IS_POST && $this->jump(self::$authGroupLogic->groupAdd($this->param));
         
-        return  $this->fetch('group_edit');
+        return $this->fetch('group_edit');
     }
     
     /**
@@ -52,7 +61,7 @@ class Auth extends AdminBase
         
         IS_POST && $this->jump(self::$authGroupLogic->groupEdit($this->param));
         
-        $info = self::$authGroupLogic->getGroupInfo(array('id' => $this->param['id']));
+        $info = self::$authGroupLogic->getGroupInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -65,7 +74,7 @@ class Auth extends AdminBase
     public function groupDel($id = 0)
     {
         
-        $this->jump(self::$authGroupLogic->groupDel(array('id' => $id)));
+        $this->jump(self::$authGroupLogic->groupDel(['id' => $id]));
     }
     
     /**
@@ -76,16 +85,11 @@ class Auth extends AdminBase
         
         IS_POST && $this->jump(self::$authGroupLogic->setGroupRules($this->param));
         
-        $AdminBaseLogic = load_model('AdminBase');
+        // 获取未被过滤的菜单树
+        $menu_tree = $this->adminBaseLogic->getListTree($this->authMenuList);
         
-        //获取权限验证通过的菜单列表
-        $list = $AdminBaseLogic->getMenuList();
-        
-        //获取菜单逻辑模型
-        $MenuLogic = load_model('Menu');
-        
-        //菜单转换为节点视图，支持无限级
-        $menu_view = $MenuLogic->menuToNode($list);
+        // 菜单转换为多选视图，支持无限级
+        $menu_view = $this->menuLogic->menuToCheckboxView($menu_tree);
         
         $this->assign('list', $menu_view);
         

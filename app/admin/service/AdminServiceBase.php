@@ -1,12 +1,15 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\service;
 
 use app\common\service\ServiceBase;
 
 /**
-* admin模型服务基类
-*/
+ * Admin基础服务
+ */
 class AdminServiceBase extends ServiceBase
 {
 

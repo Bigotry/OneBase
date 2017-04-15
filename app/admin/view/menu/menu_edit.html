@@ -32,7 +32,7 @@
                 <span class="skin-btn">（所属的上级菜单）</span>
                 <select name="pid" class="form-control">
                     <option value="0">顶级菜单</option>
-                    {volist name='menu_tree' id='vo'}
+                    {volist name='menu_select' id='vo'}
                         <option value="{$vo.id}">{$vo.name}</option>
                     {/volist}
                 </select>

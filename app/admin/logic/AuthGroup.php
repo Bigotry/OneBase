@@ -1,10 +1,13 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\logic;
 
 /**
-* 权限分组模型
-*/
+ * 权限组逻辑
+ */
 class AuthGroup extends AdminBase
 {
     
@@ -14,7 +17,9 @@ class AuthGroup extends AdminBase
     public function getAuthGroupList($where = [], $field = true, $order = '', $paginate = 10)
     {
         
-        return load_model($this->name)->getList($where, $field, $order, array('rows' => $paginate));
+        $paginate_data = false === $paginate ? false : ['rows' => $paginate];
+        
+        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
     }
     
     /**
@@ -61,7 +66,9 @@ class AuthGroup extends AdminBase
         return $model->setInfo($data) ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
-    //权限组删除
+    /**
+     * 权限组删除
+     */
     public function groupDel($where = [])
     {
         
@@ -70,14 +77,18 @@ class AuthGroup extends AdminBase
         return $model->deleteInfo($where) ? [RESULT_SUCCESS, '权限组删除成功', null] : [RESULT_ERROR, $model->getError(), null];
     }
     
-    //获取权限组信息
+    /**
+     * 获取权限组信息
+     */
     public function getGroupInfo($where = [], $field = true)
     {
         
         return load_model($this->name)->getInfo($where, $field);
     }
 
-    //设置用户组权限节点
+    /**
+     * 设置用户组权限节点
+     */
     public function setGroupRules($data = [])
     {
         
@@ -90,8 +101,9 @@ class AuthGroup extends AdminBase
         return $model->setInfo($data) ? [RESULT_SUCCESS, '权限设置成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
-
-    //选择权限组
+    /**
+     * 选择权限组
+     */
     public function selectAuthGroupList($group_list = [], $member_group_list = [])
     {
         

@@ -1,20 +1,15 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\controller;
 
+/**
+ * 菜单控制器
+ */
 class Menu extends AdminBase
 {
-    
-    public static $menuLogic = null;
-    
-    //基类初始化
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        !isset(self::$menuLogic) && self::$menuLogic = load_model('Menu');
-    }
     
     /**
      * 菜单列表
@@ -24,29 +19,25 @@ class Menu extends AdminBase
         
         $this->setTitle('菜单管理');
         
-        $where = empty($this->param['pid']) ? array('pid' => 0) : array('pid' => $this->param['pid']);
+        $where = empty($this->param['pid']) ? ['pid' => 0] : ['pid' => $this->param['pid']];
         
-        $this->assign('list', self::$menuLogic->getMenuList($where));
+        $this->assign('list', $this->menuLogic->getMenuList($where));
         
         $this->assign('pid', $where['pid']);
         
         return $this->fetch('menu_list');
     }
     
-    
     /**
-     * 菜单树获取
+     * 获取菜单Select结构数据
      */
-    public function getMenuTreeData()
+    public function getMenuSelectData()
     {
         
-        $menu_tree_data = load_model('AdminBase')->getMenuList();
+        $menu_select = $this->menuLogic->menuToSelect($this->authMenuTree);
         
-        $menu_tree = self::$menuLogic->menuToTree($menu_tree_data);
-        
-        $this->assign('menu_tree', $menu_tree);
+        $this->assign('menu_select', $menu_select);
     }
-    
     
     /**
      * 菜单添加
@@ -58,13 +49,14 @@ class Menu extends AdminBase
         
         $this->param['module'] = MODULE_NAME;
         
-        IS_POST && $this->jump(self::$menuLogic->menuAdd($this->param));
+        IS_POST && $this->jump($this->menuLogic->menuAdd($this->param));
         
-        $this->getMenuTreeData();
+        //获取菜单Select结构数据
+        $this->getMenuSelectData();
         
-        !empty($this->param['pid']) && $this->assign('info', array('pid'=> $this->param['pid']));
+        !empty($this->param['pid']) && $this->assign('info', ['pid'=> $this->param['pid']]);
         
-        return  $this->fetch('menu_edit');
+        return $this->fetch('menu_edit');
     }
     
     /**
@@ -75,13 +67,14 @@ class Menu extends AdminBase
         
         $this->setTitle('菜单编辑');
         
-        IS_POST && $this->jump(self::$menuLogic->menuEdit($this->param));
+        IS_POST && $this->jump($this->menuLogic->menuEdit($this->param));
         
-        $info = self::$menuLogic->getMenuInfo(array('id' => $this->param['id']));
+        $info = $this->menuLogic->getMenuInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
-        $this->getMenuTreeData();
+        //获取菜单Select结构数据
+        $this->getMenuSelectData();
         
         return $this->fetch('menu_edit');
     }
@@ -92,6 +85,6 @@ class Menu extends AdminBase
     public function menuDel($id = 0)
     {
         
-        $this->jump(self::$menuLogic->menuDel(array('id' => $id)));
+        $this->jump($this->menuLogic->menuDel(['id' => $id]));
     }
 }

@@ -1,18 +1,22 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
+
+namespace app\common\behavior;
 
 /**
  * 结束行为
  */
-
-namespace app\common\behavior;
-
 class EndHook
 {
-
-    public function run(&$request)
+    
+    /**
+     * 运行结束行为
+     */
+    public function run()
     {
         
 
     }
-
 }

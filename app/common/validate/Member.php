@@ -1,4 +1,7 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\common\validate;
 
@@ -9,7 +12,7 @@ class Member extends ValidateBase
 {
     
     // 验证规则
-    protected $rule =   [
+    protected $rule = [
         'username'  => 'require|length:6,30|unique:member',
         'password'  => 'require|length:6,30',
         'email'     => 'require|email|unique:member',
@@ -17,7 +20,7 @@ class Member extends ValidateBase
     ];
 
     // 验证提示
-    protected $message  =   [
+    protected $message = [
         'username.require'    => '用户名不能为空',
         'username.length'     => '用户名长度为6-30个字符之间',
         'username.unique'     => '用户名已存在',
@@ -34,5 +37,4 @@ class Member extends ValidateBase
     protected $scene = [
         'add'  =>  ['username','password','email'],
     ];
-    
 }

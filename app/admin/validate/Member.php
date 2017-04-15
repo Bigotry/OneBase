@@ -1,4 +1,7 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\validate;
 
@@ -10,6 +13,7 @@ class Member extends AdminBase
     
     // 验证规则
     protected $rule =   [
+        
         'username'  => 'require|unique:member',
         'password'  => 'require|confirm|length:6,20',
         'email'     => 'require|email|unique:member',
@@ -17,6 +21,7 @@ class Member extends AdminBase
     
     // 验证提示
     protected $message  =   [
+        
         'username.require'    => '用户名不能为空',
         'username.unique'     => '用户名已存在',
         'password.require'    => '密码不能为空',

@@ -1,15 +1,18 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\logic;
 
 /**
-* 
-*/
+ * 登录逻辑
+ */
 class Login extends AdminBase
 {
     
     /**
-     * 后台用户登录处理
+     * 登录处理
      */
     public function loginHandle($username = '', $password = '', $verify = '')
     {
@@ -23,17 +26,19 @@ class Login extends AdminBase
             return [RESULT_ERROR, '验证码输入错误', null];
         }
             
-        $member = load_model('Member')->get(array('username' => $username));
+        $model = model('Member', LAYER_LOGIC_NAME);
+        
+        $member = $model->getMemberInfo(['username' => $username]);
 
         if (empty($member)) {
 
             return [RESULT_ERROR, '用户不存在', null];
         }
             
-        //验证用户密码
+        // 验证用户密码
         if (data_md5($password, DATA_ENCRYPT_KEY) === $member['password']) {
             
-            $auth = array('member_id' => $member['id']);
+            $auth = ['member_id' => $member['id'], 'update_time' => $member['update_time']];
 
             session('member_auth', $auth);
             session('member_auth_sign', data_auth_sign($auth));

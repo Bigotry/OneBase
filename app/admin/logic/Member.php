@@ -1,21 +1,39 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\logic;
 
 /**
-* 会员逻辑模型
-*/
+ * 会员逻辑
+ */
 class Member extends AdminBase
 {
     
-    //获取会员列表
+    /**
+     * 获取会员信息
+     */
+    public function getMemberInfo($where = [], $field = true)
+    {
+        
+        return load_model($this->name)->getInfo($where, $field);
+    }
+    
+    /**
+     * 获取会员列表
+     */
     public function getMemberList($where = [], $field = true, $order = '', $paginate = 10)
     {
         
-        return load_model($this->name)->getList($where, $field, $order, array('rows' => $paginate));
+        $paginate_data = false === $paginate ? false : ['rows' => $paginate];
+        
+        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
     }
     
-    //会员添加到用户组
+    /**
+     * 会员添加到用户组
+     */
     public function addToGroup($data = [])
     {
         
@@ -47,7 +65,9 @@ class Member extends AdminBase
         return $model->setList($add_data) ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
-    //会员添加
+    /**
+     * 会员添加
+     */
     public function memberAdd($data = [])
     {
         
@@ -69,7 +89,9 @@ class Member extends AdminBase
         return $model->setInfo($data) ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
     
-    //会员删除
+    /**
+     * 会员删除
+     */
     public function memberDel($where = [])
     {
         

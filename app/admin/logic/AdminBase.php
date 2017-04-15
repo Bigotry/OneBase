@@ -1,20 +1,22 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\logic;
 
 use app\common\logic\LogicBase;
 
 /**
-* admin模型逻辑基类
-*/
+ * Admin基础逻辑
+ */
 class AdminBase extends LogicBase
 {
 
     /**
-    * 权限检测
-    * @return boolean
-    */
-    public function authCheck($member_id = 0, $url = '')
+     * 权限检测
+     */
+    public function authCheck($url = '', $url_list = [])
     {
 
         $pass_data = [RESULT_SUCCESS, '权限检查通过'];
@@ -24,35 +26,24 @@ class AdminBase extends LogicBase
             return $pass_data;
         }
         
-        $model = model('AuthGroupAccess', 'logic');
-        
-        $url_list = $model->getAuthList($member_id);
-        
         $result = in_array(strtolower($url), $url_list) ? true : false;
         
         return $result ? $pass_data : [RESULT_ERROR, '未授权操作'];
     }
     
-    
-    // 获取后台菜单
-    public function getMenuList()
+    /**
+     * 获取过滤后的菜单树
+     */
+    public function getMenuTree($menu_list = [], $url_list = [])
     {
-    
-        $where['is_hide']  =   0;
-        $where['module']   =  MODULE_NAME;
-        
-        $model = model('Menu', 'logic');
-        
-        $menu_list = $model->getMenuList($where, true, '', false);
         
         foreach ($menu_list as $key => $menu_info) {
             
-            
-            list($status, $message) = $this->authCheck(MEMBER_ID, MODULE_NAME.'/'.$menu_info['url']);
+            list($status, $message) = $this->authCheck(MODULE_NAME.'/'.$menu_info['url'], $url_list);
             
             [$message];
             
-            if (!IS_ROOT && RESULT_ERROR == $status) {
+            if (!IS_ROOT && RESULT_ERROR == $status || !empty($menu_info['is_hide'])) {
 
                 unset($menu_list[$key]);
                 
@@ -60,7 +51,16 @@ class AdminBase extends LogicBase
             }
         }
         
-        return list_to_tree(array_values($menu_list), 'id', 'pid', 'child');
+        return $this->getListTree($menu_list);
+    }
+    
+    /**
+     * 获取列表树结构
+     */
+    public function getListTree($list = [])
+    {
+        
+        return list_to_tree(array_values($list), 'id', 'pid', 'child');
     }
     
 }

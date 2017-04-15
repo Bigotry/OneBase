@@ -1,20 +1,25 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\common\model;
 
 use think\Model;
 
 /**
-* 基础模型
-* 模型层负责提供数据服务
-*/
+ * 模型基类
+ */
 class ModelBase extends Model
 {
     
+    // 查询对象
     private static $ob_query = null;
 
-    //写入单条信息
-    protected function setInfo($data = [], $where = [], $sequence = null)
+    /**
+     * 设置数据
+     */
+    final protected function setInfo($data = [], $where = [], $sequence = null)
     {
         
         $pk = $this->getPk();
@@ -22,29 +27,37 @@ class ModelBase extends Model
         return empty($data[$pk]) ? $this->allowField(true)->save($data, $where, $sequence) : $this->allowField(true)->update($data, $where);
     }
     
-    //写入多条信息
-    protected function setList($data_list = [], $replace = false)
+    /**
+     * 设置数据列表
+     */
+    final protected function setList($data_list = [], $replace = false)
     {
         
         return $this->saveAll($data_list, $replace);
     }
     
-    //删除信息
-    protected function deleteInfo($where = [])
+    /**
+     * 删除数据
+     */
+    final protected function deleteInfo($where = [])
     {
         
         return $this->where($where)->delete();
     }
     
-    //获取单条信息
-    protected function getInfo($where = [], $field = true)
+    /**
+     * 获取数据
+     */
+    final protected function getInfo($where = [], $field = true)
     {
         
         return $this->where($where)->field($field)->find();
     }
     
-    //通用列表数据查询方法
-    protected function getList($where = [], $field = true, $order = '', $paginate = array('rows' => null, 'simple' => false, 'config' => []), $join = array('join' => null, 'condition' => null, 'type' => 'INNER'), $group = array('group' => '', 'having' => ''), $limit = null, $data = null)
+    /**
+     * 获取数据列表
+     */
+    final protected function getList($where = [], $field = true, $order = '', $paginate = array('rows' => null, 'simple' => false, 'config' => []), $join = array('join' => null, 'condition' => null, 'type' => 'INNER'), $group = array('group' => '', 'having' => ''), $limit = null, $data = null)
     {
         
         $paginate['simple'] = empty($paginate['simple']) ? false   : $paginate['simple'];

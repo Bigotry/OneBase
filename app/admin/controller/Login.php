@@ -1,23 +1,34 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\controller;
 
 use app\common\controller\ControllerBase;
 
+/**
+ * 登录控制器
+ */
 class Login extends ControllerBase
 {
     
+    // 登录逻辑
     private static $loginLogic = null;
     
-    //基类初始化
+    /**
+     * 构造方法
+     */
     public function _initialize()
     {
+        // 执行父类构造方法
+        parent::_initialize();
         
         !isset(self::$loginLogic) && self::$loginLogic = load_model('Login');
     }
     
     /**
-     * 后台用户登录
+     * 登录
      */
     public function login()
     {
@@ -31,7 +42,7 @@ class Login extends ControllerBase
     }
     
     /**
-     * 后台用户登录处理
+     * 登录处理
      */
     public function loginHandle($username = '', $password = '', $verify = '')
     {
@@ -42,7 +53,7 @@ class Login extends ControllerBase
     }
     
     /**
-     * 注销当前用户
+     * 注销登录
      */
     public function logout()
     {

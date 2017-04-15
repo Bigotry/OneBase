@@ -1,15 +1,19 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\validate;
 
 /**
- * 目录验证器
+ * 菜单验证器
  */
 class Menu extends AdminBase
 {
     
     // 验证规则
     protected $rule =   [
+        
         'name'  => 'require',
         'sort'  => 'require|number',
         'url'   => 'require|unique:menu'
@@ -17,6 +21,7 @@ class Menu extends AdminBase
 
     // 验证提示
     protected $message  =   [
+        
         'name.require'    => '菜单不能为空',
         'sort.require'    => '排序值不能为空',
         'url.require'     => 'url不能为空',

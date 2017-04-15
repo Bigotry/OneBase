@@ -11,6 +11,7 @@
  */
 function is_login()
 {
+    
     $member = session('member_auth');
     
     if (empty($member)) {
@@ -23,23 +24,13 @@ function is_login()
 }
 
 /**
- * 检测验证码
- * @param  integer $id 验证码ID
- * @return boolean     检测结果
- */
-function check_verify($code, $id = 1)
-{
-    $verify = new \org\Verify();
-    return $verify->check($code, $id);
-}
-
-/**
  * 系统非常规MD5加密方法
  * @param  string $str 要加密的字符串
  * @return string 
  */
 function data_md5($str, $key = 'OneBase')
 {
+    
     return '' === $str ? '' : md5(sha1($str) . $key);
 }
 
@@ -50,14 +41,21 @@ function data_md5($str, $key = 'OneBase')
  */
 function data_auth_sign($data)
 {
-    //数据类型检测
+    
+    // 数据类型检测
     if (!is_array($data)) {
+        
         $data = (array)$data;
     }
     
-    ksort($data); //排序
-    $code = http_build_query($data); //url编码并生成query字符串
-    $sign = sha1($code); //生成签名
+    // 排序
+    ksort($data);
+    
+    // url编码并生成query字符串
+    $code = http_build_query($data);
+    
+    // 生成签名
+    $sign = sha1($code);
     
     return $sign;
 }
@@ -83,30 +81,39 @@ function is_administrator($member_id = null)
  */
 function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0)
 {
+    
     // 创建Tree
-    $tree = array();
+    $tree = [];
+    
     if (is_array($list)) {
+        
         // 创建基于主键的数组引用
-        $refer = array();
+        $refer = [];
+        
         foreach ($list as $key => $data) {
+            
             $refer[$data[$pk]] =& $list[$key];
         }
         
         foreach ($list as $key => $data) {
+            
             // 判断是否存在parent
             $parentId =  $data[$pid];
+            
             if ($root == $parentId) {
+                
                 $tree[] =& $list[$key];
-            } else {
-                if (isset($refer[$parentId])) {
+                
+            } else if(isset($refer[$parentId])){
+                
                     $parent =& $refer[$parentId];
                     
                     if(is_object($parent)) {
                         
                         $parent = $parent->toArray();
                     }
+                    
                     $parent[$child][] =& $list[$key];
-                }
             }
         }
     }
@@ -115,72 +122,9 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
 }
 
 /**
- * 动态扩展左侧菜单,base.html里用到
+ * 分析数组及枚举类型配置值 格式 a:名称1,b:名称2
+ * @return array
  */
-function extra_menu($extra_menu,&$base_menu)
-{
-    foreach ($extra_menu as $key=>$group) {
-        if (isset($base_menu['child'][$key])) {
-            $base_menu['child'][$key] = array_merge( $base_menu['child'][$key], $group);
-        } else {
-            $base_menu['child'][$key] = $group;
-        }
-    }
-}
-
-
-/**
- * 处理插件钩子
- * @param string $hook   钩子名称
- * @param mixed $params 传入参数
- * @return void
- */
-function hook($hook,$params=array())
-{
-    \Think\Hook::listen($hook,$params);
-}
-
-
-/**
- * 获取插件类的类名
- * @param strng $name 插件名
- */
-function get_addon_class($name)
-{
-    $class = "\\addons\\" . strtolower($name) . "\\{$name}";
-    
-    return $class;
-}
-
-/**
- * 获取插件类的配置文件数组
- * @param string $name 插件名
- */
-function get_addon_config($name)
-{
-    $class = get_addon_class($name);
-    
-    if (class_exists($class)) {
-        $addon = new $class();
-        return $addon->getConfig();
-    } else {
-        return array();
-    }
-}
-
-/**
- * 时间戳格式化
- * @param int $time
- * @return string 完整的时间显示
- */
-function time_format($time = NULL, $format='Y-m-d H:i')
-{
-    $time = $time === NULL ? NOW_TIME : intval($time);
-    
-    return date($format, $time);
-}
-
- // 分析数组及枚举类型配置值 格式 a:名称1,b:名称2
 function parse_config_attr($string)
 {
     
@@ -188,133 +132,42 @@ function parse_config_attr($string)
     
     if (strpos($string, ':')) {
         
-        $value  =   array();
+        $value = [];
         
         foreach ($array as $val) {
             
             list($k, $v) = explode(':', $val);
             
-            $value[$k]   = $v;
+            $value[$k] = $v;
         }
         
     } else {
         
-        $value  =   $array;
+        $value = $array;
     }
     
     return $value;
 }
 
 /**
- * 获取配置的分组
- * @param string $group 配置分组
- * @return string
- */
-function get_config_group($group = 0)
-{
-    
-    $config_group_list = parse_config(3, config('config_group_list'));
-    
-    return $group ? $config_group_list[$group] : '';
-}
-
-/**
- * 获取配置的类型
- * @param string $type 配置类型
- * @return string
- */
-function get_config_type($type = 0)
-{
-    
-    $config_type_list = parse_config(3, config('config_type_list'));
-    
-    return $config_type_list[$type];
-}
-
-
-
-/**
- * 根据函数名称生成闭包函数
- * @param string $func_name 函数名称
- * @param array $parameter 参数数组
- * @return object closure 返回闭包函数
- */
-function createClosureFunc( $func_name = '' , $parameter = array() )
-{
-    
-    $func = function() use($func_name, $parameter)
-            {
-        
-                if (empty($parameter)) {
-                    
-                    return call_user_func($func_name);
-                } else {
-                    
-                    return call_user_func_array($func_name, $parameter);
-                }
-            };
-            
-    return $func;
-}
-
-
-
-
-/**
- * 创建跳转处理
- * $jump_method : success error redirect
- */
-function createJump($jump_method  = '', $msg = '', $url = '', $data = '', $wait = 0)
-{
-    
-    $exe_string = 'return $this->'.$jump_method.'(\''.$msg.'\'';
-    
-    if (!empty($url)) {
-        
-        $exe_string .= ', \''.$url.'\'';
-    }
-    
-    $original_data = $data;
-    
-    if (!empty($data)) {
-        
-        if (is_array($data) || is_object($data)) {
-            
-            $data = serialize($data);
-        }
-       
-        $exe_string .= ', \''.$data.'\'';
-    }
-    
-    if (!empty($wait)) {
-        
-        $exe_string .= ', '.$wait;
-    }
-    
-    config('after_operate', $exe_string .= ');');
-    
-    return $original_data;
-}
-
-
-/**
  * 加载模型
- * 若在控制器层则加载逻辑层
- * 若在逻辑层则加载数据层
  */
-function load_model($name = '')
+function load_model($name = '', $module = '')
 {
 
-    //回溯跟踪
+    // 回溯跟踪
     $backtrace_array = debug_backtrace(false, 1);
     
-    //调用者目录名称
+    // 调用者目录名称
     $current_directory_name = basename(dirname($backtrace_array[0]['file']));
     
-    //返回的对象
+    // 设置模块
+    !empty($module) && $name = $module.'/'.$name;
+    
+    // 返回的对象
     $return_object = null;
     
-    //加载模型规则
+    // 加载模型规则
     switch ($current_directory_name) {
         
         case LAYER_CONTROLLER_NAME : $return_object = model($name, LAYER_LOGIC_NAME); break;
@@ -326,19 +179,19 @@ function load_model($name = '')
     return $return_object;
 }
 
-
-
 /**
  * 将二维数组数组按某个键提取出来组成新的索引数组
  */
-function array_extract( $array, $key = 'id' )
+function array_extract($array, $key = 'id')
 {
-    $count 	= count($array);
-    $new_arr 	= array();
+    
+    $count = count($array);
+    
+    $new_arr = [];
      
-    for($i=0;$i<$count;$i++)
-    {
-        if(!empty($array) && !empty($array[$i][$key])){
+    for($i = 0; $i < $count; $i++) {
+        
+        if (!empty($array) && !empty($array[$i][$key])) {
             
             $new_arr[] = $array[$i][$key];
         }
@@ -347,14 +200,11 @@ function array_extract( $array, $key = 'id' )
     return $new_arr;
 }
 
-
-
 /**
  * 字符串转换为数组，主要用于把分隔符调整到第二个参数
  * @param  string $str  要分割的字符串
  * @param  string $glue 分割符
  * @return array
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function str2arr($str, $glue = ',')
 {
@@ -367,7 +217,6 @@ function str2arr($str, $glue = ',')
  * @param  array  $arr  要连接的数组
  * @param  string $glue 分割符
  * @return string
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function arr2str($arr, $glue = ',')
 {
