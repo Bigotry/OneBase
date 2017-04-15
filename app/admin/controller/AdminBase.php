@@ -49,6 +49,16 @@ class AdminBase extends ControllerBase
         // 初始化Admin模块常量
         $this->initAdminConst();
         
+        // 初始化Admin信息
+        $this->initAdminInfo();
+    }
+    
+    /**
+     * 初始化Admin信息
+     */
+    final private function initAdminInfo()
+    {
+        
         // 未登录则跳转登录
         !MEMBER_ID && $this->redirect('Login/login');
         
