@@ -13,11 +13,6 @@
     margin-right: 15px;
 }
 
-.admin-login-verify-msg-p{
-    color: red;
-}
-
-
 .admin-login-box {
     left: 50%;
     margin: auto auto auto -180px;
@@ -38,22 +33,9 @@
     color: #fff !important;
 }
 
-
-.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover{
- 
-    background-color:#777;
-    border-color:#777;
-}
-
-
 .table-search {
     
     width: 150px;
-}
-
-.form-control:focus {
-    border: 1px solid #d1d1d1;
-    box-shadow: 0 0 12px #ececec;
 }
 
 .breadcrumb > li + li::before {
@@ -62,10 +44,10 @@
     padding: 0 5px;
 }
 
-
-.nav-tabs-custom > .nav-tabs > li.active{
-    
-    border-top-color:#888;
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover{
+ 
+    background-color:#777 !important;
+    border-color:#777 !important;
 }
 
 .admin-node-label{
