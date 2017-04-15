@@ -4,6 +4,9 @@
  * You should not use this file in production.
  * This file is for demo purposes only.
  */
+
+var current_skin = 'skin-blue';
+
 (function ($, AdminLTE) {
 
   "use strict";
@@ -59,23 +62,23 @@
       + "<input type='checkbox' data-layout='fixed' class='pull-right'/> "
       + "固定布局"
       + "</label>"
-      + "<p>是否为固定布局，固定布局最外层元素不会出现滚动条，默认为是。</p>"
+      + "<p>是否为固定布局，默认为是。</p>"
       + "</div>"
         //Boxed layout
       + "<div class='form-group'>"
       + "<label class='control-sidebar-subheading'>"
       + "<input type='checkbox' data-layout='layout-boxed'class='pull-right'/> "
-      + "盒子(小窝)布局"
+      + "盒子布局"
       + "</label>"
-      + "<p>小窝布局内容会居中显示，默认为否。</p>"
+      + "<p>是否为盒子布局，默认为否。</p>"
       + "</div>"
         //Sidebar Toggle
       + "<div class='form-group'>"
       + "<label class='control-sidebar-subheading'>"
       + "<input type='checkbox' data-layout='sidebar-collapse' class='pull-right'/> "
-      + "导航布局"
+      + "菜单布局"
       + "</label>"
-      + "<p>左侧导航栏是否展开，默认为是。</p>"
+      + "<p>菜单栏是否展开，默认为是。</p>"
       + "</div>"
         //Sidebar mini expand on hover toggle
       + "<div class='form-group'>"
@@ -238,7 +241,7 @@
    * @param String cls the new skin class
    * @returns Boolean false to prevent link's default action
    */
-  function change_skin(cls) {
+  function change_skin(cls, tag) {
       
     var skin_btn = $(".skin-btn");
       
@@ -261,6 +264,16 @@
     }
     
     store('skin', cls);
+    
+    if (!tag) {
+        
+        toast.success('色系设置成功');
+        
+        setTimeout(function(){
+
+            location.reload();
+        },1500);
+    }
     
     return false;
   }
@@ -305,8 +318,9 @@
     
     if (tmp && $.inArray(tmp, my_skins)){
         
-        change_skin(tmp);
+        change_skin(tmp, true);
         
+        current_skin = tmp;
     } else {
         
         var skin_btn = $(".skin-btn");
@@ -316,7 +330,7 @@
             skin_btn.addClass('bg-blue');
         }
     }
-      
+    
     //Add the change skin listener
     $("[data-skin]").on('click', function (e) {
       if($(this).hasClass('knob'))
