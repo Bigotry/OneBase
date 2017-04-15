@@ -19,60 +19,66 @@
                 <div class="box-body">
                   <div class="row">
                       
-                      
-                    {volist name='list' id='vo'}
+                    {notempty name='list'}
+                        {volist name='list' id='vo'}
 
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>{$vo.title}</label>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label>{$vo.title}</label>
+
+                                    {notempty name="vo['describe']"}
+                                        <span class="skin-btn">（{$vo.describe}）</span>
+                                    {/notempty}
+
+                                    {switch name="vo.type"}
+
+
+                                        {case value="0"}
+
+                                            <input class="form-control" name="config[{$vo.name}]" placeholder="请输入设置值" value="{$vo.value}" type="text">
+
+                                        {/case}
+
+                                        {case value="1"}
+
+                                            <input class="form-control" name="config[{$vo.name}]" placeholder="请输入设置值" value="{$vo.value}" type="text">
+
+                                        {/case}
+
+                                        {case value="2"}
+
+                                            <textarea class="form-control" name="config[{$vo.name}]" rows="3" placeholder="请输入设置值">{$vo.value}</textarea>
+
+                                        {/case}
+
+                                        {case value="3"}
+
+                                            <textarea class="form-control" name="config[{$vo.name}]" rows="3" placeholder="请输入设置值">{$vo.value}</textarea>
+
+                                        {/case}
+
+                                        {case value="4"}
+
+                                            <select name="config[{$vo.name}]" class="form-control">
+                                                {volist name=":parse_config_attr($vo['extra'])" id='vv'}
+                                                    <option value="{$key}" {eq name="vo.value" value="$key"} selected {/eq} >{$vv}</option>
+                                                {/volist}
+                                            </select>
+
+                                        {/case}
+
+                                    {/switch}
+                               </div>
+                            </div>
+
+                        {/volist}
+                            {else/}
                             
-                                {notempty name="vo['describe']"}
-                                    <span class="skin-btn">（{$vo.describe}）</span>
-                                {/notempty}
-                        
-                                {switch name="vo.type"}
-
-
-                                    {case value="0"}
-
-                                        <input class="form-control" name="config[{$vo.name}]" placeholder="请输入设置值" value="{$vo.value}" type="text">
-
-                                    {/case}
-
-                                    {case value="1"}
-                                    
-                                        <input class="form-control" name="config[{$vo.name}]" placeholder="请输入设置值" value="{$vo.value}" type="text">
-                                        
-                                    {/case}
-
-                                    {case value="2"}
-                                    
-                                        <textarea class="form-control" name="config[{$vo.name}]" rows="3" placeholder="请输入设置值">{$vo.value}</textarea>
-
-                                    {/case}
-
-                                    {case value="3"}
-                                    
-                                        <textarea class="form-control" name="config[{$vo.name}]" rows="3" placeholder="请输入设置值">{$vo.value}</textarea>
-                                        
-                                    {/case}
-
-                                    {case value="4"}
-                                    
-                                        <select name="config[{$vo.name}]" class="form-control">
-                                            {volist name=":parse_config_attr($vo['extra'])" id='vv'}
-                                                <option value="{$key}" {eq name="vo.value" value="$key"} selected {/eq} >{$vv}</option>
-                                            {/volist}
-                                        </select>
-                                    
-                                    {/case}
-
-                                {/switch}
-                           </div>
-                        </div>
-
-                    {/volist}
-
+                            <div class="col-md-6">
+                                <tr class="odd"><td colspan="6" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr>
+                            </div>
+                    {/notempty}
+                    
                   </div>
                 </div>
                   

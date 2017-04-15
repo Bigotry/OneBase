@@ -38,7 +38,7 @@
             {/volist}
         </tbody>
         {else/}
-        <tbody><tr class="odd"><td colspan="7" class="text-center" valign="top">aOh! 暂时还没有数据! </td></tr></tbody>
+        <tbody><tr class="odd"><td colspan="7" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
       {/notempty}
     </table>
   </div>
