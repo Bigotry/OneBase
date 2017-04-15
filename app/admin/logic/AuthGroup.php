@@ -14,10 +14,10 @@ class AuthGroup extends AdminBase
     /**
      * 获取权限分组列表
      */
-    public function getAuthGroupList($where = [], $field = true, $order = '', $paginate = 10)
+    public function getAuthGroupList($where = [], $field = true, $order = '', $is_paginate = true)
     {
         
-        $paginate_data = false === $paginate ? false : ['rows' => $paginate];
+        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
         return load_model($this->name)->getList($where, $field, $order, $paginate_data);
     }

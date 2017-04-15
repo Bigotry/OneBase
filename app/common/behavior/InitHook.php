@@ -34,8 +34,12 @@ class InitHook
     {
         
         $database_config = config('database');
+        
+        $list_rows = config('list_rows');
     
         define('DB_PREFIX', $database_config['prefix']);
+        
+        empty($list_rows) ? define('DB_LIST_ROWS', 10) : define('DB_LIST_ROWS', $list_rows);
     }
     
     /**
@@ -64,6 +68,17 @@ class InitHook
         define('RESULT_URL'     , 'url');
         define('RESULT_DATA'    , 'data');
 
+        // 数据状态
+        define('DATA_STATUS' ,  'status');
+        define('DATA_NORMAL' ,  1);
+        define('DATA_DISABLE',  0);
+        define('DATA_DELETE' , -1);
+        
+        //时间常量
+        define('DATA_CREATE_TIME' ,  'create_time');
+        define('DATA_UPDATE_TIME' ,  'update_time');
+        define('NOW_TIME' , time());
+        
         // 系统超级管理员ID
         define('ADMINISTRATOR_ID', 1);
         

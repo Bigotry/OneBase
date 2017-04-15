@@ -24,7 +24,18 @@ class ModelBase extends Model
         
         $pk = $this->getPk();
         
-        return empty($data[$pk]) ? $this->allowField(true)->save($data, $where, $sequence) : $this->allowField(true)->update($data, $where);
+        return empty($data[$pk]) ? $this->allowField(true)->save($data, $where, $sequence) : $this->updateInfo($where, $data);
+    }
+    
+    /**
+     * 更新数据
+     */
+    final protected function updateInfo($where = [], $data = [])
+    {
+        
+        $data[DATA_UPDATE_TIME] = NOW_TIME;
+        
+        return $this->allowField(true)->where($where)->update($data);
     }
     
     /**
@@ -37,12 +48,21 @@ class ModelBase extends Model
     }
     
     /**
-     * 删除数据
+     * 设置某个字段值
      */
-    final protected function deleteInfo($where = [])
+    final protected function setFieldValue($where = [], $field = '', $value = '')
     {
         
-        return $this->where($where)->delete();
+        return $this->updateInfo($where, [$field => $value]);
+    }
+    
+    /**
+     * 删除数据
+     */
+    final protected function deleteInfo($where = [], $is_true = false)
+    {
+        
+        return $is_true ? $this->where($where)->delete() : $this->setFieldValue($where, DATA_STATUS, DATA_DELETE);
     }
     
     /**
@@ -59,6 +79,8 @@ class ModelBase extends Model
      */
     final protected function getList($where = [], $field = true, $order = '', $paginate = array('rows' => null, 'simple' => false, 'config' => []), $join = array('join' => null, 'condition' => null, 'type' => 'INNER'), $group = array('group' => '', 'having' => ''), $limit = null, $data = null)
     {
+        
+        $where[DATA_STATUS] = ['neq', DATA_DELETE];
         
         $paginate['simple'] = empty($paginate['simple']) ? false   : $paginate['simple'];
         

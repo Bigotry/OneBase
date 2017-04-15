@@ -37,7 +37,7 @@ class Config extends AdminBase
         
         $this->getConfigCommonData();
         
-        $this->assign('list', self::$configLogic->getConfigList($where, true, 'sort', null));
+        $this->assign('list', self::$configLogic->getConfigList($where, true, 'sort', false));
         
         $this->assign('group', $where['group']);
         
