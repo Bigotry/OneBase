@@ -191,7 +191,7 @@ function load_model($name = '', $module = '')
 /**
  * 将二维数组数组按某个键提取出来组成新的索引数组
  */
-function array_extract($array, $key = 'id')
+function array_extract($array = [], $key = 'id')
 {
     
     $count = count($array);
@@ -204,6 +204,24 @@ function array_extract($array, $key = 'id')
             
             $new_arr[] = $array[$i][$key];
         }
+    }
+    
+    return $new_arr;
+}
+
+/**
+ * 根据某个字段获取关联数组
+ */
+function array_extract_map($array = [], $key = 'id'){
+    
+    
+    $count = count($array);
+    
+    $new_arr = [];
+     
+    for($i = 0; $i < $count; $i++) {
+        
+        $new_arr[$array[$i][$key]] = $array[$i];
     }
     
     return $new_arr;
@@ -231,4 +249,23 @@ function arr2str($arr, $glue = ',')
 {
     
     return implode($glue, $arr);
+}
+
+/**
+ * 获取目录下所有文件
+ */
+function file_list($path = '')
+{
+    
+    $file = scandir($path);
+    
+    foreach ($file as $k => $v) {
+        
+        if (is_dir($path . '/' . $v)) {
+
+            unset($file[$k]);
+        }
+    }
+    
+    return array_values($file);
 }
