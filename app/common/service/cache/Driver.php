@@ -5,21 +5,23 @@
 
 namespace app\common\service\cache;
 
+use app\common\service\BaseInterface;
+
 /**
  * 缓存服务驱动
  */
-interface Driver
+interface Driver extends BaseInterface
 {
     
     /**
      * 获取基本信息
      */
-    public function cacheInfo();
+    public function driverInfo();
     
     /**
      * 获取配置信息
      */
-    public function cacheConfig();
+    public function driverConfig();
     
     /**
      * 写入缓存

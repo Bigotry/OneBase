@@ -5,14 +5,19 @@
 
 namespace app\common\service;
 
-use think\Model;
-
 /**
- * 基础服务
+ * 服务接口
  */
-class ServiceBase extends Model
+interface BaseInterface
 {
     
-    // 基础服务 todo..
-
+    /**
+     * 服务信息
+     */
+    public function serviceInfo();
+    
+    /**
+     * 服务配置信息
+     */
+    public function serviceConfig();
 }

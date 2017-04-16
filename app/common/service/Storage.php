@@ -6,9 +6,9 @@
 namespace app\common\service;
 
 /**
- * 支付服务
+ * 云存储服务
  */
-class Pay extends ServiceBase implements BaseInterface
+class Storage extends ServiceBase implements BaseInterface
 {
     
     /**
@@ -17,7 +17,7 @@ class Pay extends ServiceBase implements BaseInterface
     public function serviceInfo()
     {
         
-        return ['service_name' => '支付服务', 'service_class' => 'Pay', 'service_describe' => '系统支付服务，用于整合多个支付平台', 'author' => 'Bigotry', 'version' => '1.0'];
+        return ['service_name' => '云存储服务', 'service_class' => 'Storage', 'service_describe' => '系统云存储服务，用于整合多个云储存平台', 'author' => 'Bigotry', 'version' => '1.0'];
     }
     
     /**

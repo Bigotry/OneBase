@@ -17,16 +17,16 @@ class Memcache extends Cache implements Driver
     /**
      * 缓存基本信息
      */
-    public function cacheInfo()
+    public function driverInfo()
     {
         
-        return ['cache_type' => 'Memcache', 'cache_describe' => 'Memcache缓存，请确保服务器装有Memcache服务', 'author' => 'Bigotry'];
+        return ['driver_name' => 'Memcache缓存驱动', 'driver_class' => 'Memcache', 'driver_describe' => '请确保服务器装有Memcache服务', 'author' => 'Bigotry', 'version' => '1.0'];
     }
     
     /**
      * 获取配置信息
      */
-    public function cacheConfig()
+    public function driverConfig()
     {
         
     }

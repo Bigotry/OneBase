@@ -17,16 +17,16 @@ class Redis extends Cache implements Driver
     /**
      * 缓存基本信息
      */
-    public function cacheInfo()
+    public function driverInfo()
     {
         
-        return ['cache_type' => 'Redis', 'cache_describe' => 'Redis缓存，请确保服务器装有Redis服务', 'author' => 'Bigotry'];
+        return ['driver_name' => 'Redis缓存驱动', 'driver_class' => 'Redis', 'driver_describe' => '请确保服务器装有Redis服务', 'author' => 'Bigotry', 'version' => '1.0'];
     }
     
     /**
      * 获取配置信息
      */
-    public function cacheConfig()
+    public function driverConfig()
     {
         
     }

@@ -5,7 +5,9 @@
       <thead>
       <tr>
           <th>名称</th>
+          <th>类型</th>
           <th>描述</th>
+          <th>版本</th>
           <th>作者</th>
           <th>操作</th>
       </tr>
@@ -15,9 +17,11 @@
         <tbody>
             {volist name='list' id='vo'}
                 <tr>
-                  <td>{$vo.cache_type}</td>
-                  <td>{$vo.cache_describe}</td>
+                  <td>{$vo.driver_name}</td>
+                  <td>{$vo.driver_class}</td>
+                  <td>{$vo.driver_describe}</td>
                   <td>{$vo.author}</td>
+                  <td>{$vo.version}</td>
                   <td>
                       <a onclick="toast.error('研发中...');" class="btn skin-btn"><i class="fa fa-refresh"></i> 安 装</a>
                   </td>
@@ -25,7 +29,7 @@
             {/volist}
         </tbody>
         {else/}
-        <tbody><tr class="odd"><td colspan="4" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
+        <tbody><tr class="odd"><td colspan="6" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
       {/notempty}
     </table>
   </div>

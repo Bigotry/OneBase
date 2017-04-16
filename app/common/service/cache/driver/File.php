@@ -17,16 +17,16 @@ class File extends Cache implements Driver
     /**
      * 缓存基本信息
      */
-    public function cacheInfo()
+    public function driverInfo()
     {
         
-        return ['cache_type' => 'File', 'cache_describe' => '文件缓存，请确保服务器缓存目录有可写权限', 'author' => 'Bigotry'];
+        return ['driver_name' => '文件缓存驱动', 'driver_class' => 'File', 'driver_describe' => '请确保服务器缓存目录有可写权限', 'author' => 'Bigotry', 'version' => '1.0'];
     }
     
     /**
      * 获取配置信息
      */
-    public function cacheConfig()
+    public function driverConfig()
     {
         
     }
