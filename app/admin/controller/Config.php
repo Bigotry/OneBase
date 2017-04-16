@@ -71,9 +71,9 @@ class Config extends AdminBase
     public function getConfigCommonData()
     {
         
-        $config_group_list = parse_config_attr(config('config_group_list'));
+        $config_group_list = parse_config_array('config_group_list');
         
-        $config_type_list  = parse_config_attr(config('config_type_list'));
+        $config_type_list  = parse_config_array('config_type_list');
         
         $this->assign('config_group_list', $config_group_list);
         

@@ -39,6 +39,15 @@ class ModelBase extends Model
     }
     
     /**
+     * 统计数据
+     */
+    final protected function stat($where = [], $stat_type = 'count', $field = 'id')
+    {
+        
+        return $this->where($where)->$stat_type($field);
+    }
+    
+    /**
      * 设置数据列表
      */
     final protected function setList($data_list = [], $replace = false)
@@ -80,7 +89,7 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = array('rows' => null, 'simple' => false, 'config' => []), $join = array('join' => null, 'condition' => null, 'type' => 'INNER'), $group = array('group' => '', 'having' => ''), $limit = null, $data = null)
     {
         
-        $where[DATA_STATUS] = ['neq', DATA_DELETE];
+        !isset($where[DATA_STATUS]) && $where[DATA_STATUS] = ['neq', DATA_DELETE];
         
         $paginate['simple'] = empty($paginate['simple']) ? false   : $paginate['simple'];
         

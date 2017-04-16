@@ -1,0 +1,39 @@
+<div class="box">
+    
+  <div class="box-body">
+    <table  class="table table-bordered table-hover">
+      <thead>
+      <tr>
+          <th>ID</th>
+          <th>名称</th>
+          <th>创建时间</th>
+          <th>删除时间</th>
+          <th>操作</th>
+      </tr>
+      </thead>
+      
+      {notempty name='list'}
+        <tbody>
+            {volist name='list' id='vo'}
+                <tr>
+                  <td>{$vo.id}</td>
+                  <td>{$vo[$dynamic_field]}</td>
+                  <td>{$vo.create_time}</td>
+                  <td>{$vo.update_time}</td>
+                  <td>
+                      <a href="{:url('trashDataDel', array('model_name' => $model_name, 'id' => $vo['id']))}" class="btn skin-btn confirm ajax-get"><i class="fa fa-close"></i> 彻底删除</a>
+                      &nbsp;
+                      <a href="{:url('restoreData', array('model_name' => $model_name, 'id' => $vo['id']))}" class="btn skin-btn confirm ajax-get"><i class="fa fa-reply"></i> 恢复正常</a>
+                  </td>
+                </tr>
+            {/volist}
+        </tbody>
+        {else/}
+        <tbody><tr class="odd"><td colspan="5" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
+      {/notempty}
+    </table>
+  </div>
+  <div class="box-footer clearfix text-center">
+      {$list->render()}
+  </div>
+</div>

@@ -150,6 +150,15 @@ function parse_config_attr($string)
 }
 
 /**
+ * 解析数组配置
+ */
+function parse_config_array($name = '')
+{
+    
+    return parse_config_attr(config($name));
+}
+
+/**
  * 加载模型
  */
 function load_model($name = '', $module = '')
@@ -157,19 +166,19 @@ function load_model($name = '', $module = '')
 
     // 回溯跟踪
     $backtrace_array = debug_backtrace(false, 1);
-    
+
     // 调用者目录名称
     $current_directory_name = basename(dirname($backtrace_array[0]['file']));
-    
+
     // 设置模块
     !empty($module) && $name = $module.'/'.$name;
-    
+
     // 返回的对象
     $return_object = null;
-    
+
     // 加载模型规则
     switch ($current_directory_name) {
-        
+
         case LAYER_CONTROLLER_NAME : $return_object = model($name, LAYER_LOGIC_NAME); break;
         case LAYER_LOGIC_NAME      : $return_object = model($name, LAYER_MODEL_NAME); break;
         case LAYER_SERVICE_NAME    : $return_object = model($name, LAYER_MODEL_NAME); break;

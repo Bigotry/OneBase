@@ -38,7 +38,7 @@ class Login extends AdminBase
         // 验证用户密码
         if (data_md5($password, DATA_ENCRYPT_KEY) === $member['password']) {
             
-            $auth = ['member_id' => $member['id'], 'update_time' => $member['update_time']];
+            $auth = ['member_id' => $member['id'], DATA_UPDATE_TIME => $member[DATA_UPDATE_TIME]];
 
             session('member_auth', $auth);
             session('member_auth_sign', data_auth_sign($auth));
