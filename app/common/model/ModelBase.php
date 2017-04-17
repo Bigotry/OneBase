@@ -75,6 +75,15 @@ class ModelBase extends Model
     }
     
     /**
+     * 获取某个列的数组
+     */
+    final protected function getColumn($field = '', $key = '')
+    {
+        
+        return $this->column($field, $key);
+    }
+    
+    /**
      * 获取数据
      */
     final protected function getInfo($where = [], $field = true)

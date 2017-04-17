@@ -9,10 +9,13 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+// 行为目录路径
+define('BEHAVIOR_PATH', 'app\\common\\behavior\\');
+        
 // 应用行为扩展定义文件
 return [
     // 应用初始化
-    'app_init'     => ['app\\common\\behavior\\InitHook'],
+    'app_init'     => [BEHAVIOR_PATH.'InitBase', BEHAVIOR_PATH.'InitHook'],
     // 应用开始
     'app_begin'    => [],
     // 模块初始化

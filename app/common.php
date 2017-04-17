@@ -269,3 +269,20 @@ function file_list($path = '')
     
     return array_values($file);
 }
+
+/**
+ * 获取插件类的类名
+ * @param $name 插件名
+ * @param string $type 返回命名空间类型
+ * @param string $class 当前类名
+ * @return string
+ */
+function get_addon_class($name = '', $class = null)
+{
+    
+    $name = \think\Loader::parseName($name);
+    
+    $class = \think\Loader::parseName(is_null($class) ? $name : $class, 1);
+        
+    return $namespace = "\\addons\\" . $name . "\\" . $class;
+}

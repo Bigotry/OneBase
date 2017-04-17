@@ -3,20 +3,22 @@
 // | Author: Bigotry <3162875@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\common\behavior;
+namespace app\common\model;
 
 /**
- * 结束行为
+ * 钩子模型
  */
-class EndHook
+class Hook extends ModelBase
 {
     
     /**
-     * 运行结束行为
+     * 状态获取器
      */
-    public function run()
+    public function getStatusTextAttr()
     {
         
-
+        $status = [-1 => '删除', 0 => '禁用', 1 => '启用'];
+        
+        return $status[$this->data['status']];
     }
 }
