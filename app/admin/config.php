@@ -2,8 +2,6 @@
 
 //配置文件
 
-$module_name = request()->module();
-
 return [
     
     /* 模板常量替换配置 */
