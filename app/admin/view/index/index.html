@@ -1,1 +1,188 @@
-研发中...
+<div class="row">
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-aqua">
+      <div class="inner">
+        <h3>150</h3>
+
+        <p>最近文章</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-compose"></i>
+      </div>
+      <a onclick="toast.error('研发中...');" class="small-box-footer">查看列表 <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-green">
+      <div class="inner">
+        <h3>3</h3>
+
+        <p>会员反馈</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-chatbubble-working"></i>
+      </div>
+      <a onclick="toast.error('研发中...');" class="small-box-footer">查看列表 <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-yellow">
+      <div class="inner">
+        <h3>44</h3>
+
+        <p>新增会员</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-person-add"></i>
+      </div>
+      <a onclick="toast.error('研发中...');" class="small-box-footer">查看列表 <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-red">
+      <div class="inner">
+        <h3>65</h3>
+
+        <p>访客统计</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-pie-graph"></i>
+      </div>
+      <a onclick="toast.error('研发中...');" class="small-box-footer">查看列表 <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+  <!-- ./col -->
+</div>
+    
+
+
+
+
+
+
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">月度报告</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-8">
+            <p class="text-center">
+              <strong>2017年度数据统计</strong>
+            </p>
+
+            <div class="chart">
+              <!-- Sales Chart Canvas -->
+              <canvas id="salesChart" style="height: 180px;"></canvas>
+            </div>
+            <!-- /.chart-responsive -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-4">
+            <p class="text-center">
+              <strong>同比上月度数据</strong>
+            </p>
+
+            <div class="progress-group">
+              <span class="progress-text">文章数量</span>
+              <span class="progress-number"><b>160</b>/200</span>
+
+              <div class="progress sm">
+                <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
+              </div>
+            </div>
+            <!-- /.progress-group -->
+            <div class="progress-group">
+              <span class="progress-text">访问数量</span>
+              <span class="progress-number"><b>310</b>/400</span>
+
+              <div class="progress sm">
+                <div class="progress-bar progress-bar-red" style="width: 80%"></div>
+              </div>
+            </div>
+            <!-- /.progress-group -->
+            <div class="progress-group">
+              <span class="progress-text">反馈数量</span>
+              <span class="progress-number"><b>480</b>/800</span>
+
+              <div class="progress sm">
+                <div class="progress-bar progress-bar-green" style="width: 80%"></div>
+              </div>
+            </div>
+            <!-- /.progress-group -->
+            <div class="progress-group">
+              <span class="progress-text">会员数量</span>
+              <span class="progress-number"><b>250</b>/500</span>
+
+              <div class="progress sm">
+                <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
+              </div>
+            </div>
+            <!-- /.progress-group -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- ./box-body -->
+      <div class="box-footer">
+        <div class="row">
+          <div class="col-sm-3 col-xs-6">
+            <div class="description-block border-right">
+              <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+              <h5 class="description-header">2105450</h5>
+              <span class="description-text">文章同比</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-3 col-xs-6">
+            <div class="description-block border-right">
+              <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+              <h5 class="description-header">1568</h5>
+              <span class="description-text">反馈同比</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-3 col-xs-6">
+            <div class="description-block border-right">
+              <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+              <h5 class="description-header">15466782</h5>
+              <span class="description-text">会员同比</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-3 col-xs-6">
+            <div class="description-block">
+              <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
+              <h5 class="description-header">12056520</h5>
+              <span class="description-text">访客同比</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.box-footer -->
+    </div>
+    <!-- /.box -->
+  </div>
+  <!-- /.col -->
+</div>
+
+<script src="__STATIC__/ext/adminlte/plugins/chartjs/Chart.min.js"></script>
+<script src="__STATIC__/admin/js/chart_init.js"></script>
