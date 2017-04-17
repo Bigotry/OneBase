@@ -34,7 +34,7 @@ class Login extends AdminBase
 
             return [RESULT_ERROR, '用户不存在', null];
         }
-            
+        
         // 验证用户密码
         if (data_md5($password, DATA_ENCRYPT_KEY) === $member['password']) {
             
