@@ -12,16 +12,16 @@ use addon\AddonInterface;
 /**
  * 富文本编辑器插件
  */
-class Editor extends AddonBase implements AddonInterface
+class EditorAddon extends AddonBase implements AddonInterface
 {
     
     /**
-     * 实现钩子
+     * 测试插件
      */
     public function ArticleEdit($param = [])
     {
         
-        dump('Editor...');
+        dump('testdddddddddd');
     }
     
     /**

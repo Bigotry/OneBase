@@ -23,11 +23,10 @@ class InitHook
         
         $AddonModel = model(MODULE_COMMON_NAME.'/Addon');
         
-        // 获取所有配置信息
         $hook_list = $HookModel->column('name,addon_list');
-        
-        foreach ($hook_list as $k => $v) {
 
+        foreach ($hook_list as $k => $v) {
+            
             if (empty($v)) {
                 
                 continue;
@@ -38,7 +37,7 @@ class InitHook
             $where['name'] = ['in', $name_list];
 
             $data = $AddonModel->where($where)->column('id,name'); 
-
+            
             !empty($data) && Hook::add($k, array_map('get_addon_class', array_intersect($name_list, $data)));
         }
     }

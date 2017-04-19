@@ -6,9 +6,9 @@
 namespace app\common\model;
 
 /**
- * 插件模型
+ * 图片模型
  */
-class Addon extends ModelBase
+class Picture extends ModelBase
 {
     
 }

@@ -1,0 +1,51 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>标题</label>
+              <span class="skin-btn">（文章标题名称）</span>
+              <input class="form-control" name="name" placeholder="请输入文章标题名称" value="{$info['name']|default=''}" type="text">
+            </div>
+          </div>
+            
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>分类</label>
+              <span class="skin-btn">（文章分类）</span>
+                <select name="category_id" class="form-control">
+                    {volist name='article_category_list' id='vo'}
+                        <option value="{$vo['id']}">{$vo['name']}</option>
+                    {/volist}
+                </select>
+            </div>
+          </div>
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>描述</label>
+                <span class="skin-btn">（文章描述信息/简介）</span>
+                <textarea class="form-control" name="describe" rows="3" placeholder="请输入文章描述信息/简介">{$info['describe']|default=''}</textarea>
+            </div>
+          </div>
+          </div>
+        </div>
+        
+        
+        {:hook('ImgUpload')}
+        
+      <div class="box-footer">
+          
+        <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+        
+        <button  type="submit" class="btn skin-btn ladda-button ajax-post" data-style="slide-up" target-form="form_single">
+            <span class="ladda-label">确 定</span>
+        </button>
+         
+        <a class="btn skin-btn" onclick="javascript:history.back(-1);return false;"> 返 回</a>
+      </div>
+        
+      </div>
+
+</form>

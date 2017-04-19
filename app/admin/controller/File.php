@@ -3,12 +3,22 @@
 // | Author: Bigotry <3162875@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\common\model;
+namespace app\admin\controller;
 
 /**
- * 插件模型
+ * 文件控制器
  */
-class Addon extends ModelBase
+class File extends AdminBase
 {
     
+    
+    /**
+     * 图片上传
+     */
+    public function pictureUpload()
+    {
+        
+        sf($_FILES);
+    }
+  
 }

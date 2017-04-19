@@ -3,7 +3,7 @@
 // | Author: Bigotry <3162875@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\addon;
+namespace addon;
 
 /**
  * 插件接口

@@ -6,9 +6,9 @@
 namespace app\common\model;
 
 /**
- * 插件模型
+ * 文章分类模型
  */
-class Addon extends ModelBase
+class ArticleCategory extends ModelBase
 {
     
 }

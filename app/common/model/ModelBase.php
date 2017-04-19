@@ -6,6 +6,7 @@
 namespace app\common\model;
 
 use think\Model;
+use think\Db;
 
 /**
  * 模型基类
@@ -16,6 +17,17 @@ class ModelBase extends Model
     // 查询对象
     private static $ob_query = null;
 
+    /**
+     * 状态获取器
+     */
+    public function getStatusTextAttr()
+    {
+        
+        $status = [DATA_DELETE => '删除', DATA_DISABLE => '禁用', DATA_NORMAL => '启用'];
+        
+        return $status[$this->data['status']];
+    }
+    
     /**
      * 设置数据
      */
@@ -77,10 +89,19 @@ class ModelBase extends Model
     /**
      * 获取某个列的数组
      */
-    final protected function getColumn($field = '', $key = '')
+    final protected function getColumn($where = [], $field = '', $key = '')
     {
         
-        return $this->column($field, $key);
+        return Db::name($this->name)->where($where)->column($field, $key);
+    }
+    
+    /**
+     * 获取某个字段的值
+     */
+    final protected function getValue($where = [], $field = '', $default = null, $force = false)
+    {
+        
+        return Db::name($this->name)->where($where)->value($field, $default, $force);
     }
     
     /**
@@ -93,7 +114,7 @@ class ModelBase extends Model
     }
     
     /**
-     * 获取数据列表
+     * 获取数据列表 
      */
     final protected function getList($where = [], $field = true, $order = '', $paginate = array('rows' => null, 'simple' => false, 'config' => []), $join = array('join' => null, 'condition' => null, 'type' => 'INNER'), $group = array('group' => '', 'having' => ''), $limit = null, $data = null)
     {

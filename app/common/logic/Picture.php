@@ -3,12 +3,12 @@
 // | Author: Bigotry <3162875@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\common\model;
+namespace app\common\logic;
 
 /**
- * 插件模型
+ * 图片逻辑
  */
-class Addon extends ModelBase
+class Picture extends LogicBase
 {
     
 }

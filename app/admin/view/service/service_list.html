@@ -20,8 +20,8 @@
                   <td>{$vo.service_name}</td>
                   <td>{$vo.service_class}</td>
                   <td>{$vo.service_describe}</td>
-                  <td>{$vo.author}</td>
                   <td>{$vo.version}</td>
+                  <td>{$vo.author}</td>
                   <td>
                       <a href="{:url('serviceList', array('service_name' => $vo['service_class']))}" class="btn skin-btn"><i class="fa fa-sitemap"></i> 驱 动</a>
                       <a onclick="toast.error('研发中...');" class="btn skin-btn"><i class="fa fa-refresh"></i> 安 装</a>

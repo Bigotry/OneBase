@@ -3,12 +3,12 @@
 // | Author: Bigotry <3162875@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\admin\logic;
+namespace app\common\logic;
 
 /**
  * 会员逻辑
  */
-class Member extends AdminBase
+class Member extends LogicBase
 {
     
     /**

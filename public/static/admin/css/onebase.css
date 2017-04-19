@@ -60,3 +60,7 @@
     
     font-weight : normal !important;
 }
+.admin-list-img-size {
+    
+    max-height: 30px;
+}

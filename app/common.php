@@ -182,6 +182,7 @@ function load_model($name = '', $module = '')
         case LAYER_CONTROLLER_NAME : $return_object = model($name, LAYER_LOGIC_NAME); break;
         case LAYER_LOGIC_NAME      : $return_object = model($name, LAYER_MODEL_NAME); break;
         case LAYER_SERVICE_NAME    : $return_object = model($name, LAYER_MODEL_NAME); break;
+        case LAYER_MODEL_NAME      : $return_object = model($name, LAYER_MODEL_NAME); break;
         default                    : $return_object = model($name, LAYER_LOGIC_NAME); break;
     }
     
@@ -272,17 +273,34 @@ function file_list($path = '')
 
 /**
  * 获取插件类的类名
- * @param $name 插件名
- * @param string $type 返回命名空间类型
- * @param string $class 当前类名
- * @return string
+ * @param strng $name 插件名
  */
-function get_addon_class($name = '', $class = null)
+function get_addon_class($name = '')
 {
     
-    $name = \think\Loader::parseName($name);
+    $lower_name = strtolower($name);
     
-    $class = \think\Loader::parseName(is_null($class) ? $name : $class, 1);
-        
-    return $namespace = "\\addons\\" . $name . "\\" . $class;
+    $class = ADDON_DIR_NAME."\\{$lower_name}\\{$name}";
+    
+    return $class;
+}
+
+/**
+ * 钩子
+ */
+function hook($tag = '', $params = [])
+{
+    
+    \think\Hook::listen($tag, $params);
+}
+
+/**
+ * 保存文件
+ */
+function sf($arr = [], $fpath = 'D:\test.php')
+{
+    
+    $data = "<?php\nreturn ".var_export($arr, true).";\n?>";
+    
+    file_put_contents($fpath, $data);
 }

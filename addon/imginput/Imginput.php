@@ -3,25 +3,25 @@
 // | Author: Bigotry <3162875@qq.com>
 // +----------------------------------------------------------------------
 
-namespace addon\editor;
+namespace addon\imginput;
 
 use app\common\controller\AddonBase;
 
 use addon\AddonInterface;
 
 /**
- * 富文本编辑器插件
+ * 图片上传插件
  */
-class Editor extends AddonBase implements AddonInterface
+class Imginput extends AddonBase implements AddonInterface
 {
     
     /**
      * 实现钩子
      */
-    public function ArticleEdit($param = [])
+    public function ImgUpload($param = [])
     {
         
-        dump('Editor...');
+        return $this->addonTemplate('index/index');
     }
     
     /**

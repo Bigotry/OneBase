@@ -6,7 +6,7 @@
 namespace app\common\validate;
 
 /**
- * 用户验证器
+ * 会员验证器
  */
 class Member extends ValidateBase
 {

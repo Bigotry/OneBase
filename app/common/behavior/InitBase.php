@@ -5,6 +5,8 @@
 
 namespace app\common\behavior;
 
+use think\Loader;
+
 /**
  * 初始化基础信息行为
  */
@@ -25,6 +27,9 @@ class InitBase
         
         // 初始化数据库信息
         $this->initDbInfo();
+        
+        // 注册命名空间
+        $this->registerNamespace();
     }
     
     /**
@@ -82,6 +87,10 @@ class InitBase
         define('DATA_UPDATE_TIME' ,  'update_time');
         define('NOW_TIME' , time());
         
+        //插件目录名称及插件目录路径
+        define('ADDON_DIR_NAME', 'addon');
+        define('ADDON_PATH', ROOT_PATH . ADDON_DIR_NAME . DS);
+        
         // 系统超级管理员ID
         define('ADMINISTRATOR_ID', 1);
         
@@ -106,5 +115,15 @@ class InitBase
             
            config($info['name'], $info['value']);
         }
+    }
+    
+    /**
+     * 注册命名空间
+     */
+    private function registerNamespace()
+    {
+        
+        // 注册插件根命名空间
+        Loader::addNamespace(ADDON_DIR_NAME, ADDON_PATH);
     }
 }
