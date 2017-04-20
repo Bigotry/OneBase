@@ -1,0 +1,24 @@
+/*   .skin-blue    */
+.skin-blue .btn {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 1px 1px rgba(0, 0, 0, .075);
+	background: #004e96;
+  background-repeat: repeat-x;
+  border-color: #0099FF;
+  color: #fff;
+  font-family: "微软雅黑";
+}
+.skin-blue .btn:hover,
+.skin-blue .btn:focus {
+  background-color: #004e96;
+  background-position: 0 -15px;
+	-webkit-box-shadow: 0 0 20px rgba(153, 51, 204, .3);
+				  box-shadow: 0 0 20px rgba(153, 51, 204, .3);
+	color:#fff;
+}
+.skin-blue .btn:active,
+.skin-blue .btn.active {
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+          box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}

@@ -5,8 +5,6 @@
  * This file is for demo purposes only.
  */
 
-var current_skin = 'skin-blue';
-
 (function ($, AdminLTE) {
 
   "use strict";
@@ -241,40 +239,13 @@ var current_skin = 'skin-blue';
    * @param String cls the new skin class
    * @returns Boolean false to prevent link's default action
    */
-  function change_skin(cls, tag) {
-      
-    var skin_btn = $(".skin-btn");
-      
+  function change_skin(cls) {
     $.each(my_skins, function (i) {
-        
       $("body").removeClass(my_skins[i]);
-      
-      var temp_arr_each = my_skins[i].split('-');
-      
-      skin_btn.hasClass('bg-' + temp_arr_each[1]) && skin_btn.removeClass('bg-' + temp_arr_each[1]);
     });
 
     $("body").addClass(cls);
-    
-    if (skin_btn.hasClass('skin-btn')) {
-        
-        var cls_temp_arr = cls.split('-');
-
-        skin_btn.addClass('bg-' + cls_temp_arr[1]);
-    }
-    
     store('skin', cls);
-    
-    if (!tag) {
-        
-        toast.success('色系设置成功');
-        
-        setTimeout(function(){
-
-            location.reload();
-        },1500);
-    }
-    
     return false;
   }
 
@@ -315,21 +286,8 @@ var current_skin = 'skin-blue';
   function setup() {
       
     var tmp = get('skin');
-    
-    if (tmp && $.inArray(tmp, my_skins)){
-        
-        change_skin(tmp, true);
-        
-        current_skin = tmp;
-    } else {
-        
-        var skin_btn = $(".skin-btn");
-        
-        if (skin_btn.hasClass('skin-btn')) {
-
-            skin_btn.addClass('bg-blue');
-        }
-    }
+    if (tmp && $.inArray(tmp, my_skins))
+      change_skin(tmp);
     
     //Add the change skin listener
     $("[data-skin]").on('click', function (e) {
