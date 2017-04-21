@@ -4,21 +4,21 @@
     <div class="btn-group">
         
         {empty name="group"}
-            <a class="btn skin-btn active">全部</a>
+            <a class="btn active">全部</a>
                {else/}
-            <a class="btn skin-btn" href="{:url('configList')}">全部</a>
+            <a class="btn" href="{:url('configList')}">全部</a>
         {/empty}
         
         {volist name='config_group_list' id='vo'}
             {neq name="group" value="$key"}
-               <a class="btn skin-btn" href="{:url('configList',array('group' => $key))}">{$vo}</a>
+               <a class="btn" href="{:url('configList',array('group' => $key))}">{$vo}</a>
                    {else/}
-               <a class="btn skin-btn active">{$vo}</a>
+               <a class="btn active">{$vo}</a>
             {/neq}
         {/volist}
     </div>
       
-    <a class="btn skin-btn" href="{:url('configAdd',array('group' => $group))}"><i class="fa fa-plus"></i> 新 增</a>
+    <a class="btn" href="{:url('configAdd',array('group' => $group))}"><i class="fa fa-plus"></i> 新 增</a>
       
       
   </div>
@@ -52,9 +52,9 @@
                   <td>{$config_type_list[$vo.type]}</td>
                   <td>{$vo.sort}</td>
                   <td>
-                      <a href="{:url('configEdit', array('id' => $vo['id']))}" class="btn skin-btn"><i class="fa fa-edit"></i> 编 辑</a>
+                      <a href="{:url('configEdit', array('id' => $vo['id']))}" class="btn"><i class="fa fa-edit"></i> 编 辑</a>
                       &nbsp;
-                      <a class="btn skin-btn confirm ajax-get"  href="{:url('configDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a>
+                      <a class="btn confirm ajax-get"  href="{:url('configDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a>
                   </td>
                 </tr>
             {/volist}

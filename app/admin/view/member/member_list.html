@@ -1,7 +1,7 @@
 <div class="box">
   <div class="box-header">
       
-    <a class="btn skin-btn" href="{:url('memberAdd')}"><i class="fa fa-plus"></i> 新 增</a>
+    <a class="btn" href="{:url('memberAdd')}"><i class="fa fa-plus"></i> 新 增</a>
       
   </div>
     
@@ -30,9 +30,9 @@
                   <td>{$vo.create_time}</td>
                   <td>{$vo.status_text}</td>
                   <td>
-                      <a class="btn skin-btn"  href="{:url('memberAuth', array('id' => $vo['id']))}"><i class="fa fa-user-plus"></i> 授 权</a>
+                      <a class="btn"  href="{:url('memberAuth', array('id' => $vo['id']))}"><i class="fa fa-user-plus"></i> 授 权</a>
                       &nbsp;
-                      <a class="btn skin-btn confirm ajax-get"  href="{:url('memberDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a>
+                      <a class="btn confirm ajax-get"  href="{:url('memberDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a>
                   </td>
                 </tr>
             {/volist}
