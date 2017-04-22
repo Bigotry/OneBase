@@ -18,10 +18,14 @@ class Editor extends AddonBase implements AddonInterface
     /**
      * 实现钩子
      */
-    public function ArticleEdit($param = [])
+    public function ArticleEditor($param = [])
     {
         
-        dump('Editor...');
+        $this->assign('addons_data', $param);
+        
+        $this->assign('addons_config', $this->addonConfig());
+        
+        $this->addonTemplate('index/index');
     }
     
     /**
@@ -30,7 +34,7 @@ class Editor extends AddonBase implements AddonInterface
     public function addonInstall()
     {
         
-        return [];
+        return [RESULT_SUCCESS, '编辑器安装成功'];
     }
     
     /**
@@ -39,7 +43,7 @@ class Editor extends AddonBase implements AddonInterface
     public function addonUninstall()
     {
         
-        return [];
+        return [RESULT_SUCCESS, '编辑器卸载成功'];
     }
     
     /**
@@ -48,7 +52,7 @@ class Editor extends AddonBase implements AddonInterface
     public function addonInfo()
     {
         
-        return [];
+        return ['name' => 'Editor', 'title' => '文本编辑器', 'describe' => '富文本编辑器', 'author' => 'Bigotry', 'version' => '1.0'];
     }
     
     /**
@@ -57,6 +61,9 @@ class Editor extends AddonBase implements AddonInterface
     public function addonConfig()
     {
         
-        return [];
+        $addons_config['editor_height'] = '300px';
+        $addons_config['editor_resize_type'] = 1;
+        
+        return $addons_config;
     }
 }
