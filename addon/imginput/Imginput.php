@@ -21,7 +21,7 @@ class Imginput extends AddonBase implements AddonInterface
     public function ImgUpload($param = [])
     {
         
-        return $this->addonTemplate('index/index');
+        $this->addonTemplate('index/index');
     }
     
     /**
@@ -30,7 +30,7 @@ class Imginput extends AddonBase implements AddonInterface
     public function addonInstall()
     {
         
-        return [];
+        return [RESULT_SUCCESS, '编辑器安装成功'];
     }
     
     /**
@@ -39,7 +39,7 @@ class Imginput extends AddonBase implements AddonInterface
     public function addonUninstall()
     {
         
-        return [];
+        return [RESULT_SUCCESS, '编辑器卸载成功'];
     }
     
     /**
@@ -48,7 +48,7 @@ class Imginput extends AddonBase implements AddonInterface
     public function addonInfo()
     {
         
-        return [];
+        return ['name' => 'Imginput', 'title' => '图片上传', 'describe' => '图片上传插件，可支持拖动图片及批量上传', 'author' => 'Bigotry', 'version' => '1.0'];
     }
     
     /**

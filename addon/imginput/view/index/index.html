@@ -1,7 +1,10 @@
     <link rel="stylesheet" type="text/css" href="{$static_path}/css/webuploader.css" />
     <link rel="stylesheet" type="text/css" href="{$static_path}/css/style.css" />
     
-    <div id="wrapper">
+    <div id="wrapper" style="width: 80%;" class="remodal"  role="dialog" aria-labelledby="image_upload" aria-describedby="图片上传">
+        
+        <button data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
+        
         <div id="container">
             <!--头部，相册选择和格式选择-->
 
@@ -29,3 +32,4 @@
     </div>
     <script type="text/javascript" src="{$static_path}/dist/webuploader.min.js"></script>
     <script type="text/javascript" src="{$static_path}/js/upload.js"></script>
+    
