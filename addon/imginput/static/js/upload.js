@@ -93,15 +93,15 @@
                     window['expressinstallcallback'] = function( state ) {
                         switch(state) {
                             case 'Download.Cancelled':
-                                alert('您取消了更新！')
+                                toast.error('您取消了更新！')
                                 break;
 
                             case 'Download.Failed':
-                                alert('安装失败')
+                                toast.error('安装失败')
                                 break;
 
                             default:
-                                alert('安装已成功，请刷新！');
+                                toast.success('安装已成功，请刷新！');
                                 break;
                         }
                         delete window['expressinstallcallback'];
@@ -133,40 +133,16 @@
 
             return;
         } else if (!WebUploader.Uploader.support()) {
-            alert( 'Web Uploader 不支持您的浏览器！');
+            toast.error( 'Web Uploader 不支持您的浏览器！');
             return;
         }
 
         // 实例化
-        uploader = WebUploader.create({
-            pick: {
-                id: '#filePicker',
-                label: '点击选择图片'
-            },
-            formData: {
-                uid: 123
-            },
-            dnd: '#dndArea',
-            paste: '#uploader',
-            swf: '../dist/Uploader.swf',
-            chunked: false,
-            chunkSize: 512 * 1024,
-            server: img_upload_url,
-            // runtimeOrder: 'flash',
-
-            // accept: {
-            //     title: 'Images',
-            //     extensions: 'gif,jpg,jpeg,bmp,png',
-            //     mimeTypes: 'image/*'
-            // },
-
-            // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
-            disableGlobalDnd: true,
-            fileNumLimit: 300,
-            fileSizeLimit: 200 * 1024 * 1024,    // 200 M
-            fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
-        });
-
+        uploader = WebUploader.create(upload_param);
+        
+        // 文件上传成功。
+        uploader.on( 'uploadSuccess', upload_success);
+        
         // 拖拽时不接受 js, txt 文件。
         uploader.on( 'dndAccept', function( items ) {
             var denied = false,
@@ -470,7 +446,8 @@
                 case 'finish':
                     stats = uploader.getStats();
                     if ( stats.successNum ) {
-                        alert( '上传成功' );
+                        
+                        toast.success('上传成功');
                     } else {
                         // 没有成功的图片，重设
                         state = 'done';
@@ -537,7 +514,8 @@
         });
 
         uploader.onError = function( code ) {
-            alert( 'Eroor: ' + code );
+            // code
+            toast.error(code);
         };
 
         $upload.on('click', function() {
@@ -559,7 +537,7 @@
         } );
 
         $info.on( 'click', '.ignore', function() {
-            alert( 'todo' );
+            toast.success( 'todo' );
         } );
 
         $upload.addClass( 'state-' + state );

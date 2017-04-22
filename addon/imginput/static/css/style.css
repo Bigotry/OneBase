@@ -1,5 +1,5 @@
 /* ----------------Reset Css--------------------- */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+/*html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
@@ -12,19 +12,19 @@ time, mark, audio, video, input  {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
-}
+}*/
 
-html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6 {
+/*html, body, form, fieldset, p, div, h1, h2, h3, h4, h5, h6 {
     -webkit-text-size-adjust: none;
-}
+}*/
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
-body {
+/*body {
     font-family: arial, sans-serif;
-}
+}*/
 
 ol, ul {
     list-style: none;
@@ -420,4 +420,18 @@ table {
 
 #dndArea p{
     margin-bottom: 10px;
+}
+
+#filePicker{
+    display: table;
+    margin:20px auto;
+}
+
+#filePicker > div {
+    bottom: 0;
+    height: 100% !important;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100% !important;
 }
