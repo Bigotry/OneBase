@@ -23,8 +23,11 @@
                   <td>{$vo.version}</td>
                   <td>{$vo.author}</td>
                   <td>
-                      <a onclick="toast.error('研发中...');" class="btn"><i class="fa fa-wrench"></i> 设 置</a>
-                      <a onclick="toast.error('研发中...');" class="btn"><i class="fa fa-refresh"></i> 安 装</a>
+                      {eq name='vo.is_install' value='1'}
+                          <a class="btn confirm ajax-get"  href="{:url('addonUninstall', array('name' => $vo['name']))}"><i class="fa fa-remove"></i> 卸 载</a>
+                         {else/}
+                          <a class="btn confirm ajax-get"  href="{:url('addonInstall', array('name' => $vo['name']))}"><i class="fa fa-refresh"></i> 安 装</a>
+                      {/eq}
                   </td>
                 </tr>
             {/volist}
@@ -33,8 +36,5 @@
         <tbody><tr class="odd"><td colspan="6" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
       {/notempty}
     </table>
-  </div>
-  <div class="box-footer clearfix text-center">
-      {$list->render()}
   </div>
 </div>

@@ -43,7 +43,16 @@ class Article extends ModelBase
         
         $info = $model->getInfo([$model->getPk() => $this->data['cover_id']], 'path,url');
         
-        return !empty($info['url']) ? $info['url'] : $info['path'];
+        if (!empty($info['url'])) {
+            
+            return $info['url'];
+        } elseif (!empty($info['path'])){
+            
+            return '/public/upload/picture/'.$info['path'];
+        }else{
+            
+            return $info['url'];
+        }
     }
     
     

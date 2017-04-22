@@ -36,6 +36,41 @@ class Article extends LogicBase
     }
     
     /**
+     * 获取文章列表
+     */
+    public function getArticleList($where = [], $field = true, $order = '', $is_paginate = true)
+    {
+        
+        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
+        
+        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
+    }
+    
+    /**
+     * 文章信息
+     */
+    public function articleEdit($data = [])
+    {
+        
+        $validate = validate($this->name);
+        
+        $validate_result = $validate->scene('edit')->check($data);
+        
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $validate->getError(), null];
+        }
+        
+        $model = load_model($this->name);
+        
+        $url = url('articleList');
+        
+        empty($data[$model->getPk()]) && $data['member_id'] = MEMBER_ID;
+        
+        return $model->setInfo($data) ? [RESULT_SUCCESS, '文章操作成功', $url] : [RESULT_ERROR, $model->getError(), null];
+    }
+
+    /**
      * 获取文章信息
      */
     public function getArticleInfo($where = [], $field = true)
@@ -51,17 +86,6 @@ class Article extends LogicBase
     {
         
         return load_model('ArticleCategory')->getInfo($where, $field);
-    }
-    
-    /**
-     * 获取文章列表
-     */
-    public function getArticleList($where = [], $field = true, $order = '', $is_paginate = true)
-    {
-        
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
-        
-        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
     }
     
     /**

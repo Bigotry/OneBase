@@ -5,7 +5,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label>标题</label>
-              <span>（文章标题名称）</span>
+              <span class="">（文章标题名称）</span>
               <input class="form-control" name="name" placeholder="请输入文章标题名称" value="{$info['name']|default=''}" type="text">
             </div>
           </div>
@@ -13,7 +13,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label>分类</label>
-              <span>（文章分类）</span>
+              <span class="">（文章分类）</span>
                 <select name="category_id" class="form-control">
                     {volist name='article_category_list' id='vo'}
                         <option value="{$vo['id']}">{$vo['name']}</option>
@@ -25,27 +25,105 @@
           <div class="col-md-6">
             <div class="form-group">
                 <label>描述</label>
-                <span>（文章描述信息/简介）</span>
+                <span class="">（文章描述信息/简介）</span>
                 <textarea class="form-control" name="describe" rows="3" placeholder="请输入文章描述信息/简介">{$info['describe']|default=''}</textarea>
             </div>
           </div>
+            
+            
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>封面图片</label>
+                <span class="">（封面图片，只能上传一张图片）</span>
+                <br/>
+                <div id='upload_show_div' style="width:120px;display: inline;">
+                    {notempty name="info['cover_path']"}
+                        <img style='max-width:100px; margin-right: 20px;' src="{$info['cover_path']}" />
+                    {/notempty}
+                </div>
+                <img src="__STATIC__/admin/img/plus.jpg" style='max-width:100px;' id='cover_img' />
+                <input type="hidden" name="cover_id" id='cover_id' value="{$info['cover_id']|default='0'}"/>
+            </div>
           </div>
+            
+
+          </div>
+        <div class="row">
+           
+            
+          <div class="col-md-12">
+            <div class="form-group">
+                <label>文章内容</label>
+                <textarea class="form-control textarea_editor" name="content" placeholder="请输入文章内容">{$info['content']|default=''}</textarea>
+            </div>
+          </div>
+            
+            
         </div>
-        
-        
-        {:hook('ImgUpload')}
         
       <div class="box-footer">
           
         <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
         
-        <button  type="submit" class="btn ladda-button ajax-post" data-style="slide-up" target-form="form_single">
+        <button  type="submit" class="btn  ladda-button ajax-post" data-style="slide-up" target-form="form_single">
             <span class="ladda-label">确 定</span>
         </button>
          
-        <a class="btn" onclick="javascript:history.back(-1);return false;"> 返 回</a>
+        <a class="btn " onclick="javascript:history.back(-1);return false;"> 返 回</a>
       </div>
         
       </div>
-
+      </div>
 </form>
+
+{:hook('ImgUpload')}
+{:hook('ArticleEditor', array('name'=> 'content','value'=> ''))}
+
+<script type="text/javascript">
+
+$("#cover_img").click(function(){
+    
+    $('#wrapper').remodal().open();
+});
+
+var img_upload_url = "{:url('File/pictureUpload')}";
+
+var upload_success = function( file, response) {
+    
+    var show_img_url = '/public/upload/picture/' + response.path;
+    
+    $( '#upload_show_div').html("<img style='max-width:100px; margin-right: 20px;' src='"+show_img_url+"' />");
+    
+    $('#wrapper').remodal().close();
+    
+    $('#cover_id').val(response.id);
+};
+
+var upload_param = {
+        pick: {
+            id: '#filePicker',
+            label: '点击选择图片'
+        },
+        formData: {
+            uid: 0
+        },
+        dnd: '#dndArea',
+        paste: '#uploader',
+        swf: '../dist/Uploader.swf',
+        chunked: false,
+        chunkSize: 512 * 1024,
+        server: img_upload_url,
+        // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
+        disableGlobalDnd: true,
+        fileNumLimit: 1,
+        fileSizeLimit: 200 * 1024 * 1024,    // 200 M
+        fileSingleSizeLimit: 50 * 1024 * 1024,    // 50 M
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        }
+    };
+</script>

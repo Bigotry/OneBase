@@ -6,7 +6,7 @@
 namespace app\admin\controller;
 
 /**
- * 插件站控制器
+ * 插件控制器
  */
 class Addon extends AdminBase
 {
@@ -23,6 +23,58 @@ class Addon extends AdminBase
         parent::_initialize();
         
         !isset(self::$addonLogic) && self::$addonLogic = load_model('Addon');
+    }
+    
+    
+    /**
+     * 执行插件控制器
+     */
+    public function execute($addon_name = null, $controller_name = null, $action_name = null)
+    {
+        
+        $class_path = "\\".ADDON_DIR_NAME."\\".$addon_name."\controller\\".$controller_name;
+        
+        $controller = new $class_path();
+        
+        $controller->$action_name();
+    }
+    
+    /**
+     * 执行插件安装
+     */
+    public function addonInstall($name = null)
+    {
+        
+        $strtolower_name = strtolower($name);
+
+        $class_path = "\\".ADDON_DIR_NAME."\\".$strtolower_name."\\".$name;
+        
+        self::$addonLogic->executeSql($strtolower_name, 'install');
+        
+        $controller = new $class_path();
+        
+        list($status, $message) = $controller->addonInstall();
+        
+        $this->jump($status, $message);
+    }
+    
+    /**
+     * 执行插件卸载
+     */
+    public function addonUninstall($name = null)
+    {
+        
+        $strtolower_name = strtolower($name);
+
+        $class_path = "\\".ADDON_DIR_NAME."\\".$strtolower_name."\\".$name;
+        
+        self::$addonLogic->executeSql($strtolower_name, 'uninstall');
+        
+        $controller = new $class_path();
+        
+        list($status, $message) = $controller->addonUninstall();
+        
+        $this->jump($status, $message);
     }
     
     /**

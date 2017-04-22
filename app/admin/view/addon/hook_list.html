@@ -7,7 +7,7 @@
           <th>名称</th>
           <th>描述</th>
           <th>挂载插件</th>
-          <th>操作</th>
+          <!--<th>操作</th>-->
       </tr>
       </thead>
       
@@ -18,14 +18,14 @@
                   <td>{$vo.name}</td>
                   <td>{$vo.describe}</td>
                   <td>{$vo.addon_list}</td>
-                  <td>
+<!--                  <td>
                       <a onclick="toast.error('研发中...');" class="btn"><i class="fa fa-edit"></i> 编 辑</a>
-                  </td>
+                  </td>-->
                 </tr>
             {/volist}
         </tbody>
         {else/}
-        <tbody><tr class="odd"><td colspan="4" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
+        <tbody><tr class="odd"><td colspan="3" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
       {/notempty}
     </table>
   </div>

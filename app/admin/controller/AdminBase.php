@@ -13,10 +13,10 @@ use app\common\controller\ControllerBase;
 class AdminBase extends ControllerBase
 {
     
-    // Admin基础逻辑
+    // 后台基础逻辑
     protected $adminBaseLogic       = null;
     
-    // 目录逻辑
+    // 菜单逻辑
     protected $menuLogic            = null;
     
     // 授权逻辑
@@ -46,29 +46,29 @@ class AdminBase extends ControllerBase
         // 执行父类构造方法
         parent::_initialize();
         
-        // 初始化Admin模块常量
+        // 初始化后台模块常量
         $this->initAdminConst();
         
-        // 初始化Admin信息
+        // 初始化后台模块信息
         $this->initAdminInfo();
     }
     
     /**
-     * 初始化Admin信息
+     * 初始化后台模块信息
      */
     final private function initAdminInfo()
     {
         
-        // 未登录则跳转登录
+        // 验证登录
         !MEMBER_ID && $this->redirect('Login/login');
         
-        // 实例化后台基础模型
+        // 实例化后台逻辑
         $this->adminBaseLogic = load_model('AdminBase'); 
         
-        // 获取菜单逻辑模型
+        // 实例化菜单逻辑
         $this->menuLogic = load_model('Menu');
         
-        // 获取授权逻辑模型
+        // 实例化授权逻辑
         $this->authGroupAccessLogic = load_model('AuthGroupAccess');
         
         // 获取授权菜单列表
@@ -77,33 +77,33 @@ class AdminBase extends ControllerBase
         // 获得权限菜单URL列表
         $this->authMenuUrlList = $this->authGroupAccessLogic->getAuthMenuUrlList($this->authMenuList);
         
-        // 检查访问权限
+        // 检查菜单权限
         list($status, $message) = $this->adminBaseLogic->authCheck(URL_MODULE, $this->authMenuUrlList);
         
-        // 验证不通过则提示无权限访问
+        // 权限验证不通过则跳转提示
         RESULT_SUCCESS == $status ?: $this->jump($status, $message);
         
         // 获取过滤后的菜单树
         $this->authMenuTree = $this->adminBaseLogic->getMenuTree($this->authMenuList, $this->authMenuUrlList);
        
-        // 菜单转换为视图，支持无限级
+        // 菜单转换为视图
         $this->menuView = $this->menuLogic->menuToView($this->authMenuTree);
         
         // 菜单自动选择
         $this->menuView = $this->menuLogic->selectMenu($this->menuView);
         
-        // 获取面包屑支持无限级
+        // 获取面包屑
         $this->crumbsView = $this->menuLogic->getCrumbsView();
         
-        // 菜单视图渲染
+        // 菜单视图
         $this->assign('menu_view', $this->menuView);
         
-        // 面包屑视图渲染
+        // 面包屑视图
         $this->assign('crumbs_view', $this->crumbsView);
     }
     
     /**
-     * 初始化Admin常量
+     * 初始化后台模块常量
      */
     final private function initAdminConst()
     {

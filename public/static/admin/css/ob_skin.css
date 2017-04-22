@@ -32,13 +32,6 @@
     border-top: 3px solid #3c8dbc;
 }
 
-.skin-blue .form-group span{
-    
-   background-color: #3c8dbc;
-   color: #fff;
-   border-radius: 3px;
-}
-
 /* ---------------------------.skin-black---------------------------- */
 
 .skin-black .content .btn {
@@ -72,14 +65,6 @@
     
     border-top: 3px solid #222d32;
 }
-
-.skin-black .form-group span{
-    
-   background-color: #222d32;
-   color: #fff;
-   border-radius: 3px;
-}
-
 
 /* ---------------------------.skin-purple---------------------------- */
 
@@ -115,14 +100,6 @@
     border-top: 3px solid #605ca8;
 }
 
-.skin-purple .form-group span{
-    
-   background-color: #605ca8;
-   color: #fff;
-   border-radius: 3px;
-}
-
-
 /* ---------------------------.skin-green---------------------------- */
 
 .skin-green .content .btn {
@@ -156,14 +133,6 @@
     
     border-top: 3px solid #00a65a;
 }
-
-.skin-green .form-group span{
-    
-   background-color: #00a65a;
-   color: #fff;
-   border-radius: 3px;
-}
-
 
 
 /* ---------------------------.skin-red---------------------------- */
@@ -200,14 +169,6 @@
     border-top: 3px solid #dd4b39;
 }
 
-.skin-red .form-group span{
-    
-   background-color: #dd4b39;
-   color: #fff;
-   border-radius: 3px;
-}
-
-
 /* ---------------------------.skin-yellow---------------------------- */
 
 .skin-yellow .content .btn {
@@ -241,15 +202,6 @@
     
     border-top: 3px solid #f39c12;
 }
-
-.skin-yellow .form-group span{
-    
-   background-color: #f39c12;
-   color: #fff;
-   border-radius: 3px;
-}
-
-
 
 
 
@@ -294,13 +246,6 @@
     border-top: 3px solid #3c8dbc;
 }
 
-.skin-blue-light .form-group span{
-    
-   background-color: #3c8dbc;
-   color: #fff;
-   border-radius: 3px;
-}
-
 
 /* ---------------------------.skin-black---------------------------- */
 
@@ -334,13 +279,6 @@
 .skin-black-light .box {
     
     border-top: 3px solid #222d32;
-}
-
-.skin-black-light .form-group span{
-    
-   background-color: #222d32;
-   color: #fff;
-   border-radius: 3px;
 }
 
 
@@ -378,14 +316,6 @@
     border-top: 3px solid #605ca8;
 }
 
-.skin-purple-light .form-group span{
-    
-   background-color: #605ca8;
-   color: #fff;
-   border-radius: 3px;
-}
-
-
 /* ---------------------------.skin-green---------------------------- */
 
 .skin-green-light .content .btn {
@@ -419,14 +349,6 @@
     
     border-top: 3px solid #00a65a;
 }
-
-.skin-green-light .form-group span{
-    
-   background-color: #00a65a;
-   color: #fff;
-   border-radius: 3px;
-}
-
 
 
 /* ---------------------------.skin-red---------------------------- */
@@ -463,13 +385,6 @@
     border-top: 3px solid #dd4b39;
 }
 
-.skin-red-light .form-group span{
-    
-   background-color: #dd4b39;
-   color: #fff;
-   border-radius: 3px;
-}
-
 
 /* ---------------------------.skin-yellow---------------------------- */
 
@@ -503,11 +418,4 @@
 .skin-yellow-light .box {
     
     border-top: 3px solid #f39c12;
-}
-
-.skin-yellow-light .form-group span{
-    
-   background-color: #f39c12;
-   color: #fff;
-   border-radius: 3px;
 }

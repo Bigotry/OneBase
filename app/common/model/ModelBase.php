@@ -40,6 +40,15 @@ class ModelBase extends Model
     }
     
     /**
+     * 新增数据
+     */
+    final protected function addInfo($data = [], $is_return_pk = true)
+    {
+        
+        return $this->insert($data, false, $is_return_pk);
+    }
+    
+    /**
      * 更新数据
      */
     final protected function updateInfo($where = [], $data = [])

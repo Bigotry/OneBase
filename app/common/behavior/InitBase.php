@@ -22,6 +22,9 @@ class InitBase
         // 初始化系统常量
         $this->initConst();
         
+        // 初始化路径常量
+        $this->initPathConst();
+        
         // 初始化配置信息
         $this->initConfig();
         
@@ -82,20 +85,41 @@ class InitBase
         define('DATA_DISABLE',  0);
         define('DATA_DELETE' , -1);
         
-        //时间常量
+        // 时间常量
         define('DATA_CREATE_TIME' ,  'create_time');
         define('DATA_UPDATE_TIME' ,  'update_time');
         define('NOW_TIME' , time());
-        
-        //插件目录名称及插件目录路径
-        define('ADDON_DIR_NAME', 'addon');
-        define('ADDON_PATH', ROOT_PATH . ADDON_DIR_NAME . DS);
         
         // 系统超级管理员ID
         define('ADMINISTRATOR_ID', 1);
         
         // 系统加密KEY
         define('DATA_ENCRYPT_KEY', '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:');
+    }
+    
+    /**
+     * 初始化路径常量
+     */
+    private function initPathConst()
+    {
+        
+        // 插件目录名称
+        define('ADDON_DIR_NAME', 'addon');
+        
+        // 插件根目录路径
+        define('ADDON_PATH', ROOT_PATH . ADDON_DIR_NAME . DS);
+        
+        // 静态资源目录路径
+        define('PUBLIC_PATH', ROOT_PATH . 'public' . DS);
+        
+        // 文件上传目录路径
+        define('UPLOAD_PATH', PUBLIC_PATH . 'upload' . DS);
+        
+        // 文件上传目录相对路径
+        define('UPLOAD_PATH_RELATIVE', '/public/upload/');
+        
+        // 图片上传目录路径
+        define('PICTURE_PATH', UPLOAD_PATH . 'picture' . DS);
     }
     
     /**

@@ -304,3 +304,78 @@ function sf($arr = [], $fpath = 'D:\test.php')
     
     file_put_contents($fpath, $data);
 }
+
+/**
+ * 插件显示内容里生成访问插件的url
+ * @param string $url url
+ * @param array $param 参数
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function addons_url($url, $param = array())
+{
+
+    $url        =  parse_url($url);
+    $addons     =  $url['scheme'];
+    $controller =  $url['host'];
+    $action     =  $url['path'];
+
+    /* 基础参数 */
+    $params_array = array(
+        'addon_name'      => $addons,
+        'controller_name' => $controller,
+        'action_name'     => substr($action, 1),
+    );
+
+    $params = array_merge($params_array, $param); //添加额外参数
+    
+    return url('addon/execute', $params);
+}
+
+
+/**
+ * 字符串命名风格转换
+ * type 0 将Java风格转换为C的风格 1 将C风格转换为Java的风格
+ * @param string $name 字符串
+ * @param integer $type 转换类型
+ * @return string
+ */
+function parse_name($name, $type=0)
+{
+    
+    if ($type) {
+        
+        return ucfirst(preg_replace_callback('/_([a-zA-Z])/', function($match){return strtoupper($match[1]);}, $name));
+    } else {
+        
+        return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
+    }
+}
+
+
+/**
+ * 获取目录列表
+ */
+function get_dir($dir_name)
+{
+    
+    $dir_array = [];
+    
+    if (false != ($handle = opendir($dir_name))) {
+        
+        $i = 0;
+        
+        while (false !== ($file = readdir($handle))) {
+            
+            if ($file != "." && $file != ".."&&!strpos($file,".")) {
+                
+                $dir_array[$i] = $file;
+                
+                $i++;
+            }
+        }
+        
+        closedir($handle);
+    }
+    
+    return $dir_array;
+}

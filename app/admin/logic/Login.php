@@ -21,6 +21,9 @@ class Login extends AdminBase
 
             return [RESULT_ERROR, '账号或密码不能为空', null];
             
+        }elseif (empty($verify)) {
+            
+            return [RESULT_ERROR, '验证码不能为空', null];
         }elseif (!captcha_check($verify)) {
             
             return [RESULT_ERROR, '验证码输入错误', null];
