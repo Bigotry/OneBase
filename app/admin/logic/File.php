@@ -26,7 +26,7 @@ class File extends AdminBase
         
         $save_path = PICTURE_PATH.$save_name;
         
-        $picture_dir_name = substr($save_name, 0, strrpos($save_name, '\\'));
+        $picture_dir_name = substr($save_name, 0, strrpos($save_name, get_separator()));
         
         $filename = $object->getFilename();
         
