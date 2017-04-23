@@ -49,6 +49,9 @@ class AdminBase extends ControllerBase
         // 初始化后台模块常量
         $this->initAdminConst();
         
+        // 初始化后台逻辑模型
+        $this->initAdminLogic();
+        
         // 初始化后台模块信息
         $this->initAdminInfo();
     }
@@ -61,15 +64,6 @@ class AdminBase extends ControllerBase
         
         // 验证登录
         !MEMBER_ID && $this->redirect('Login/login');
-        
-        // 实例化后台逻辑
-        $this->adminBaseLogic = load_model('AdminBase'); 
-        
-        // 实例化菜单逻辑
-        $this->menuLogic = load_model('Menu');
-        
-        // 实例化授权逻辑
-        $this->authGroupAccessLogic = load_model('AuthGroupAccess');
         
         // 获取授权菜单列表
         $this->authMenuList = $this->authGroupAccessLogic->getAuthMenuList(MEMBER_ID);
@@ -100,6 +94,22 @@ class AdminBase extends ControllerBase
         
         // 面包屑视图
         $this->assign('crumbs_view', $this->crumbsView);
+    }
+    
+    /**
+     * 初始化后台逻辑模型
+     */
+    final private function initAdminLogic()
+    {
+        
+        // 实例化后台逻辑
+        $this->adminBaseLogic = load_model('AdminBase'); 
+        
+        // 实例化菜单逻辑
+        $this->menuLogic = load_model('Menu');
+        
+        // 实例化授权逻辑
+        $this->authGroupAccessLogic = load_model('AuthGroupAccess');
     }
     
     /**

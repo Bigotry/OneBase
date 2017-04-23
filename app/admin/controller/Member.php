@@ -39,13 +39,11 @@ class Member extends AdminBase
         
         $AuthGroupLogic = load_model('AuthGroup');
         
-        $AuthGroupAccessLogic = load_model('AuthGroupAccess');
-        
         //所有的权限组
         $group_list = $AuthGroupLogic->getAuthGroupList([], true, '', false);
         
         //会员当前权限组
-        $member_group_list = $AuthGroupAccessLogic->getMemberGroupInfo($this->param['id']);
+        $member_group_list = $this->authGroupAccessLogic->getMemberGroupInfo($this->param['id']);
         
         //选择权限组
         $list = $AuthGroupLogic->selectAuthGroupList($group_list, $member_group_list);
