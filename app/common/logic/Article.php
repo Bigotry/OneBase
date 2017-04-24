@@ -67,6 +67,8 @@ class Article extends LogicBase
         
         empty($data[$model->getPk()]) && $data['member_id'] = MEMBER_ID;
         
+        $data['content'] = html_entity_decode($data['content']);
+        
         return $model->setInfo($data) ? [RESULT_SUCCESS, '文章操作成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
 

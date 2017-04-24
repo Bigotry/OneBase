@@ -45,6 +45,8 @@ class ModelBase extends Model
     final protected function addInfo($data = [], $is_return_pk = true)
     {
         
+        $data['create_time'] = NOW_TIME;
+        
         return $this->insert($data, false, $is_return_pk);
     }
     
@@ -140,17 +142,17 @@ class ModelBase extends Model
         
         $group['having']    = empty($group['having'])    ? ''      : $group['having'];
         
-        self::$ob_query = $this->where($where)->field($field)->order($order);
-        
-        !empty($paginate['rows']) && self::$ob_query = self::$ob_query->paginate($paginate['rows'], $paginate['simple'], $paginate['config']);
+        self::$ob_query = $this->where($where)->order($order);
         
         !empty($join['join'])     && self::$ob_query = self::$ob_query->join($join['join'], $join['condition'], $join['type']);
+        
+        self::$ob_query = self::$ob_query->field($field);
         
         !empty($group['group'])   && self::$ob_query = self::$ob_query->group($group['group'], $group['having']);
     
         !empty($limit)            && self::$ob_query = self::$ob_query->limit($limit);
         
-        return !empty($paginate['rows']) ? self::$ob_query : self::$ob_query->select($data);
+        return !empty($paginate['rows']) ? self::$ob_query->paginate($paginate['rows'], $paginate['simple'], $paginate['config']) : self::$ob_query->select($data);
     }
     
 }
