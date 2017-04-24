@@ -379,12 +379,3 @@ function get_dir($dir_name)
     
     return $dir_array;
 }
-
-/**
- * 判断操作系统获取对应的分隔符
- */
-function get_separator()
-{
-    
-    return strstr(PHP_OS, "Linux") ? '/' : '\\';
-}

@@ -25,7 +25,7 @@ class Upload
             
             $save_name = $object->getSaveName();
             
-            $picture_dir_name = substr($save_name, 0, strrpos($save_name, get_separator()));
+            $picture_dir_name = substr($save_name, 0, strrpos($save_name, DS));
             
             $filename = $object->getFilename();
             
