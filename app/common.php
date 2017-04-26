@@ -379,3 +379,86 @@ function get_dir($dir_name)
     
     return $dir_array;
 }
+
+
+/**
+ * 获取缓存标签
+ */
+function get_cache_tag($name, $join = null)
+{
+    
+    $cache_table_info = cache(CACHE_PREFIX . strtolower($name));
+    
+    $table_string = $cache_table_info[CACHE_VERSION_NAME];
+    
+    if (!empty($join) && !empty($join['join'])) {
+        
+        foreach ($join['join'] as $v) {
+            
+            $names = explode(' ', $v[0]);
+            
+            $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $names[0]));
+            
+            $cache_key = CACHE_PREFIX.$table_name;
+            
+            $cache_info = cache($cache_key);
+            
+            $table_string .= $cache_info[CACHE_VERSION_NAME];
+        }
+    }
+    
+    return md5(serialize($table_string));
+}
+
+/**
+ * 获取缓存key
+ */
+function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, $limit, $data)
+{
+    
+    $page = input('page', '');
+    
+    $data = compact('name', 'where', 'field', 'order', 'paginate', 'join', 'group', 'limit', 'data', 'page');
+    
+    return md5(serialize($data));
+}
+
+/**
+ * 验证缓存标签
+ */
+function check_cache_tag($tag = '')
+{
+    
+    $cache_info_tags = cache(CACHE_TAGS_NAME);
+    
+    return in_array($tag, $cache_info_tags);
+}
+
+/**
+ * 写入缓存标签
+ */
+function set_cache_tag($tag = '')
+{
+    
+    $cache_info_tags = cache(CACHE_TAGS_NAME);
+    
+    $cache_info_tags[] = $tag;
+    
+    cache(CACHE_TAGS_NAME, $cache_info_tags, 0);
+}
+
+/**
+ * 设置缓存版本
+ */
+function set_cache_version($name = '')
+{
+    
+    $strtolower_name = strtolower($name);
+    
+    $cache_table_info = cache(CACHE_PREFIX . $strtolower_name);
+    
+    ++$cache_table_info[CACHE_VERSION_NAME];
+    
+    cache(CACHE_PREFIX . $strtolower_name, $cache_table_info, 0);
+}
+

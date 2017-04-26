@@ -7,6 +7,7 @@ namespace app\common\model;
 
 use think\Model;
 use think\Db;
+use think\Cache;
 
 /**
  * 模型基类
@@ -36,6 +37,8 @@ class ModelBase extends Model
         
         $pk = $this->getPk();
         
+        set_cache_version($this->name);
+        
         return empty($data[$pk]) ? $this->allowField(true)->save($data, $where, $sequence) : $this->updateInfo($where, $data);
     }
     
@@ -47,6 +50,8 @@ class ModelBase extends Model
         
         $data['create_time'] = NOW_TIME;
         
+        set_cache_version($this->name);
+        
         return $this->insert($data, false, $is_return_pk);
     }
     
@@ -57,6 +62,8 @@ class ModelBase extends Model
     {
         
         $data[DATA_UPDATE_TIME] = NOW_TIME;
+        
+        set_cache_version($this->name);
         
         return $this->allowField(true)->where($where)->update($data);
     }
@@ -76,6 +83,8 @@ class ModelBase extends Model
     final protected function setList($data_list = [], $replace = false)
     {
         
+        set_cache_version($this->name);
+        
         return $this->saveAll($data_list, $replace);
     }
     
@@ -93,6 +102,8 @@ class ModelBase extends Model
      */
     final protected function deleteInfo($where = [], $is_true = false)
     {
+        
+        set_cache_version($this->name);
         
         return $is_true ? $this->where($where)->delete() : $this->setFieldValue($where, DATA_STATUS, DATA_DELETE);
     }
@@ -152,7 +163,21 @@ class ModelBase extends Model
     
         !empty($limit)            && self::$ob_query = self::$ob_query->limit($limit);
         
-        return !empty($paginate['rows']) ? self::$ob_query->paginate($paginate['rows'], $paginate['simple'], $paginate['config']) : self::$ob_query->select($data);
+        $cache_tag = get_cache_tag($this->name, $join);
+        
+        $cache_key = get_cache_key($this->name, $where, $field, $order, $paginate, $join, $group, $limit, $data);
+        
+        if (Cache::has($cache_key) && check_cache_tag($cache_tag)) {
+            
+            return unserialize(Cache::get($cache_key));
+        } else {
+            
+            $result_data = !empty($paginate['rows']) ? self::$ob_query->paginate($paginate['rows'], $paginate['simple'], $paginate['config']) : self::$ob_query->select($data);
+            
+            Cache::tag($cache_tag)->set($cache_key, serialize($result_data)) && set_cache_tag($cache_tag);
+            
+            return $result_data;
+        }
     }
     
 }

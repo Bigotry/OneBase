@@ -6,6 +6,7 @@
 namespace app\common\behavior;
 
 use think\Loader;
+use think\Db;
 
 /**
  * 初始化基础信息行为
@@ -31,6 +32,9 @@ class InitBase
         // 初始化数据库信息
         $this->initDbInfo();
         
+        // 初始化缓存信息
+        $this->initCacheInfo();
+        
         // 注册命名空间
         $this->registerNamespace();
     }
@@ -48,6 +52,36 @@ class InitBase
         define('DB_PREFIX', $database_config['prefix']);
         
         empty($list_rows) ? define('DB_LIST_ROWS', 10) : define('DB_LIST_ROWS', $list_rows);
+    }
+    
+    /**
+     * 初始化缓存信息
+     */
+    private function initCacheInfo()
+    {
+        
+        // 缓存表信息前缀
+        define('CACHE_PREFIX', 'cache_info_');
+        
+        // 缓存表版本key名称
+        define('CACHE_VERSION_NAME', 'version');
+        
+        // 缓存标签key名称
+        define('CACHE_TAGS_NAME', 'cache_info_tags');
+        
+        $list  = Db::query('SHOW TABLE STATUS');
+        
+        foreach ($list as $v) {
+            
+            $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $v['Name']));
+            
+            $cache_key = CACHE_PREFIX.$table_name;
+            
+            cache($cache_key) ?: cache($cache_key, [CACHE_VERSION_NAME => 0], 0);
+        }
+        
+        // 缓存信息标签
+        cache(CACHE_TAGS_NAME) ?: cache(CACHE_TAGS_NAME, []);
     }
     
     /**
