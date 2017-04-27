@@ -80,6 +80,20 @@ class Member extends AdminBase
         
         return $this->fetch('member_edit');
     }
+    /**
+    *修改会员
+    */
+    public function memberMod()
+    {
+
+
+        $this->setTitle('修改会员');
+
+        IS_POST && $this->jump(self::$memberLogic->memberMod($this->param));
+        $person= self::$memberLogic->memberGet($this->param);
+            $this->assign("preson",$person);
+        return $this->fetch('member_mod');
+    }
     
     /**
      * 会员删除
