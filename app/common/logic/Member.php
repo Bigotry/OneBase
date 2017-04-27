@@ -64,27 +64,7 @@ class Member extends LogicBase
         
         return $model->setList($add_data) ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
-
-
-    /**
-     * 获得会员信息
-     */
-    public function memberGet($id="")
-    {
-        if(!empty($id)){
-            return db($this->name)->find($id['id']);
-        }
-
-
-    }
-
-
-
-
-
-
-
-
+    
     /**
      * 会员添加
      */
@@ -92,8 +72,7 @@ class Member extends LogicBase
     {
         
         $validate = validate($this->name);
-       
-
+        
         $validate_result = $validate->scene('add')->check($data);
         
         if (!$validate_result) {
@@ -109,48 +88,7 @@ class Member extends LogicBase
         
         return $model->setInfo($data) ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
     }
-
-
-    /**
-     * 会员修改
-     */
-    public function memberMod($data = [])
-    {
-
-
-        if(empty($data['password'])){
-            unset($data['password']);
-            unset($data['password_confirm']);
-        }
-        else{
-
-            $data['password_confirm']=data_md5($data['password_confirm'],DATA_ENCRYPT_KEY);
-//            $data['password']=md5(sha1($data['password']). 'OneBase');
-            $data['password']=data_md5($data['password'],DATA_ENCRYPT_KEY);
-        }
-        unset($data['username']);
-
-        $validate = validate($this->name);
-
-        empty($data['password']) ? $scen='modnopwd':$scen='mod';
-
-        $validate_result = $validate->scene($scen)->check($data);
-
-        if (!$validate_result) {
-
-            return [RESULT_ERROR, $validate->getError(), null];
-        }
-
-        $model = load_model($this->name);
-
-        $url = url('memberList');
-
-//        dump($data);
-
-
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '修改成功', $url] : [RESULT_ERROR, $model->getError(), null];
-    }
-
+    
     /**
      * 会员删除
      */
