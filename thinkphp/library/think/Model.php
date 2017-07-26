@@ -317,7 +317,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
             return $this->data;
         } elseif (array_key_exists($name, $this->data)) {
             return $this->data[$name];
-        } elseif (array_key_exists($name, $this->relation)) {
+        } elseif (!empty ($this->relation) && array_key_exists($name, $this->relation)) {
             return $this->relation[$name];
         } else {
             throw new InvalidArgumentException('property not exists:' . $this->class . '->' . $name);
@@ -2091,7 +2091,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     public function __isset($name)
     {
         try {
-            if (array_key_exists($name, $this->data) || array_key_exists($name, $this->relation)) {
+            if (!empty($this->relation) && (array_key_exists($name, $this->data) || array_key_exists($name, $this->relation))) {
                 return true;
             } else {
                 $this->getAttr($name);
