@@ -19,7 +19,6 @@ use think\response\Xml as XmlResponse;
 
 class Response
 {
-
     // 原始数据
     protected $data;
 
@@ -50,12 +49,12 @@ class Response
     public function __construct($data = '', $code = 200, array $header = [], $options = [])
     {
         $this->data($data);
-        $this->header = $header;
-        $this->code   = $code;
         if (!empty($options)) {
             $this->options = array_merge($this->options, $options);
         }
         $this->contentType($this->contentType, $this->charset);
+        $this->header = array_merge($this->header, $header);
+        $this->code   = $code;
     }
 
     /**
@@ -90,6 +89,9 @@ class Response
      */
     public function send()
     {
+        // 监听response_send
+        Hook::listen('response_send', $this);
+
         // 处理输出数据
         $data = $this->getContent();
 
@@ -113,7 +115,11 @@ class Response
             http_response_code($this->code);
             // 发送头部信息
             foreach ($this->header as $name => $val) {
-                header($name . ':' . $val);
+                if (is_null($val)) {
+                    header($name);
+                } else {
+                    header($name . ':' . $val);
+                }
             }
         }
 
