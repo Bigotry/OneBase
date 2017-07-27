@@ -780,6 +780,8 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         $visible = [];
         $hidden  = [];
 
+        empty($this->relation) && $this->relation = [];
+        
         $data = array_merge($this->data, $this->relation);
 
         // 过滤属性
