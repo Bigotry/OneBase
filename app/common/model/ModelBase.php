@@ -167,17 +167,22 @@ class ModelBase extends Model
         
         $cache_key = get_cache_key($this->name, $where, $field, $order, $paginate, $join, $group, $limit, $data);
         
-        if (Cache::has($cache_key) && check_cache_tag($cache_tag)) {
+        if (Cache::has($cache_key)) {
             
-            return unserialize(Cache::get($cache_key));
+            $result_data = unserialize(Cache::get($cache_key));
+            
+            !empty($result_data) && set_cache_statistics_number(CACHE_EXE_HIT_KEY);
+            
         } else {
             
             $result_data = !empty($paginate['rows']) ? self::$ob_query->paginate($paginate['rows'], $paginate['simple'], $paginate['config']) : self::$ob_query->select($data);
             
-            Cache::tag($cache_tag)->set($cache_key, serialize($result_data)) && set_cache_tag($cache_tag);
-            
-            return $result_data;
+            Cache::tag($cache_tag)->set($cache_key, serialize($result_data));
         }
+        
+        !empty($result_data) && set_cache_statistics_number(CACHE_EXE_NUMBER_KEY);
+        
+        return $result_data;
     }
     
 }

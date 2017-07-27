@@ -387,11 +387,9 @@ function get_dir($dir_name)
 function get_cache_tag($name, $join = null)
 {
     
-    $cache_table_info = cache(CACHE_PREFIX . strtolower($name));
+    $table_string = '';
     
-    $table_string = $cache_table_info[CACHE_VERSION_NAME];
-    
-    if (!empty($join) && !empty($join['join'])) {
+    if (!empty($join['join'])) {
         
         foreach ($join['join'] as $v) {
             
@@ -399,15 +397,20 @@ function get_cache_tag($name, $join = null)
             
             $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $names[0]));
             
-            $cache_key = CACHE_PREFIX.$table_name;
-            
-            $cache_info = cache($cache_key);
-            
-            $table_string .= $cache_info[CACHE_VERSION_NAME];
+            $table_string .= $table_name;
         }
+    } else {
+        
+        $table_string .= $name;
     }
     
-    return md5(serialize($table_string));
+    $auto_cache_info = cache(AUTO_CACHE_KEY);
+    
+    empty($auto_cache_info[CACHE_TABLE_KEY][$table_string]) && $auto_cache_info[CACHE_TABLE_KEY][$table_string][CACHE_VERSION_KEY] = DATA_DISABLE;
+    
+    cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
+    
+    return $table_string;
 }
 
 /**
@@ -418,33 +421,43 @@ function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, 
     
     $page = input('page', '');
     
-    $data = compact('name', 'where', 'field', 'order', 'paginate', 'join', 'group', 'limit', 'data', 'page');
+    $version = '';
     
-    return md5(serialize($data));
-}
-
-/**
- * 验证缓存标签
- */
-function check_cache_tag($tag = '')
-{
+    $auto_cache_info = cache(AUTO_CACHE_KEY);
     
-    $cache_info_tags = cache(CACHE_TAGS_NAME);
+    if (!empty($join['join'])) {
+        
+        foreach ($join['join'] as $v) {
+            
+            $names = explode(' ', $v[0]);
+            
+            $table_name = strtolower(str_replace('_', '', str_replace(DB_PREFIX, '', $names[0])));
+            
+            $version .= $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY];
+        }
+    } else {
+        
+        $strtolower_name = strtolower($name);
+        
+        $version .= $auto_cache_info[CACHE_TABLE_KEY][$strtolower_name][CACHE_VERSION_KEY];
+    }
     
-    return in_array($tag, $cache_info_tags);
-}
-
-/**
- * 写入缓存标签
- */
-function set_cache_tag($tag = '')
-{
+    $serialize_data = compact('name', 'where', 'field', 'order', 'paginate', 'join', 'group', 'limit', 'data', 'page', 'version');
     
-    $cache_info_tags = cache(CACHE_TAGS_NAME);
+    $key = md5(serialize($serialize_data));
     
-    $cache_info_tags[] = $tag;
+    if (count($auto_cache_info[CACHE_CACHE_KEY]) >= $auto_cache_info[CACHE_MAX_NUMBER_KEY]) {
+        
+        unset($auto_cache_info[CACHE_CACHE_KEY][DATA_DISABLE]);
+        
+        $auto_cache_info[CACHE_CACHE_KEY] = array_values($auto_cache_info[CACHE_CACHE_KEY]);
+    }
     
-    cache(CACHE_TAGS_NAME, $cache_info_tags, 0);
+    !in_array($key, $auto_cache_info[CACHE_CACHE_KEY]) && $auto_cache_info[CACHE_CACHE_KEY][] = $key;
+    
+    cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
+    
+    return $key;
 }
 
 /**
@@ -452,13 +465,23 @@ function set_cache_tag($tag = '')
  */
 function set_cache_version($name = '')
 {
+    $auto_cache_info = cache(AUTO_CACHE_KEY);
     
     $strtolower_name = strtolower($name);
+            
+    ++$auto_cache_info[CACHE_TABLE_KEY][$strtolower_name][CACHE_VERSION_KEY];
     
-    $cache_table_info = cache(CACHE_PREFIX . $strtolower_name);
-    
-    ++$cache_table_info[CACHE_VERSION_NAME];
-    
-    cache(CACHE_PREFIX . $strtolower_name, $cache_table_info, 0);
+    cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
 }
 
+/**
+ * 设置缓存统计数量
+ */
+function set_cache_statistics_number($key = '')
+{
+    $auto_cache_info = cache(AUTO_CACHE_KEY);
+    
+    !empty($key) && ++$auto_cache_info[$key];
+    
+    cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
+}

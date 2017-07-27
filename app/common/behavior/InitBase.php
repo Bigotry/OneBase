@@ -60,28 +60,49 @@ class InitBase
     private function initCacheInfo()
     {
         
-        // 缓存表信息前缀
-        define('CACHE_PREFIX', 'cache_info_');
+        // 自动缓存信息key
+        define('AUTO_CACHE_KEY', 'auto_cache_info');
         
-        // 缓存表版本key名称
-        define('CACHE_VERSION_NAME', 'version');
+        // 缓存版本key名称
+        define('CACHE_VERSION_KEY', 'version');
         
-        // 缓存标签key名称
-        define('CACHE_TAGS_NAME', 'cache_info_tags');
+        // 缓存表key名称
+        define('CACHE_TABLE_KEY', 'table');
+        
+        // 缓存key名称
+        define('CACHE_CACHE_KEY', 'cache_key');
+        
+        // 缓存执行数量
+        define('CACHE_EXE_NUMBER_KEY', 'exe_number');
+        
+        // 缓存命中数量
+        define('CACHE_EXE_HIT_KEY', 'hit_number');
+        
+        // 缓存存储最大数量
+        define('CACHE_MAX_NUMBER_KEY', 'max_number');
+        
+        // 初始化自动缓存信息数组
+        $auto_cache_info = cache(AUTO_CACHE_KEY) ?: [];
         
         $list  = Db::query('SHOW TABLE STATUS');
         
-        foreach ($list as $v) {
+        foreach ($list as $v)
+        {
             
             $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $v['Name']));
             
-            $cache_key = CACHE_PREFIX.$table_name;
-            
-            cache($cache_key) ?: cache($cache_key, [CACHE_VERSION_NAME => 0], 0);
+            empty($auto_cache_info[CACHE_TABLE_KEY][$table_name]) && $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY] = DATA_DISABLE;
         }
         
-        // 缓存信息标签
-        cache(CACHE_TAGS_NAME) ?: cache(CACHE_TAGS_NAME, []);
+        empty($auto_cache_info[CACHE_EXE_NUMBER_KEY]) && $auto_cache_info[CACHE_EXE_NUMBER_KEY] = DATA_DISABLE;
+        
+        empty($auto_cache_info[CACHE_EXE_HIT_KEY])    && $auto_cache_info[CACHE_EXE_HIT_KEY] = DATA_DISABLE;
+        
+        empty($auto_cache_info[CACHE_CACHE_KEY])      && $auto_cache_info[CACHE_CACHE_KEY] = [];
+        
+        $auto_cache_info[CACHE_MAX_NUMBER_KEY] = 1000;
+        
+        cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
     }
     
     /**
