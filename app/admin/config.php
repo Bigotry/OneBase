@@ -6,7 +6,7 @@ return [
     
     /* 模板常量替换配置 */
     'view_replace_str' => [
-        '__STATIC__' =>  '/public/static',
+        '__STATIC__' =>  '/static',
     ],
     
     /* 模板布局配置 */

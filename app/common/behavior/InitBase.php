@@ -171,7 +171,7 @@ class InitBase
         define('UPLOAD_PATH', PUBLIC_PATH . 'upload' . DS);
         
         // 文件上传目录相对路径
-        define('UPLOAD_PATH_RELATIVE', '/public/upload/');
+        define('UPLOAD_PATH_RELATIVE', '/upload/');
         
         // 图片上传目录路径
         define('PICTURE_PATH', UPLOAD_PATH . 'picture' . DS);

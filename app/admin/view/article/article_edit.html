@@ -91,7 +91,7 @@ var img_upload_url = "{:url('File/pictureUpload')}";
 
 var upload_success = function( file, response) {
     
-    var show_img_url = '/public/upload/picture/' + response.path;
+    var show_img_url = '/upload/picture/' + response.path;
     
     $( '#upload_show_div').html("<img style='max-width:100px; margin-right: 20px;' src='"+show_img_url+"' />");
     

@@ -48,7 +48,7 @@ class Article extends ModelBase
             return $info['url'];
         } elseif (!empty($info['path'])){
             
-            return '/public/upload/picture/'.$info['path'];
+            return '/upload/picture/'.$info['path'];
         }else{
             
             return $info['url'];
