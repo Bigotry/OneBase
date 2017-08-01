@@ -105,7 +105,7 @@ class ModelBase extends Model
         
         set_cache_version($this->name);
         
-        return $is_true ? $this->where($where)->delete() : $this->setFieldValue($where, DATA_STATUS, DATA_DELETE);
+        return $is_true ? $this->where($where)->delete() : $this->setFieldValue($where, DATA_COMMON_STATUS, DATA_DELETE);
     }
     
     /**
@@ -141,7 +141,7 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = array('rows' => null, 'simple' => false, 'config' => []), $join = array('join' => null, 'condition' => null, 'type' => 'INNER'), $group = array('group' => '', 'having' => ''), $limit = null, $data = null)
     {
         
-        !isset($where[DATA_STATUS]) && $where[DATA_STATUS] = ['neq', DATA_DELETE];
+        !isset($where[DATA_COMMON_STATUS]) && $where[DATA_COMMON_STATUS] = ['neq', DATA_DELETE];
         
         $paginate['simple'] = empty($paginate['simple']) ? false   : $paginate['simple'];
         

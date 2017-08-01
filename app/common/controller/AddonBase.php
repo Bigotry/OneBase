@@ -29,9 +29,9 @@ class AddonBase extends ControllerBase
         
         $addon_name = strtolower(substr($class, 1 + strrpos($class, '\\')));
         
-        $view_path = ADDON_DIR_NAME.'/'.$addon_name.'/view/';
+        $view_path = SYS_ADDON_DIR_NAME.'/'.$addon_name.'/view/';
         
-        $this->assign('static_path', '/' .ADDON_DIR_NAME . '/' . $addon_name.'/static');
+        $this->assign('static_path', '/' .SYS_ADDON_DIR_NAME . '/' . $addon_name.'/static');
         
         $this->view->engine(['view_path' => $view_path]);
         

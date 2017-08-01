@@ -32,7 +32,7 @@ class Addon extends AdminBase
     public function execute($addon_name = null, $controller_name = null, $action_name = null)
     {
         
-        $class_path = "\\".ADDON_DIR_NAME."\\".$addon_name."\controller\\".$controller_name;
+        $class_path = "\\".SYS_ADDON_DIR_NAME."\\".$addon_name."\controller\\".$controller_name;
         
         $controller = new $class_path();
         
@@ -47,7 +47,7 @@ class Addon extends AdminBase
         
         $strtolower_name = strtolower($name);
 
-        $class_path = "\\".ADDON_DIR_NAME."\\".$strtolower_name."\\".$name;
+        $class_path = "\\".SYS_ADDON_DIR_NAME."\\".$strtolower_name."\\".$name;
         
         self::$addonLogic->executeSql($strtolower_name, 'install');
         
@@ -66,7 +66,7 @@ class Addon extends AdminBase
         
         $strtolower_name = strtolower($name);
 
-        $class_path = "\\".ADDON_DIR_NAME."\\".$strtolower_name."\\".$name;
+        $class_path = "\\".SYS_ADDON_DIR_NAME."\\".$strtolower_name."\\".$name;
         
         self::$addonLogic->executeSql($strtolower_name, 'uninstall');
         

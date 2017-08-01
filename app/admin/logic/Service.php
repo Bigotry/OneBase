@@ -43,30 +43,24 @@ class Service extends AdminBase
         
         if (is_null($service_name)) {
             
-            $file_list  = file_list($app_namespace.'/common/'.LAYER_SERVICE_NAME);
+            $file_list  = file_list(PATH_SERVICE);
 
-            $object_path = "\\$app_namespace\\common\\".LAYER_SERVICE_NAME;
+            $object_path = "\\$app_namespace\\" . SYS_COMMON_DIR_NAME . "\\" . LAYER_SERVICE_NAME;
             
         } else {
             
             $driver_name = strtolower($service_name);
             
-            $file_list  = file_list($app_namespace.'/common/'.LAYER_SERVICE_NAME.'/'.$driver_name.'/driver');
+            $file_list  = file_list(PATH_SERVICE . $driver_name. DS . 'driver');
 
-            $object_path = "\\$app_namespace\\common\\".LAYER_SERVICE_NAME."\\$driver_name\\driver";
+            $object_path = "\\$app_namespace\\" . SYS_COMMON_DIR_NAME . "\\" . LAYER_SERVICE_NAME ."\\$driver_name\\driver";
         }
         
         foreach ($file_list as $v) {
             
             $class_name = str_replace(EXT, '', $v);
             
-            
-            if (!(false === strpos($class_name, 'Base'))) {
-                
-                continue;
-            }
-            
-            if (!isset(self::$instance[$class_name])) {
+            if (false === strpos($class_name, 'Base') && !isset(self::$instance[$class_name])) {
                 
                 $class = $object_path.'\\'.$class_name;
                 

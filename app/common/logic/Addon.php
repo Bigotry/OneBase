@@ -48,11 +48,11 @@ class Addon extends LogicBase
     public function getUninstalledList()
     {
         
-        $dir_list = get_dir(ADDON_DIR_NAME);
-            
+        $dir_list = get_dir(PATH_ADDON);
+        
         foreach ($dir_list as $v) {
             
-            $class = "\\".ADDON_DIR_NAME."\\$v\\".ucfirst($v);
+            $class = "\\".SYS_ADDON_DIR_NAME."\\$v\\".ucfirst($v);
             
             if (!isset(self::$instance[$class])) {
                 
@@ -80,7 +80,7 @@ class Addon extends LogicBase
     public function executeSql($name = '', $sql_name = '')
     {
         
-	$sql_string = file_get_contents(ADDON_PATH . $name . DS . 'data' . DS . $sql_name.'.sql');
+	$sql_string = file_get_contents(PATH_ADDON . $name . DS . 'data' . DS . $sql_name.'.sql');
         
 	$sql = explode(";\n", str_replace("\r", "\n", $sql_string));
         

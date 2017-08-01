@@ -19,26 +19,26 @@ class InitHook
     public function run()
     {
         
-        $HookModel  = model(MODULE_COMMON_NAME.'/Hook');
+        $HookModel  = model('common/Hook');
         
-        $AddonModel = model(MODULE_COMMON_NAME.'/Addon');
+        $AddonModel = model('common/Addon');
         
         $hook_list = $HookModel->column('name,addon_list');
 
-        foreach ($hook_list as $k => $v) {
+        foreach ($hook_list as $k => $v)
+        {
             
-            if (empty($v)) {
+            if (!empty($v)):
                 
-                continue;
-            }
-                
-            $where[DATA_STATUS] = DATA_NORMAL;
+            $where[DATA_COMMON_STATUS] = DATA_NORMAL;
             $name_list = explode(',', $v);
             $where['name'] = ['in', $name_list];
 
             $data = $AddonModel->where($where)->column('id,name'); 
-            
+
             !empty($data) && Hook::add($k, array_map('get_addon_class', array_intersect($name_list, $data)));
+            
+            endif;
         }
     }
 }

@@ -17,6 +17,10 @@ class ComposerStaticInit20593ddf6ddc60b753a4d38645524074
             'think\\captcha\\' => 14,
             'think\\' => 6,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -32,6 +36,10 @@ class ComposerStaticInit20593ddf6ddc60b753a4d38645524074
         array (
             0 => __DIR__ . '/../..' . '/thinkphp/library/think',
             1 => __DIR__ . '/..' . '/topthink/think-image/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
     );
 

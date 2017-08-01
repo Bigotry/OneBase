@@ -15,24 +15,21 @@ class InitBase
 {
 
     /**
-     * 行为入口
+     * 初始化行为入口
      */
     public function run()
     {
         
-        // 初始化系统常量
+        // 初始化常量
         $this->initConst();
         
-        // 初始化路径常量
-        $this->initPathConst();
-        
-        // 初始化配置信息
+        // 初始化配置
         $this->initConfig();
         
-        // 初始化数据库信息
+        // 初始化数据库
         $this->initDbInfo();
         
-        // 初始化缓存信息
+        // 初始化缓存
         $this->initCacheInfo();
         
         // 注册命名空间
@@ -40,7 +37,7 @@ class InitBase
     }
     
     /**
-     * 初始化数据库信息
+     * 初始化数据库
      */
     private function initDbInfo()
     {
@@ -55,45 +52,45 @@ class InitBase
     }
     
     /**
-     * 初始化缓存信息
+     * 初始化缓存
      */
     private function initCacheInfo()
     {
         
         // 自动缓存信息key
-        define('AUTO_CACHE_KEY', 'auto_cache_info');
+        define('AUTO_CACHE_KEY'             , 'auto_cache_info');
         
         // 缓存版本key名称
-        define('CACHE_VERSION_KEY', 'version');
+        define('CACHE_VERSION_KEY'          , 'version');
         
         // 缓存表key名称
-        define('CACHE_TABLE_KEY', 'table');
+        define('CACHE_TABLE_KEY'            , 'table');
         
         // 缓存key名称
-        define('CACHE_CACHE_KEY', 'cache_key');
+        define('CACHE_CACHE_KEY'            , 'cache_key');
         
         // 缓存执行数量
-        define('CACHE_EXE_NUMBER_KEY', 'exe_number');
+        define('CACHE_EXE_NUMBER_KEY'       , 'exe_number');
         
         // 缓存命中数量
-        define('CACHE_EXE_HIT_KEY', 'hit_number');
+        define('CACHE_EXE_HIT_KEY'          , 'hit_number');
         
         // 缓存存储最大数量
-        define('CACHE_MAX_NUMBER_KEY', 'max_number');
+        define('CACHE_MAX_NUMBER_KEY'       , 'max_number');
         
         // 初始化自动缓存信息数组
         $auto_cache_info = cache(AUTO_CACHE_KEY) ?: [];
         
         $list  = Db::query('SHOW TABLE STATUS');
         
-        foreach ($list as $v)
-        {
+        foreach ($list as $v):
             
-            $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $v['Name']));
+        $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $v['Name']));
+
+        empty($auto_cache_info[CACHE_TABLE_KEY][$table_name]) && $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY] = DATA_DISABLE;
+
+        endforeach;
             
-            empty($auto_cache_info[CACHE_TABLE_KEY][$table_name]) && $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY] = DATA_DISABLE;
-        }
-        
         empty($auto_cache_info[CACHE_EXE_NUMBER_KEY]) && $auto_cache_info[CACHE_EXE_NUMBER_KEY] = DATA_DISABLE;
         
         empty($auto_cache_info[CACHE_EXE_HIT_KEY])    && $auto_cache_info[CACHE_EXE_HIT_KEY] = DATA_DISABLE;
@@ -106,50 +103,91 @@ class InitBase
     }
     
     /**
-     * 初始化系统常量
+     * 初始化常量
      */
     private function initConst()
     {
         
-        // 通用模块名称
-        define('MODULE_COMMON_NAME', 'common');
+        // 初始化目录常量
+        $this->initDirConst();
         
-        // 逻辑层名称
-        define('LAYER_LOGIC_NAME', 'logic');
-
-        // 数据模型层名称
-        define('LAYER_MODEL_NAME', 'model');
-
-        // 系统服务层名称
-        define('LAYER_SERVICE_NAME', 'service');
-
-        // 系统控制器层名称
+        // 初始化结果常量
+        $this->initResultConst();
+        
+        // 初始化数据状态常量
+        $this->initDataStatusConst();
+        
+        // 初始化时间常量
+        $this->initTimeConst();
+        
+        // 初始化系统常量
+        $this->initSystemConst();
+        
+        // 初始化路径常量
+        $this->initPathConst();
+    }
+    
+    /**
+     * 初始化目录常量
+     */
+    private function initDirConst()
+    {
+        
+        define('LAYER_LOGIC_NAME'     , 'logic');
+        define('LAYER_MODEL_NAME'     , 'model');
+        define('LAYER_SERVICE_NAME'   , 'service');
         define('LAYER_CONTROLLER_NAME', 'controller');
-
-        // 返回结果集key
+    }
+    
+    /**
+     * 初始化结果常量
+     */
+    private function initResultConst()
+    {
+        
         define('RESULT_SUCCESS' , 'success');
         define('RESULT_ERROR'   , 'error');
         define('RESULT_REDIRECT', 'redirect');
         define('RESULT_MESSAGE' , 'message');
         define('RESULT_URL'     , 'url');
         define('RESULT_DATA'    , 'data');
-
-        // 数据状态
-        define('DATA_STATUS' ,  'status');
-        define('DATA_NORMAL' ,  1);
-        define('DATA_DISABLE',  0);
-        define('DATA_DELETE' , -1);
+    }
+    
+    /**
+     * 初始化数据状态常量
+     */
+    private function initDataStatusConst()
+    {
         
-        // 时间常量
-        define('DATA_CREATE_TIME' ,  'create_time');
-        define('DATA_UPDATE_TIME' ,  'update_time');
-        define('NOW_TIME' , time());
+        define('DATA_COMMON_STATUS' ,  'status');
+        define('DATA_NORMAL'        ,  1);
+        define('DATA_DISABLE'       ,  0);
+        define('DATA_DELETE'        , -1);
+        define('DATA_SUCCESS'       , 1);
+        define('DATA_ERROR'         , 0);
+    }
+    
+    /**
+     * 初始化时间常量
+     */
+    private function initTimeConst()
+    {
         
-        // 系统超级管理员ID
-        define('ADMINISTRATOR_ID', 1);
+        define('TIME_CT_NAME' ,  'create_time');
+        define('TIME_UT_NAME' ,  'update_time');
+        define('TIME_NOW'     ,   time());
+    }
+    
+    /**
+     * 初始化系统常量
+     */
+    private function initSystemConst()
+    {
         
-        // 系统加密KEY
-        define('DATA_ENCRYPT_KEY', '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:');
+        define('SYS_ADDON_DIR_NAME'  , 'addon');
+        define('SYS_COMMON_DIR_NAME' , 'common');
+        define('SYS_ADMINISTRATOR_ID', 1);
+        define('SYS_ENCRYPT_KEY'     , '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:');
     }
     
     /**
@@ -158,23 +196,12 @@ class InitBase
     private function initPathConst()
     {
         
-        // 插件目录名称
-        define('ADDON_DIR_NAME', 'addon');
-        
-        // 插件根目录路径
-        define('ADDON_PATH', ROOT_PATH . ADDON_DIR_NAME . DS);
-        
-        // 静态资源目录路径
-        define('PUBLIC_PATH', ROOT_PATH . 'public' . DS);
-        
-        // 文件上传目录路径
-        define('UPLOAD_PATH', PUBLIC_PATH . 'upload' . DS);
-        
-        // 文件上传目录相对路径
-        define('UPLOAD_PATH_RELATIVE', '/upload/');
-        
-        // 图片上传目录路径
-        define('PICTURE_PATH', UPLOAD_PATH . 'picture' . DS);
+        define('PATH_ADDON'     , ROOT_PATH   . SYS_ADDON_DIR_NAME . DS);
+        define('PATH_PUBLIC'    , ROOT_PATH   . 'public'    . DS);
+        define('PATH_UPLOAD'    , PATH_PUBLIC . 'upload'    . DS);
+        define('PATH_PICTURE'   , PATH_UPLOAD . 'picture'   . DS);
+        define('PATH_FILE'      , PATH_UPLOAD . 'file'      . DS);
+        define('PATH_SERVICE'   , ROOT_PATH   . DS . config('app_namespace') . DS . 'common' . DS . LAYER_SERVICE_NAME . DS);
     }
     
     /**
@@ -183,17 +210,19 @@ class InitBase
     private function initConfig()
     {
         
-        // 配置模型
-        $model = model(MODULE_COMMON_NAME.'/Config');
+        $model = model('common/Config');
         
-        // 获取所有配置信息
         $config_list = $model->all();
         
-        // 写入配置
-        foreach ($config_list as $info) {
+        $config_array = [];
+        
+        foreach ($config_list as $info):
             
-           config($info['name'], $info['value']);
-        }
+        $config_array[$info['name']] = $info['value'];
+        
+        endforeach;
+        
+        config($config_array);
     }
     
     /**
@@ -203,6 +232,6 @@ class InitBase
     {
         
         // 注册插件根命名空间
-        Loader::addNamespace(ADDON_DIR_NAME, ADDON_PATH);
+        Loader::addNamespace(SYS_ADDON_DIR_NAME, PATH_ADDON);
     }
 }

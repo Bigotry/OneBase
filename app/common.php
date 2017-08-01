@@ -16,10 +16,10 @@ function is_login()
     
     if (empty($member)) {
         
-        return 0;
+        return DATA_DISABLE;
     } else {
         
-        return session('member_auth_sign') == data_auth_sign($member) ? $member['member_id'] : 0;
+        return session('member_auth_sign') == data_auth_sign($member) ? $member['member_id'] : DATA_DISABLE;
     }
 }
 
@@ -67,9 +67,9 @@ function data_auth_sign($data)
 function is_administrator($member_id = null)
 {
     
-    $member_id = is_null($member_id) ? is_login() : $member_id;
+    $return_id = is_null($member_id) ? is_login() : $member_id;
     
-    return $member_id && (intval($member_id) === ADMINISTRATOR_ID);
+    return $return_id && (intval($return_id) === SYS_ADMINISTRATOR_ID);
 }
 
 /**
@@ -79,42 +79,32 @@ function is_administrator($member_id = null)
  * @param string $level level标记字段
  * @return array
  */
-function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0)
+function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = DATA_DISABLE)
 {
     
     // 创建Tree
     $tree = [];
     
-    if (is_array($list)) {
-        
-        // 创建基于主键的数组引用
-        $refer = [];
-        
-        foreach ($list as $key => $data) {
-            
-            $refer[$data[$pk]] =& $list[$key];
-        }
-        
-        foreach ($list as $key => $data) {
-            
-            // 判断是否存在parent
-            $parentId =  $data[$pid];
-            
-            if ($root == $parentId) {
-                
-                $tree[] =& $list[$key];
-                
-            } else if(isset($refer[$parentId])){
-                
-                    $parent =& $refer[$parentId];
-                    
-                    if(is_object($parent)) {
-                        
-                        $parent = $parent->toArray();
-                    }
-                    
-                    $parent[$child][] =& $list[$key];
-            }
+    // 创建基于主键的数组引用
+    $refer = [];
+
+    foreach ($list as $key => $data) {
+
+        $refer[$data[$pk]] =& $list[$key];
+    }
+
+    foreach ($list as $key => $data) {
+
+        // 判断是否存在parent
+        $parentId =  $data[$pid];
+
+        if ($root == $parentId) {
+
+            $tree[] =& $list[$key];
+
+        } elseif(isset($refer[$parentId])){
+
+            is_object($refer[$parentId]) ? $refer[$parentId] = $refer[$parentId]->toArray() : $refer[$parentId][$child][] =& $list[$key];
         }
     }
     
@@ -280,7 +270,7 @@ function get_addon_class($name = '')
     
     $lower_name = strtolower($name);
     
-    $class = ADDON_DIR_NAME."\\{$lower_name}\\{$name}";
+    $class = SYS_ADDON_DIR_NAME."\\{$lower_name}\\{$name}";
     
     return $class;
 }
@@ -314,10 +304,10 @@ function sf($arr = [], $fpath = 'D:\test.php')
 function addons_url($url, $param = array())
 {
 
-    $url        =  parse_url($url);
-    $addons     =  $url['scheme'];
-    $controller =  $url['host'];
-    $action     =  $url['path'];
+    $parse_url  =  parse_url($url);
+    $addons     =  $parse_url['scheme'];
+    $controller =  $parse_url['host'];
+    $action     =  $parse_url['path'];
 
     /* 基础参数 */
     $params_array = array(
@@ -330,7 +320,6 @@ function addons_url($url, $param = array())
     
     return url('addon/execute', $params);
 }
-
 
 /**
  * 字符串命名风格转换
@@ -350,7 +339,6 @@ function parse_name($name, $type=0)
         return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
     }
 }
-
 
 /**
  * 获取目录列表
@@ -379,7 +367,6 @@ function get_dir($dir_name)
     
     return $dir_array;
 }
-
 
 /**
  * 获取缓存标签
@@ -421,9 +408,9 @@ function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, 
     
     $page = input('page', '');
     
-    $version = '';
-    
     $auto_cache_info = cache(AUTO_CACHE_KEY);
+    
+    $version = '';
     
     if (!empty($join['join'])) {
         
@@ -437,14 +424,10 @@ function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, 
         }
     } else {
         
-        $strtolower_name = strtolower($name);
-        
-        $version .= $auto_cache_info[CACHE_TABLE_KEY][$strtolower_name][CACHE_VERSION_KEY];
+        $version .= $auto_cache_info[CACHE_TABLE_KEY][strtolower($name)][CACHE_VERSION_KEY];
     }
     
-    $serialize_data = compact('name', 'where', 'field', 'order', 'paginate', 'join', 'group', 'limit', 'data', 'page', 'version');
-    
-    $key = md5(serialize($serialize_data));
+    $key = md5(serialize(compact('name', 'where', 'field', 'order', 'paginate', 'join', 'group', 'limit', 'data', 'page', 'version')));
     
     if (count($auto_cache_info[CACHE_CACHE_KEY]) >= $auto_cache_info[CACHE_MAX_NUMBER_KEY]) {
         
