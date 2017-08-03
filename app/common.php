@@ -79,11 +79,15 @@ function is_administrator($member_id = null)
  * @param string $level level标记字段
  * @return array
  */
-function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = DATA_DISABLE)
+function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0)
 {
     
     // 创建Tree
     $tree = [];
+    
+    if (!is_array($list)):
+    return false;
+    endif;
     
     // 创建基于主键的数组引用
     $refer = [];
@@ -102,9 +106,13 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
 
             $tree[] =& $list[$key];
 
-        } elseif(isset($refer[$parentId])){
+        } else if(isset($refer[$parentId])){
 
-            is_object($refer[$parentId]) ? $refer[$parentId] = $refer[$parentId]->toArray() : $refer[$parentId][$child][] =& $list[$key];
+            is_object($refer[$parentId]) && $refer[$parentId] = $refer[$parentId]->toArray();
+            
+            $parent =& $refer[$parentId];
+
+            $parent[$child][] =& $list[$key];
         }
     }
     

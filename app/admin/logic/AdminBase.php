@@ -58,11 +58,9 @@ class AdminBase extends LogicBase
             
             [$message];
             
-            if (!IS_ROOT && RESULT_ERROR == $status || !empty($menu_info['is_hide'])) {
+            if ((!IS_ROOT && RESULT_ERROR == $status) || !empty($menu_info['is_hide'])) {
 
                 unset($menu_list[$key]);
-                
-                continue;
             }
         }
         
