@@ -51,7 +51,7 @@ class Member extends LogicBase
     public function addToGroup($data = [])
     {
         
-        if (ADMINISTRATOR_ID == $data['id']) {
+        if (SYS_ADMINISTRATOR_ID == $data['id']) {
             
             return [RESULT_ERROR, '天神不能授权哦~'];
         }
@@ -107,7 +107,7 @@ class Member extends LogicBase
     public function memberDel($where = [])
     {
         
-        if (ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) {
+        if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) {
             
             return [RESULT_ERROR, '天神和自己不能删除哦~'];
         }
