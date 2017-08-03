@@ -71,7 +71,7 @@ class Addon extends LogicBase
         
         $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
-        return load_model('Hook')->getList($where, $field, $order, $paginate_data);
+        return model(ucwords(SYS_HOOK_DIR_NAME))->getList($where, $field, $order, $paginate_data);
     }
     
     /**
