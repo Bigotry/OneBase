@@ -17,7 +17,7 @@ class Article extends ModelBase
     public function getNicknameAttr()
     {
         
-        $model = load_model('Member');
+        $model = model('Member');
         
         return $model->getValue([$model->getPk() => $this->data['member_id']], 'nickname');
     }
@@ -28,7 +28,7 @@ class Article extends ModelBase
     public function getCategoryNameAttr()
     {
         
-        $model = load_model('ArticleCategory');
+        $model = model('ArticleCategory');
         
         return $model->getValue([$model->getPk() => $this->data['category_id']], 'name');
     }
@@ -39,7 +39,7 @@ class Article extends ModelBase
     public function getCoverPathAttr()
     {
         
-        $model = load_model('Picture');
+        $model = model('Picture');
         
         $info = $model->getInfo([$model->getPk() => $this->data['cover_id']], 'path,url');
         

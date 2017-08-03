@@ -11,28 +11,43 @@ namespace app\common\logic;
 class Article extends LogicBase
 {
     
+    // 文章模型
+    public static $articleModel         = null;
+    
+    // 文章分类模型
+    public static $articleCategoryModel = null;
+    
+    /**
+     * 构造方法
+     */
+    public function __construct()
+    {
+        
+        parent::__construct();
+        
+        self::$articleModel         = model($this->name);
+        self::$articleCategoryModel = model('ArticleCategory');
+    }
+    
+    
     /**
      * 文章分类编辑
      */
     public function articleCategoryEdit($data = [])
     {
         
-        $model_name = 'ArticleCategory';
-        
-        $validate = validate($model_name);
+        $validate = validate('ArticleCategory');
         
         $validate_result = $validate->scene('edit')->check($data);
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($model_name);
         
         $url = url('articleCategoryList');
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$articleCategoryModel->setInfo($data) ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$articleCategoryModel->getError()];
     }
     
     /**
@@ -43,7 +58,7 @@ class Article extends LogicBase
         
         $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
-        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
+        return self::$articleModel->getList($where, $field, $order, $paginate_data);
     }
     
     /**
@@ -58,18 +73,16 @@ class Article extends LogicBase
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($this->name);
         
         $url = url('articleList');
         
-        empty($data[$model->getPk()]) && $data['member_id'] = MEMBER_ID;
+        empty($data[self::$articleModel->getPk()]) && $data['member_id'] = MEMBER_ID;
         
         $data['content'] = html_entity_decode($data['content']);
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '文章操作成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$articleModel->setInfo($data) ? [RESULT_SUCCESS, '文章操作成功', $url] : [RESULT_ERROR, self::$articleModel->getError()];
     }
 
     /**
@@ -78,7 +91,7 @@ class Article extends LogicBase
     public function getArticleInfo($where = [], $field = true)
     {
         
-        return load_model($this->name)->getInfo($where, $field);
+        return self::$articleModel->getInfo($where, $field);
     }
     
     /**
@@ -87,7 +100,7 @@ class Article extends LogicBase
     public function getArticleCategoryInfo($where = [], $field = true)
     {
         
-        return load_model('ArticleCategory')->getInfo($where, $field);
+        return self::$articleCategoryModel->getInfo($where, $field);
     }
     
     /**
@@ -98,7 +111,7 @@ class Article extends LogicBase
         
         $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
-        return load_model('ArticleCategory')->getList($where, $field, $order, $paginate_data);
+        return self::$articleCategoryModel->getList($where, $field, $order, $paginate_data);
     }
     
     /**
@@ -107,9 +120,7 @@ class Article extends LogicBase
     public function articleCategoryDel($where = [])
     {
         
-        $model = load_model('ArticleCategory');
-        
-        return $model->deleteInfo($where) ? [RESULT_SUCCESS, '文章分类删除成功', null] : [RESULT_ERROR, $model->getError(), null];
+        return self::$articleCategoryModel->deleteInfo($where) ? [RESULT_SUCCESS, '文章分类删除成功'] : [RESULT_ERROR, self::$articleCategoryModel->getError()];
     }
     
     /**
@@ -118,8 +129,6 @@ class Article extends LogicBase
     public function articleDel($where = [])
     {
         
-        $model = load_model($this->name);
-        
-        return $model->deleteInfo($where) ? [RESULT_SUCCESS, '文章删除成功', null] : [RESULT_ERROR, $model->getError(), null];
+        return self::$articleModel->deleteInfo($where) ? [RESULT_SUCCESS, '文章删除成功'] : [RESULT_ERROR, self::$articleModel->getError()];
     }
 }

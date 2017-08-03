@@ -5,6 +5,8 @@
 
 namespace app\admin\logic;
 
+use app\common\logic\Member as LogicMember;
+
 /**
  * 登录逻辑
  */
@@ -19,29 +21,29 @@ class Login extends AdminBase
 
         if (empty($username) || empty($password)) {
 
-            return [RESULT_ERROR, '账号或密码不能为空', null];
+            return [RESULT_ERROR, '账号或密码不能为空'];
             
         }elseif (empty($verify)) {
             
-            return [RESULT_ERROR, '验证码不能为空', null];
+            return [RESULT_ERROR, '验证码不能为空'];
         }elseif (!captcha_check($verify)) {
             
-            return [RESULT_ERROR, '验证码输入错误', null];
+            return [RESULT_ERROR, '验证码输入错误'];
         }
-            
-        $model = model('Member', LAYER_LOGIC_NAME);
         
-        $member = $model->getMemberInfo(['username' => $username]);
+        $memberLogic = get_sington_object('memberLogic', LogicMember::class);
+        
+        $member = $memberLogic->getMemberInfo(['username' => $username]);
 
         if (empty($member)) {
 
-            return [RESULT_ERROR, '用户不存在', null];
+            return [RESULT_ERROR, '用户不存在'];
         }
         
         // 验证用户密码
-        if (data_md5($password, DATA_ENCRYPT_KEY) === $member['password']) {
+        if (data_md5($password, SYS_ENCRYPT_KEY) === $member['password']) {
             
-            $auth = ['member_id' => $member['id'], DATA_UPDATE_TIME => $member[DATA_UPDATE_TIME]];
+            $auth = ['member_id' => $member['id'], TIME_UT_NAME => $member[TIME_UT_NAME]];
 
             session('member_auth', $auth);
             session('member_auth_sign', data_auth_sign($auth));
@@ -50,7 +52,7 @@ class Login extends AdminBase
 
         } else {
             
-            return [RESULT_ERROR, '密码输入错误', null];
+            return [RESULT_ERROR, '密码输入错误'];
         }
     }
     

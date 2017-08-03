@@ -26,7 +26,7 @@ class Addon extends LogicBase
        
         $list = [];
         
-        $model = load_model($this->name);
+        $model = model($this->name);
         
         foreach ($object_list as $object) {
             

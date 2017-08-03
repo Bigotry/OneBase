@@ -5,6 +5,8 @@
 
 namespace app\admin\controller;
 
+use app\admin\logic\Service as LogicService;
+
 /**
  * 服务控制器
  */
@@ -22,7 +24,7 @@ class Service extends AdminBase
         
         parent::_initialize();
         
-        !isset(self::$serviceLogic) && self::$serviceLogic = load_model(LAYER_SERVICE_NAME);
+        self::$serviceLogic = get_sington_object('serviceLogic', LogicService::class);
     }
     
     /**

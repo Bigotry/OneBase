@@ -6,6 +6,10 @@
 namespace app\admin\controller;
 
 use app\common\controller\ControllerBase;
+use app\admin\logic\AdminBase as LogicAdminBase;
+use app\admin\logic\Menu as LogicMenu;
+use app\admin\logic\AuthGroupAccess as LogicAuthGroupAccess;
+
 
 /**
  * Admin控制器基类
@@ -40,17 +44,23 @@ class AdminBase extends ControllerBase
     /**
      * 构造方法
      */
-    public function _initialize()
+    public function __construct(LogicAdminBase $adminBaseLogic, LogicMenu $menuLogic, LogicAuthGroupAccess $authGroupAccessLogic)
     {
         
         // 执行父类构造方法
-        parent::_initialize();
+        parent::__construct();
+        
+        // 注入后台逻辑
+        $this->adminBaseLogic = $adminBaseLogic;
+        
+        // 注入菜单逻辑
+        $this->menuLogic = $menuLogic;
+        
+        // 注入授权逻辑
+        $this->authGroupAccessLogic = $authGroupAccessLogic;
         
         // 初始化后台模块常量
         $this->initAdminConst();
-        
-        // 初始化后台逻辑模型
-        $this->initAdminLogic();
         
         // 初始化后台模块信息
         $this->initAdminInfo();
@@ -72,10 +82,10 @@ class AdminBase extends ControllerBase
         $this->authMenuUrlList = $this->authGroupAccessLogic->getAuthMenuUrlList($this->authMenuList);
         
         // 检查菜单权限
-        list($status, $message) = $this->adminBaseLogic->authCheck(URL_MODULE, $this->authMenuUrlList);
+        list($jump_type, $message) = $this->adminBaseLogic->authCheck(URL_MODULE, $this->authMenuUrlList);
         
         // 权限验证不通过则跳转提示
-        RESULT_SUCCESS == $status ?: $this->jump($status, $message);
+        RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message);
         
         // 获取过滤后的菜单树
         $this->authMenuTree = $this->adminBaseLogic->getMenuTree($this->authMenuList, $this->authMenuUrlList);
@@ -97,22 +107,6 @@ class AdminBase extends ControllerBase
     }
     
     /**
-     * 初始化后台逻辑模型
-     */
-    final private function initAdminLogic()
-    {
-        
-        // 实例化后台逻辑
-        $this->adminBaseLogic = load_model('AdminBase'); 
-        
-        // 实例化菜单逻辑
-        $this->menuLogic = load_model('Menu');
-        
-        // 实例化授权逻辑
-        $this->authGroupAccessLogic = load_model('AuthGroupAccess');
-    }
-    
-    /**
      * 初始化后台模块常量
      */
     final private function initAdminConst()
@@ -122,17 +116,15 @@ class AdminBase extends ControllerBase
         defined('MEMBER_ID') or define('MEMBER_ID', is_login());
         
         // 是否为超级管理员
-        defined('IS_ROOT') or define('IS_ROOT', is_administrator());
+        defined('IS_ROOT')   or define('IS_ROOT', is_administrator());
     }
     
     /**
-     * 设置页面标题及描述
+     * 设置页面标题
      */
-    final protected function setTitle($title = '', $describe = '')
+    final protected function setTitle($title = '')
     {
         
         $this->assign('ob_title', $title);
-        
-        $this->assign('ob_describe', $describe);
     }
 }

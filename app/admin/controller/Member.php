@@ -5,6 +5,9 @@
 
 namespace app\admin\controller;
 
+use app\common\logic\Member as LogicMember;
+use app\admin\logic\AuthGroup as LogicAuthGroup;
+
 /**
  * 会员控制器
  */
@@ -24,7 +27,7 @@ class Member extends AdminBase
         
         parent::_initialize();
         
-        !isset(self::$memberLogic) && self::$memberLogic = load_model('Member');
+        self::$memberLogic = get_sington_object('memberLogic', LogicMember::class);
     }
 
     /**
@@ -37,16 +40,16 @@ class Member extends AdminBase
         
         $this->setTitle('会员授权');
         
-        $AuthGroupLogic = load_model('AuthGroup');
+        $authGroupLogic = get_sington_object('authGroupLogic', LogicAuthGroup::class);
         
         //所有的权限组
-        $group_list = $AuthGroupLogic->getAuthGroupList([], true, '', false);
+        $group_list = $authGroupLogic->getAuthGroupList([], true, '', false);
         
         //会员当前权限组
         $member_group_list = $this->authGroupAccessLogic->getMemberGroupInfo($this->param['id']);
         
         //选择权限组
-        $list = $AuthGroupLogic->selectAuthGroupList($group_list, $member_group_list);
+        $list = $authGroupLogic->selectAuthGroupList($group_list, $member_group_list);
         
         $this->assign('list', $list);
         

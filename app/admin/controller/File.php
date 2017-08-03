@@ -5,10 +5,13 @@
 
 namespace app\admin\controller;
 
+use app\common\controller\ControllerBase;
+use app\common\logic\File as LogicFile;
+
 /**
  * 文件控制器
  */
-class File extends AdminBase
+class File extends ControllerBase
 {
     
     // 文件逻辑
@@ -22,7 +25,7 @@ class File extends AdminBase
         
         parent::_initialize();
         
-        !isset(self::$fileLogic) && self::$fileLogic = load_model('File');
+        self::$fileLogic = get_sington_object('fileLogic', LogicFile::class);
     }
     
     /**

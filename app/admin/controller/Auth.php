@@ -5,6 +5,8 @@
 
 namespace app\admin\controller;
 
+use app\admin\logic\AuthGroup as LogicAuthGroup;
+
 /**
  * 权限控制器
  */
@@ -22,7 +24,7 @@ class Auth extends AdminBase
         
         parent::_initialize();
         
-        !isset(self::$authGroupLogic) && self::$authGroupLogic = load_model('AuthGroup');
+        self::$authGroupLogic = get_sington_object('authGroupLogic', LogicAuthGroup::class);
     }
     
     /**

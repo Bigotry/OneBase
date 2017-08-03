@@ -21,6 +21,8 @@ class Imginput extends AddonBase implements AddonInterface
     public function ImgUpload($param = [])
     {
         
+        [$param];
+        
         $this->addonTemplate('index/index');
     }
     

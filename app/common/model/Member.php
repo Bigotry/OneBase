@@ -17,6 +17,6 @@ class Member extends ModelBase
     public function setPasswordAttr($value)
     {
         
-        return data_md5($value, DATA_ENCRYPT_KEY);
+        return data_md5($value, SYS_ENCRYPT_KEY);
     }
 }

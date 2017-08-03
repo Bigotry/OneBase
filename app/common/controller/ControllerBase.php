@@ -44,24 +44,32 @@ class ControllerBase extends Controller
     }
     
     /**
-     * 系统跳转
+     * 系统通用跳转
      */
-    final protected function jump($status = '', $message = '', $url = null, $data = '')
+    final protected function jump($jump_type = null, $message = null, $url = null)
     {
         
-        is_array($status) && list($status, $message, $url) = $status;
+        if (is_array($jump_type)):
+            
+        switch (count($jump_type))
+        {
+            case 2  : list($jump_type, $message)       = $jump_type; break;
+            case 3  : list($jump_type, $message, $url) = $jump_type; break;
+            default : die(RESULT_ERROR);
+        }
+        
+        endif;
         
         $success  = RESULT_SUCCESS;
         $error    = RESULT_ERROR;
         $redirect = RESULT_REDIRECT;
-        
-        // 分配跳转类型
-        switch ($status) {
 
-            case $success  : $this->$success($message, $url, $data);
-            case $error    : $this->$error($message, $url, $data);
-            case $redirect : $this->$redirect($url, $data);
-            default        : return $data;
+        switch ($jump_type)
+        {
+            case $success  : $this->$success($message, $url); break;
+            case $error    : $this->$error($message, $url);   break;
+            case $redirect : $this->$redirect($message);      break;
+            default        : die(RESULT_ERROR);
         }
     }
 }

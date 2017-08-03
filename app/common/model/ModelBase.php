@@ -19,6 +19,15 @@ class ModelBase extends Model
     private static $ob_query = null;
 
     /**
+     * 更新缓存版本号
+     */
+    public function updateCacheVersion()
+    {
+        
+        set_cache_version($this->name);
+    }
+    
+    /**
      * 状态获取器
      */
     public function getStatusTextAttr()
@@ -26,7 +35,7 @@ class ModelBase extends Model
         
         $status = [DATA_DELETE => '删除', DATA_DISABLE => '禁用', DATA_NORMAL => '启用'];
         
-        return $status[$this->data['status']];
+        return $status[$this->data[DATA_COMMON_STATUS]];
     }
     
     /**
@@ -37,9 +46,19 @@ class ModelBase extends Model
         
         $pk = $this->getPk();
         
-        set_cache_version($this->name);
+        $return_data = null;
         
-        return empty($data[$pk]) ? $this->allowField(true)->save($data, $where, $sequence) : $this->updateInfo($where, $data);
+        if (empty($data[$pk])) {
+            
+            $return_data = $this->allowField(true)->save($data, $where, $sequence);
+            
+            $return_data && $this->updateCacheVersion();
+        } else {
+            
+            $return_data = $this->updateInfo($where, $data);
+        }
+        
+        return $return_data;
     }
     
     /**
@@ -48,11 +67,13 @@ class ModelBase extends Model
     final protected function addInfo($data = [], $is_return_pk = true)
     {
         
-        $data['create_time'] = NOW_TIME;
+        $data['create_time'] = TIME_NOW;
         
-        set_cache_version($this->name);
+        $return_data = $this->insert($data, false, $is_return_pk);
         
-        return $this->insert($data, false, $is_return_pk);
+        $return_data && $this->updateCacheVersion();
+        
+        return $return_data;
     }
     
     /**
@@ -61,11 +82,13 @@ class ModelBase extends Model
     final protected function updateInfo($where = [], $data = [])
     {
         
-        $data[DATA_UPDATE_TIME] = NOW_TIME;
+        $data[TIME_UT_NAME] = TIME_NOW;
         
-        set_cache_version($this->name);
+        $return_data = $this->allowField(true)->where($where)->update($data);
         
-        return $this->allowField(true)->where($where)->update($data);
+        $return_data && $this->updateCacheVersion();
+        
+        return $return_data;
     }
     
     /**
@@ -83,9 +106,11 @@ class ModelBase extends Model
     final protected function setList($data_list = [], $replace = false)
     {
         
-        set_cache_version($this->name);
+        $return_data = $this->saveAll($data_list, $replace);
         
-        return $this->saveAll($data_list, $replace);
+        $return_data && $this->updateCacheVersion();
+        
+        return $return_data;
     }
     
     /**
@@ -103,9 +128,17 @@ class ModelBase extends Model
     final protected function deleteInfo($where = [], $is_true = false)
     {
         
-        set_cache_version($this->name);
+        if ($is_true) {
+            
+            $return_data = $this->where($where)->delete();
+            
+            $return_data && $this->updateCacheVersion();
+        } else {
+            
+            $return_data = $this->setFieldValue($where, DATA_COMMON_STATUS, DATA_DELETE);
+        }
         
-        return $is_true ? $this->where($where)->delete() : $this->setFieldValue($where, DATA_COMMON_STATUS, DATA_DELETE);
+        return $return_data;
     }
     
     /**
@@ -127,7 +160,7 @@ class ModelBase extends Model
     }
     
     /**
-     * 获取数据
+     * 获取单条数据
      */
     final protected function getInfo($where = [], $field = true)
     {
@@ -136,7 +169,7 @@ class ModelBase extends Model
     }
     
     /**
-     * 获取数据列表 
+     * 获取列表数据
      */
     final protected function getList($where = [], $field = true, $order = '', $paginate = array('rows' => null, 'simple' => false, 'config' => []), $join = array('join' => null, 'condition' => null, 'type' => 'INNER'), $group = array('group' => '', 'having' => ''), $limit = null, $data = null)
     {
@@ -166,6 +199,17 @@ class ModelBase extends Model
         $cache_tag = get_cache_tag($this->name, $join);
         
         $cache_key = get_cache_key($this->name, $where, $field, $order, $paginate, $join, $group, $limit, $data);
+        
+        return $this->getResultData($cache_key, $cache_tag, $paginate, $data);
+    }
+    
+    /**
+     * 获取结果数据
+     */
+    final protected function getResultData($cache_key = '', $cache_tag = '', $paginate = null, $data = null)
+    {
+        
+        $result_data = null;
         
         if (Cache::has($cache_key)) {
             

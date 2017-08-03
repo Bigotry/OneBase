@@ -5,6 +5,8 @@
 
 namespace app\admin\controller;
 
+use app\common\logic\Article as LogicArticle;
+
 /**
  * 文章控制器
  */
@@ -22,7 +24,7 @@ class Article extends AdminBase
         
         parent::_initialize();
         
-        !isset(self::$articleLogic) && self::$articleLogic = load_model('Article');
+        self::$articleLogic = get_sington_object('articleLogic', LogicArticle::class);
     }
     
     /**

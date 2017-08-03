@@ -5,6 +5,8 @@
 
 namespace app\admin\controller;
 
+use app\common\logic\Config as LogicConfig;
+
 /**
  * 配置控制器
  */
@@ -22,7 +24,7 @@ class Config extends AdminBase
         
         parent::_initialize();
         
-        !isset(self::$configLogic) && self::$configLogic = load_model('Config');
+        self::$configLogic = get_sington_object('configLogic', LogicConfig::class);
     }
     
     /**

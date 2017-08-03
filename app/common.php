@@ -149,34 +149,16 @@ function parse_config_array($name = '')
 }
 
 /**
- * 加载模型
+ * 获取单例对象
  */
-function load_model($name = '', $module = '')
+function get_sington_object($object_name = '', $class = null)
 {
 
-    // 回溯跟踪
-    $backtrace_array = debug_backtrace(false, 1);
-
-    // 调用者目录名称
-    $current_directory_name = basename(dirname($backtrace_array[0]['file']));
-
-    // 设置模块
-    !empty($module) && $name = $module.'/'.$name;
-
-    // 返回的对象
-    $return_object = null;
-
-    // 加载模型规则
-    switch ($current_directory_name) {
-
-        case LAYER_CONTROLLER_NAME : $return_object = model($name, LAYER_LOGIC_NAME); break;
-        case LAYER_LOGIC_NAME      : $return_object = model($name, LAYER_MODEL_NAME); break;
-        case LAYER_SERVICE_NAME    : $return_object = model($name, LAYER_MODEL_NAME); break;
-        case LAYER_MODEL_NAME      : $return_object = model($name, LAYER_MODEL_NAME); break;
-        default                    : $return_object = model($name, LAYER_LOGIC_NAME); break;
-    }
+    $request = \think\Request::instance();
     
-    return $return_object;
+    $request->__isset($object_name) ?: $request->bind($object_name, new $class());
+    
+    return $request->__get($object_name);
 }
 
 /**

@@ -5,6 +5,8 @@
 
 namespace app\admin\logic;
 
+use app\admin\logic\Menu as LogicMenu;
+
 /**
  * 授权逻辑
  */
@@ -17,7 +19,7 @@ class AuthGroupAccess extends AdminBase
     public function getAuthMenuList($member_id = 0)
     {
         
-        $model = model('Menu', LAYER_LOGIC_NAME);
+        $model = get_sington_object('menuLogic', LogicMenu::class);
         
         if (IS_ROOT) {
             
@@ -69,7 +71,7 @@ class AuthGroupAccess extends AdminBase
     public function getMemberGroupInfo($member_id = 0)
     {
         
-        $model = load_model($this->name);
+        $model = model($this->name);
         
         $model->alias('a');
 

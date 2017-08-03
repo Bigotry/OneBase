@@ -5,6 +5,8 @@
 
 namespace app\admin\controller;
 
+use app\admin\logic\Trash as LogicTrash;
+
 /**
  * 回收站控制器
  */
@@ -22,7 +24,7 @@ class Trash extends AdminBase
         
         parent::_initialize();
         
-        !isset(self::$trashLogic) && self::$trashLogic = load_model('Trash');
+        self::$trashLogic = get_sington_object('trashLogic', LogicTrash::class);
     }
     
     /**

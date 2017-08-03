@@ -11,11 +11,25 @@ namespace app\admin\logic;
 class Menu extends AdminBase
 {
     
+    // 菜单模型
+    public static $menuModel    = null;
+    
     // 面包屑
     public static $crumbs       = [];
     
     // 菜单Select结构
     public static $menuSelect   = [];
+    
+    /**
+     * 构造方法
+     */
+    public function __construct()
+    {
+        
+        parent::__construct();
+        
+        self::$menuModel = model($this->name);
+    }
     
     /**
      * 菜单转视图
@@ -193,7 +207,7 @@ class Menu extends AdminBase
         
         $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
-        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
+        return self::$menuModel->getList($where, $field, $order, $paginate_data);
     }
     
     /**
@@ -202,7 +216,7 @@ class Menu extends AdminBase
     public function getMenuInfo($where = [], $field = true)
     {
         
-        return load_model($this->name)->getInfo($where, $field);
+        return self::$menuModel->getInfo($where, $field);
     }
     
     /**
@@ -217,14 +231,12 @@ class Menu extends AdminBase
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($this->name);
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$menuModel->setInfo($data) ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
     }
     
     /**
@@ -239,14 +251,12 @@ class Menu extends AdminBase
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($this->name);
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$menuModel->setInfo($data) ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
     }
     
     /**
@@ -255,8 +265,6 @@ class Menu extends AdminBase
     public function menuDel($where = [])
     {
         
-        $model = load_model($this->name);
-        
-        return $model->deleteInfo($where) ? [RESULT_SUCCESS, '菜单删除成功', null] : [RESULT_ERROR, $model->getError(), null];
+        return self::$menuModel->deleteInfo($where) ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$menuModel->getError()];
     }
 }

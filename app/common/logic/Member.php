@@ -11,13 +11,27 @@ namespace app\common\logic;
 class Member extends LogicBase
 {
     
+    // 会员模型
+    public static $memberModel = null;
+    
+    /**
+     * 构造方法
+     */
+    public function __construct()
+    {
+        
+        parent::__construct();
+        
+        self::$memberModel = model($this->name);
+    }
+    
     /**
      * 获取会员信息
      */
     public function getMemberInfo($where = [], $field = true)
     {
         
-        return load_model($this->name)->getInfo($where, $field);
+        return self::$memberModel->getInfo($where, $field);
     }
     
     /**
@@ -28,7 +42,7 @@ class Member extends LogicBase
         
         $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
-        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
+        return self::$memberModel->getList($where, $field, $order, $paginate_data);
     }
     
     /**
@@ -39,10 +53,10 @@ class Member extends LogicBase
         
         if (ADMINISTRATOR_ID == $data['id']) {
             
-            return [RESULT_ERROR, '天神不能授权哦~', null];
+            return [RESULT_ERROR, '天神不能授权哦~'];
         }
         
-        $model = load_model('AuthGroupAccess');
+        $model = model('AuthGroupAccess');
         
         $where = ['member_id' => ['in', $data['id']]];
         
@@ -62,7 +76,7 @@ class Member extends LogicBase
             $add_data[] = ['member_id' => $data['id'], 'group_id' => $group_id];
         }
         
-        return $model->setList($add_data) ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return $model->setList($add_data) ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError()];
     }
     
     /**
@@ -77,16 +91,14 @@ class Member extends LogicBase
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($this->name);
         
         $url = url('memberList');
         
         $data['nickname'] = $data['username'];
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$memberModel->setInfo($data) ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, self::$memberModel->getError()];
     }
     
     /**
@@ -95,13 +107,11 @@ class Member extends LogicBase
     public function memberDel($where = [])
     {
         
-        $model = load_model($this->name);
-        
         if (ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) {
             
-            return [RESULT_ERROR, '天神和自己不能删除哦~', null];
+            return [RESULT_ERROR, '天神和自己不能删除哦~'];
         }
         
-        return $model->deleteInfo($where) ? [RESULT_SUCCESS, '会员删除成功', null] : [RESULT_ERROR, $model->getError(), null];
+        return self::$memberModel->deleteInfo($where) ? [RESULT_SUCCESS, '会员删除成功'] : [RESULT_ERROR, self::$memberModel->getError()];
     }
 }

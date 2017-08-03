@@ -17,7 +17,7 @@ class Upload
     public function pictureUpload()
     {
         
-        $object = request()->file('imgFile')->move(UPLOAD_PATH . 'editor');
+        $object = request()->file('imgFile')->move(PATH_UPLOAD . 'editor');
         
         $result  = ['error' => DATA_DISABLE, 'url' => ''];
         
@@ -29,7 +29,7 @@ class Upload
             
             $filename = $object->getFilename();
             
-            $result['url'] = UPLOAD_PATH_RELATIVE . "editor/".$picture_dir_name."/".$filename;
+            $result['url'] = "/upload/editor/".$picture_dir_name."/".$filename;
         } else {
             
             $result['error'] = DATA_NORMAL;

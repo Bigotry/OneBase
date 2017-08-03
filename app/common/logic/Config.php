@@ -11,6 +11,20 @@ namespace app\common\logic;
 class Config extends LogicBase
 {
     
+    // 配置模型
+    public static $configModel = null;
+    
+    /**
+     * 构造方法
+     */
+    public function __construct()
+    {
+        
+        parent::__construct();
+        
+        self::$configModel = model($this->name);
+    }
+    
     /**
      * 获取配置列表
      */
@@ -19,7 +33,7 @@ class Config extends LogicBase
         
         $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
-        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
+        return self::$configModel->getList($where, $field, $order, $paginate_data);
     }
     
     /**
@@ -28,7 +42,7 @@ class Config extends LogicBase
     public function getConfigInfo($where = [], $field = true)
     {
         
-        return load_model($this->name)->getInfo($where, $field);
+        return self::$configModel->getInfo($where, $field);
     }
     
     /**
@@ -37,16 +51,14 @@ class Config extends LogicBase
     public function settingSave($data = [])
     {
         
-        $model = load_model($this->name);
-            
         foreach ($data as $name => $value) {
             
             $where = array('name' => $name);
             
-            $model->setInfo(array('value' => $value), $where);
+            self::$configModel->setInfo(array('value' => $value), $where);
         }
         
-        return [RESULT_SUCCESS, '设置保存成功', null];
+        return [RESULT_SUCCESS, '设置保存成功'];
     }
     
     /**
@@ -61,14 +73,12 @@ class Config extends LogicBase
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($this->name);
         
         $url = url('configList', array('group' => $data['group'] ? $data['group'] : 0));
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '配置添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$configModel->setInfo($data) ? [RESULT_SUCCESS, '配置添加成功', $url] : [RESULT_ERROR, self::$configModel->getError()];
     }
     
     /**
@@ -83,14 +93,12 @@ class Config extends LogicBase
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($this->name);
         
         $url = url('configList', array('group' => $data['group'] ? $data['group'] : 0));
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '配置编辑成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$configModel->setInfo($data) ? [RESULT_SUCCESS, '配置编辑成功', $url] : [RESULT_ERROR, self::$configModel->getError()];
     }
     
     /**
@@ -99,8 +107,6 @@ class Config extends LogicBase
     public function configDel($where = [])
     {
         
-        $model = load_model($this->name);
-        
-        return $model->deleteInfo($where) ? [RESULT_SUCCESS, '菜单删除成功', null] : [RESULT_ERROR, $model->getError(), null];
+        return self::$configModel->deleteInfo($where) ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$configModel->getError()];
     }
 }

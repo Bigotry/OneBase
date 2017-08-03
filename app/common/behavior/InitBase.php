@@ -184,6 +184,8 @@ class InitBase
     private function initSystemConst()
     {
         
+        define('SYS_APP_NAMESPACE'   , config('app_namespace'));
+        define('SYS_HOOK_DIR_NAME'   , 'hook');
         define('SYS_ADDON_DIR_NAME'  , 'addon');
         define('SYS_COMMON_DIR_NAME' , 'common');
         define('SYS_ADMINISTRATOR_ID', 1);
@@ -201,7 +203,7 @@ class InitBase
         define('PATH_UPLOAD'    , PATH_PUBLIC . 'upload'    . DS);
         define('PATH_PICTURE'   , PATH_UPLOAD . 'picture'   . DS);
         define('PATH_FILE'      , PATH_UPLOAD . 'file'      . DS);
-        define('PATH_SERVICE'   , ROOT_PATH   . DS . config('app_namespace') . DS . 'common' . DS . LAYER_SERVICE_NAME . DS);
+        define('PATH_SERVICE'   , ROOT_PATH   . DS . SYS_APP_NAMESPACE . DS . SYS_COMMON_DIR_NAME . DS . LAYER_SERVICE_NAME . DS);
     }
     
     /**
@@ -210,7 +212,7 @@ class InitBase
     private function initConfig()
     {
         
-        $model = model('common/Config');
+        $model = model(SYS_COMMON_DIR_NAME . '/Config');
         
         $config_list = $model->all();
         

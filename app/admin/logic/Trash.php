@@ -23,10 +23,10 @@ class Trash extends AdminBase
         
         foreach ($trash_config as $k => $v) {
             
-            $model = load_model($k);
+            $model = model($k);
             
             $temp = [];
-            
+            [$v];
             $temp['name']   = $k;
             $temp['model_path']  = $model->class;
             $temp['number'] = $model->stat([DATA_COMMON_STATUS => DATA_DELETE]);
@@ -45,15 +45,13 @@ class Trash extends AdminBase
         
         $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
-        $model = load_model($model_name);
-        
         $trash_config = parse_config_array('trash_config');
         
         $dynamic_field = $trash_config[$model_name];
         
         $field = 'id,' . TIME_CT_NAME . ','.TIME_UT_NAME.',' . $dynamic_field;
         
-        $list = $model->getList([DATA_COMMON_STATUS => DATA_DELETE], $field, 'id', $paginate_data);
+        $list = model($model_name)->getList([DATA_COMMON_STATUS => DATA_DELETE], $field, 'id', $paginate_data);
         
         return compact('list', 'dynamic_field', 'model_name');
     }
@@ -64,9 +62,9 @@ class Trash extends AdminBase
     public function trashDataDel($model_name = '', $id = 0)
     {
         
-        $model = load_model($model_name);
+        $model = model($model_name);
         
-        return $model->deleteInfo(['id' => $id], true) ? [RESULT_SUCCESS, '删除成功', null] : [RESULT_ERROR, $model->getError(), null];
+        return $model->deleteInfo(['id' => $id], true) ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $model->getError()];
     }
     
     /**
@@ -75,9 +73,9 @@ class Trash extends AdminBase
     public function restoreData($model_name = '', $id = 0)
     {
         
-        $model = load_model($model_name);
+        $model = model($model_name);
         
-        return $model->setFieldValue(['id' => $id], DATA_COMMON_STATUS, DATA_NORMAL) ? [RESULT_SUCCESS, '数据恢复成功', null] : [RESULT_ERROR, $model->getError(), null];
+        return $model->setFieldValue(['id' => $id], DATA_COMMON_STATUS, DATA_NORMAL) ? [RESULT_SUCCESS, '数据恢复成功'] : [RESULT_ERROR, $model->getError()];
     }
  
 }

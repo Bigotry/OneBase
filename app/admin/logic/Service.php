@@ -39,13 +39,11 @@ class Service extends AdminBase
     public function getObjectList($service_name)
     {
         
-        $app_namespace = config('app_namespace');
-        
         if (is_null($service_name)) {
             
             $file_list  = file_list(PATH_SERVICE);
 
-            $object_path = "\\$app_namespace\\" . SYS_COMMON_DIR_NAME . "\\" . LAYER_SERVICE_NAME;
+            $object_path = "\\" . SYS_APP_NAMESPACE . "\\" . SYS_COMMON_DIR_NAME . "\\" . LAYER_SERVICE_NAME;
             
         } else {
             
@@ -53,7 +51,7 @@ class Service extends AdminBase
             
             $file_list  = file_list(PATH_SERVICE . $driver_name. DS . 'driver');
 
-            $object_path = "\\$app_namespace\\" . SYS_COMMON_DIR_NAME . "\\" . LAYER_SERVICE_NAME ."\\$driver_name\\driver";
+            $object_path = "\\" . SYS_APP_NAMESPACE . "\\" . SYS_COMMON_DIR_NAME . "\\" . LAYER_SERVICE_NAME ."\\$driver_name\\driver";
         }
         
         foreach ($file_list as $v) {

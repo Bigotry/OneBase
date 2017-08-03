@@ -11,6 +11,20 @@ namespace app\admin\logic;
 class AuthGroup extends AdminBase
 {
     
+    // 权限组模型
+    public static $authGroupModel    = null;
+    
+    /**
+     * 构造方法
+     */
+    public function __construct()
+    {
+        
+        parent::__construct();
+        
+        self::$authGroupModel = model($this->name);
+    }
+    
     /**
      * 获取权限分组列表
      */
@@ -19,7 +33,7 @@ class AuthGroup extends AdminBase
         
         $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
-        return load_model($this->name)->getList($where, $field, $order, $paginate_data);
+        return self::$authGroupModel->getList($where, $field, $order, $paginate_data);
     }
     
     /**
@@ -34,14 +48,12 @@ class AuthGroup extends AdminBase
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($this->name);
         
         $url = url('groupList');
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$authGroupModel->setInfo($data) ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
     /**
@@ -56,14 +68,12 @@ class AuthGroup extends AdminBase
         
         if (!$validate_result) {
             
-            return [RESULT_ERROR, $validate->getError(), null];
+            return [RESULT_ERROR, $validate->getError()];
         }
-        
-        $model = load_model($this->name);
         
         $url = url('groupList');
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$authGroupModel->setInfo($data) ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
     /**
@@ -72,9 +82,7 @@ class AuthGroup extends AdminBase
     public function groupDel($where = [])
     {
         
-        $model = load_model($this->name);
-        
-        return $model->deleteInfo($where) ? [RESULT_SUCCESS, '权限组删除成功', null] : [RESULT_ERROR, $model->getError(), null];
+        return self::$authGroupModel->deleteInfo($where) ? [RESULT_SUCCESS, '权限组删除成功'] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
     /**
@@ -83,7 +91,7 @@ class AuthGroup extends AdminBase
     public function getGroupInfo($where = [], $field = true)
     {
         
-        return load_model($this->name)->getInfo($where, $field);
+        return self::$authGroupModel->getInfo($where, $field);
     }
 
     /**
@@ -94,11 +102,9 @@ class AuthGroup extends AdminBase
         
         $data['rules'] = !empty($data['rules']) ? implode(',', array_unique($data['rules'])) : '';
         
-        $model = load_model($this->name);
-
         $url = url('groupList');
         
-        return $model->setInfo($data) ? [RESULT_SUCCESS, '权限设置成功', $url] : [RESULT_ERROR, $model->getError(), null];
+        return self::$authGroupModel->setInfo($data) ? [RESULT_SUCCESS, '权限设置成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
     /**

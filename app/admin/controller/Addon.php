@@ -5,6 +5,8 @@
 
 namespace app\admin\controller;
 
+use app\common\logic\Addon as LogicAddon;
+
 /**
  * 插件控制器
  */
@@ -22,9 +24,8 @@ class Addon extends AdminBase
         
         parent::_initialize();
         
-        !isset(self::$addonLogic) && self::$addonLogic = load_model('Addon');
+        self::$addonLogic = get_sington_object('addonLogic', LogicAddon::class);
     }
-    
     
     /**
      * 执行插件控制器
@@ -32,7 +33,7 @@ class Addon extends AdminBase
     public function execute($addon_name = null, $controller_name = null, $action_name = null)
     {
         
-        $class_path = "\\".SYS_ADDON_DIR_NAME."\\".$addon_name."\controller\\".$controller_name;
+        $class_path = "\\".SYS_ADDON_DIR_NAME."\\".$addon_name."\\" .LAYER_CONTROLLER_NAME. "\\".$controller_name;
         
         $controller = new $class_path();
         
@@ -53,9 +54,7 @@ class Addon extends AdminBase
         
         $controller = new $class_path();
         
-        list($status, $message) = $controller->addonInstall();
-        
-        $this->jump($status, $message);
+        $this->jump($controller->addonInstall());
     }
     
     /**
@@ -72,9 +71,7 @@ class Addon extends AdminBase
         
         $controller = new $class_path();
         
-        list($status, $message) = $controller->addonUninstall();
-        
-        $this->jump($status, $message);
+        $this->jump($controller->addonUninstall());
     }
     
     /**

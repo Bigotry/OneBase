@@ -6,6 +6,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\ControllerBase;
+use app\admin\logic\Login as LogicLogin;
 
 /**
  * 登录控制器
@@ -24,7 +25,7 @@ class Login extends ControllerBase
         // 执行父类构造方法
         parent::_initialize();
         
-        !isset(self::$loginLogic) && self::$loginLogic = load_model('Login');
+        self::$loginLogic = get_sington_object('loginLogic', LogicLogin::class);
     }
     
     /**
@@ -33,7 +34,7 @@ class Login extends ControllerBase
     public function login()
     {
         
-        is_login() && $this->jump(RESULT_REDIRECT, '已经登录跳转主页', 'Index/index');
+        is_login() && $this->jump(RESULT_REDIRECT, 'Index/index');
         
         // 关闭布局
         $this->view->engine->layout(false);
@@ -47,9 +48,7 @@ class Login extends ControllerBase
     public function loginHandle($username = '', $password = '', $verify = '')
     {
         
-        list($status, $message, $url) = self::$loginLogic->loginHandle($username, $password, $verify);
-        
-        $this->jump($status, $message, $url);
+        $this->jump(self::$loginLogic->loginHandle($username, $password, $verify));
     }
     
     /**
@@ -58,9 +57,7 @@ class Login extends ControllerBase
     public function logout()
     {
         
-        list($status, $message, $url) = self::$loginLogic->logout();
-        
-        $this->jump($status, $message, $url);
+        $this->jump(self::$loginLogic->logout());
     }
     
 }
