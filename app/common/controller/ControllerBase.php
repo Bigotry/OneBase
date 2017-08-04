@@ -37,8 +37,8 @@ class ControllerBase extends Controller
         defined('MODULE_NAME')      or define('MODULE_NAME',     $this->request->module());
         defined('CONTROLLER_NAME')  or define('CONTROLLER_NAME', $this->request->controller());
         defined('ACTION_NAME')      or define('ACTION_NAME',     $this->request->action());
-        defined('URL')              or define('URL',             strtolower($this->request->controller() . '/' . $this->request->action()));
-        defined('URL_MODULE')       or define('URL_MODULE',      strtolower($this->request->module()) . '/' . URL);
+        defined('URL')              or define('URL',             strtolower($this->request->controller() . SYS_DSS . $this->request->action()));
+        defined('URL_MODULE')       or define('URL_MODULE',      strtolower($this->request->module()) . SYS_DSS . URL);
         
         $this->param = $this->request->param();
     }

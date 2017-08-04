@@ -11,7 +11,8 @@ KindEditor.plugin('template', function(K) {
 	var self = this, name = 'template', lang = self.lang(name + '.'),
 		htmlPath = self.pluginsPath + name + '/html/';
 	function getFilePath(fileName) {
-		return htmlPath + fileName + '?ver=' + encodeURIComponent(K.DEBUG ? K.TIME : K.VERSION);
+//		return htmlPath + fileName + '?ver=' + encodeURIComponent(K.DEBUG ? K.TIME : K.VERSION);
+		return htmlPath + fileName;
 	}
 	self.clickToolbar(name, function() {
 		var lang = self.lang(name + '.'),

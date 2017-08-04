@@ -242,7 +242,7 @@ function file_list($path = '')
     
     foreach ($file as $k => $v) {
         
-        if (is_dir($path . '/' . $v)) {
+        if (is_dir($path . SYS_DSS . $v)) {
 
             unset($file[$k]);
         }
@@ -457,4 +457,10 @@ function set_cache_statistics_number($key = '')
     !empty($key) && ++$auto_cache_info[$key];
     
     cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
+}
+
+
+function sss() {
+    
+    die('sss');
 }

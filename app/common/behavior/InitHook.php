@@ -19,9 +19,9 @@ class InitHook
     public function run()
     {
         
-        $HookModel  = model(SYS_COMMON_DIR_NAME . '/' . ucwords(SYS_HOOK_DIR_NAME));
+        $HookModel  = model(SYS_COMMON_DIR_NAME . SYS_DSS . ucwords(SYS_HOOK_DIR_NAME));
         
-        $AddonModel = model(SYS_COMMON_DIR_NAME . '/' . ucwords(SYS_ADDON_DIR_NAME));
+        $AddonModel = model(SYS_COMMON_DIR_NAME . SYS_DSS . ucwords(SYS_ADDON_DIR_NAME));
         
         $hook_list = $HookModel->column('name,addon_list');
 

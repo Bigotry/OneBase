@@ -29,7 +29,7 @@ class Upload
             
             $filename = $object->getFilename();
             
-            $result['url'] = "/upload/editor/".$picture_dir_name."/".$filename;
+            $result['url'] = "/upload/editor/" . $picture_dir_name . SYS_DSS . $filename;
         } else {
             
             $result['error'] = DATA_NORMAL;

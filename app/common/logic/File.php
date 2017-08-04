@@ -58,7 +58,7 @@ class File extends LogicBase
         
         //todo 云存储
         
-        $data = ['name' => $filename, 'path' => $picture_dir_name. '/' . $filename];
+        $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DSS . $filename];
         
         //保存到数据库
         $result = self::$pictureModel->addInfo($data);
