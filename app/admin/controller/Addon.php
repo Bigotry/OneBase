@@ -80,8 +80,6 @@ class Addon extends AdminBase
     public function addonList()
     {
         
-        $this->setTitle('插件列表');
-        
         $this->assign('list', self::$addonLogic->getAddonList());
         
         return $this->fetch('addon_list');
@@ -92,8 +90,6 @@ class Addon extends AdminBase
      */
     public function hookList()
     {
-        
-        $this->setTitle('钩子列表');
         
         $this->assign('list', self::$addonLogic->getHookList());
         

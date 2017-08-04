@@ -33,8 +33,6 @@ class Auth extends AdminBase
     public function groupList()
     {
         
-        $this->setTitle('权限管理');
-        
         $this->assign('list', self::$authGroupLogic->getAuthGroupList());
         
         return $this->fetch('group_list');
@@ -46,8 +44,6 @@ class Auth extends AdminBase
     public function groupAdd()
     {
         
-        $this->setTitle('权限组添加');
-        
         IS_POST && $this->jump(self::$authGroupLogic->groupAdd($this->param));
         
         return $this->fetch('group_edit');
@@ -58,8 +54,6 @@ class Auth extends AdminBase
      */
     public function groupEdit()
     {
-        
-        $this->setTitle('权限组编辑');
         
         IS_POST && $this->jump(self::$authGroupLogic->groupEdit($this->param));
         
@@ -96,8 +90,6 @@ class Auth extends AdminBase
         $this->assign('list', $menu_view);
         
         $this->assign('id', $this->param['id']);
-        
-        $this->setTitle('菜单授权');
         
         return $this->fetch('menu_auth');
     }

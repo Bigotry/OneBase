@@ -33,8 +33,6 @@ class Trash extends AdminBase
     public function trashList()
     {
         
-        $this->setTitle('回收站列表');
-        
         $this->assign('list', self::$trashLogic->getTrashList());
         
         return $this->fetch('trash_list');
@@ -45,8 +43,6 @@ class Trash extends AdminBase
      */
     public function trashDataList()
     {
-        
-        $this->setTitle('数据列表');
         
         $data = self::$trashLogic->getTrashDataList($this->param['name']);
         

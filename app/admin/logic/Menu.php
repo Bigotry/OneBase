@@ -267,4 +267,13 @@ class Menu extends AdminBase
         
         return self::$menuModel->deleteInfo($where) ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$menuModel->getError()];
     }
+    
+    /**
+     * 获取默认页面标题
+     */
+    public function getDefaultTitle()
+    {
+        
+        return self::$menuModel->getValue(['module' => MODULE_NAME, 'url' => URL], 'name');
+    }
 }

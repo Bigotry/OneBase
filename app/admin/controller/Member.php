@@ -38,8 +38,6 @@ class Member extends AdminBase
         
         IS_POST && $this->jump(self::$memberLogic->addToGroup($this->param));
         
-        $this->setTitle('会员授权');
-        
         $authGroupLogic = get_sington_object('authGroupLogic', LogicAuthGroup::class);
         
         //所有的权限组
@@ -64,8 +62,6 @@ class Member extends AdminBase
     public function memberList()
     {
         
-        $this->setTitle('会员列表');
-        
         $this->assign('list', self::$memberLogic->getMemberList());
         
         return $this->fetch('member_list');
@@ -76,8 +72,6 @@ class Member extends AdminBase
      */
     public function memberAdd()
     {
-        
-        $this->setTitle('会员添加');
         
         IS_POST && $this->jump(self::$memberLogic->memberAdd($this->param));
         

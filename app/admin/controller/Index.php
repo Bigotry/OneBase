@@ -17,8 +17,6 @@ class Index extends AdminBase
     public function index()
     {
         
-        $this->setTitle('首页');
-        
         return $this->fetch('index');
     }
 }

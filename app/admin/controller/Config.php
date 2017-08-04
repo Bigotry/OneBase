@@ -43,8 +43,6 @@ class Config extends AdminBase
         
         $this->assign('group', $where['group']);
         
-        $this->setTitle('系统设置');
-        
         return  $this->fetch('setting');
     }
 
@@ -53,8 +51,6 @@ class Config extends AdminBase
      */
     public function configList()
     {
-        
-        $this->setTitle('配置列表');
         
         $where = empty($this->param['group']) ? [] : ['group' => $this->param['group']];
         
@@ -88,8 +84,6 @@ class Config extends AdminBase
     public function configAdd()
     {
         
-        $this->setTitle('配置添加');
-        
         IS_POST && $this->jump(self::$configLogic->configAdd($this->param));
         
         $this->getConfigCommonData();
@@ -104,8 +98,6 @@ class Config extends AdminBase
      */
     public function configEdit()
     {
-        
-        $this->setTitle('配置编辑');
         
         IS_POST && $this->jump(self::$configLogic->configEdit($this->param));
         

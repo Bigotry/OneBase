@@ -33,8 +33,6 @@ class Article extends AdminBase
     public function articleList()
     {
         
-        $this->setTitle('文章列表');
-        
         $this->assign('list', self::$articleLogic->getArticleList());
         
         return $this->fetch('article_list');
@@ -45,8 +43,6 @@ class Article extends AdminBase
      */
     public function articleAdd()
     {
-        
-        $this->setTitle('文章添加');
         
         $this->articleCommon();
         
@@ -60,8 +56,6 @@ class Article extends AdminBase
      */
     public function articleEdit()
     {
-        
-        $this->setTitle('文章编辑');
         
         $this->articleCommon();
         
@@ -89,8 +83,6 @@ class Article extends AdminBase
     public function articleCategoryAdd()
     {
         
-        $this->setTitle('文章分类添加');
-        
         IS_POST && $this->jump(self::$articleLogic->articleCategoryEdit($this->param));
         
         return $this->fetch('article_category_edit');
@@ -101,8 +93,6 @@ class Article extends AdminBase
      */
     public function articleCategoryEdit()
     {
-        
-        $this->setTitle('文章分类编辑');
         
         IS_POST && $this->jump(self::$articleLogic->articleCategoryEdit($this->param));
         
@@ -118,8 +108,6 @@ class Article extends AdminBase
      */
     public function articleCategoryList()
     {
-        
-        $this->setTitle('文章分类管理');
         
         $this->assign('list', self::$articleLogic->getArticleCategoryList());
        

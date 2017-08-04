@@ -99,6 +99,9 @@ class AdminBase extends ControllerBase
         // 获取面包屑
         $this->crumbsView = $this->menuLogic->getCrumbsView();
         
+        // 获取默认标题
+        $this->assign('ob_title', $this->menuLogic->getDefaultTitle());
+        
         // 菜单视图
         $this->assign('menu_view', $this->menuView);
         
@@ -120,7 +123,7 @@ class AdminBase extends ControllerBase
     }
     
     /**
-     * 设置页面标题
+     * 设置指定标题
      */
     final protected function setTitle($title = '')
     {
