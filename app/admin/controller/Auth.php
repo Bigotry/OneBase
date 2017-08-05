@@ -33,7 +33,7 @@ class Auth extends AdminBase
     public function groupList()
     {
         
-        $this->assign('list', self::$authGroupLogic->getAuthGroupList());
+        $this->assign('list', self::$authGroupLogic->getAuthGroupList([], true, '', DB_LIST_ROWS));
         
         return $this->fetch('group_list');
     }

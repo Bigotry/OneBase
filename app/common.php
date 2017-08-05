@@ -43,10 +43,7 @@ function data_auth_sign($data)
 {
     
     // 数据类型检测
-    if (!is_array($data)) {
-        
-        $data = (array)$data;
-    }
+    if (!is_array($data)) : $data = (array)$data; endif;
     
     // 排序
     ksort($data);
@@ -242,10 +239,7 @@ function file_list($path = '')
     
     foreach ($file as $k => $v) {
         
-        if (is_dir($path . SYS_DSS . $v)) {
-
-            unset($file[$k]);
-        }
+        if (is_dir($path . SYS_DSS . $v)) : unset($file[$k]); endif;
     }
     
     return array_values($file);
@@ -366,9 +360,9 @@ function get_cache_tag($name, $join = null)
     
     $table_string = '';
     
-    if (!empty($join['join'])) {
+    if (!empty($join)) {
         
-        foreach ($join['join'] as $v) {
+        foreach ($join as $v) {
             
             $names = explode(' ', $v[0]);
             
@@ -402,9 +396,9 @@ function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, 
     
     $version = '';
     
-    if (!empty($join['join'])) {
+    if (!empty($join)) {
         
-        foreach ($join['join'] as $v) {
+        foreach ($join as $v) {
             
             $names = explode(' ', $v[0]);
             
@@ -459,8 +453,17 @@ function set_cache_statistics_number($key = '')
     cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
 }
 
-
-function sss() {
+/**
+ * 获取图片url
+ */
+function get_picture_url($id = 0)
+{
     
-    die('sss');
+    $info = model('Picture')->where(['id' => $id])->field('path,url')->find();
+
+    if (!empty($info['url']))  : return $info['url'];  endif;
+
+    if (!empty($info['path'])) : return '/upload/picture/'.$info['path'];  endif;
+
+    return '/static/admin/img/onimg.png';
 }

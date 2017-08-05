@@ -40,10 +40,8 @@ class Trash extends AdminBase
     /**
      * 获取回收站数据列表
      */
-    public function getTrashDataList($model_name = '', $is_paginate = true)
+    public function getTrashDataList($model_name = '')
     {
-        
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
         
         $trash_config = parse_config_array('trash_config');
         
@@ -51,7 +49,7 @@ class Trash extends AdminBase
         
         $field = 'id,' . TIME_CT_NAME . ','.TIME_UT_NAME.',' . $dynamic_field;
         
-        $list = model($model_name)->getList([DATA_COMMON_STATUS => DATA_DELETE], $field, 'id', $paginate_data);
+        $list = model($model_name)->getList([DATA_COMMON_STATUS => DATA_DELETE], $field, 'id desc');
         
         return compact('list', 'dynamic_field', 'model_name');
     }

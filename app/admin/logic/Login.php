@@ -19,26 +19,17 @@ class Login extends AdminBase
     public function loginHandle($username = '', $password = '', $verify = '')
     {
 
-        if (empty($username) || empty($password)) {
-
-            return [RESULT_ERROR, '账号或密码不能为空'];
+        if (empty($username) || empty($password)) : return [RESULT_ERROR, '账号或密码不能为空']; endif;
             
-        }elseif (empty($verify)) {
-            
-            return [RESULT_ERROR, '验证码不能为空'];
-        }elseif (!captcha_check($verify)) {
-            
-            return [RESULT_ERROR, '验证码输入错误'];
-        }
+        if (empty($verify)) : return [RESULT_ERROR, '验证码不能为空']; endif;
+       
+        if (!captcha_check($verify)) : return [RESULT_ERROR, '验证码输入错误']; endif;
         
         $memberLogic = get_sington_object('memberLogic', LogicMember::class);
         
         $member = $memberLogic->getMemberInfo(['username' => $username]);
 
-        if (empty($member)) {
-
-            return [RESULT_ERROR, '用户不存在'];
-        }
+        if (empty($member)) : return [RESULT_ERROR, '用户不存在']; endif;
         
         // 验证用户密码
         if (data_md5($password, SYS_ENCRYPT_KEY) === $member['password']) {

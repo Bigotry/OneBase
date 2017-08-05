@@ -54,10 +54,7 @@ class Addon extends LogicBase
             
             $class = "\\".SYS_ADDON_DIR_NAME."\\$v\\".ucfirst($v);
             
-            if (!isset(self::$instance[$class])) {
-                
-                self::$instance[$class] = new $class();
-            }
+            if (!isset(self::$instance[$class])) : self::$instance[$class] = new $class(); endif;
         }
         
         return self::$instance;
@@ -66,12 +63,10 @@ class Addon extends LogicBase
     /**
      * 获取钩子列表
      */
-    public function getHookList($where = [], $field = true, $order = '', $is_paginate = true)
+    public function getHookList($where = [], $field = true, $order = '')
     {
         
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
-        
-        return model(ucwords(SYS_HOOK_DIR_NAME))->getList($where, $field, $order, $paginate_data);
+        return model(ucwords(SYS_HOOK_DIR_NAME))->getList($where, $field, $order);
     }
     
     /**

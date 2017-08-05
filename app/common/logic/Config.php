@@ -28,12 +28,10 @@ class Config extends LogicBase
     /**
      * 获取配置列表
      */
-    public function getConfigList($where = [], $field = true, $order = '', $is_paginate = true)
+    public function getConfigList($where = [], $field = true, $order = '', $paginate = 0)
     {
         
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
-        
-        return self::$configModel->getList($where, $field, $order, $paginate_data);
+        return self::$configModel->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -71,10 +69,7 @@ class Config extends LogicBase
         
         $validate_result = $validate->scene('add')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('configList', array('group' => $data['group'] ? $data['group'] : 0));
         
@@ -91,10 +86,7 @@ class Config extends LogicBase
         
         $validate_result = $validate->scene('edit')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('configList', array('group' => $data['group'] ? $data['group'] : 0));
         

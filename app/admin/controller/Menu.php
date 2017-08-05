@@ -19,7 +19,7 @@ class Menu extends AdminBase
         
         $where = empty($this->param['pid']) ? ['pid' => 0] : ['pid' => $this->param['pid']];
         
-        $this->assign('list', $this->menuLogic->getMenuList($where));
+        $this->assign('list', $this->menuLogic->getMenuList($where, true, '', DB_LIST_ROWS));
         
         $this->assign('pid', $where['pid']);
         

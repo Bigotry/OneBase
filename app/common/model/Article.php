@@ -32,28 +32,4 @@ class Article extends ModelBase
         
         return $model->getValue([$model->getPk() => $this->data['category_id']], 'name');
     }
-    
-    /**
-     * 封面获取器
-     */
-    public function getCoverPathAttr()
-    {
-        
-        $model = model('Picture');
-        
-        $info = $model->getInfo([$model->getPk() => $this->data['cover_id']], 'path,url');
-        
-        if (!empty($info['url'])) {
-            
-            return $info['url'];
-        } elseif (!empty($info['path'])){
-            
-            return '/upload/picture/'.$info['path'];
-        }else{
-            
-            return $info['url'];
-        }
-    }
-    
-    
 }

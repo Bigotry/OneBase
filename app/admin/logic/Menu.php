@@ -202,12 +202,10 @@ class Menu extends AdminBase
     /**
      * 获取菜单列表
      */
-    public function getMenuList($where = [], $field = true, $order = '', $is_paginate = true)
+    public function getMenuList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
-        
-        return self::$menuModel->getList($where, $field, $order, $paginate_data);
+        return self::$menuModel->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -229,10 +227,7 @@ class Menu extends AdminBase
         
         $validate_result = $validate->scene('add')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
@@ -249,10 +244,7 @@ class Menu extends AdminBase
         
         $validate_result = $validate->scene('edit')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         

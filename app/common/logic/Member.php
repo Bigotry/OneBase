@@ -37,12 +37,10 @@ class Member extends LogicBase
     /**
      * 获取会员列表
      */
-    public function getMemberList($where = [], $field = true, $order = '', $is_paginate = true)
+    public function getMemberList($where = [], $field = true, $order = '')
     {
         
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
-        
-        return self::$memberModel->getList($where, $field, $order, $paginate_data);
+        return self::$memberModel->getList($where, $field, $order);
     }
     
     /**
@@ -51,10 +49,7 @@ class Member extends LogicBase
     public function addToGroup($data = [])
     {
         
-        if (SYS_ADMINISTRATOR_ID == $data['id']) {
-            
-            return [RESULT_ERROR, '天神不能授权哦~'];
-        }
+        if (SYS_ADMINISTRATOR_ID == $data['id']) : return [RESULT_ERROR, '天神不能授权哦~']; endif;
         
         $model = model('AuthGroupAccess');
         
@@ -64,10 +59,7 @@ class Member extends LogicBase
         
         $url = url('memberList');
         
-        if (empty($data['group_id'])) {
-            
-            return [RESULT_SUCCESS, '会员授权成功', $url];
-        }
+        if (empty($data['group_id'])) : return [RESULT_SUCCESS, '会员授权成功', $url]; endif;
         
         $add_data = [];
         
@@ -89,10 +81,7 @@ class Member extends LogicBase
         
         $validate_result = $validate->scene('add')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('memberList');
         
@@ -107,10 +96,7 @@ class Member extends LogicBase
     public function memberDel($where = [])
     {
         
-        if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) {
-            
-            return [RESULT_ERROR, '天神和自己不能删除哦~'];
-        }
+        if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) : return [RESULT_ERROR, '天神和自己不能删除哦~']; endif;
         
         return self::$memberModel->deleteInfo($where) ? [RESULT_SUCCESS, '会员删除成功'] : [RESULT_ERROR, self::$memberModel->getError()];
     }

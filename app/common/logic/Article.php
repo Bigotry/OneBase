@@ -40,10 +40,7 @@ class Article extends LogicBase
         
         $validate_result = $validate->scene('edit')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('articleCategoryList');
         
@@ -53,12 +50,10 @@ class Article extends LogicBase
     /**
      * 获取文章列表
      */
-    public function getArticleList($where = [], $field = true, $order = '', $is_paginate = true)
+    public function getArticleList($where = [], $field = true, $order = '')
     {
         
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
-        
-        return self::$articleModel->getList($where, $field, $order, $paginate_data);
+        return self::$articleModel->getList($where, $field, $order, DB_LIST_ROWS);
     }
     
     /**
@@ -71,10 +66,7 @@ class Article extends LogicBase
         
         $validate_result = $validate->scene('edit')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('articleList');
         
@@ -106,12 +98,10 @@ class Article extends LogicBase
     /**
      * 获取文章分类列表
      */
-    public function getArticleCategoryList($where = [], $field = true, $order = '', $is_paginate = true)
+    public function getArticleCategoryList($where = [], $field = true, $order = '', $paginate = 0)
     {
         
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
-        
-        return self::$articleCategoryModel->getList($where, $field, $order, $paginate_data);
+        return self::$articleCategoryModel->getList($where, $field, $order, $paginate);
     }
     
     /**

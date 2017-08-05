@@ -28,12 +28,10 @@ class AuthGroup extends AdminBase
     /**
      * 获取权限分组列表
      */
-    public function getAuthGroupList($where = [], $field = true, $order = '', $is_paginate = true)
+    public function getAuthGroupList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        $paginate_data = $is_paginate ? ['rows' => DB_LIST_ROWS] : false;
-        
-        return self::$authGroupModel->getList($where, $field, $order, $paginate_data);
+        return self::$authGroupModel->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -46,10 +44,7 @@ class AuthGroup extends AdminBase
         
         $validate_result = $validate->scene('add')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('groupList');
         
@@ -66,10 +61,7 @@ class AuthGroup extends AdminBase
         
         $validate_result = $validate->scene('edit')->check($data);
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $validate->getError()];
-        }
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('groupList');
         

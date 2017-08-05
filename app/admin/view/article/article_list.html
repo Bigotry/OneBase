@@ -24,9 +24,7 @@
                   <td>{$vo.describe}</td>
                   <td>{$vo.category_name}</td>
                   <td>
-                    {notempty name="vo['cover_path']"}
-                        <img class="admin-list-img-size" src="{$vo.cover_path}"/>
-                    {/notempty}
+                      <img class="admin-list-img-size" src="{$vo.cover_id|get_picture_url}"/>
                   </td>
                   <td>{$vo.nickname}</td>
                   <td>{$vo.create_time}</td>

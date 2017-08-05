@@ -25,19 +25,13 @@ class AdminBase extends LogicBase
         
         $allow_url_list  = parse_config_attr($allow_url);
         
-        if (IS_ROOT) {
-            
-            return $pass_data;
-        }
+        if (IS_ROOT) : return $pass_data; endif;
         
         if (!empty($allow_url_list)) {
             
             foreach ($allow_url_list as $v) {
                 
-                if (strpos(strtolower($url), strtolower($v)) !== false) {
-                    
-                    return $pass_data;
-                }
+                if (strpos(strtolower($url), strtolower($v)) !== false) : return $pass_data; endif;
             }
         }
         
@@ -58,10 +52,7 @@ class AdminBase extends LogicBase
             
             [$message];
             
-            if ((!IS_ROOT && RESULT_ERROR == $status) || !empty($menu_info['is_hide'])) {
-
-                unset($menu_list[$key]);
-            }
+            if ((!IS_ROOT && RESULT_ERROR == $status) || !empty($menu_info['is_hide'])) : unset($menu_list[$key]); endif;
         }
         
         return $this->getListTree($menu_list);

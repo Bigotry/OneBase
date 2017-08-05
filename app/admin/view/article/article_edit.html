@@ -38,9 +38,7 @@
                 <span class="">（封面图片，只能上传一张图片）</span>
                 <br/>
                 <div id='upload_show_div' style="width:120px;display: inline;">
-                    {notempty name="info['cover_path']"}
-                        <img style='max-width:100px; margin-right: 20px;' src="{$info['cover_path']}" />
-                    {/notempty}
+                    <img style='max-width:100px; margin-right: 20px;' src="{$info['cover_id']|get_picture_url}" />
                 </div>
                 <img src="__STATIC__/admin/img/plus.jpg" style='max-width:100px;' id='cover_img' />
                 <input type="hidden" name="cover_id" id='cover_id' value="{$info['cover_id']|default='0'}"/>

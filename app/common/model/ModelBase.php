@@ -67,7 +67,7 @@ class ModelBase extends Model
     final protected function addInfo($data = [], $is_return_pk = true)
     {
         
-        $data['create_time'] = TIME_NOW;
+        $data[TIME_CT_NAME] = TIME_NOW;
         
         $return_data = $this->insert($data, false, $is_return_pk);
         
@@ -162,41 +162,39 @@ class ModelBase extends Model
     /**
      * 获取单条数据
      */
-    final protected function getInfo($where = [], $field = true)
+    final protected function getInfo($where = [], $field = true, $join = null, $data = null)
     {
         
-        return $this->where($where)->field($field)->find();
+        $cache_tag = get_cache_tag($this->name, $join);
+        
+        $cache_key = get_cache_key($this->name, $where, $field, null, null, $join, null, null, $data);
+        
+        empty($join) ? self::$ob_query = $this->where($where)->field($field) : self::$ob_query = $this->join($join)->where($where)->field($field);
+        
+        return $this->getResultData($cache_key, $cache_tag, DATA_DISABLE, $data);
     }
     
     /**
      * 获取列表数据
      */
-    final protected function getList($where = [], $field = true, $order = '', $paginate = array('rows' => null, 'simple' => false, 'config' => []), $join = array('join' => null, 'condition' => null, 'type' => 'INNER'), $group = array('group' => '', 'having' => ''), $limit = null, $data = null)
+    final protected function getList($where = [], $field = true, $order = '', $paginate = 0, $join = [], $group = '', $limit = null, $data = null)
     {
         
         !isset($where[DATA_COMMON_STATUS]) && $where[DATA_COMMON_STATUS] = ['neq', DATA_DELETE];
         
-        $paginate['simple'] = empty($paginate['simple']) ? false   : $paginate['simple'];
-        
-        $paginate['config'] = empty($paginate['config']) ? []      : $paginate['config'];
-        
-        $join['condition']  = empty($join['condition'])  ? null    : $join['condition'];
-        
-        $join['type']       = empty($join['type'])       ? 'INNER' : $join['type'];
-        
-        $group['having']    = empty($group['having'])    ? ''      : $group['having'];
-        
         self::$ob_query = $this->where($where)->order($order);
-        
-        !empty($join['join'])     && self::$ob_query = self::$ob_query->join($join['join'], $join['condition'], $join['type']);
         
         self::$ob_query = self::$ob_query->field($field);
         
-        !empty($group['group'])   && self::$ob_query = self::$ob_query->group($group['group'], $group['having']);
+        !empty($join)  && self::$ob_query = self::$ob_query->join($join);
+        
+        !empty($group) && self::$ob_query = self::$ob_query->group($group);
     
-        !empty($limit)            && self::$ob_query = self::$ob_query->limit($limit);
+        !empty($limit) && self::$ob_query = self::$ob_query->limit($limit);
         
         $cache_tag = get_cache_tag($this->name, $join);
+        
+        if (DATA_DISABLE === $paginate) : $paginate = DB_LIST_ROWS; endif;
         
         $cache_key = get_cache_key($this->name, $where, $field, $order, $paginate, $join, $group, $limit, $data);
         
@@ -206,27 +204,41 @@ class ModelBase extends Model
     /**
      * 获取结果数据
      */
-    final protected function getResultData($cache_key = '', $cache_tag = '', $paginate = null, $data = null)
+    final protected function getResultData($cache_key = '', $cache_tag = '', $paginate = 0, $data = null)
     {
         
         $result_data = null;
         
         if (Cache::has($cache_key)) {
-            
+
             $result_data = unserialize(Cache::get($cache_key));
             
             !empty($result_data) && set_cache_statistics_number(CACHE_EXE_HIT_KEY);
             
         } else {
             
-            $result_data = !empty($paginate['rows']) ? self::$ob_query->paginate($paginate['rows'], $paginate['simple'], $paginate['config']) : self::$ob_query->select($data);
-            
+            $backtrace = debug_backtrace(false, 2);
+
+            array_shift($backtrace);
+
+            $function = $backtrace[0]['function'];
+
+            if($function == 'getList') {
+
+                $result_data = false !== $paginate ? self::$ob_query->paginate($paginate) : self::$ob_query->select($data);
+
+            } else {
+
+                $result_data = self::$ob_query->find($data);
+            }
+
             Cache::tag($cache_tag)->set($cache_key, serialize($result_data));
         }
         
         !empty($result_data) && set_cache_statistics_number(CACHE_EXE_NUMBER_KEY);
         
+        self::$ob_query->removeOption();
+        
         return $result_data;
     }
-    
 }

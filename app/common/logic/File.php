@@ -63,12 +63,7 @@ class File extends LogicBase
         //保存到数据库
         $result = self::$pictureModel->addInfo($data);
         
-        if ($result) {
-            
-            $data['id'] = $result;
-            
-            return $data;
-        }
+        if ($result) : $data['id'] = $result; return $data; endif;
         
         return  false;
     }
