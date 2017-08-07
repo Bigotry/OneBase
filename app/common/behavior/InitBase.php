@@ -192,6 +192,7 @@ class InitBase
         define('SYS_HOOK_DIR_NAME'   , 'hook');
         define('SYS_ADDON_DIR_NAME'  , 'addon');
         define('SYS_COMMON_DIR_NAME' , 'common');
+        define('SYS_VERSION'         , '1.0.0');
         define('SYS_ADMINISTRATOR_ID', 1);
         define('SYS_DSS', '/');
         define('SYS_ENCRYPT_KEY'     , '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:');

@@ -60,4 +60,13 @@ class Login extends ControllerBase
         $this->jump(self::$loginLogic->logout());
     }
     
+    /**
+     * 清理缓存
+     */
+    public function clearCache()
+    {
+        
+        $this->jump(self::$loginLogic->clearCache());
+    }
+    
 }

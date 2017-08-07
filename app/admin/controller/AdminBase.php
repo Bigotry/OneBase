@@ -107,6 +107,9 @@ class AdminBase extends ControllerBase
         
         // 面包屑视图
         $this->assign('crumbs_view', $this->crumbsView);
+        
+        // 登录会员信息
+        $this->assign('member_info', session('member_info'));
     }
     
     /**

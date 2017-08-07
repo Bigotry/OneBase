@@ -34,8 +34,11 @@ class Login extends AdminBase
         // 验证用户密码
         if (data_md5($password, SYS_ENCRYPT_KEY) === $member['password']) {
             
-            $auth = ['member_id' => $member['id'], TIME_UT_NAME => $member[TIME_UT_NAME]];
-
+            $memberLogic->setMemberValue(['id' => $member['id']], TIME_UT_NAME, TIME_NOW);
+            
+            $auth = ['member_id' => $member['id'], TIME_UT_NAME => TIME_NOW];
+            
+            session('member_info', $member);
             session('member_auth', $auth);
             session('member_auth_sign', data_auth_sign($auth));
 
@@ -53,10 +56,22 @@ class Login extends AdminBase
     public function logout()
     {
         
+        session('member_info', null);
         session('member_auth', null);
         session('member_auth_sign', null);
         session('[destroy]');
         
         return [RESULT_SUCCESS, '注销成功', url('Login/login')];
+    }
+    
+    /**
+     * 清理缓存
+     */
+    public function clearCache()
+    {
+        
+        \think\Cache::clear();
+        
+        return [RESULT_SUCCESS, '清理成功', url('index/index')];
     }
 }

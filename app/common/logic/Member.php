@@ -91,6 +91,15 @@ class Member extends LogicBase
     }
     
     /**
+     * 设置会员信息
+     */
+    public function setMemberValue($where = [], $field = '', $value = '')
+    {
+        
+        return self::$memberModel->setFieldValue($where, $field, $value);
+    }
+    
+    /**
      * 会员删除
      */
     public function memberDel($where = [])

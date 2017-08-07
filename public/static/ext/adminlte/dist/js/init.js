@@ -42,9 +42,9 @@
       + "</a>");
 
   //Add the tab button to the right sidebar tabs
-  $("[href='#control-sidebar-home-tab']")
-      .parent()
-      .before(tab_button);
+//  $("[href='#control-sidebar-home-tab']")
+//      .parent()
+//      .before(tab_button);
 
   //Create the menu
   var demo_settings = $("<div />");

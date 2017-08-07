@@ -17,6 +17,15 @@
         function success(data){ obalert(data); }
     });
     
+    //清理缓存
+    $(".clear_cache").click(function(){
+        
+        $.post($(this).attr('url'), {}, success, "json");
+        return false;
+        
+        function success(data){ obalert(data); }
+    });
+    
     //登录
     $(".admin-login-form").submit(function(){
         

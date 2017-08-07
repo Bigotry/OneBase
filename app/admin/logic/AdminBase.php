@@ -67,4 +67,37 @@ class AdminBase extends LogicBase
         return list_to_tree(array_values($list), 'id', 'pid', 'child');
     }
     
+    /**
+     * 获取首页数据
+     */
+    public function getIndexData()
+    {
+        
+        $query = new \think\db\Query();
+        
+        $system_info_mysql = $query->query("select version() as v;");
+        
+        $cache_info = cache(AUTO_CACHE_KEY);
+        
+        // 系统信息
+        $data['ob_version']     = SYS_VERSION;
+        $data['think_version']  = THINK_VERSION;
+        $data['os']             = PHP_OS;
+        $data['software']       = $_SERVER['SERVER_SOFTWARE'];
+        $data['mysql_version']  = $system_info_mysql[0]['v'];
+        $data['upload_max']     = ini_get('upload_max_filesize');
+        $data['php_version']    = PHP_VERSION;
+        
+        // 产品信息
+        $data['product_name']   = 'OneBase开源免费基础架构';
+        $data['author']         = 'Bigotry';
+        $data['website']        = 'www.onebase.org';
+        $data['qun']            = '630910732';
+        $data['document']       = '制作中...';
+        $data['chache_number']  = count($cache_info[CACHE_CACHE_KEY]);
+        $data['hit']            = round($cache_info[CACHE_EXE_HIT_KEY] / $cache_info[CACHE_EXE_NUMBER_KEY] * 100, 2) . '%';
+
+        return $data;
+    }
+    
 }

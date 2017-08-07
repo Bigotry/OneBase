@@ -17,6 +17,11 @@ class Index extends AdminBase
     public function index()
     {
         
+        // 获取首页数据
+        $index_data = $this->adminBaseLogic->getIndexData();
+        
+        $this->assign('info', $index_data);
+        
         return $this->fetch('index');
     }
 }
