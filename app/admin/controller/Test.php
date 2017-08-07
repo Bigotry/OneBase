@@ -7,6 +7,7 @@ namespace app\admin\controller;
 
 use app\common\controller\ControllerBase;
 use app\admin\logic\Test as LogicTest;
+
 /**
  * 测试控制器
  */

@@ -21,7 +21,7 @@ class Imginput extends AddonBase implements AddonInterface
     public function ImgUpload($param = [])
     {
         
-        [$param];
+        $this->assign('addons_data', $param);
         
         $this->addonTemplate('index/index');
     }
@@ -32,7 +32,9 @@ class Imginput extends AddonBase implements AddonInterface
     public function addonInstall()
     {
         
-        return [RESULT_SUCCESS, '编辑器安装成功'];
+        $this->addonCacheUpdate();
+        
+        return [RESULT_SUCCESS, '安装成功'];
     }
     
     /**
@@ -41,7 +43,9 @@ class Imginput extends AddonBase implements AddonInterface
     public function addonUninstall()
     {
         
-        return [RESULT_SUCCESS, '编辑器卸载成功'];
+        $this->addonCacheUpdate();
+        
+        return [RESULT_SUCCESS, '卸载成功'];
     }
     
     /**

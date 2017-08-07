@@ -30,5 +30,48 @@
             </div>
         </div>
     </div>
-    <script src="{$static_path}dist/webuploader.min.js"></script>
-    <script src="{$static_path}js/upload.js"></script>
+    
+<script src="{$static_path}dist/webuploader.min.js"></script>
+<script src="{$static_path}js/upload.js"></script>
+    
+<script type="text/javascript">
+
+var upload_id = "{$addons_data['id']}";
+
+var max_number = "{$addons_data['max_number']}";
+
+$("#" + upload_id).click(function(){
+    
+    $('#wrapper').remodal().open();
+});
+
+var img_upload_url = "{:url('File/pictureUpload')}";
+
+var upload_param = {
+        pick: {
+            id: '#filePicker',
+            label: '点击选择图片'
+        },
+        formData: {
+            uid: 0
+        },
+        dnd: '#dndArea',
+        paste: '#uploader',
+        swf: '/addon/imginput/static/dist/Uploader.swf',
+        chunked: false,
+        chunkSize: 512 * 1024,
+        server: img_upload_url,
+        // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
+        disableGlobalDnd: true,
+        fileNumLimit: max_number,
+        fileSizeLimit: 200 * 1024 * 1024,    // 200 M
+        fileSingleSizeLimit: 50 * 1024 * 1024,    // 50 M
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/jpg,image/jpeg,image/png'
+        }
+    };
+    
+</script>

@@ -368,11 +368,11 @@ function get_cache_tag($name, $join = null)
             
             $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $names[0]));
             
-            $table_string .= $table_name;
+            $table_string .= strtolower($table_name);
         }
     } else {
         
-        $table_string .= $name;
+        $table_string .= strtolower($name);
     }
     
     $auto_cache_info = cache(AUTO_CACHE_KEY);
