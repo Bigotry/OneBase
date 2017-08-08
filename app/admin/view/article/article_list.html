@@ -1,6 +1,18 @@
 <div class="box">
   <div class="box-header">
-    <a class="btn " href="{:url('articleAdd')}"><i class="fa fa-plus"></i> 新 增</a>
+    <ob_link>
+        <a class="btn " href="{:url('articleAdd')}"><i class="fa fa-plus"></i> 新 增</a>
+    </ob_link>
+    
+    <div class="box-tools">
+        <div class="input-group input-group-sm search-form">
+            <input name="search_data" class="form-control pull-right search-input" value="{:input('search_data')}" placeholder="支持标题|描述" type="text">
+            <div class="input-group-btn">
+              <button type="button" id="search" url="{:url('articlelist')}" class="btn btn-default"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+    <br/>
   </div>
   <div class="box-body">
     <table  class="table table-bordered table-hover">
@@ -28,9 +40,9 @@
                   </td>
                   <td>{$vo.nickname}</td>
                   <td>{$vo.create_time}</td>
-                  <td>
-                      <a href="{:url('articleEdit', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a>
-                      <a class="btn  confirm ajax-get"  href="{:url('articleDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删除</a>
+                  <td class="col-md-2 text-center">
+                      <ob_link><a href="{:url('articleEdit', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>
+                      <ob_link><a class="btn  confirm ajax-get"  href="{:url('articleDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删除</a></ob_link>
                   </td>
                 </tr>
             {/volist}

@@ -68,6 +68,40 @@ class AdminBase extends LogicBase
     }
     
     /**
+     * 过滤页面内容
+     */
+    public function filter($content = '', $url_list = [])
+    {
+        
+        $expression_ob_link = '%<ob_link.*?>(.*?)</ob_link>%si';
+
+        $results = [];
+        
+        preg_match_all($expression_ob_link, $content, $results);
+        
+        $expression_href='/href=\"([^(\}>)]+)\"/';
+        
+        foreach ($results[1] as $a)
+        {
+            
+            $href_results = []; 
+            
+            preg_match_all($expression_href, $a, $href_results);
+            
+            $url_array = explode(SYS_DSS, $href_results[1][0]); 
+            $url_array_html = explode('.', $url_array[2]); 
+            
+            $check_url = MODULE_NAME . SYS_DSS . $url_array[1] . SYS_DSS . $url_array_html[0];
+            
+            $result = $this->authCheck($check_url, $url_list);
+            
+            $result[0] != RESULT_SUCCESS && $content = str_replace($a, '', $content);
+        }
+        
+        return $content;
+    }
+    
+    /**
      * 获取首页数据
      */
     public function getIndexData()

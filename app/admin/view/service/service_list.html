@@ -22,7 +22,7 @@
                   <td>{$vo.service_describe}</td>
                   <td>{$vo.version}</td>
                   <td>{$vo.author}</td>
-                  <td>
+                  <td class="col-md-2 text-center">
                       <a href="{:url('serviceList', array('service_name' => $vo['service_class']))}" class="btn"><i class="fa fa-sitemap"></i> 驱 动</a>
                       <a onclick="toast.error('研发中...');" class="btn"><i class="fa fa-refresh"></i> 安 装</a>
                   </td>

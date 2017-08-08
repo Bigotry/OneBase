@@ -133,4 +133,15 @@ class AdminBase extends ControllerBase
         
         $this->assign('ob_title', $title);
     }
+    
+    /**
+     * 重写fetch方法支持权限过滤
+     */
+    final protected function fetch($template = '', $vars = [], $replace = [], $config = [])
+    {
+        
+        $content = parent::fetch($template, $vars, $replace, $config);
+        
+        return $this->adminBaseLogic->filter($content, $this->authMenuUrlList);
+    }
 }

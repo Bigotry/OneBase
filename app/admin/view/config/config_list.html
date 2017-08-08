@@ -18,9 +18,8 @@
         {/volist}
     </div>
       
-    <a class="btn" href="{:url('configAdd',array('group' => $group))}"><i class="fa fa-plus"></i> 新 增</a>
-      
-      
+    <ob_link><a class="btn" href="{:url('configAdd',array('group' => $group))}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+    <br/>
   </div>
     
   <div class="box-body">
@@ -51,10 +50,10 @@
                   </td>
                   <td>{$config_type_list[$vo.type]}</td>
                   <td>{$vo.sort}</td>
-                  <td>
-                      <a href="{:url('configEdit', array('id' => $vo['id']))}" class="btn"><i class="fa fa-edit"></i> 编 辑</a>
+                  <td class="col-md-2 text-center">
+                      <ob_link><a href="{:url('configEdit', array('id' => $vo['id']))}" class="btn"><i class="fa fa-edit"></i> 编 辑</a></ob_link>
                       &nbsp;
-                      <a class="btn confirm ajax-get"  href="{:url('configDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a>
+                      <ob_link><a class="btn confirm ajax-get"  href="{:url('configDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
                   </td>
                 </tr>
             {/volist}

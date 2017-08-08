@@ -44,6 +44,56 @@ class Member extends LogicBase
     }
     
     /**
+     * 获取会员列表搜索条件
+     */
+    public function getWhere($data = [])
+    {
+        
+        $where = [];
+        
+        !empty($data['search_data']) && $where['nickname|username|email|mobile'] = ['like', '%'.$data['search_data'].'%'];
+        
+        if (!is_administrator()) {
+            
+            $member = session('member_info');
+            
+            if ($member['is_share_member']) {
+                
+                $ids = $this->getInheritMemberIds(MEMBER_ID);
+                
+                $ids[] = MEMBER_ID;
+                
+                $where['leader_id'] = ['in', $ids];
+                
+            } else {
+                
+                $where['leader_id'] = MEMBER_ID;
+            }
+        }
+        
+        return $where;
+    }
+    
+    /**
+     * 获取存在继承关系的会员ids
+     */
+    public function getInheritMemberIds($id = 0, $data = [])
+    {
+        
+        $member_id = self::$memberModel->getValue(['id' => $id, 'is_share_member' => DATA_NORMAL], 'leader_id');
+        
+        if (empty($member_id)) {
+            
+            return $data;
+        } else {
+            
+            $data[] = $member_id;
+            
+            return $this->getInheritMemberIds($member_id, $data);
+        }
+    }
+    
+    /**
      * 会员添加到用户组
      */
     public function addToGroup($data = [])
@@ -55,7 +105,7 @@ class Member extends LogicBase
         
         $where = ['member_id' => ['in', $data['id']]];
         
-        $model->deleteInfo($where);
+        $model->deleteInfo($where, true);
         
         $url = url('memberList');
         
@@ -67,6 +117,8 @@ class Member extends LogicBase
             
             $add_data[] = ['member_id' => $data['id'], 'group_id' => $group_id];
         }
+        
+        \think\Cache::clear('authgroupaccessauthgroup');
         
         return $model->setList($add_data) ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError()];
     }
@@ -85,7 +137,9 @@ class Member extends LogicBase
         
         $url = url('memberList');
         
-        $data['nickname'] = $data['username'];
+        $data['nickname']  = $data['username'];
+        $data['leader_id'] = MEMBER_ID;
+        $data['is_inside'] = DATA_NORMAL;
         
         return self::$memberModel->setInfo($data) ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, self::$memberModel->getError()];
     }

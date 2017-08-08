@@ -180,7 +180,7 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = 0, $join = [], $group = '', $limit = null, $data = null)
     {
         
-        !isset($where[DATA_COMMON_STATUS]) && $where[DATA_COMMON_STATUS] = ['neq', DATA_DELETE];
+        empty($join) && !isset($where[DATA_COMMON_STATUS]) && $where[DATA_COMMON_STATUS] = ['neq', DATA_DELETE];
         
         self::$ob_query = $this->where($where)->order($order);
         

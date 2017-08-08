@@ -33,7 +33,9 @@ class Article extends AdminBase
     public function articleList()
     {
         
-        $this->assign('list', self::$articleLogic->getArticleList());
+        $where = self::$articleLogic->getWhere($this->param);
+        
+        $this->assign('list', self::$articleLogic->getArticleList($where));
         
         return $this->fetch('article_list');
     }

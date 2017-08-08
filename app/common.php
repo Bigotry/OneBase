@@ -358,7 +358,7 @@ function get_dir($dir_name)
 function get_cache_tag($name, $join = null)
 {
     
-    $table_string = '';
+    $table_string = strtolower($name);
     
     if (!empty($join)) {
         
@@ -370,9 +370,6 @@ function get_cache_tag($name, $join = null)
             
             $table_string .= strtolower($table_name);
         }
-    } else {
-        
-        $table_string .= strtolower($name);
     }
     
     $auto_cache_info = cache(AUTO_CACHE_KEY);
@@ -389,8 +386,6 @@ function get_cache_tag($name, $join = null)
  */
 function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, $limit, $data)
 {
-    
-    $page = input('page', '');
     
     $auto_cache_info = cache(AUTO_CACHE_KEY);
     
@@ -411,7 +406,9 @@ function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, 
         $version .= $auto_cache_info[CACHE_TABLE_KEY][strtolower($name)][CACHE_VERSION_KEY];
     }
     
-    $key = md5(serialize(compact('name', 'where', 'field', 'order', 'paginate', 'join', 'group', 'limit', 'data', 'page', 'version')));
+    $param = request()->param();
+    
+    $key = md5(serialize(compact('name', 'where', 'field', 'order', 'paginate', 'join', 'group', 'limit', 'data', 'param', 'version')));
     
     if (count($auto_cache_info[CACHE_CACHE_KEY]) >= $auto_cache_info[CACHE_MAX_NUMBER_KEY]) {
         

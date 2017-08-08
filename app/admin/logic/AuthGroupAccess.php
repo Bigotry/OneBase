@@ -70,6 +70,7 @@ class AuthGroupAccess extends AdminBase
         $model->alias('a');
 
         $where['a.member_id'] = $member_id;
+        $where['a.status']    = DATA_NORMAL;
         
         $field = 'a.member_id, a.group_id, g.name, g.describe, g.rules';
         

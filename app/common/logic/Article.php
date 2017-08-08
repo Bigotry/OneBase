@@ -57,6 +57,19 @@ class Article extends LogicBase
     }
     
     /**
+     * 获取文章列表搜索条件
+     */
+    public function getWhere($data = [])
+    {
+        
+        $where = [];
+        
+        !empty($data['search_data']) && $where['name|describe'] = ['like', '%'.$data['search_data'].'%'];
+        
+        return $where;
+    }
+    
+    /**
      * 文章信息
      */
     public function articleEdit($data = [])
