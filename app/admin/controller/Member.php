@@ -41,7 +41,7 @@ class Member extends AdminBase
         $authGroupLogic = get_sington_object('authGroupLogic', LogicAuthGroup::class);
         
         // 所有的权限组
-        $group_list = $authGroupLogic->getAuthGroupList();
+        $group_list = $authGroupLogic->getAuthGroupList(['member_id' => MEMBER_ID]);
         
         // 会员当前权限组
         $member_group_list = $this->authGroupAccessLogic->getMemberGroupInfo($this->param['id']);
@@ -63,6 +63,8 @@ class Member extends AdminBase
     {
         
         $where = self::$memberLogic->getWhere($this->param);
+        
+        !empty($this->param['mark']) && self::$memberLogic->exportMemberList($where, true, 'id desc');
         
         $this->assign('list', self::$memberLogic->getMemberList($where, true, 'id desc'));
         

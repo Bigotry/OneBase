@@ -70,6 +70,13 @@
         }
     });
     
+    //导出功能
+    $(".export").click(function(){
+        
+        $('.search-form').append("<input type='hidden' name='mark' value='export'/>");
+
+        $('#search').trigger("click");
+    });
     
     //ajax get请求
     $('.ajax-get').click(function(){

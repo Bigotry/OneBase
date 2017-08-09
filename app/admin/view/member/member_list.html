@@ -2,10 +2,12 @@
   <div class="box-header">
     
     <ob_link><a class="btn" href="{:url('memberAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+    &nbsp;
+    <ob_link><a class="btn export" url="{:url('memberlist')}"><i class="fa fa-download"></i> 导 出</a></ob_link>
     
     <div class="box-tools">
         <div class="input-group input-group-sm search-form">
-            <input name="search_data" class="form-control pull-right search-input" value="{:input('search_data')}" placeholder="支持昵称|用户名|邮箱|手机" type="text">
+            <input name="search_data" class="pull-right search-input" value="{:input('search_data')}" placeholder="支持昵称|用户名|邮箱|手机" type="text">
             <div class="input-group-btn">
               <button type="button" id="search" url="{:url('memberlist')}" class="btn btn-default"><i class="fa fa-search"></i></button>
             </div>

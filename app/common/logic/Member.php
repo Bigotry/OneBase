@@ -44,6 +44,26 @@ class Member extends LogicBase
     }
     
     /**
+     * 导出会员列表
+     */
+    public function exportMemberList($where = [], $field = true, $order = '')
+    {
+        
+        $list = self::$memberModel->getList($where, $field, $order, false);
+        
+        foreach ($list as $info)
+        {
+            
+            $info['leader_nickname'] = self::$memberModel->getValue(['id' => $info['leader_id']], 'nickname', '无');
+        }
+        
+        $titles = "昵称,用户名,邮箱,手机,注册时间,上级";
+        $keys   = "nickname,username,email,mobile,create_time,leader_nickname";
+        
+        export_excel($titles, $keys, $list, '会员列表');
+    }
+    
+    /**
      * 获取会员列表搜索条件
      */
     public function getWhere($data = [])

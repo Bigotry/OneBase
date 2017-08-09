@@ -48,6 +48,8 @@ class AuthGroup extends AdminBase
         
         $url = url('groupList');
         
+        $data['member_id'] = MEMBER_ID;
+        
         return self::$authGroupModel->setInfo($data) ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
