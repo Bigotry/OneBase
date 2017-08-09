@@ -73,3 +73,4 @@ http://example.com/Examples/02types.php
 
 Note: It may be necessary to modify the include/require statements at the beginning of
 each of the test scripts if your "Classes" folder from above is named differently.
+1
