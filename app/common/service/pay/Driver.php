@@ -14,18 +14,32 @@ interface Driver extends BaseInterface
 {
     
     /**
+     * 获取驱动参数
+     */
+    public function driverParam();
+    
+    /**
      * 获取基本信息
      */
     public function driverInfo();
     
     /**
-     * 获取配置信息
+     * 配置信息
      */
-    public function driverConfig();
+    public function config();
     
     /**
-     * 支付回调
+     * 支付通知
      */
-    public function callback();
+    public function notify();
     
+    /**
+     * 获取订单号
+     */
+    public function getOrderSn();
+    
+    /**
+     * 支付
+     */
+    public function pay($order);
 }

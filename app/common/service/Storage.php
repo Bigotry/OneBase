@@ -21,10 +21,22 @@ class Storage extends ServiceBase implements BaseInterface
     }
     
     /**
-     * 服务配置信息
+     * 驱动参数
      */
-    public function serviceConfig()
+    public function driverParam($driver_class = '')
     {
         
+        $model = model(ucfirst($driver_class), LAYER_SERVICE_NAME . DS . 'storage' . DS . 'driver');
+        
+        return $model->driverParam();
+    }
+    
+    /**
+     * 驱动配置信息
+     */
+    public function driverConfig($driver_name = '')
+    {
+        
+        return parent::driverConfig($driver_name);
     }
 }

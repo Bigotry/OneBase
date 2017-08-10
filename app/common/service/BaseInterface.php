@@ -17,7 +17,12 @@ interface BaseInterface
     public function serviceInfo();
     
     /**
-     * 服务配置信息
+     * 驱动参数
      */
-    public function serviceConfig();
+    public function driverParam();
+    
+    /**
+     * 驱动配置
+     */
+    public function driverConfig();
 }

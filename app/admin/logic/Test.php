@@ -21,4 +21,21 @@ class Test extends AdminBase
         
         return $menu->getList();
     }
+    
+    /**
+     * 测试支付
+     */
+    public function pay()
+    {
+        
+        $PayModel = model('Pay', 'service');
+        
+        $PayModel->setDriver('Yeepay');
+        
+        $test_order['order_sn'] =  date('ymdhis', time()) . rand(10000, 99999);
+        $test_order['body'] =  '测试';
+        $test_order['order_amount'] =  0.01;
+        
+        exit($PayModel->pay($test_order));
+    }
 }

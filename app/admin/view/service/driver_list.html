@@ -5,7 +5,7 @@
       <thead>
       <tr>
           <th>名称</th>
-          <th>类型</th>
+          <th>驱动</th>
           <th>描述</th>
           <th>版本</th>
           <th>作者</th>
@@ -22,8 +22,13 @@
                   <td>{$vo.driver_describe}</td>
                   <td>{$vo.version}</td>
                   <td>{$vo.author}</td>
-                  <td class="col-md-1 text-center">
-                      <a onclick="toast.error('研发中...');" class="btn"><i class="fa fa-refresh"></i> 安 装</a>
+                  <td class="col-md-2 text-center">
+                      {eq name="vo['is_install']" value="1"}
+                        <a href="{:url('driverInstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}" class="btn"><i class="fa fa-edit"></i> 设 置</a>
+                        <a class="btn confirm ajax-get" href="{:url('driverUninstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}"><i class="fa fa-remove"></i> 卸 载</a>
+                        {else/}
+                        <a href="{:url('driverInstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}" class="btn"><i class="fa fa-refresh"></i> 安 装</a>
+                      {/eq}
                   </td>
                 </tr>
             {/volist}

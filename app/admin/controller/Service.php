@@ -44,4 +44,36 @@ class Service extends AdminBase
         return $this->fetch($view);
     }
     
+    /**
+     * 驱动安装
+     */
+    public function driverInstall()
+    {
+        
+        IS_POST && $this->jump(self::$serviceLogic->driverInstall($this->param));
+        
+        $model = model(ucfirst($this->param['service_class']), LAYER_SERVICE_NAME);
+        
+        $model->setDriver($this->param['driver_class']);
+        
+        $param = $model->driverParam();
+        
+        $info = self::$serviceLogic->getDriverInfo(['service_name' => $this->param['service_class'], 'driver_name' => $this->param['driver_class']]);
+        
+        $info['config'] = unserialize($info['config']);
+        
+        $this->assign('param', $param);
+        $this->assign('info',  $info);
+        
+        return $this->fetch('driver_install');
+    }
+    
+    /**
+     * 驱动卸载
+     */
+    public function driverUninstall()
+    {
+        
+        $this->jump(self::$serviceLogic->driverUninstall($this->param));
+    }
 }

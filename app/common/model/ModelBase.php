@@ -55,6 +55,10 @@ class ModelBase extends Model
             $return_data && $this->updateCacheVersion();
         } else {
             
+            is_object($data) && $data = $data->toArray();
+            
+            !empty($data[TIME_CT_NAME]) && is_string($data[TIME_CT_NAME]) && $data[TIME_CT_NAME] = strtotime($data[TIME_CT_NAME]);
+            
             $return_data = $this->updateInfo($where, $data);
         }
         
@@ -209,7 +213,9 @@ class ModelBase extends Model
         
         $result_data = null;
         
-        if (Cache::has($cache_key)) {
+        $is_auto_cache = config('is_auto_cache');
+        
+        if ($is_auto_cache && Cache::has($cache_key)) {
 
             $result_data = unserialize(Cache::get($cache_key));
             
@@ -232,10 +238,10 @@ class ModelBase extends Model
                 $result_data = self::$ob_query->find($data);
             }
 
-            Cache::tag($cache_tag)->set($cache_key, serialize($result_data));
+            $is_auto_cache && Cache::tag($cache_tag)->set($cache_key, serialize($result_data));
         }
         
-        !empty($result_data) && set_cache_statistics_number(CACHE_EXE_NUMBER_KEY);
+        !empty($result_data) && $is_auto_cache && set_cache_statistics_number(CACHE_EXE_NUMBER_KEY);
         
         self::$ob_query->removeOption();
         
