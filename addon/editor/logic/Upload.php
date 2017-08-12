@@ -5,6 +5,8 @@
 
 namespace addon\editor\logic;
 
+use app\common\logic\File as LogicFile;
+
 /**
  * 编辑器插件上传逻辑
  */
@@ -17,25 +19,14 @@ class Upload
     public function pictureUpload()
     {
         
-        $object = request()->file('imgFile')->move(PATH_UPLOAD . 'editor');
+        $fileLogic = get_sington_object('fileLogic', LogicFile::class);
         
-        $result  = ['error' => DATA_DISABLE, 'url' => ''];
+        $result = $fileLogic->pictureUpload('imgFile');
         
-        if ($object) {
-            
-            $save_name = $object->getSaveName();
-            
-            $picture_dir_name = substr($save_name, 0, strrpos($save_name, DS));
-            
-            $filename = $object->getFilename();
-            
-            $result['url'] = "/upload/editor/" . $picture_dir_name . SYS_DSS . $filename;
-        } else {
-            
-            $result['error'] = DATA_NORMAL;
-            $result['message'] = $object->getError();
-        }
+        if (false === $result) : return [RESULT_ERROR => DATA_NORMAL, RESULT_MESSAGE => '文件上传失败']; endif;
         
-        return $result;
+        $url = get_picture_url($result['id']);
+        
+        return [RESULT_ERROR => DATA_DISABLE, RESULT_URL => $url];
     }
 }

@@ -15,9 +15,9 @@ class Alipay extends Pay implements Driver
 {
     
     /**
-     * 驱动参数
+     * 获取驱动参数
      */
-    public function driverParam()
+    public function getDriverParam()
     {
         
         return ['alipay_account' => '支付宝帐户', 'alipay_partner' => '合作身份者id', 'alipay_key' => '安全检验码'];

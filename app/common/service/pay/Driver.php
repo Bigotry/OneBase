@@ -16,7 +16,7 @@ interface Driver extends BaseInterface
     /**
      * 获取驱动参数
      */
-    public function driverParam();
+    public function getDriverParam();
     
     /**
      * 获取基本信息

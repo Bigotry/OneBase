@@ -13,6 +13,20 @@ use app\common\model\ModelBase;
 class ServiceBase extends ModelBase
 {
     
+    // 驱动
+    protected $driver = null;
+    
+    /**
+     * 驱动参数
+     */
+    public function driverParam($driver_class = '')
+    {
+        
+        $this->setDriver($driver_class);
+        
+        return $this->driver->getDriverParam();
+    }
+    
     /**
      * 驱动配置信息
      */
@@ -28,4 +42,12 @@ class ServiceBase extends ModelBase
         return unserialize($driver_info_arr['config']);
     }
     
+    /**
+     * 设置驱动
+     */
+    public function setDriver($driver_class = '')
+    {
+        
+        $this->driver = model(ucfirst($driver_class), LAYER_SERVICE_NAME . '\\' . strtolower($this->name) . '\\' . 'driver');
+    }
 }

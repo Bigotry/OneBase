@@ -21,7 +21,8 @@
         "topthink/think-captcha": "^1.0",
         "topthink/think-image": "^1.0",
         "firebase/php-jwt": "^5.0",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "qiniu/php-sdk": "^7.1"
     },
     "extra": {
         "think-path": "thinkphp"

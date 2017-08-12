@@ -30,12 +30,25 @@ class Test extends AdminBase
         
         $PayModel = model('Pay', 'service');
         
-        $PayModel->setDriver('Yeepay');
+        $PayModel->setDriver('Alipay');
         
         $test_order['order_sn'] =  date('ymdhis', time()) . rand(10000, 99999);
         $test_order['body'] =  '测试';
         $test_order['order_amount'] =  0.01;
         
         exit($PayModel->pay($test_order));
+    }
+    
+    /**
+     * 测试云存储
+     */
+    public function storage()
+    {
+        
+        $StorageModel = model('Storage', 'service');
+        
+        $StorageModel->setDriver('Qiniu');
+        
+        $StorageModel->upload(130);
     }
 }

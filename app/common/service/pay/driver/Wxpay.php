@@ -15,9 +15,9 @@ class Wxpay extends Pay implements Driver
 {
     
     /**
-     * 驱动参数
+     * 获取驱动参数
      */
-    public function driverParam()
+    public function getDriverParam()
     {
         
         return ['appid' => 'appid 微信公众号唯一标识', 'appsecret' => 'appsecret', 'partnerid' => '受理商ID（商户号）', 'partnerkey' => '商户支付密钥Key'];

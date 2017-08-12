@@ -458,7 +458,7 @@ function get_picture_url($id = 0)
     
     $info = model('Picture')->where(['id' => $id])->field('path,url')->find();
 
-    if (!empty($info['url']))  : return $info['url'];  endif;
+    if (!empty($info['url']))  : return config('static_domain') . SYS_DSS . $info['url'];  endif;
 
     if (!empty($info['path'])) : return '/upload/picture/'.$info['path'];  endif;
 

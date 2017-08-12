@@ -14,13 +14,23 @@ interface Driver extends BaseInterface
 {
     
     /**
+     * 获取驱动参数
+     */
+    public function getDriverParam();
+    
+    /**
      * 获取基本信息
      */
     public function driverInfo();
     
     /**
-     * 获取配置信息
+     * 配置信息
      */
-    public function driverConfig();
+    public function config();
+    
+    /**
+     * 上传文件
+     */
+    public function upload($file_id);
     
 }

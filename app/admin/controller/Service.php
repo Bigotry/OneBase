@@ -54,15 +54,14 @@ class Service extends AdminBase
         
         $model = model(ucfirst($this->param['service_class']), LAYER_SERVICE_NAME);
         
-        $model->setDriver($this->param['driver_class']);
-        
-        $param = $model->driverParam();
+        $param = $model->driverParam($this->param['driver_class']);
         
         $info = self::$serviceLogic->getDriverInfo(['service_name' => $this->param['service_class'], 'driver_name' => $this->param['driver_class']]);
         
         $info['config'] = unserialize($info['config']);
         
         $this->assign('param', $param);
+        
         $this->assign('info',  $info);
         
         return $this->fetch('driver_install');

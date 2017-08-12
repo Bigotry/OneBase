@@ -2,12 +2,17 @@
 
 //配置文件
 
+$static_domain = config('static_domain');
+
+empty($static_domain) ? $static['__STATIC__'] = '/static' :  $static['__STATIC__'] = $static_domain . SYS_DSS . 'static';
+
 return [
     
     /* 模板常量替换配置 */
-    'view_replace_str' => [
-        '__STATIC__' =>  '/static',
-    ],
+    'view_replace_str' => $static,
+    
+    /* 存储驱动,若无需使用云存储则为空 */
+    'storage_driver' => 'Qiniu',
     
     /* 模板布局配置 */
     'template'  =>  [

@@ -11,6 +11,7 @@ namespace app\common\service;
 class Storage extends ServiceBase implements BaseInterface
 {
     
+    
     /**
      * 服务基本信息
      */
@@ -21,22 +22,11 @@ class Storage extends ServiceBase implements BaseInterface
     }
     
     /**
-     * 驱动参数
+     * 上传文件
      */
-    public function driverParam($driver_class = '')
+    public function upload($file_id = 0)
     {
         
-        $model = model(ucfirst($driver_class), LAYER_SERVICE_NAME . DS . 'storage' . DS . 'driver');
-        
-        return $model->driverParam();
-    }
-    
-    /**
-     * 驱动配置信息
-     */
-    public function driverConfig($driver_name = '')
-    {
-        
-        return parent::driverConfig($driver_name);
+        return $this->driver->upload($file_id);
     }
 }

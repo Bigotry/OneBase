@@ -38,7 +38,15 @@ class File extends LogicBase
     public function pictureUpload($name = 'file', $thumb_config = ['small' => 100, 'medium' => 500, 'big' => 1000])
     {
         
-        $object = request()->file($name)->move(PATH_PICTURE);
+        $object_info = request()->file($name);
+        
+        $sha1  = $object_info->hash();
+        
+        $picture_info = self::$pictureModel->getInfo(['sha1' => $sha1], 'id,name,path,sha1');
+        
+        if (!empty($picture_info)) : return $picture_info; endif;
+        
+        $object = $object_info->move(PATH_PICTURE);
         
         $save_name = $object->getSaveName();
         
@@ -56,15 +64,34 @@ class File extends LogicBase
         Image::open($save_path)->thumb($thumb_config['medium']  , $thumb_config['medium'])->save($thumb_dir_path . DS . 'medium_' . $filename);
         Image::open($save_path)->thumb($thumb_config['big']     , $thumb_config['big'])->save($thumb_dir_path    . DS . 'big_'    . $filename);
         
-        //todo 云存储
+        $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DSS . $filename, 'sha1' => $sha1];
         
-        $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DSS . $filename];
-        
-        //保存到数据库
         $result = self::$pictureModel->addInfo($data);
+        
+        $this->checkStorage($result);
         
         if ($result) : $data['id'] = $result; return $data; endif;
         
         return  false;
     }
+    
+    /**
+     * 云存储
+     */
+    public function checkStorage($result = 0)
+    {
+        
+        $storage_driver = config('storage_driver');
+        
+        if (empty($storage_driver)) : return false; endif;
+        
+        $StorageModel = model('Storage', 'service');
+
+        $StorageModel->setDriver($storage_driver);
+
+        $storage_result = $StorageModel->upload($result);
+        
+        self::$pictureModel->setFieldValue(['id' => $result], 'url', $storage_result);
+    }
+    
 }

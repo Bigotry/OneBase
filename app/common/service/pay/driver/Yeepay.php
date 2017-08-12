@@ -15,9 +15,9 @@ class Yeepay extends Pay implements Driver
 {
     
     /**
-     * 驱动参数
+     * 获取驱动参数
      */
-    public function driverParam()
+    public function getDriverParam()
     {
         
         return ['yeepay_merid' => '易宝商户号', 'yeepay_key' => '易宝密钥'];

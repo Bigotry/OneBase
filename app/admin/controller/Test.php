@@ -23,7 +23,7 @@ class Test extends ControllerBase
         // 测试
         $testLogic = get_sington_object('testLogic', LogicTest::class);
        
-        $data = $testLogic->pay();
+        $data = $testLogic->storage();
        
         dump($data);
     }

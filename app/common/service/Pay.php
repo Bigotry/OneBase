@@ -29,19 +29,8 @@ namespace app\common\service;
 class Pay extends ServiceBase implements BaseInterface
 {
     
-    protected $driver = null;
-    
     const NOTIFY_URL    = 'http://xxx/payment/notify';
     const CALLBACK_URL  = 'http://xxx/payment/notify';
-    
-    /**
-     * 设置驱动
-     */
-    public function setDriver($driver_class = '')
-    {
-        
-        $this->driver = model(ucfirst($driver_class), LAYER_SERVICE_NAME . '\\' . 'pay' . '\\' . 'driver');
-    }
     
     /**
      * 服务基本信息
@@ -53,29 +42,11 @@ class Pay extends ServiceBase implements BaseInterface
     }
     
     /**
-     * 驱动参数
-     */
-    public function driverParam()
-    {
-        
-        return $this->driver->driverParam();
-    }
-    
-    /**
      * 支付
      */
     public function pay($order)
     {
         
         return $this->driver->pay($order);
-    }
-    
-    /**
-     * 驱动配置信息
-     */
-    public function driverConfig($driver_name = '')
-    {
-        
-        return parent::driverConfig($driver_name);
     }
 }
