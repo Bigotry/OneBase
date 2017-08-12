@@ -24,6 +24,9 @@ class ControllerBase extends Controller
         
         // 初始化请求信息
         $this->initRequestInfo();
+        
+        // 缓存回收
+        $this->cacheRecycle();
     }
     
     /**
@@ -71,5 +74,34 @@ class ControllerBase extends Controller
             case $redirect : $this->$redirect($message);      break;
             default        : die(RESULT_ERROR);
         }
+    }
+    
+    /**
+     * 缓存回收
+     */
+    final protected function cacheRecycle()
+    {
+        
+        $auto_cache_info = cache(AUTO_CACHE_KEY);
+      
+        $recycle_number = 0;
+        
+        foreach ($auto_cache_info[CACHE_TABLE_KEY] as $key => $table) :
+        
+            if (!empty($table[CACHE_LAST_GET_TIME_KEY]) && (($table[CACHE_LAST_GET_TIME_KEY] + SYS_CACHE_CLEAR_INTERVAL_TIME) < TIME_NOW)) :
+                
+            \think\Cache::clear($key);
+
+            !empty($table[CACHE_NUMBER_KEY]) && $recycle_number += $table[CACHE_NUMBER_KEY];
+            
+            $auto_cache_info[CACHE_TABLE_KEY][$key][CACHE_NUMBER_KEY] = null;
+            
+            endif;
+            
+        endforeach;
+        
+        !empty($recycle_number) && $auto_cache_info[CACHE_NUMBER_KEY] -= $recycle_number;
+        
+        cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
     }
 }

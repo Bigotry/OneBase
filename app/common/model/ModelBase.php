@@ -171,7 +171,7 @@ class ModelBase extends Model
         
         $cache_tag = get_cache_tag($this->name, $join);
         
-        $cache_key = get_cache_key($this->name, $where, $field, null, null, $join, null, null, $data);
+        $cache_key = get_cache_key($this->name, $where, $field, null, null, $join, null, null, $data, $cache_tag);
         
         empty($join) ? self::$ob_query = $this->where($where)->field($field) : self::$ob_query = $this->join($join)->where($where)->field($field);
         
@@ -200,7 +200,7 @@ class ModelBase extends Model
         
         if (DATA_DISABLE === $paginate) : $paginate = DB_LIST_ROWS; endif;
         
-        $cache_key = get_cache_key($this->name, $where, $field, $order, $paginate, $join, $group, $limit, $data);
+        $cache_key = get_cache_key($this->name, $where, $field, $order, $paginate, $join, $group, $limit, $data, $cache_tag);
         
         return $this->getResultData($cache_key, $cache_tag, $paginate, $data);
     }

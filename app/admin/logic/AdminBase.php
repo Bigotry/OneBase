@@ -132,7 +132,7 @@ class AdminBase extends LogicBase
         $data['qun']            = '<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=58d4c9b78a027fb2f74bcaecc07e75a64d2136f9243a26f5a88824284c25ced9"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="OneBase ①" title="OneBase ①"></a>'
                                 . '&nbsp;&nbsp;&nbsp;<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=d568bba1db4a9cb96f44e291d3192cf6538c3a64e5a7e4c8484aa8b332f25101"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="OneBase ②" title="OneBase ②"></a>';
         $data['document']       = '制作中...';
-        $data['chache_number']  = count($cache_info[CACHE_CACHE_KEY]);
+        $data['chache_number']  = $cache_info[CACHE_NUMBER_KEY];
         $data['hit']            = round($cache_info[CACHE_EXE_HIT_KEY] / $cache_info[CACHE_EXE_NUMBER_KEY] * 100, 2) . '%';
 
         return $data;

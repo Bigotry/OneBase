@@ -55,32 +55,51 @@ class InitBase
         empty($list_rows) ? define('DB_LIST_ROWS', 10) : define('DB_LIST_ROWS', $list_rows);
     }
     
+    
+    /**
+     * 初始化缓存Key
+     */
+    private function initCacheKey()
+    {
+        
+        // 自动缓存信息key
+        define('AUTO_CACHE_KEY'                 , 'auto_cache_info');
+        
+        // 缓存版本key名称
+        define('CACHE_VERSION_KEY'              , 'version');
+        
+        // 缓存表key名称
+        define('CACHE_TABLE_KEY'                , 'table');
+        
+        // 缓存key名称
+        define('CACHE_CACHE_KEY'                , 'cache_key');
+        
+        // 缓存执行数量
+        define('CACHE_EXE_NUMBER_KEY'           , 'exe_number');
+        
+        // 缓存命中数量
+        define('CACHE_EXE_HIT_KEY'              , 'hit_number');
+        
+        // 缓存存储最大数量
+        define('CACHE_MAX_NUMBER_KEY'           , 'max_number');
+        
+        // 缓存自动清理间隔（单位：秒）
+        define('CACHE_CLEAR_INTERVAL_TIME_KEY'  , 'clear_interval_time');
+        
+        // 缓存最后读取时间key名称
+        define('CACHE_LAST_GET_TIME_KEY'        , 'last_get_time');
+        
+        // 缓存key数量名称
+        define('CACHE_NUMBER_KEY'               , 'cache_key_number');
+    }
+    
     /**
      * 初始化缓存
      */
     private function initCacheInfo()
     {
         
-        // 自动缓存信息key
-        define('AUTO_CACHE_KEY'             , 'auto_cache_info');
-        
-        // 缓存版本key名称
-        define('CACHE_VERSION_KEY'          , 'version');
-        
-        // 缓存表key名称
-        define('CACHE_TABLE_KEY'            , 'table');
-        
-        // 缓存key名称
-        define('CACHE_CACHE_KEY'            , 'cache_key');
-        
-        // 缓存执行数量
-        define('CACHE_EXE_NUMBER_KEY'       , 'exe_number');
-        
-        // 缓存命中数量
-        define('CACHE_EXE_HIT_KEY'          , 'hit_number');
-        
-        // 缓存存储最大数量
-        define('CACHE_MAX_NUMBER_KEY'       , 'max_number');
+        $this->initCacheKey();
         
         // 初始化自动缓存信息数组
         $auto_cache_info = cache(AUTO_CACHE_KEY) ?: [];
@@ -92,7 +111,7 @@ class InitBase
         $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $v['Name']));
 
         empty($auto_cache_info[CACHE_TABLE_KEY][$table_name]) && $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY] = DATA_DISABLE;
-
+        
         endforeach;
             
         empty($auto_cache_info[CACHE_EXE_NUMBER_KEY]) && $auto_cache_info[CACHE_EXE_NUMBER_KEY] = DATA_DISABLE;
@@ -101,7 +120,7 @@ class InitBase
         
         empty($auto_cache_info[CACHE_CACHE_KEY])      && $auto_cache_info[CACHE_CACHE_KEY] = [];
         
-        $auto_cache_info[CACHE_MAX_NUMBER_KEY] = 1000;
+        $auto_cache_info[CACHE_MAX_NUMBER_KEY] = SYS_CACHE_MAX_NUMBER;
         
         cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
     }
@@ -187,15 +206,15 @@ class InitBase
      */
     private function initSystemConst()
     {
-        
-        define('SYS_APP_NAMESPACE'   , config('app_namespace'));
-        define('SYS_HOOK_DIR_NAME'   , 'hook');
-        define('SYS_ADDON_DIR_NAME'  , 'addon');
-        define('SYS_COMMON_DIR_NAME' , 'common');
-        define('SYS_VERSION'         , '1.0.0');
-        define('SYS_ADMINISTRATOR_ID', 1);
-        define('SYS_DSS', '/');
-        define('SYS_ENCRYPT_KEY'     , '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:');
+
+        define('SYS_APP_NAMESPACE'              , config('app_namespace'));
+        define('SYS_HOOK_DIR_NAME'              , 'hook');
+        define('SYS_ADDON_DIR_NAME'             , 'addon');
+        define('SYS_COMMON_DIR_NAME'            , 'common');
+        define('SYS_VERSION'                    , '1.0.0');
+        define('SYS_ADMINISTRATOR_ID'           , 1);
+        define('SYS_DSS'                        , '/');
+        define('SYS_ENCRYPT_KEY'                , '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:');
     }
     
     /**
@@ -231,6 +250,21 @@ class InitBase
         endforeach;
         
         config($config_array);
+        
+        $this->initTmconfig();
+    }
+    
+    /**
+     * 初始化动态配置信息
+     */
+    private function initTmconfig()
+    {
+        
+        $cache_max_number           = config('cache_max_number');
+        $cache_clear_interval_time  = config('cache_clear_interval_time');
+        
+        define('SYS_CACHE_MAX_NUMBER'           , empty($cache_max_number)          ? 1000  : (int)$cache_max_number);
+        define('SYS_CACHE_CLEAR_INTERVAL_TIME'  , empty($cache_clear_interval_time) ? 600   : (int)$cache_clear_interval_time);
     }
     
     /**

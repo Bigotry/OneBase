@@ -376,6 +376,8 @@ function get_cache_tag($name, $join = null)
     
     empty($auto_cache_info[CACHE_TABLE_KEY][$table_string]) && $auto_cache_info[CACHE_TABLE_KEY][$table_string][CACHE_VERSION_KEY] = DATA_DISABLE;
     
+    $auto_cache_info[CACHE_TABLE_KEY][$table_string][CACHE_LAST_GET_TIME_KEY] = TIME_NOW;
+    
     cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
     
     return $table_string;
@@ -384,7 +386,7 @@ function get_cache_tag($name, $join = null)
 /**
  * 获取缓存key
  */
-function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, $limit, $data)
+function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, $limit, $data, $cache_tag)
 {
     
     $auto_cache_info = cache(AUTO_CACHE_KEY);
@@ -410,6 +412,19 @@ function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, 
     
     $key = md5(serialize(compact('name', 'where', 'field', 'order', 'paginate', 'join', 'group', 'limit', 'data', 'param', 'version')));
     
+    $auto_cache = check_cache_key($key, $auto_cache_info, $cache_tag);
+    
+    cache(AUTO_CACHE_KEY, $auto_cache, DATA_DISABLE);
+    
+    return $key;
+}
+
+/**
+ * 检查缓存key
+ */
+function check_cache_key($key = null, $auto_cache_info = null, $cache_tag = null)
+{
+    
     if (count($auto_cache_info[CACHE_CACHE_KEY]) >= $auto_cache_info[CACHE_MAX_NUMBER_KEY]) {
         
         unset($auto_cache_info[CACHE_CACHE_KEY][DATA_DISABLE]);
@@ -417,11 +432,15 @@ function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, 
         $auto_cache_info[CACHE_CACHE_KEY] = array_values($auto_cache_info[CACHE_CACHE_KEY]);
     }
     
-    !in_array($key, $auto_cache_info[CACHE_CACHE_KEY]) && $auto_cache_info[CACHE_CACHE_KEY][] = $key;
+    if (!in_array($key, $auto_cache_info[CACHE_CACHE_KEY])) {
+        
+        $auto_cache_info[CACHE_CACHE_KEY][] = $key;
+        
+        isset($auto_cache_info[CACHE_TABLE_KEY][$cache_tag][CACHE_NUMBER_KEY]) ? $auto_cache_info[CACHE_TABLE_KEY][$cache_tag][CACHE_NUMBER_KEY]++ : $auto_cache_info[CACHE_TABLE_KEY][$cache_tag][CACHE_NUMBER_KEY] = DATA_NORMAL;
+        isset($auto_cache_info[CACHE_NUMBER_KEY]) ? $auto_cache_info[CACHE_NUMBER_KEY]++ : $auto_cache_info[CACHE_NUMBER_KEY] = DATA_NORMAL;
+    }
     
-    cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
-    
-    return $key;
+    return $auto_cache_info;
 }
 
 /**
