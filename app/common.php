@@ -74,7 +74,7 @@ function is_administrator($member_id = null)
  * @param array $list 要转换的数据集
  * @param string $pid parent标记字段
  * @param string $level level标记字段
- * @return array
+ * @return array|boolean
  */
 function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0)
 {
@@ -82,9 +82,10 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
     // 创建Tree
     $tree = [];
     
-    if (!is_array($list)):
-    return false;
-    endif;
+    if (!is_array($list)) {
+        return false;
+    }
+
     
     // 创建基于主键的数组引用
     $refer = [];
@@ -161,7 +162,7 @@ function get_sington_object($object_name = '', $class = null)
 
     $request = \think\Request::instance();
     
-    $request->__isset($object_name) ?: $request->bind($object_name, new $class());
+    $request->__isset($object_name) || $request->bind($object_name, new $class());
     
     return $request->__get($object_name);
 }
@@ -247,7 +248,8 @@ function file_list($path = '')
 
 /**
  * 获取插件类的类名
- * @param strng $name 插件名
+ * @param string $name 插件名
+ * @return string
  */
 function get_addon_class($name = '')
 {
@@ -271,7 +273,7 @@ function hook($tag = '', $params = [])
 /**
  * 保存文件
  */
-function sf($arr = [], $fpath = 'D:\test.php')
+function save_file($arr = [], $fpath = 'D:\test.php')
 {
     
     $data = "<?php\nreturn ".var_export($arr, true).";\n?>";
