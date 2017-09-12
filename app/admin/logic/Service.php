@@ -110,7 +110,7 @@ class Service extends AdminBase
             
             $file_list  = file_list(PATH_SERVICE);
 
-            $object_path = "\\" . SYS_APP_NAMESPACE . "\\" . SYS_COMMON_DIR_NAME . "\\" . LAYER_SERVICE_NAME;
+            $object_path = SYS_DS_CONS . SYS_APP_NAMESPACE . SYS_DS_CONS . SYS_COMMON_DIR_NAME . SYS_DS_CONS . LAYER_SERVICE_NAME;
             
         } else {
             
@@ -118,7 +118,7 @@ class Service extends AdminBase
             
             $file_list  = file_list(PATH_SERVICE . $driver_name. DS . 'driver');
 
-            $object_path = "\\" . SYS_APP_NAMESPACE . "\\" . SYS_COMMON_DIR_NAME . "\\" . LAYER_SERVICE_NAME ."\\$driver_name\\driver";
+            $object_path = SYS_DS_CONS . SYS_APP_NAMESPACE . SYS_DS_CONS . SYS_COMMON_DIR_NAME . SYS_DS_CONS . LAYER_SERVICE_NAME . SYS_DS_CONS . $driver_name . SYS_DS_CONS . SYS_DRIVER_DIR_NAME;
         }
         
         foreach ($file_list as $v) {
@@ -127,7 +127,7 @@ class Service extends AdminBase
             
             if (false === strpos($class_name, 'Base') && !isset(self::$instance[$class_name])) {
                 
-                $class = $object_path.'\\'.$class_name;
+                $class = $object_path . SYS_DS_CONS . $class_name;
         
                 self::$instance[$class_name] = new $class();
             }

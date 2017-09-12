@@ -12,14 +12,6 @@ class AddonBase extends ControllerBase
 {
     
     /**
-     * 插件基类构造方法
-     */
-    public function _initialize()
-    {
-        
-    }
-    
-    /**
      * 插件模板渲染
      */
     public function addonTemplate($template_name = '')
@@ -27,13 +19,13 @@ class AddonBase extends ControllerBase
         
         $class = get_class($this);
         
-        $addon_name = strtolower(substr($class, DATA_NORMAL + strrpos($class, '\\')));
+        $addon_name = strtolower(substr($class, DATA_NORMAL + strrpos($class, SYS_DS_CONS)));
         
         $addon_path = PATH_ADDON . $addon_name . DS;
         
-        $view_path = $addon_path . 'view' . DS;
+        $view_path = $addon_path . LAYER_VIEW_NAME . DS;
         
-        $static_path =  SYS_DSS .SYS_ADDON_DIR_NAME. SYS_DSS . $addon_name . SYS_DSS . 'static' . SYS_DSS;
+        $static_path =  SYS_DS_PROS .SYS_ADDON_DIR_NAME. SYS_DS_PROS . $addon_name . SYS_DS_PROS . SYS_STATIC_DIR_NAME . SYS_DS_PROS;
         
         $this->assign('static_path', $static_path);
         
@@ -48,7 +40,7 @@ class AddonBase extends ControllerBase
     public function addonCacheUpdate()
     {
         
-        set_cache_version('hook');
-        set_cache_version('addon');
+        set_cache_version(SYS_HOOK_DIR_NAME);
+        set_cache_version(SYS_ADDON_DIR_NAME);
     }
 }

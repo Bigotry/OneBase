@@ -25,7 +25,7 @@ class ControllerBase extends Controller
         // 初始化请求信息
         $this->initRequestInfo();
         
-        // 缓存回收
+        // 自动缓存回收
         $this->cacheRecycle();
     }
     
@@ -41,8 +41,8 @@ class ControllerBase extends Controller
         defined('MODULE_NAME')      or define('MODULE_NAME',     $this->request->module());
         defined('CONTROLLER_NAME')  or define('CONTROLLER_NAME', $this->request->controller());
         defined('ACTION_NAME')      or define('ACTION_NAME',     $this->request->action());
-        defined('URL')              or define('URL',             strtolower($this->request->controller() . SYS_DSS . $this->request->action()));
-        defined('URL_MODULE')       or define('URL_MODULE',      strtolower($this->request->module()) . SYS_DSS . URL);
+        defined('URL')              or define('URL',             strtolower($this->request->controller() . SYS_DS_PROS . $this->request->action()));
+        defined('URL_MODULE')       or define('URL_MODULE',      strtolower($this->request->module()) . SYS_DS_PROS . URL);
         
         $this->param = $this->request->param();
     }

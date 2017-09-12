@@ -63,7 +63,7 @@ class Api extends AdminBase
     public function getApiDataFieldDefault($mark = 'request_data')
     {
         
-        return $mark == 'request_data' ? json_encode([['',0,0,'']]) : json_encode([['',0,'']]);
+        return $mark == 'request_data' ? json_encode([['', 0, 0, '']]) : json_encode([['', 0, '']]);
     }
     
     /**

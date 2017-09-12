@@ -52,7 +52,7 @@ class Addon extends LogicBase
         
         foreach ($dir_list as $v) {
             
-            $class = "\\".SYS_ADDON_DIR_NAME."\\$v\\".ucfirst($v);
+            $class = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $v . SYS_DS_CONS .ucfirst($v);
             
             if (!isset(self::$instance[$class])) : self::$instance[$class] = new $class(); endif;
         }

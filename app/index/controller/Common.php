@@ -1,4 +1,5 @@
 <?php
+
 namespace app\index\controller;
 
 class Common extends IndexBase

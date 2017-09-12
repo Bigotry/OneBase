@@ -35,7 +35,7 @@ class ModelBase extends Model
         
         $status = [DATA_DELETE => '删除', DATA_DISABLE => '禁用', DATA_NORMAL => '启用'];
         
-        return $status[$this->data[DATA_COMMON_STATUS]];
+        return $status[$this->data[DATA_STATUS_NAME]];
     }
     
     /**
@@ -141,7 +141,7 @@ class ModelBase extends Model
             $return_data && $this->updateCacheVersion();
         } else {
             
-            $return_data = $this->setFieldValue($where, DATA_COMMON_STATUS, DATA_DELETE);
+            $return_data = $this->setFieldValue($where, DATA_STATUS_NAME, DATA_DELETE);
         }
         
         return $return_data;
@@ -186,11 +186,9 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = 0, $join = [], $group = '', $limit = null, $data = null)
     {
         
-        empty($join) && !isset($where[DATA_COMMON_STATUS]) && $where[DATA_COMMON_STATUS] = ['neq', DATA_DELETE];
+        empty($join) && !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
         
-        self::$ob_query = $this->where($where)->order($order);
-        
-        self::$ob_query = self::$ob_query->field($field);
+        self::$ob_query = $this->where($where)->order($order)->field($field);
         
         !empty($join)  && self::$ob_query = self::$ob_query->join($join);
         

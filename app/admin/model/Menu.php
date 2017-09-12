@@ -17,7 +17,7 @@ class Menu extends AdminBase
     public function getIsHideTextAttr()
     {
         
-        $is_hide = [0 => '否', 1 => '是'];
+        $is_hide = [DATA_DISABLE => '否', DATA_NORMAL => '是'];
         
         return $is_hide[$this->data['is_hide']];
     }

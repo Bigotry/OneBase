@@ -53,7 +53,7 @@ class AuthGroupAccess extends AdminBase
         
         foreach ($auth_menu_list as $info) {
             
-            $auth_list[] = $info['module'] . SYS_DSS . $info['url'];
+            $auth_list[] = $info['module'] . SYS_DS_PROS . $info['url'];
         }
 
         return $auth_list;

@@ -32,8 +32,8 @@ class Menu extends AdminBase
     // 应用场景
     protected $scene = [
         
-        'add'  =>  ['name','sort','url'],
-        'edit' =>  ['name','sort','url'],
+        'add'  =>  ['name', 'sort', 'url'],
+        'edit' =>  ['name', 'sort', 'url'],
     ];
     
 }

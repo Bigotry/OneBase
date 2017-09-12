@@ -48,6 +48,6 @@ class ServiceBase extends ModelBase
     public function setDriver($driver_class = '')
     {
         
-        $this->driver = model(ucfirst($driver_class), LAYER_SERVICE_NAME . '\\' . strtolower($this->name) . '\\' . 'driver');
+        $this->driver = model(ucfirst($driver_class), LAYER_SERVICE_NAME . SYS_DS_CONS . strtolower($this->name) . SYS_DS_CONS . SYS_DRIVER_DIR_NAME);
     }
 }

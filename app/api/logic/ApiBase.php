@@ -22,7 +22,7 @@ class ApiBase extends LogicBase
         
         $result = null;
         
-        if (array_key_exists('code', $code_data)) {
+        if (array_key_exists(API_CODE_NAME, $code_data)) {
             
             !empty($return_data) && $code_data['data'] = $return_data;
 

@@ -6,9 +6,9 @@ $static_domain  = config('static_domain');
 $frontend_theme = config('frontend_theme');
 $module         = request()->module();
 
-$view_path = ROOT_PATH . 'app/' .$module. '/view/'.$frontend_theme.'/';
+$view_path = ROOT_PATH . 'app' . SYS_DS_PROS . $module. SYS_DS_PROS . LAYER_VIEW_NAME . SYS_DS_PROS . $frontend_theme . SYS_DS_PROS;
 
-empty($static_domain) ? $static['__STATIC__'] = '/static/'.$module.'/'.$frontend_theme :  $static['__STATIC__'] = $static_domain . '/' . 'static' . '/' . $module . '/' . $frontend_theme;
+empty($static_domain) ? $static['__STATIC__'] =  SYS_DS_PROS . SYS_STATIC_DIR_NAME . SYS_DS_PROS . $module . SYS_DS_PROS . $frontend_theme :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME . SYS_DS_PROS . $module . SYS_DS_PROS . $frontend_theme;
 
 return [
     

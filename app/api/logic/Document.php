@@ -119,7 +119,7 @@ class Document extends ApiBase
     public function apiErrorCodeData()
     {
         
-        $path = APP_PATH . 'api' . SYS_DSS . 'error';
+        $path = APP_PATH . 'api' . SYS_DS_PROS . 'error';
         
         $file_list  = file_list($path);
         
@@ -128,7 +128,7 @@ class Document extends ApiBase
         foreach ($file_list as $v)
         {
             
-            $class_path = "\\" . SYS_APP_NAMESPACE . "\\api\\error\\";    
+            $class_path = SYS_DS_CONS . SYS_APP_NAMESPACE . SYS_DS_CONS . 'api' . SYS_DS_CONS . 'error' . SYS_DS_CONS;    
             
             $class_name = str_replace(EXT, '', $v);
             
@@ -139,10 +139,10 @@ class Document extends ApiBase
             foreach ($props as $k => $v)
             {
 
-                $data['class']    = $class_name;
-                $data['property'] = $k;
-                $data['code']     = $v['code'];
-                $data['msg']      = $v['msg'];
+                $data['class']          = $class_name;
+                $data['property']       = $k;
+                $data[API_CODE_NAME]    = $v[API_CODE_NAME];
+                $data[API_MSG_NAME]     = $v[API_MSG_NAME];
                 
                 $code_data[] = $data;
             }

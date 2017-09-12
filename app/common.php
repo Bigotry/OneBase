@@ -239,7 +239,7 @@ function file_list($path = '')
     
     foreach ($file as $k => $v) {
         
-        if (is_dir($path . SYS_DSS . $v)) : unset($file[$k]); endif;
+        if (is_dir($path . SYS_DS_PROS . $v)) : unset($file[$k]); endif;
     }
     
     return array_values($file);
@@ -254,7 +254,7 @@ function get_addon_class($name = '')
     
     $lower_name = strtolower($name);
     
-    $class = SYS_ADDON_DIR_NAME."\\{$lower_name}\\{$name}";
+    $class = SYS_ADDON_DIR_NAME. SYS_DS_CONS . $lower_name . SYS_DS_CONS . $name;
     
     return $class;
 }
@@ -477,7 +477,7 @@ function get_picture_url($id = 0)
     
     $info = model('Picture')->where(['id' => $id])->field('path,url')->find();
 
-    if (!empty($info['url']))  : return config('static_domain') . SYS_DSS . $info['url'];  endif;
+    if (!empty($info['url']))  : return config('static_domain') . SYS_DS_PROS . $info['url'];  endif;
 
     if (!empty($info['path'])) : return '/upload/picture/'.$info['path'];  endif;
 

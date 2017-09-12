@@ -19,9 +19,9 @@ class InitHook
     public function run()
     {
         
-        $HookModel  = model(SYS_COMMON_DIR_NAME . SYS_DSS . ucwords(SYS_HOOK_DIR_NAME));
+        $HookModel  = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . ucwords(SYS_HOOK_DIR_NAME));
         
-        $AddonModel = model(SYS_COMMON_DIR_NAME . SYS_DSS . ucwords(SYS_ADDON_DIR_NAME));
+        $AddonModel = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . ucwords(SYS_ADDON_DIR_NAME));
         
         $hook_list = $HookModel->column('name,addon_list');
 
@@ -30,7 +30,7 @@ class InitHook
             
             if (!empty($v)):
                 
-            $where[DATA_COMMON_STATUS] = DATA_NORMAL;
+            $where[DATA_STATUS_NAME] = DATA_NORMAL;
             $name_list = explode(',', $v);
             $where['name'] = ['in', $name_list];
 

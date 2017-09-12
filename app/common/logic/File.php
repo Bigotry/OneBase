@@ -64,7 +64,7 @@ class File extends LogicBase
         Image::open($save_path)->thumb($thumb_config['medium']  , $thumb_config['medium'])->save($thumb_dir_path . DS . 'medium_' . $filename);
         Image::open($save_path)->thumb($thumb_config['big']     , $thumb_config['big'])->save($thumb_dir_path    . DS . 'big_'    . $filename);
         
-        $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DSS . $filename, 'sha1' => $sha1];
+        $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
         
         $result = self::$pictureModel->addInfo($data);
         
@@ -85,7 +85,7 @@ class File extends LogicBase
         
         if (empty($storage_driver)) : return false; endif;
         
-        $StorageModel = model('Storage', 'service');
+        $StorageModel = model('Storage', LAYER_SERVICE_NAME);
 
         $StorageModel->setDriver($storage_driver);
 

@@ -48,7 +48,7 @@ class AdminBase extends LogicBase
         
         foreach ($menu_list as $key => $menu_info) {
             
-            list($status, $message) = $this->authCheck(MODULE_NAME . SYS_DSS . $menu_info['url'], $url_list);
+            list($status, $message) = $this->authCheck(MODULE_NAME . SYS_DS_PROS . $menu_info['url'], $url_list);
             
             [$message];
             
@@ -93,10 +93,10 @@ class AdminBase extends LogicBase
             
             empty($href_results[0]) && empty($href_results[1]) && preg_match_all($expression_url, $a, $href_results);
             
-            $url_array = explode(SYS_DSS, $href_results[1][0]); 
+            $url_array = explode(SYS_DS_PROS, $href_results[1][0]); 
             $url_array_html = explode('.', $url_array[2]); 
             
-            $check_url = MODULE_NAME . SYS_DSS . $url_array[1] . SYS_DSS . $url_array_html[0];
+            $check_url = MODULE_NAME . SYS_DS_PROS . $url_array[1] . SYS_DS_PROS . $url_array_html[0];
             
             $result = $this->authCheck($check_url, $url_list);
             

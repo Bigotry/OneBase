@@ -59,16 +59,16 @@ class Qiniu extends Storage implements Driver
 
         $info = model('picture')->getInfo(['id' => $file_id]);
         
-        $path_arr = explode(SYS_DSS, $info['path']); 
+        $path_arr = explode(SYS_DS_PROS, $info['path']); 
   
         $file_path = PATH_PICTURE . $path_arr[0] . DS . $path_arr[1];
         
-        $save_path = 'upload' . SYS_DSS . 'picture' . SYS_DSS . $path_arr[0] . SYS_DSS . $path_arr[1];
+        $save_path = 'upload' . SYS_DS_PROS . 'picture' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . $path_arr[1];
         
         $result = $uploadMgr->putFile($token, $save_path, $file_path);
         
         $thumb_file_path = PATH_PICTURE . $path_arr[0] . DS . 'thumb' . DS;
-        $thumb_save_path = 'upload' . SYS_DSS . 'picture' . SYS_DSS . $path_arr[0] . SYS_DSS . 'thumb' . SYS_DSS;
+        $thumb_save_path = 'upload' . SYS_DS_PROS . 'picture' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . 'thumb' . SYS_DS_PROS;
         
         $uploadMgr->putFile($token, $thumb_save_path . 'small_'   . $path_arr[1]   , $thumb_file_path . 'small_'   . $path_arr[1]);
         $uploadMgr->putFile($token, $thumb_save_path . 'medium_'  . $path_arr[1]   , $thumb_file_path . 'medium_'  . $path_arr[1]);

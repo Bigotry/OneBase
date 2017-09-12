@@ -29,7 +29,7 @@ class Trash extends AdminBase
             [$v];
             $temp['name']   = $k;
             $temp['model_path']  = $model->class;
-            $temp['number'] = $model->stat([DATA_COMMON_STATUS => DATA_DELETE]);
+            $temp['number'] = $model->stat([DATA_STATUS_NAME => DATA_DELETE]);
             
             $list[] = $temp;
         }
@@ -49,7 +49,7 @@ class Trash extends AdminBase
         
         $field = 'id,' . TIME_CT_NAME . ','.TIME_UT_NAME.',' . $dynamic_field;
         
-        $list = model($model_name)->getList([DATA_COMMON_STATUS => DATA_DELETE], $field, 'id desc');
+        $list = model($model_name)->getList([DATA_STATUS_NAME => DATA_DELETE], $field, 'id desc');
         
         return compact('list', 'dynamic_field', 'model_name');
     }
@@ -73,7 +73,7 @@ class Trash extends AdminBase
         
         $model = model($model_name);
         
-        return $model->setFieldValue(['id' => $id], DATA_COMMON_STATUS, DATA_NORMAL) ? [RESULT_SUCCESS, '数据恢复成功'] : [RESULT_ERROR, $model->getError()];
+        return $model->setFieldValue(['id' => $id], DATA_STATUS_NAME, DATA_NORMAL) ? [RESULT_SUCCESS, '数据恢复成功'] : [RESULT_ERROR, $model->getError()];
     }
  
 }

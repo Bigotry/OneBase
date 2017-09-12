@@ -46,9 +46,9 @@ class InitBase
     private function initDbInfo()
     {
         
-        $database_config = config('database');
+        $database_config    = config('database');
         
-        $list_rows = config('list_rows');
+        $list_rows          = config('list_rows');
     
         define('DB_PREFIX', $database_config['prefix']);
         
@@ -131,8 +131,8 @@ class InitBase
     private function initConst()
     {
         
-        // 初始化目录常量
-        $this->initDirConst();
+        // 初始化分层名称常量
+        $this->initLayerConst();
         
         // 初始化结果常量
         $this->initResultConst();
@@ -148,32 +148,37 @@ class InitBase
         
         // 初始化路径常量
         $this->initPathConst();
+        
+        // 初始化API常量
+        $this->initApiConst();
     }
     
     /**
-     * 初始化目录常量
+     * 初始化分层名称常量
      */
-    private function initDirConst()
+    private function initLayerConst()
     {
         
-        define('LAYER_LOGIC_NAME'     , 'logic');
-        define('LAYER_MODEL_NAME'     , 'model');
-        define('LAYER_SERVICE_NAME'   , 'service');
-        define('LAYER_CONTROLLER_NAME', 'controller');
+        define('LAYER_LOGIC_NAME'       , 'logic');
+        define('LAYER_MODEL_NAME'       , 'model');
+        define('LAYER_SERVICE_NAME'     , 'service');
+        define('LAYER_CONTROLLER_NAME'  , 'controller');
+        define('LAYER_VALIDATE_NAME'    , 'validate');
+        define('LAYER_VIEW_NAME'        , 'view');
     }
     
     /**
-     * 初始化结果常量
+     * 初始化结果标识常量
      */
     private function initResultConst()
     {
         
-        define('RESULT_SUCCESS' , 'success');
-        define('RESULT_ERROR'   , 'error');
-        define('RESULT_REDIRECT', 'redirect');
-        define('RESULT_MESSAGE' , 'message');
-        define('RESULT_URL'     , 'url');
-        define('RESULT_DATA'    , 'data');
+        define('RESULT_SUCCESS'         , 'success');
+        define('RESULT_ERROR'           , 'error');
+        define('RESULT_REDIRECT'        , 'redirect');
+        define('RESULT_MESSAGE'         , 'message');
+        define('RESULT_URL'             , 'url');
+        define('RESULT_DATA'            , 'data');
     }
     
     /**
@@ -182,12 +187,22 @@ class InitBase
     private function initDataStatusConst()
     {
         
-        define('DATA_COMMON_STATUS' ,  'status');
-        define('DATA_NORMAL'        ,  1);
-        define('DATA_DISABLE'       ,  0);
-        define('DATA_DELETE'        , -1);
-        define('DATA_SUCCESS'       , 1);
-        define('DATA_ERROR'         , 0);
+        define('DATA_STATUS_NAME'       , 'status');
+        define('DATA_NORMAL'            , 1);
+        define('DATA_DISABLE'           , 0);
+        define('DATA_DELETE'            , -1);
+        define('DATA_SUCCESS'           , 1);
+        define('DATA_ERROR'             , 0);
+    }
+    
+    /**
+     * 初始化API常量
+     */
+    private function initApiConst()
+    {
+        
+        define('API_CODE_NAME'          , 'code');
+        define('API_MSG_NAME'           , 'msg');
     }
     
     /**
@@ -196,9 +211,9 @@ class InitBase
     private function initTimeConst()
     {
         
-        define('TIME_CT_NAME' ,  'create_time');
-        define('TIME_UT_NAME' ,  'update_time');
-        define('TIME_NOW'     ,   time());
+        define('TIME_CT_NAME'           , 'create_time');
+        define('TIME_UT_NAME'           , 'update_time');
+        define('TIME_NOW'               , time());
     }
     
     /**
@@ -210,10 +225,13 @@ class InitBase
         define('SYS_APP_NAMESPACE'              , config('app_namespace'));
         define('SYS_HOOK_DIR_NAME'              , 'hook');
         define('SYS_ADDON_DIR_NAME'             , 'addon');
+        define('SYS_DRIVER_DIR_NAME'            , 'driver');
         define('SYS_COMMON_DIR_NAME'            , 'common');
+        define('SYS_STATIC_DIR_NAME'            , 'static');
         define('SYS_VERSION'                    , '1.0.0');
         define('SYS_ADMINISTRATOR_ID'           , 1);
-        define('SYS_DSS'                        , '/');
+        define('SYS_DS_PROS'                    , '/');
+        define('SYS_DS_CONS'                    , '\\');
         define('SYS_ENCRYPT_KEY'                , '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:');
     }
     
@@ -237,7 +255,7 @@ class InitBase
     private function initConfig()
     {
         
-        $model = model(SYS_COMMON_DIR_NAME . SYS_DSS . 'Config');
+        $model = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'Config');
         
         $config_list = $model->all();
         
@@ -289,7 +307,7 @@ class InitBase
         
         if(strpos($url, SYS_ADDON_DIR_NAME) !== false && preg_match($regex, $url)) :
 
-            $url = PATH_ADDON . str_replace(SYS_DSS, DS, substr($url, strlen(SYS_DSS . SYS_ADDON_DIR_NAME . SYS_DSS)));
+            $url = PATH_ADDON . str_replace(SYS_DS_PROS, DS, substr($url, strlen(SYS_DS_PROS . SYS_ADDON_DIR_NAME . SYS_DS_PROS)));
         
             !is_file($url) && exit('plugin resources do not exist.');
 
