@@ -35,7 +35,7 @@ class Article extends AdminBase
         
         $where = self::$articleLogic->getWhere($this->param);
         
-        $this->assign('list', self::$articleLogic->getArticleList($where));
+        $this->assign('list', self::$articleLogic->getArticleList($where, true, 'create_time desc'));
         
         return $this->fetch('article_list');
     }

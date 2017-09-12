@@ -19,7 +19,7 @@ class ControllerBase extends Controller
     /**
      * 基类初始化
      */
-    protected function _initialize()
+    public function _initialize()
     {
         
         // 初始化请求信息
@@ -37,6 +37,7 @@ class ControllerBase extends Controller
         
         defined('IS_POST')          or define('IS_POST',         $this->request->isPost());
         defined('IS_GET')           or define('IS_GET',          $this->request->isGet());
+        defined('IS_AJAX')          or define('IS_AJAX',         $this->request->isAjax());
         defined('MODULE_NAME')      or define('MODULE_NAME',     $this->request->module());
         defined('CONTROLLER_NAME')  or define('CONTROLLER_NAME', $this->request->controller());
         defined('ACTION_NAME')      or define('ACTION_NAME',     $this->request->action());

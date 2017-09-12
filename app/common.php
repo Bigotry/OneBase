@@ -74,7 +74,7 @@ function is_administrator($member_id = null)
  * @param array $list 要转换的数据集
  * @param string $pid parent标记字段
  * @param string $level level标记字段
- * @return array|boolean
+ * @return array
  */
 function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0)
 {
@@ -82,10 +82,9 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
     // 创建Tree
     $tree = [];
     
-    if (!is_array($list)) {
-        return false;
-    }
-
+    if (!is_array($list)):
+    return false;
+    endif;
     
     // 创建基于主键的数组引用
     $refer = [];
@@ -162,7 +161,7 @@ function get_sington_object($object_name = '', $class = null)
 
     $request = \think\Request::instance();
     
-    $request->__isset($object_name) || $request->bind($object_name, new $class());
+    $request->__isset($object_name) ?: $request->bind($object_name, new $class());
     
     return $request->__get($object_name);
 }
@@ -248,8 +247,7 @@ function file_list($path = '')
 
 /**
  * 获取插件类的类名
- * @param string $name 插件名
- * @return string
+ * @param strng $name 插件名
  */
 function get_addon_class($name = '')
 {
@@ -273,7 +271,7 @@ function hook($tag = '', $params = [])
 /**
  * 保存文件
  */
-function save_file($arr = [], $fpath = 'D:\test.php')
+function sf($arr = [], $fpath = 'D:\test.php')
 {
     
     $data = "<?php\nreturn ".var_export($arr, true).";\n?>";
@@ -574,4 +572,131 @@ function  string_from_column_index($pColumnIndex = 0)
     }
     
     return $_indexCache[$pColumnIndex];
+}
+
+/**
+ * 页面数组提交后格式转换 
+ */
+function transform_array($array)
+{
+
+    $new_array = array();
+    $key_array = array();
+
+    foreach ($array as $key=>$val) {
+
+        $key_array[] = $key;
+    }
+
+    $key_count = count($key_array);
+
+    foreach ($array[$key_array[0]] as $i => $val) {
+        
+        $temp_array = array();
+
+        for( $j=0;$j<$key_count;$j++ ){
+
+            $key = $key_array[$j];
+            $temp_array[$key] = $array[$key][$i];
+        }
+
+        $new_array[] = $temp_array;
+    }
+
+    return $new_array;
+}
+
+/**
+ * 页面数组转换后的数组转json
+ */
+function transform_array_to_json($array)
+{
+    
+    return json_encode(transform_array($array));
+}
+
+/**
+ * 关联数组转索引数组
+ */
+function relevance_arr_to_index_arr($array)
+{
+    
+    $new_array = [];
+    
+    foreach ($array as $v)
+    {
+        
+        $temp_array = [];
+        
+        foreach ($v as $vv)
+        {
+            $temp_array[] = $vv;
+        }
+        
+        $new_array[] = $temp_array;
+    }
+    
+    return $new_array;
+}
+
+/**
+ * 获取页面范围
+ */
+function get_page_number_scope($current_page = 0, $last_page = 0, $offset = 3, $page_number = 7)
+{
+    
+    $init = DATA_SUCCESS;
+
+    $max = $last_page;
+
+    if($last_page > $page_number)
+    {
+        if($current_page <= $offset){
+
+            $max    = $page_number;
+        }else if($current_page + $offset >= $last_page){
+
+            $init   = $last_page - $page_number + $init;
+            $max    = $last_page;
+        } else {
+
+            $init   = $current_page - $offset;
+            $max    = $current_page + $offset;
+        }
+    }
+    
+    return ['init' => $init, 'max' => $max];
+}
+
+/**
+ * 获取分页HTML
+ */
+function get_page_html($current_page = 0, $last_page = 0, $offset = 3, $page_number = 7)
+{
+    
+    $data = get_page_number_scope($current_page, $last_page, $offset, $page_number);
+
+    $spans  = '';
+
+    for($i = $data['init']; $i <= $data['max']; $i++) :  $spans .= $i == $current_page ? "<span class='current'>".$i."</span>" : "<a href='?page=$i'><span>$i</span></a>"; endfor;
+
+    $next   = '';
+    $current_page_next = $current_page + DATA_SUCCESS;
+
+    if ($current_page < $last_page) : $next =  "<a class='next' href='?page=$current_page_next'>下一页</a>"; endif;
+
+    $prev = '';
+    $current_page_prev = $current_page - DATA_SUCCESS;
+    
+    if ($current_page > DATA_SUCCESS) : $prev =  "<a class='prev' href='?page=$current_page_prev'>上一页</a>"; endif;
+
+    $tmpl = "<div class='onebase pagination pagination-right pagination-large'>
+                <div>
+                    $prev
+                    $spans
+                    $next
+                </div>
+            </div>";
+    
+    return $tmpl;
 }

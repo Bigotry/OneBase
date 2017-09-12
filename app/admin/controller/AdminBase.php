@@ -1,7 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | Author: Bigotry <3162875@qq.com>
-// +----------------------------------------------------------------------
 
 namespace app\admin\controller;
 
@@ -12,7 +9,11 @@ use app\admin\logic\AuthGroupAccess as LogicAuthGroupAccess;
 
 
 /**
- * Admin控制器基类
+ * 后台基类控制器
+ * Class AdminBase
+ * @package app\admin\controller
+ * @author  Bigotry <3162875@qq.com>
+ * @version 1.0
  */
 class AdminBase extends ControllerBase
 {
@@ -42,7 +43,10 @@ class AdminBase extends ControllerBase
     protected $crumbsView           = '';
     
     /**
-     * 构造方法
+     * AdminBase constructor                                      构造方法
+     * @param   LogicAdminBase          $adminBaseLogic          后台基础逻辑
+     * @param   LogicMenu               $menuLogic               菜单逻辑
+     * @param   LogicAuthGroupAccess    $authGroupAccessLogic    权限组授权逻辑
      */
     public function __construct(LogicAdminBase $adminBaseLogic, LogicMenu $menuLogic, LogicAuthGroupAccess $authGroupAccessLogic)
     {
@@ -86,6 +90,16 @@ class AdminBase extends ControllerBase
         
         // 权限验证不通过则跳转提示
         RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message);
+        
+        // 初始化基础数据
+        IS_AJAX ?: $this->initBaseInfo();
+    }
+    
+    /**
+     * 初始化基础数据
+     */
+    final private function initBaseInfo()
+    {
         
         // 获取过滤后的菜单树
         $this->authMenuTree = $this->adminBaseLogic->getMenuTree($this->authMenuList, $this->authMenuUrlList);

@@ -12,7 +12,7 @@ return [
     'view_replace_str' => $static,
     
     /* 存储驱动,若无需使用云存储则为空 */
-    'storage_driver' => 'Qiniu',
+    'storage_driver' => '',
     
     /* 模板布局配置 */
     'template'  =>  [

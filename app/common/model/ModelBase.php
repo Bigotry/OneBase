@@ -59,7 +59,9 @@ class ModelBase extends Model
             
             !empty($data[TIME_CT_NAME]) && is_string($data[TIME_CT_NAME]) && $data[TIME_CT_NAME] = strtotime($data[TIME_CT_NAME]);
             
-            $return_data = $this->updateInfo($where, $data);
+            $default_where[$pk] = $data[$pk];
+            
+            $return_data = $this->updateInfo(array_merge($default_where, $where), $data);
         }
         
         return $return_data;
@@ -231,6 +233,8 @@ class ModelBase extends Model
 
             if($function == 'getList') {
 
+                $paginate != false && IS_POST && $paginate = input('list_rows', DB_LIST_ROWS);
+                
                 $result_data = false !== $paginate ? self::$ob_query->paginate($paginate) : self::$ob_query->select($data);
 
             } else {
