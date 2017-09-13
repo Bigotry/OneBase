@@ -23,8 +23,6 @@ class IndexBase extends ControllerBase
         
         $this->assign('api_domain', config('api_domain'));
         
-        $access_token = md5('OneBase' . date("YmdHi") . SYS_ENCRYPT_KEY);
-        
-        $this->assign('access_token', $access_token);
+        $this->assign('access_token', get_access_token());
     }
 }

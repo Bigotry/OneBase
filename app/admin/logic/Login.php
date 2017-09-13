@@ -32,7 +32,7 @@ class Login extends AdminBase
         if (empty($member)) : return [RESULT_ERROR, '用户不存在']; endif;
         
         // 验证用户密码
-        if (data_md5($password, SYS_ENCRYPT_KEY) === $member['password']) {
+        if (data_md5_key($password) === $member['password']) {
             
             $memberLogic->setMemberValue(['id' => $member['id']], TIME_UT_NAME, TIME_NOW);
             

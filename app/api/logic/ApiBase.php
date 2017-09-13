@@ -91,9 +91,7 @@ class ApiBase extends LogicBase
         
         empty($info) && $this->apiError(CodeBase::$apiUrlError);
         
-        $access_token = md5('OneBase' . date("YmdHi") . SYS_ENCRYPT_KEY);
-        
-        (empty($param['access_token']) || $param['access_token'] != $access_token) && $this->apiError(CodeBase::$accessTokenError);
+        (empty($param['access_token']) || $param['access_token'] != get_access_token()) && $this->apiError(CodeBase::$accessTokenError);
         
         $info['is_user_token'] && empty($param['user_token']) && $this->apiError(CodeBase::$userTokenError);
     }

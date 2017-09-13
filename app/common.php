@@ -35,6 +35,17 @@ function data_md5($str, $key = 'OneBase')
 }
 
 /**
+ * 使用上面的函数与系统加密KEY完成字符串加密
+ * @param  string $str 要加密的字符串
+ * @return string 
+ */
+function data_md5_key($str)
+{
+    
+    return data_md5($str, SYS_ENCRYPT_KEY);
+}
+
+/**
  * 数据签名认证
  * @param  array  $data 被认证的数据
  * @return string       签名
@@ -366,7 +377,7 @@ function get_cache_tag($name, $join = null)
             
             $names = explode(' ', $v[0]);
             
-            $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $names[0]));
+            $table_name = str_replace('_', '', str_replace(SYS_DB_PREFIX, '', $names[0]));
             
             $table_string .= strtolower($table_name);
         }
@@ -399,7 +410,7 @@ function get_cache_key($name, $where, $field, $order, $paginate, $join, $group, 
             
             $names = explode(' ', $v[0]);
             
-            $table_name = strtolower(str_replace('_', '', str_replace(DB_PREFIX, '', $names[0])));
+            $table_name = strtolower(str_replace('_', '', str_replace(SYS_DB_PREFIX, '', $names[0])));
             
             $version .= $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY];
         }

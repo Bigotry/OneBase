@@ -52,9 +52,7 @@ class Index extends ApiBase
         
         // 测试期间使用token ， 测试完成请删除
         
-        $test_access_token = md5('OneBase' . date("YmdHi") . SYS_ENCRYPT_KEY);
-        
-        $this->assign('test_access_token', $test_access_token);
+        $this->assign('test_access_token', get_access_token());
         
         $content = $this->fetch('content_template');
         

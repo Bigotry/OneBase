@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:61:"D:\wamp\www\OneBase\app/index/view/default/index\details.html";i:1505185598;s:54:"D:\wamp\www\OneBase\app/index/view/default/layout.html";i:1505185598;s:58:"D:\wamp\www\OneBase\app/index/view/default/layout\top.html";i:1505185598;s:61:"D:\wamp\www\OneBase\app/index/view/default/layout\header.html";i:1505185598;s:71:"D:\wamp\www\OneBase\app/index/view/default/index\tmpl\details_tmpl.html";i:1505185598;s:61:"D:\wamp\www\OneBase\app/index/view/default/layout\footer.html";i:1505185598;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:6:{s:61:"D:\wamp\www\OneBase\app/index/view/default/index\details.html";i:1505185598;s:54:"D:\wamp\www\OneBase\app/index/view/default/layout.html";i:1505185598;s:58:"D:\wamp\www\OneBase\app/index/view/default/layout\top.html";i:1505185598;s:61:"D:\wamp\www\OneBase\app/index/view/default/layout\header.html";i:1505185598;s:71:"D:\wamp\www\OneBase\app/index/view/default/index\tmpl\details_tmpl.html";i:1505298625;s:61:"D:\wamp\www\OneBase\app/index/view/default/layout\footer.html";i:1505185598;}*/ ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>OneBase</title>
@@ -121,14 +121,6 @@
 
 <script type="text/javascript">
 
-    function getUrlParam(name)
-    {
-         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-         var r = window.location.search.substr(1).match(reg);
-         if(r!=null)return  unescape(r[2]); return null;
-    }
-    
-    
     $(function(){
         
         $('.fakeloader').show();

@@ -75,7 +75,7 @@ class AuthGroupAccess extends AdminBase
         $field = 'a.member_id, a.group_id, g.name, g.describe, g.rules';
         
         $join = [
-                    [DB_PREFIX.'auth_group g', 'a.group_id = g.id'],
+                    [SYS_DB_PREFIX . 'auth_group g', 'a.group_id = g.id'],
                 ];
         
         return $model->getList($where, $field, '', false, $join);

@@ -44,7 +44,7 @@ class Common extends ApiBase
             goto begin;
         }
         
-        if (data_md5($data['password'], SYS_ENCRYPT_KEY) !== $member['password']) : return CommonError::$passwordError; endif;
+        if (data_md5_key($data['password']) !== $member['password']) : return CommonError::$passwordError; endif;
         
         $jwt_data = static::tokenSign($member);
         
@@ -55,7 +55,7 @@ class Common extends ApiBase
     {
         
         $data['nickname']  = $data['username'];
-        $data['password']  = data_md5($data['password'], SYS_ENCRYPT_KEY);
+        $data['password']  = data_md5_key($data['password']);
 
         $memberLogic = get_sington_object('memberLogic', LogicMember::class);
         
@@ -65,7 +65,7 @@ class Common extends ApiBase
     public static function tokenSign($member)
     {
         
-        $key = SYS_ENCRYPT_KEY . "_onebase";
+        $key = API_KEY . '_onebase';
         
         $jwt_data = ['member_id' => $member['id'], 'nickname' => $member['nickname'], 'username' => $member['username'], 'create_time' => $member['create_time']];
         
@@ -99,9 +99,7 @@ class Common extends ApiBase
         
         if (empty($data['old_password']) || empty($data['new_password'])) : return CommonError::$oldOrNewPassword; endif;
         
-        $md5_password = data_md5($data['old_password'], SYS_ENCRYPT_KEY);
-        
-        if ($md5_password !== $member_info['password']) : return CommonError::$passwordError; endif;
+        if (data_md5_key($data['old_password']) !== $member_info['password']) : return CommonError::$passwordError; endif;
 
         $member_info['password'] = $data['new_password'];
         

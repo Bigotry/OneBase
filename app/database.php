@@ -50,4 +50,6 @@ return [
     'datetime_format' => 'Y-m-d H:i:s',
     // 是否需要进行SQL性能分析
     'sql_explain'     => true,
+    // 系统数据加密key
+    'sys_data_key'    => '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:'
 ];

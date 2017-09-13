@@ -30,99 +30,11 @@ class InitBase
         // 初始化配置
         $this->initConfig();
         
-        // 初始化数据库
-        $this->initDbInfo();
-        
         // 初始化缓存
         $this->initCacheInfo();
         
         // 注册命名空间
         $this->registerNamespace();
-    }
-    
-    /**
-     * 初始化数据库
-     */
-    private function initDbInfo()
-    {
-        
-        $database_config    = config('database');
-        
-        $list_rows          = config('list_rows');
-    
-        define('DB_PREFIX', $database_config['prefix']);
-        
-        empty($list_rows) ? define('DB_LIST_ROWS', 10) : define('DB_LIST_ROWS', $list_rows);
-    }
-    
-    
-    /**
-     * 初始化缓存Key
-     */
-    private function initCacheKey()
-    {
-        
-        // 自动缓存信息key
-        define('AUTO_CACHE_KEY'                 , 'auto_cache_info');
-        
-        // 缓存版本key名称
-        define('CACHE_VERSION_KEY'              , 'version');
-        
-        // 缓存表key名称
-        define('CACHE_TABLE_KEY'                , 'table');
-        
-        // 缓存key名称
-        define('CACHE_CACHE_KEY'                , 'cache_key');
-        
-        // 缓存执行数量
-        define('CACHE_EXE_NUMBER_KEY'           , 'exe_number');
-        
-        // 缓存命中数量
-        define('CACHE_EXE_HIT_KEY'              , 'hit_number');
-        
-        // 缓存存储最大数量
-        define('CACHE_MAX_NUMBER_KEY'           , 'max_number');
-        
-        // 缓存自动清理间隔（单位：秒）
-        define('CACHE_CLEAR_INTERVAL_TIME_KEY'  , 'clear_interval_time');
-        
-        // 缓存最后读取时间key名称
-        define('CACHE_LAST_GET_TIME_KEY'        , 'last_get_time');
-        
-        // 缓存key数量名称
-        define('CACHE_NUMBER_KEY'               , 'cache_key_number');
-    }
-    
-    /**
-     * 初始化缓存
-     */
-    private function initCacheInfo()
-    {
-        
-        $this->initCacheKey();
-        
-        // 初始化自动缓存信息数组
-        $auto_cache_info = cache(AUTO_CACHE_KEY) ?: [];
-        
-        $list  = Db::query('SHOW TABLE STATUS');
-        
-        foreach ($list as $v):
-            
-        $table_name = str_replace('_', '', str_replace(DB_PREFIX, '', $v['Name']));
-
-        empty($auto_cache_info[CACHE_TABLE_KEY][$table_name]) && $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY] = DATA_DISABLE;
-        
-        endforeach;
-            
-        empty($auto_cache_info[CACHE_EXE_NUMBER_KEY]) && $auto_cache_info[CACHE_EXE_NUMBER_KEY] = DATA_DISABLE;
-        
-        empty($auto_cache_info[CACHE_EXE_HIT_KEY])    && $auto_cache_info[CACHE_EXE_HIT_KEY] = DATA_DISABLE;
-        
-        empty($auto_cache_info[CACHE_CACHE_KEY])      && $auto_cache_info[CACHE_CACHE_KEY] = [];
-        
-        $auto_cache_info[CACHE_MAX_NUMBER_KEY] = SYS_CACHE_MAX_NUMBER;
-        
-        cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
     }
     
     /**
@@ -217,36 +129,109 @@ class InitBase
     }
     
     /**
-     * 初始化系统常量
-     */
-    private function initSystemConst()
-    {
-
-        define('SYS_APP_NAMESPACE'              , config('app_namespace'));
-        define('SYS_HOOK_DIR_NAME'              , 'hook');
-        define('SYS_ADDON_DIR_NAME'             , 'addon');
-        define('SYS_DRIVER_DIR_NAME'            , 'driver');
-        define('SYS_COMMON_DIR_NAME'            , 'common');
-        define('SYS_STATIC_DIR_NAME'            , 'static');
-        define('SYS_VERSION'                    , '1.0.0');
-        define('SYS_ADMINISTRATOR_ID'           , 1);
-        define('SYS_DS_PROS'                    , '/');
-        define('SYS_DS_CONS'                    , '\\');
-        define('SYS_ENCRYPT_KEY'                , '}a!vI9wX>l2V|gfZp{8`;jzR~6Y1_q-e,#"MN=r:');
-    }
-    
-    /**
      * 初始化路径常量
      */
     private function initPathConst()
     {
         
-        define('PATH_ADDON'     , ROOT_PATH   . SYS_ADDON_DIR_NAME . DS);
-        define('PATH_PUBLIC'    , ROOT_PATH   . 'public'    . DS);
-        define('PATH_UPLOAD'    , PATH_PUBLIC . 'upload'    . DS);
-        define('PATH_PICTURE'   , PATH_UPLOAD . 'picture'   . DS);
-        define('PATH_FILE'      , PATH_UPLOAD . 'file'      . DS);
-        define('PATH_SERVICE'   , ROOT_PATH   . DS . SYS_APP_NAMESPACE . DS . SYS_COMMON_DIR_NAME . DS . LAYER_SERVICE_NAME . DS);
+        define('PATH_ADDON'             , ROOT_PATH   . SYS_ADDON_DIR_NAME . DS);
+        define('PATH_PUBLIC'            , ROOT_PATH   . 'public'    . DS);
+        define('PATH_UPLOAD'            , PATH_PUBLIC . 'upload'    . DS);
+        define('PATH_PICTURE'           , PATH_UPLOAD . 'picture'   . DS);
+        define('PATH_FILE'              , PATH_UPLOAD . 'file'      . DS);
+        define('PATH_SERVICE'           , ROOT_PATH   . DS . SYS_APP_NAMESPACE . DS . SYS_COMMON_DIR_NAME . DS . LAYER_SERVICE_NAME . DS);
+    }
+    
+    /**
+     * 初始化系统常量
+     */
+    private function initSystemConst()
+    {
+
+        define('SYS_APP_NAMESPACE'      , config('app_namespace'));
+        define('SYS_HOOK_DIR_NAME'      , 'hook');
+        define('SYS_ADDON_DIR_NAME'     , 'addon');
+        define('SYS_DRIVER_DIR_NAME'    , 'driver');
+        define('SYS_COMMON_DIR_NAME'    , 'common');
+        define('SYS_STATIC_DIR_NAME'    , 'static');
+        define('SYS_VERSION'            , '1.0.0');
+        define('SYS_ADMINISTRATOR_ID'   , 1);
+        define('SYS_DS_PROS'            , '/');
+        define('SYS_DS_CONS'            , '\\');
+        
+        $database_config                = config('database');
+        
+        define('SYS_DB_PREFIX'          , $database_config['prefix']);
+        define('SYS_ENCRYPT_KEY'        , $database_config['sys_data_key']);
+    }
+    
+    /**
+     * 初始化缓存Key
+     */
+    private function initCacheKey()
+    {
+        
+        // 自动缓存信息key
+        define('AUTO_CACHE_KEY'                 , 'auto_cache_info');
+        
+        // 缓存版本key名称
+        define('CACHE_VERSION_KEY'              , 'version');
+        
+        // 缓存表key名称
+        define('CACHE_TABLE_KEY'                , 'table');
+        
+        // 缓存key名称
+        define('CACHE_CACHE_KEY'                , 'cache_key');
+        
+        // 缓存执行数量
+        define('CACHE_EXE_NUMBER_KEY'           , 'exe_number');
+        
+        // 缓存命中数量
+        define('CACHE_EXE_HIT_KEY'              , 'hit_number');
+        
+        // 缓存存储最大数量
+        define('CACHE_MAX_NUMBER_KEY'           , 'max_number');
+        
+        // 缓存自动清理间隔（单位：秒）
+        define('CACHE_CLEAR_INTERVAL_TIME_KEY'  , 'clear_interval_time');
+        
+        // 缓存最后读取时间key名称
+        define('CACHE_LAST_GET_TIME_KEY'        , 'last_get_time');
+        
+        // 缓存key数量名称
+        define('CACHE_NUMBER_KEY'               , 'cache_key_number');
+    }
+    
+    /**
+     * 初始化缓存
+     */
+    private function initCacheInfo()
+    {
+        
+        $this->initCacheKey();
+        
+        // 初始化自动缓存信息数组
+        $auto_cache_info = cache(AUTO_CACHE_KEY) ?: [];
+        
+        $list  = Db::query('SHOW TABLE STATUS');
+        
+        foreach ($list as $v):
+            
+        $table_name = str_replace('_', '', str_replace(SYS_DB_PREFIX, '', $v['Name']));
+
+        empty($auto_cache_info[CACHE_TABLE_KEY][$table_name]) && $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY] = DATA_DISABLE;
+        
+        endforeach;
+            
+        empty($auto_cache_info[CACHE_EXE_NUMBER_KEY]) && $auto_cache_info[CACHE_EXE_NUMBER_KEY] = DATA_DISABLE;
+        
+        empty($auto_cache_info[CACHE_EXE_HIT_KEY])    && $auto_cache_info[CACHE_EXE_HIT_KEY] = DATA_DISABLE;
+        
+        empty($auto_cache_info[CACHE_CACHE_KEY])      && $auto_cache_info[CACHE_CACHE_KEY] = [];
+        
+        $auto_cache_info[CACHE_MAX_NUMBER_KEY] = SYS_CACHE_MAX_NUMBER;
+        
+        cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
     }
     
     /**
@@ -280,9 +265,13 @@ class InitBase
         
         $cache_max_number           = config('cache_max_number');
         $cache_clear_interval_time  = config('cache_clear_interval_time');
-        
-        define('SYS_CACHE_MAX_NUMBER'           , empty($cache_max_number)          ? 1000  : (int)$cache_max_number);
-        define('SYS_CACHE_CLEAR_INTERVAL_TIME'  , empty($cache_clear_interval_time) ? 600   : (int)$cache_clear_interval_time);
+        $list_rows                  = config('list_rows');
+        $api_key                    = config('api_key');
+
+        define('SYS_CACHE_MAX_NUMBER'               , empty($cache_max_number)          ? 1000      : (int)$cache_max_number);
+        define('SYS_CACHE_CLEAR_INTERVAL_TIME'      , empty($cache_clear_interval_time) ? 600       : (int)$cache_clear_interval_time);
+        define('DB_LIST_ROWS'                       , empty($list_rows)                 ? 10        : $list_rows);
+        define('API_KEY'                            , empty($api_key)                   ? 'OneBase' : $api_key);
     }
     
     /**
