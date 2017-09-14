@@ -1,21 +1,10 @@
-<div class="fakeloader"></div>
-<link href="__STATIC__/ext/fakeloader/css/fakeLoader.css" rel="stylesheet">
-<script src="__STATIC__/ext/fakeloader/js/fakeLoader.min.js"></script>
+{include file="../app/common/view/fakeloader.html" /}
+
 <script type="text/javascript">
-    
     var api_domain      = "{$api_domain}";
     
     var access_token    = "{$access_token}";
-    
-    $(".fakeloader").fakeLoader({
-        timeToHide:99999,
-        bgColor:"rgba(52, 52, 52, .5)",
-        spinner:"spinner7"
-    });
-    
-    $('.fakeloader').hide();
 </script>
-
 
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">

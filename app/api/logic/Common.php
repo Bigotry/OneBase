@@ -69,12 +69,10 @@ class Common extends ApiBase
         
         $jwt_data = ['member_id' => $member['id'], 'nickname' => $member['nickname'], 'username' => $member['username'], 'create_time' => $member['create_time']];
         
-        $time = time();
-        
         $token = [
             "iss"   => "OneBase JWT",         // 签发者
-            "iat"   => $time,                 // 签发时间
-            "exp"   => $time + $time,         // 过期时间
+            "iat"   => TIME_NOW,              // 签发时间
+            "exp"   => TIME_NOW + TIME_NOW,   // 过期时间
             "aud"   => 'OneBase',             // 接收方
             "sub"   => 'OneBase',             // 面向的用户
             "data"  => $jwt_data

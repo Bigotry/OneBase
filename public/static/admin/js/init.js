@@ -48,28 +48,3 @@
     };
 
 })(jQuery);
-
-    
-//页面过渡效果
-$(document).ready(function() {
-  $(".animsition").animsition({
-    inClass               :   'fade-in',
-    outClass              :   'fade-out',
-    inDuration            :    500,
-    outDuration           :    800,
-    linkElement           :   '.animsition-link',
-    loading               :    true,
-    loadingParentElement  :   'body', //animsition wrapper element
-    loadingClass          :   'animsition-loading',
-    unSupportCss          : [ 'animation-duration',
-                              '-webkit-animation-duration',
-                              '-o-animation-duration'
-                            ],
-     
-    overlay               :   false,
-     
-    overlayClass          :   'animsition-overlay-slide',
-    overlayParentElement  :   'body'
-  });
-});
-    

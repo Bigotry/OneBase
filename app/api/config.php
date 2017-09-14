@@ -5,7 +5,7 @@
 return [
     
     /* 模板常量替换配置 */
-    'view_replace_str' => ['__STATIC__' => '/static/api'],
+    'view_replace_str' => ['__STATIC__' => '/static'],
     
     /* 带分页接口附加字段 */
     'page_attach_field' => [

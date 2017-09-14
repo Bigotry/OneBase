@@ -27,6 +27,9 @@ class ControllerBase extends Controller
         
         // 自动缓存回收
         $this->cacheRecycle();
+        
+        // 初始化全局静态资源
+        $this->initCommonStatic();
     }
     
     /**
@@ -104,5 +107,14 @@ class ControllerBase extends Controller
         !empty($recycle_number) && $auto_cache_info[CACHE_NUMBER_KEY] -= $recycle_number;
         
         cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
+    }
+    
+    /**
+     * 初始化全局静态资源
+     */
+    final protected function initCommonStatic()
+    {
+        
+        $this->assign('loading_icon', config('loading_icon'));
     }
 }

@@ -3,15 +3,15 @@
     <title>OneBase API文档</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="__STATIC__/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="__STATIC__/style.css" rel="stylesheet">
-    <link href="__STATIC__/fakeloader/css/fakeLoader.css" rel="stylesheet">
-    <script src="__STATIC__/jquery-2.2.3.min.js"></script>
-    <script src="__STATIC__/jquery.form.js"></script>
+    <link href="__STATIC__/api/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="__STATIC__/api/style.css" rel="stylesheet">
+    <script src="__STATIC__/api/jquery-2.2.3.min.js"></script>
+    <script src="__STATIC__/api/jquery.form.js"></script>
     </head>
 <body>
-    <div class="fakeloader"></div>
 
+{include file="../app/common/view/fakeloader.html" /}
+    
 <div class="container-fluid">
     <div class="row-fluid">
         <div id="sidenav" class="span2">
@@ -39,16 +39,7 @@
     </div>
 </div>
 
-<script src="__STATIC__/fakeloader/js/fakeLoader.min.js"></script>
 <script>
-
-    $(".fakeloader").fakeLoader({
-        timeToHide:99999,
-        bgColor:"rgba(52, 52, 52, .5)",
-        spinner:"spinner7"
-    });
-    
-    $('.fakeloader').hide();
 
     function apiDetails(obj)
     {
