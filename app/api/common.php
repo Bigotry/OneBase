@@ -2,13 +2,6 @@
 
 use \Firebase\JWT\JWT;
 
-// 获取访问token
-function get_access_token()
-{
-
-    return md5('OneBase' . date("YmdHi") . API_KEY);
-}
-
 // 解密user_token
 function decoded_user_token($token = '')
 {

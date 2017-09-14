@@ -711,3 +711,10 @@ function get_page_html($current_page = 0, $last_page = 0, $offset = 3, $page_num
     
     return $tmpl;
 }
+
+// 获取访问token
+function get_access_token()
+{
+
+    return md5('OneBase' . date("YmdHi") . API_KEY);
+}
