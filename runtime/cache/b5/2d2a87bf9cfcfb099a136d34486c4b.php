@@ -1,3 +1,0 @@
-<?php
-//000000000000s:575:"D:\wamp\www\OneBase\runtime\cache\20\8c4f5dbe6820fe0e4c3671fd838603.php,D:\wamp\www\OneBase\runtime\cache\6e\d01ac92219ff7389051e698e0cbd0b.php,D:\wamp\www\OneBase\runtime\cache\b5\eb1e22df86a53fa3f6ed0881e719ea.php,D:\wamp\www\OneBase\runtime\cache\8d\0e05625f455dfcf4cf7bb02692b296.php,D:\wamp\www\OneBase\runtime\cache\73\d8a8125cfc700b4bf8adf0228bf971.php,D:\wamp\www\OneBase\runtime\cache\6c\143f84d0bed1e55eca273343462915.php,D:\wamp\www\OneBase\runtime\cache\e2\a32ef1c3d45abf20d1e9ace81f50af.php,D:\wamp\www\OneBase\runtime\cache\02\c21186e5dc2ddcf50a0d17bb10ed95.php";
-?>
