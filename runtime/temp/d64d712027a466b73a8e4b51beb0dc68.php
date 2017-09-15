@@ -1,7 +1,7 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:7:{s:59:"D:\wamp\www\OneBase\app/index/view/default/index\index.html";i:1505185598;s:54:"D:\wamp\www\OneBase\app/index/view/default/layout.html";i:1505185598;s:58:"D:\wamp\www\OneBase\app/index/view/default/layout\top.html";i:1505185598;s:61:"D:\wamp\www\OneBase\app/index/view/default/layout\header.html";i:1505375208;s:34:"../app/common/view/fakeloader.html";i:1505374936;s:69:"D:\wamp\www\OneBase\app/index/view/default/index\tmpl\index_tmpl.html";i:1505298638;s:61:"D:\wamp\www\OneBase\app/index/view/default/layout\footer.html";i:1505185598;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:7:{s:59:"D:\wamp\www\OneBase\app/index/view/default/index\index.html";i:1505466025;s:54:"D:\wamp\www\OneBase\app/index/view/default/layout.html";i:1505185598;s:58:"D:\wamp\www\OneBase\app/index/view/default/layout\top.html";i:1505466067;s:61:"D:\wamp\www\OneBase\app/index/view/default/layout\header.html";i:1505375208;s:34:"../app/common/view/fakeloader.html";i:1505377319;s:69:"D:\wamp\www\OneBase\app/index/view/default/index\tmpl\index_tmpl.html";i:1505379858;s:61:"D:\wamp\www\OneBase\app/index/view/default/layout\footer.html";i:1505185598;}*/ ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>OneBase</title>
+<?php echo parse_string_val($seo_info, get_defined_vars()) ?>
 <link href="__STATIC__/ext/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="__STATIC__/ext/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 <link href="__STATIC__/ext/bootstrap/css/docs.css" rel="stylesheet">
@@ -22,7 +22,7 @@
     $(".fakeloader").fakeLoader({
         timeToHide:99999,
         bgColor:"rgba(52, 52, 52, .5)",
-        spinner:"spinner7"
+        spinner:"spinner<?php echo $loading_icon; ?>"
     });
     
     $('.fakeloader').hide();
@@ -88,7 +88,6 @@
         <p class="lead"></p>
     </div>
 </header>
-
 
 <div id="main-container" class="container">
     <div class="row">

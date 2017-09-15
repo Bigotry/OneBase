@@ -3,12 +3,14 @@
 namespace app\index\controller;
 
 use app\common\controller\ControllerBase;
+use app\index\logic\Seo as LogicSeo;
 
 /**
  * 
  */
 class IndexBase extends ControllerBase
 {
+    
     /**
      * AdminBase constructor                                      构造方法
      * @param   LogicAdminBase          $adminBaseLogic          后台基础逻辑
@@ -20,6 +22,10 @@ class IndexBase extends ControllerBase
         
         // 执行父类构造方法
         parent::__construct();
+        
+        $seoLogic = get_sington_object('seoLogic', LogicSeo::class);
+        
+        $this->assign('seo_info', $seoLogic::getSeoInfo());
         
         $this->assign('api_domain', config('api_domain'));
         

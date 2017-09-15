@@ -70,7 +70,7 @@ class Article extends LogicBase
     }
     
     /**
-     * 文章信息
+     * 文章信息编辑
      */
     public function articleEdit($data = [])
     {

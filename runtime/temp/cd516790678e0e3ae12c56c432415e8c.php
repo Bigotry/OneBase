@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:69:"D:\wamp\www\OneBase\public/../app/api\view\index\content_default.html";i:1505185598;s:59:"D:\wamp\www\OneBase\public/../app/api\view\index\index.html";i:1505376059;s:34:"../app/common/view/fakeloader.html";i:1505374936;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:59:"D:\wamp\www\OneBase\public/../app/api\view\index\index.html";i:1505376059;s:34:"../app/common/view/fakeloader.html";i:1505377319;}*/ ?>
 <!DOCTYPE html>
 <html><head>
     <title>OneBase API文档</title>
@@ -19,7 +19,7 @@
     $(".fakeloader").fakeLoader({
         timeToHide:99999,
         bgColor:"rgba(52, 52, 52, .5)",
-        spinner:"spinner7"
+        spinner:"spinner<?php echo $loading_icon; ?>"
     });
     
     $('.fakeloader').hide();
