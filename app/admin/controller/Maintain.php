@@ -72,4 +72,64 @@ class Maintain extends AdminBase
         
         $this->jump(self::$maintainLogic->seoDel(['id' => $id]));
     }
+    
+    /**
+     * 优化表
+     */
+    public function optimize()
+    {
+        
+        $this->jump(self::$maintainLogic->optimize());
+    }
+    
+    /**
+     * 修复表
+     */
+    public function repair()
+    {
+        
+        $this->jump(self::$maintainLogic->optimize(false));
+    }
+    
+    /**
+     * 数据备份
+     */
+    public function dataBackup()
+    {
+        
+        IS_POST && $this->jump(self::$maintainLogic->dataBackup());
+        
+        $this->assign('list', self::$maintainLogic->getTableList());
+        
+        return $this->fetch('data_backup');
+    }
+    
+    /**
+     * 数据还原
+     */
+    public function dataRestore()
+    {
+
+        $this->assign('list', self::$maintainLogic->getBackupList());
+        
+        return $this->fetch('data_restore');
+    }
+    
+    /**
+     * 数据还原处理
+     */
+    public function dataRestoreHandle($time = 0)
+    {
+
+       $this->jump(self::$maintainLogic->dataRestore($time));
+    }
+    
+    /**
+     * 备份删除
+     */
+    public function backupDel($time = 0)
+    {
+
+        $this->jump(self::$maintainLogic->backupDel($time));
+    }
 }

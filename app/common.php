@@ -718,3 +718,20 @@ function get_access_token()
 
     return md5('OneBase' . date("YmdHi") . API_KEY);
 }
+
+/**
+ * 格式化字节大小
+ * @param  number $size      字节数
+ * @param  string $delimiter 数字和单位分隔符
+ * @return string            格式化后的带单位的大小
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function format_bytes($size, $delimiter = '')
+{
+    
+    $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+    
+    for ($i = 0; $size >= 1024 && $i < 5; $i++) : $size /= 1024; endfor;
+    
+    return round($size, 2) . $delimiter . $units[$i];
+}
