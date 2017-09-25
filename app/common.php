@@ -764,3 +764,29 @@ function format_time($time = null, $format='Y-m-d H:i:s')
     
     return date($format, intval($time));
 }
+
+/**
+ * 删除所有空目录 
+ * @param String $path 目录路径 
+ */
+function rm_empty_dir($path)
+{
+    
+    if (!(is_dir($path) && ($handle = opendir($path))!==false)) : return false; endif;
+      
+    while(($file = readdir($handle))!==false)
+    {
+
+        if(!($file != '.' && $file != '..')) : continue; endif;
+        
+        $curfile = $path . SYS_DS_PROS . $file;// 当前目录
+
+        if(!is_dir($curfile)) : continue; endif;
+
+        rm_empty_dir($curfile);
+
+        if(count(scandir($curfile)) == 2) : rmdir($curfile); endif;
+    }
+
+    closedir($handle); 
+}

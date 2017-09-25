@@ -50,13 +50,15 @@ class FileClean extends AdminBase
         
         $data_list = [];
         
+        rm_empty_dir($path);
+        
         $dirs = new \FilesystemIterator($path);
         
         foreach ($dirs as $dir)
         {
             
             if(!$dir->isDir()) : continue; endif;
-                
+
             $files = new \FilesystemIterator($path . $dir->getFilename());
             
             foreach ($files as $file)
@@ -72,7 +74,6 @@ class FileClean extends AdminBase
                     
                     $data_list[] = $data;
                 }
-
             }
         }
         
