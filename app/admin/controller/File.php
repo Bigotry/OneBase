@@ -35,7 +35,18 @@ class File extends ControllerBase
     {
         
         $result = self::$fileLogic->pictureUpload();
+
+        return json($result);
+    }
+    
+    /**
+     * 文件上传
+     */
+    public function fileUpload()
+    {
         
+        $result = self::$fileLogic->fileUpload();
+
         return json($result);
     }
   

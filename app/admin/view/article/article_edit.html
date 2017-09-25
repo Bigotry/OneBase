@@ -1,3 +1,6 @@
+<script src="/addon/file/static/jquery.uploadify.min.js"></script>
+<link rel="stylesheet" href="/addon/file/static/uploadify.css">
+
 <form action="{:url()}" method="post" class="form_single">
     <div class="box">
       <div class="box-body">
@@ -35,17 +38,52 @@
           <div class="col-md-6">
             <div class="form-group">
                 <label>封面图片</label>
-                <span class="">（封面图片，只能上传一张图片）</span>
+                <span class="">（请上传单张封面图片）</span>
                 <br/>
-                <div id='upload_show_div' style="width:120px;display: inline;">
-                    <img style='max-width:100px; margin-right: 20px;' src="{$info['cover_id']|default='0'|get_picture_url}" />
-                </div>
-                <img src="__STATIC__/admin/img/plus.jpg" style='max-width:100px;' id='cover_img' />
-                <input type="hidden" name="cover_id" id='cover_id' value="{$info['cover_id']|default='0'}"/>
+                
+                {empty name="info"}
+                    {assign name="cover_id_var" value="0" /}
+                {else /}
+                    {assign name="cover_id_var" value="$info.cover_id" /}
+                {/empty}
+                
+                {:hook('File', ['name' => 'cover_id', 'value' => $cover_id_var, 'type' => 'img'])}
             </div>
           </div>
             
-
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>多图片</label>
+                <span class="">（请上传多图片）</span>
+                <br/>
+                
+                {empty name="info"}
+                    {assign name="img_ids_var" value="" /}
+                {else /}
+                    {assign name="img_ids_var" value="$info.img_ids" /}
+                {/empty}
+                
+                {:hook('Imgs', ['name' => 'img_ids', 'value' => $img_ids_var])}
+            </div>
+          </div>
+            
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>附件</label>
+                <span class="">（文章可下载附件）</span>
+                <br/>
+                
+                {empty name="info"}
+                    {assign name="file_id_var" value="0" /}
+                {else /}
+                    {assign name="file_id_var" value="$info.file_id" /}
+                {/empty}
+                
+                {:hook('File', ['name' => 'file_id', 'value' => $file_id_var, 'type' => 'file'])}
+            </div>
+          </div>
+            
           </div>
         <div class="row">
            
@@ -54,9 +92,9 @@
             <div class="form-group">
                 <label>文章内容</label>
                 <textarea class="form-control textarea_editor" name="content" placeholder="请输入文章内容">{$info['content']|default=''}</textarea>
+                {:hook('ArticleEditor', array('name'=> 'content','value'=> ''))}
             </div>
           </div>
-            
             
         </div>
         
@@ -74,23 +112,3 @@
       </div>
       </div>
 </form>
-
-{:hook('ImgUpload', array('id'=> 'cover_img', 'max_number' => 1))}
-
-{:hook('ArticleEditor', array('name'=> 'content','value'=> ''))}
-
-<script type="text/javascript">
-    
-// 文件上传过程中创建进度条实时显示。
-var upload_success = function( file, response) {
-    
-    var show_img_url = '/upload/picture/' + response.path;
-    
-    $( '#upload_show_div').html("<img style='max-width:100px; margin-right: 20px;' src='"+show_img_url+"' />");
-    
-    $('#wrapper').remodal().close();
-    
-    $('#cover_id').val(response.id);
-};
-
-</script>

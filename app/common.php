@@ -496,6 +496,21 @@ function get_picture_url($id = 0)
 }
 
 /**
+ * 获取文件url
+ */
+function get_file_url($id = 0)
+{
+    
+    $info = model('File')->where(['id' => $id])->field('path,url')->find();
+
+    if (!empty($info['url']))  : return config('static_domain') . SYS_DS_PROS . $info['url'];  endif;
+
+    if (!empty($info['path'])) : return '/upload/file/'.$info['path'];  endif;
+
+    return '暂无文件';
+}
+
+/**
  * 导出excel信息
  * @param string  $titles    导出的表格标题
  * @param string  $keys      需要导出的键名
@@ -734,4 +749,18 @@ function format_bytes($size, $delimiter = '')
     for ($i = 0; $size >= 1024 && $i < 5; $i++) : $size /= 1024; endfor;
     
     return round($size, 2) . $delimiter . $units[$i];
+}
+
+/**
+ * 时间戳格式化
+ * @param int $time
+ * @return string 完整的时间显示
+ * @author huajie <banhuajie@163.com>
+ */
+function format_time($time = null, $format='Y-m-d H:i:s')
+{
+    
+    if (null === $time) : $time = TIME_NOW; endif;
+    
+    return date($format, intval($time));
 }

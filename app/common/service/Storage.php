@@ -11,7 +11,6 @@ namespace app\common\service;
 class Storage extends ServiceBase implements BaseInterface
 {
     
-    
     /**
      * 服务基本信息
      */
@@ -22,11 +21,20 @@ class Storage extends ServiceBase implements BaseInterface
     }
     
     /**
-     * 上传文件
+     * 上传图片
      */
-    public function upload($file_id = 0)
+    public function uploadPicture($file_id = 0)
     {
         
-        return $this->driver->upload($file_id);
+        return $this->driver->uploadPicture($file_id);
+    }
+    
+    /**
+     * 上传文件
+     */
+    public function uploadFile($file_id = 0)
+    {
+        
+        return $this->driver->uploadFile($file_id);
     }
 }

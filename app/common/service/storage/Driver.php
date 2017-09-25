@@ -29,8 +29,13 @@ interface Driver extends BaseInterface
     public function config();
     
     /**
+     * 上传图片
+     */
+    public function uploadPicture($file_id);
+    
+    /**
      * 上传文件
      */
-    public function upload($file_id);
+    public function uploadFile($file_id);
     
 }

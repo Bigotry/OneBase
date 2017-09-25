@@ -23,7 +23,7 @@ class Editor extends AddonBase implements AddonInterface
         
         $this->assign('addons_data', $param);
         
-        $this->assign('addons_config', $this->addonConfig());
+        $this->assign('addons_config', $this->addonConfig($param));
         
         $this->addonTemplate('index/index');
     }
@@ -62,11 +62,13 @@ class Editor extends AddonBase implements AddonInterface
     /**
      * 插件配置信息
      */
-    public function addonConfig()
+    public function addonConfig($param)
     {
         
         $addons_config['editor_height'] = '300px';
         $addons_config['editor_resize_type'] = 1;
+        
+        [$param];
         
         return $addons_config;
     }

@@ -29,5 +29,5 @@ interface AddonInterface
     /**
      * 插件配置信息
      */
-    public function addonConfig();
+    public function addonConfig($param);
 }

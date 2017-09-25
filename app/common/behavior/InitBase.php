@@ -290,13 +290,15 @@ class InitBase
     private function initAddonStatic()
     {
         
-        $regex = '/[^\s]+\.(jpg|gif|png|bmp|js|css)/i';
+        $regex = '/[^\s]+\.(jpg|gif|png|bmp|js|css|swf)/i';
 
         $url = htmlspecialchars(addslashes(Request::instance()->url()));
         
         if(strpos($url, SYS_ADDON_DIR_NAME) !== false && preg_match($regex, $url)) :
 
             $url = PATH_ADDON . str_replace(SYS_DS_PROS, DS, substr($url, strlen(SYS_DS_PROS . SYS_ADDON_DIR_NAME . SYS_DS_PROS)));
+        
+            if(strpos($url, '?') !== false) : $url = strstr($url,"?", true); endif;
         
             !is_file($url) && exit('plugin resources do not exist.');
 
@@ -308,8 +310,9 @@ class InitBase
 
             switch ($ext)
             {
-                case 'css': $header .= "text/css;"; break;
-                case 'js' : $header .= "application/x-javascript;"; break;
+                case 'css' : $header  .= "text/css;"; break;
+                case 'js'  : $header  .= "application/x-javascript;"; break;
+                case 'swf' : $header  .= "application/octet-stream;"; break;
             }
 
             $header .= "charset=utf-8";

@@ -76,9 +76,42 @@ class File extends LogicBase
     }
     
     /**
+     * 文件上传
+     */
+    public function fileUpload($name = 'file')
+    {
+        
+        $object_info = request()->file($name);
+        
+        $sha1  = $object_info->hash();
+        
+        $file_info = self::$fileModel->getInfo(['sha1' => $sha1], 'id,name,path,sha1');
+        
+        if (!empty($file_info)) : return $file_info; endif;
+        
+        $object = $object_info->move(PATH_FILE);
+        
+        $save_name = $object->getSaveName();
+        
+        $file_dir_name = substr($save_name, 0, strrpos($save_name, DS));
+        
+        $filename = $object->getFilename();
+        
+        $data = ['name' => $filename, 'path' => $file_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
+        
+        $result = self::$fileModel->addInfo($data);
+        
+        $this->checkStorage($result, 'uploadFile');
+        
+        if ($result) : $data['id'] = $result; return $data; endif;
+        
+        return  false;
+    }
+    
+    /**
      * 云存储
      */
-    public function checkStorage($result = 0)
+    public function checkStorage($result = 0, $method = 'uploadPicture')
     {
         
         $storage_driver = config('storage_driver');
@@ -89,9 +122,9 @@ class File extends LogicBase
 
         $StorageModel->setDriver($storage_driver);
 
-        $storage_result = $StorageModel->upload($result);
+        $storage_result = $StorageModel->$method($result);
         
-        self::$pictureModel->setFieldValue(['id' => $result], 'url', $storage_result);
+        $method != 'uploadPicture' ? self::$fileModel->setFieldValue(['id' => $result], 'url', $storage_result) : self::$pictureModel->setFieldValue(['id' => $result], 'url', $storage_result);
     }
     
 }

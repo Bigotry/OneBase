@@ -44,16 +44,12 @@ class Qiniu extends Storage implements Driver
     }
     
     /**
-     * 上传文件
+     * 上传图片
      */
-    public function upload($file_id = 0)
+    public function uploadPicture($file_id = 0)
     {
         
-        $config = $this->config();
-        
-        $auth = new Auth($config['access_key'], $config['secret_key']);
-
-        $token = $auth->uploadToken($config['bucket_name']);
+        $token = $this->getToken();
         
         $uploadMgr = new UploadManager();
 
@@ -73,6 +69,47 @@ class Qiniu extends Storage implements Driver
         $uploadMgr->putFile($token, $thumb_save_path . 'small_'   . $path_arr[1]   , $thumb_file_path . 'small_'   . $path_arr[1]);
         $uploadMgr->putFile($token, $thumb_save_path . 'medium_'  . $path_arr[1]   , $thumb_file_path . 'medium_'  . $path_arr[1]);
         $uploadMgr->putFile($token, $thumb_save_path . 'big_'     . $path_arr[1]   , $thumb_file_path . 'big_'     . $path_arr[1]);
+        
+        if ($result[1] !== null) : return false; endif;
+        
+        return $result[0]['key'];
+    }
+    
+    
+    /**
+     * 获取Token
+     */
+    public function getToken()
+    {
+        
+        $config = $this->config();
+        
+        $auth = new Auth($config['access_key'], $config['secret_key']);
+
+        $token = $auth->uploadToken($config['bucket_name']);
+        
+        return $token;
+    }
+    
+    /**
+     * 上传文件
+     */
+    public function uploadFile($file_id = 0)
+    {
+        
+        $token = $this->getToken();
+        
+        $uploadMgr = new UploadManager();
+
+        $info = model('file')->getInfo(['id' => $file_id]);
+        
+        $path_arr = explode(SYS_DS_PROS, $info['path']); 
+        
+        $file_path = PATH_FILE . $path_arr[0] . DS . $path_arr[1];
+        
+        $save_path = 'upload' . SYS_DS_PROS . 'file' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . $path_arr[1];
+        
+        $result = $uploadMgr->putFile($token, $save_path, $file_path);
         
         if ($result[1] !== null) : return false; endif;
         
