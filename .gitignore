@@ -8,3 +8,4 @@ thinkphp
 *.pem
 .idea
 nbproject
+/runtime
