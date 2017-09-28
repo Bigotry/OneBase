@@ -14,6 +14,15 @@ class Combination extends ApiBase
 {
     
     /**
+     * 初始化
+     */
+    public function __construct()
+    {
+        
+        parent::__construct();
+    }
+    
+    /**
      * 首页接口
      */
     public function index()
