@@ -63,6 +63,8 @@ class Article extends AdminBase
         
         $info = self::$articleLogic->getArticleInfo(['id' => $this->param['id']]);
         
+        !empty($info) && $info['img_ids_array'] = str2arr($info['img_ids']);
+        
         $this->assign('info', $info);
         
         return $this->fetch('article_edit');

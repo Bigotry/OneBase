@@ -96,11 +96,7 @@ class Article extends LogicBase
     public function getArticleInfo($where = [], $field = true)
     {
         
-        $info = self::$articleModel->getInfo($where, $field);
-        
-        !empty($info) && $info['img_ids_array'] = str2arr($info['img_ids']);
-        
-        return $info;
+        return self::$articleModel->getInfo($where, $field);
     }
     
     /**
