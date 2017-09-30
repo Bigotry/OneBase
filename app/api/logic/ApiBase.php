@@ -65,7 +65,7 @@ class ApiBase extends LogicBase
         
         $info = $ApiModel->getInfo(['api_url' => URL]);
         
-        $info['is_data_sign'] && !empty($data['data']) && $data['data']['data_sign'] = data_auth_sign($data['data']);
+        $info['is_response_sign'] && !empty($data['data']) && $data['data']['data_sign'] = data_auth_sign($data['data']);
         
         return $data;
     }
@@ -94,5 +94,10 @@ class ApiBase extends LogicBase
         (empty($param['access_token']) || $param['access_token'] != get_access_token()) && $this->apiError(CodeBase::$accessTokenError);
         
         $info['is_user_token'] && empty($param['user_token']) && $this->apiError(CodeBase::$userTokenError);
+        
+        unset($param['access_token']);
+        unset($param['user_token']);
+        
+        $info['is_request_sign'] && data_auth_sign($param) != $param['data_sign'] && $this->apiError(CodeBase::$dataSignError);
     }
 }

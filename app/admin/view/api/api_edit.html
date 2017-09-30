@@ -89,30 +89,6 @@
           <div class="row">
 
               
-            <div class="col-md-6">
-
-              <div class="form-group">
-                <label>是否验证用户令牌：user_token</label>
-                <span>（若为否则为无需验证身份的接口，若为是则需要登录后获取 user_token）</span>
-                  <div>
-                      <label class="margin-r-5"><input type="radio" checked="checked" name="is_user_token"  value="0"> 否</label>
-                      <label><input type="radio" name="is_user_token" value="1"> 是</label>
-                  </div>
-              </div>
-            </div>
-
-            <div class="col-md-6">
-
-              <div class="form-group">
-                <label>是否响应数据签名：data_sign</label>
-                <span>（若为否则无需验证数据签名，若为是则会返回 data_sign 用于验证数据是否安全）</span>
-                  <div>
-                      <label  class="margin-r-5"><input type="radio" checked="checked" name="is_data_sign"  value="0"> 否</label>
-                      <label><input type="radio" name="is_data_sign" value="1"> 是</label>
-                  </div>
-              </div>
-            </div>
-              
           <div class="col-md-6">
             <div class="form-group">
               <label>分组</label>
@@ -151,6 +127,47 @@
             </div>
           </div>
 
+              
+              
+              
+              
+            <div class="col-md-6">
+
+              <div class="form-group">
+                <label>是否验证用户令牌：user_token</label>
+                <span>（若为否则为无需验证身份的接口，若为是则需要登录后获取 user_token）</span>
+                  <div>
+                      <label class="margin-r-5"><input type="radio" checked="checked" name="is_user_token"  value="0"> 否</label>
+                      <label><input type="radio" name="is_user_token" value="1"> 是</label>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+
+              <div class="form-group">
+                <label>是否响应数据签名：data_sign</label>
+                <span>（若为否则无需验证数据签名，若为是则会返回 data_sign 用于验证数据是否安全）</span>
+                  <div>
+                      <label  class="margin-r-5"><input type="radio" checked="checked" name="is_response_sign"  value="0"> 否</label>
+                      <label><input type="radio" name="is_response_sign" value="1"> 是</label>
+                  </div>
+              </div>
+            </div>
+              
+
+            <div class="col-md-6">
+
+              <div class="form-group">
+                <label>是否验证请求数据签名：data_sign</label>
+                <span>（若为否则无需验证数据签名，若为是则需要请求中带 data_sign 字段 用于验证数据安全）</span>
+                  <div>
+                      <label  class="margin-r-5"><input type="radio" checked="checked" name="is_request_sign"  value="0"> 否</label>
+                      <label><input type="radio" name="is_request_sign" value="1"> 是</label>
+                  </div>
+              </div>
+            </div>
+              
               
           <div class="col-md-12">
             <div class="form-group">
