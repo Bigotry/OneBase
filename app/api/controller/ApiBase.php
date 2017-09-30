@@ -19,6 +19,8 @@ class ApiBase extends ControllerBase
         
         parent::__construct();
         
+        header("Access-Control-Allow-Origin: *");
+        
         self::$apiBaseLogic = get_sington_object('apiBaseLogic', LogicApiBase::class);
         
         IS_POST && self::$apiBaseLogic->checkParam($this->param);
