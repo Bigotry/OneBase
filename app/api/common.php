@@ -6,7 +6,7 @@ use \Firebase\JWT\JWT;
 function decoded_user_token($token = '')
 {
     
-    $decoded = JWT::decode($token, API_KEY . '_onebase', array('HS256'));
+    $decoded = JWT::decode($token, API_KEY . JWT_KEY, array('HS256'));
 
     return (array) $decoded;
 }

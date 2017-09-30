@@ -267,11 +267,13 @@ class InitBase
         $cache_clear_interval_time  = config('cache_clear_interval_time');
         $list_rows                  = config('list_rows');
         $api_key                    = config('api_key');
+        $jwt_key                    = config('jwt_key');
 
         define('SYS_CACHE_MAX_NUMBER'               , empty($cache_max_number)          ? 1000      : (int)$cache_max_number);
         define('SYS_CACHE_CLEAR_INTERVAL_TIME'      , empty($cache_clear_interval_time) ? 600       : (int)$cache_clear_interval_time);
         define('DB_LIST_ROWS'                       , empty($list_rows)                 ? 10        : $list_rows);
         define('API_KEY'                            , empty($api_key)                   ? 'OneBase' : $api_key);
+        define('JWT_KEY'                            , empty($jwt_key)                   ? 'OneBase' : $jwt_key);
     }
     
     /**

@@ -21,7 +21,7 @@ class ApiBase extends ControllerBase
         
         self::$apiBaseLogic = get_sington_object('apiBaseLogic', LogicApiBase::class);
         
-        IS_POST && self::$apiBaseLogic->checkParam($this->param);
+        self::$apiBaseLogic->checkParam($this->param);
     }
     
     /**

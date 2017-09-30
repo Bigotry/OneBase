@@ -65,7 +65,7 @@ class Common extends ApiBase
     public static function tokenSign($member)
     {
         
-        $key = API_KEY . '_onebase';
+        $key = API_KEY . JWT_KEY;
         
         $jwt_data = ['member_id' => $member['id'], 'nickname' => $member['nickname'], 'username' => $member['username'], 'create_time' => $member['create_time']];
         
