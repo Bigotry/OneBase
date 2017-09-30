@@ -6,11 +6,12 @@
 namespace app\api\controller;
 
 use app\api\logic\Document as LogicDocument;
+use \app\common\controller\ControllerBase;
 
 /**
  * 首页控制器
  */
-class Index extends ApiBase
+class Index extends ControllerBase
 {
     
     /**
