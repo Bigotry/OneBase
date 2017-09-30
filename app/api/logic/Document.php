@@ -108,7 +108,7 @@ class Document extends ApiBase
         
         array_unshift($info_array['request_data'], config('access_token_attach_field'));
         
-        $info_array['is_data_sign'] && array_unshift($info_array['response_data'], config('data_sign_attach_field'));
+        $info_array['is_response_sign'] && array_unshift($info_array['response_data'], config('data_sign_attach_field'));
         
         return $info_array;
     }
