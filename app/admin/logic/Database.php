@@ -246,14 +246,14 @@ class Database extends AdminBase
         if(!(count($list) === $last[0])) : return [RESULT_ERROR, '备份文件可能已经损坏，请检查！']; endif;
         
         // 开始还原
-        return $this->startRestore($list[1]);
+        return $this->startRestore($list);
     }
     
     
     /**
      * 开始还原
      */
-    public function startRestore($file)
+    public function startRestore($list)
     {
         
         $path = $this->getBackupDir();
@@ -263,11 +263,19 @@ class Database extends AdminBase
             'compress' => config('data_backup_compress'),
         ];
         
-        $database = new \ob\Database($file, $config);
+        $error = '';
         
-        $start = $database->import(DATA_DISABLE);
+        foreach ($list as $file)
+        {
+        
+            $database = new \ob\Database($file, $config);
 
-        if (false === $start) : return [RESULT_ERROR, '还原数据出错']; endif;
+            $start = $database->import(DATA_DISABLE);
+
+            if (false === $start) : $error = '还原数据出错'; break; endif;
+        }
+
+        if (!empty($error)) : return [RESULT_ERROR, $error]; endif;
         
         return [RESULT_SUCCESS, '还原成功'];
     }
