@@ -1,4 +1,4 @@
-<input type="file" name="file" id="upload_picture_{$addons_data['name']}">
+<input type="file" name="file{$addons_data['name']}"  id="upload_picture_{$addons_data['name']}">
 
 <input type="hidden" name="{$addons_data['name']}" id="{$addons_data['name']}" value="{$addons_data['value']}"/>
 
@@ -22,9 +22,7 @@
     
     var maxwidth = "{$addons_config['maxwidth']}";
     
-    var name = "{$addons_data['name']}";
-    
-    $("#upload_picture_" + name).uploadify({
+    $("#upload_picture_{$addons_data['name']}").uploadify({
         "height"          : 30,
         "swf"             : "{$static_path}uploadify.swf",
         "fileObjName"     : "file",
@@ -41,23 +39,27 @@
         
         var data = $.parseJSON(data);
         
-        var img_ids = $("#" + name).val();
+        var addons_name = "{$addons_data.name}";
+        
+        var img_ids = $("#" + addons_name).val();
         
         var add_id = data.id;
         
         if(img_ids){ var lastChar = img_ids.charAt(img_ids.length - 1);  if(lastChar != ','){  add_id = img_ids + ',' + add_id; } }
         
-        $("#" + name).val(add_id);
+        $("#" + addons_name).val(add_id);
         
         var src = '/upload/picture/' + data.path;
         
-        $(".upload-img-box" + name).append('<div class="upload-pre-item" style="float:left; margin: 10px;"> <div style="cursor:pointer; color:red;" class="pic_del"  onclick="picDel{$addons_data.name}(this,'+data.id+')" >删除</div> <a target="_blank" href="' + src + '"> <img style="max-width: ' + maxwidth + ';" src="' + src + '"/></a></div>');
+        $(".upload-img-box" + addons_name).append('<div class="upload-pre-item" style="float:left; margin: 10px;"> <div style="cursor:pointer; color:red;" class="pic_del"  onclick="picDel{$addons_data.name}(this,'+data.id+')" >删除</div> <a target="_blank" href="' + src + '"> <img style="max-width: ' + maxwidth + ';" src="' + src + '"/></a></div>');
     }
     
     function picDel{$addons_data.name}(obj, pic_id)
     {
         
-        var img_ids = $("#" + name).val();
+        var addons_name = "{$addons_data.name}";
+        
+        var img_ids = $("#" + addons_name).val();
         
         
         if(img_ids.indexOf(",") > 0)
@@ -65,10 +67,10 @@
             
             img_ids.indexOf(pic_id) == 0 ? img_ids = img_ids.replace(pic_id + ',', '') : img_ids = img_ids.replace(',' + pic_id, '');
             
-            $("#" + name).val(img_ids);
+            $("#" + addons_name).val(img_ids);
         }else{
             
-            $("#" + name).val('');
+            $("#" + addons_name).val('');
         }
         
         $(obj).parent().remove();
