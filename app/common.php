@@ -4,6 +4,7 @@
  * 应用公共（函数）文件
  */
 
+use think\Db;
 
 /**
  * 检测用户是否登录
@@ -789,4 +790,44 @@ function rm_empty_dir($path)
     }
 
     closedir($handle); 
+}
+
+/**
+ * 通过类创建逻辑闭包
+ */
+function create_closure($class = null, $method_name = '', $parameter = [])
+{
+    
+    $func = function() use($class, $method_name, $parameter)
+            {
+        
+                $object = get_sington_object($class, $class);
+        
+                return call_user_func_array([$object, $method_name], $parameter);
+            };
+            
+    return $func;
+}
+
+/**
+ * 通过闭包列表控制事务
+ */
+function closure_list_exe($list = [])
+{
+    
+    Db::startTrans();
+    
+    try {
+        
+        foreach ($list as $closure) : $closure(); endforeach;
+        
+        Db::commit();
+        
+        return true;
+    } catch (\Exception $e) {
+        
+        Db::rollback();
+        
+        throw $e;
+    }
 }
