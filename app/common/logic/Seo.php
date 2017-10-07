@@ -48,7 +48,13 @@ class Seo extends LogicBase
         
         $url = url('seoList');
         
-        return self::$seoModel->setInfo($data) ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$seoModel->getError()];
+        $result = self::$seoModel->setInfo($data);
+        
+        $handle_text = empty($data['id']) ? '新增' : '编辑';
+        
+        $result && action_log($handle_text, 'SEO' . $handle_text . '，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$seoModel->getError()];
     }
 
     /**
@@ -66,6 +72,10 @@ class Seo extends LogicBase
     public function seoDel($where = [])
     {
         
-        return self::$seoModel->deleteInfo($where) ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$seoModel->getError()];
+        $result = self::$seoModel->deleteInfo($where);
+        
+        $result && action_log('删除', 'SEO删除' . '，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$seoModel->getError()];
     }
 }

@@ -60,6 +60,8 @@ class Member extends LogicBase
         $titles = "昵称,用户名,邮箱,手机,注册时间,上级";
         $keys   = "nickname,username,email,mobile,create_time,leader_nickname";
         
+        action_log('导出', '导出会员列表');
+        
         export_excel($titles, $keys, $list, '会员列表');
     }
     
@@ -140,7 +142,11 @@ class Member extends LogicBase
         
         \think\Cache::clear('authgroupaccessauthgroup');
         
-        return $model->setList($add_data) ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError()];
+        $result = $model->setList($add_data);
+        
+        $result && action_log('授权', '会员授权，id：' . $data['id']);
+        
+        return $result ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError()];
     }
     
     /**
@@ -161,7 +167,11 @@ class Member extends LogicBase
         $data['leader_id'] = MEMBER_ID;
         $data['is_inside'] = DATA_NORMAL;
         
-        return self::$memberModel->setInfo($data) ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, self::$memberModel->getError()];
+        $result = self::$memberModel->setInfo($data);
+        
+        $result && action_log('新增', '新增会员，username：' . $data['username']);
+        
+        return $result ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, self::$memberModel->getError()];
     }
     
     /**
@@ -181,6 +191,10 @@ class Member extends LogicBase
         
         if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) : return [RESULT_ERROR, '天神和自己不能删除哦~']; endif;
         
-        return self::$memberModel->deleteInfo($where) ? [RESULT_SUCCESS, '会员删除成功'] : [RESULT_ERROR, self::$memberModel->getError()];
+        $result = self::$memberModel->deleteInfo($where);
+                
+        $result && action_log('删除', '删除会员，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '会员删除成功'] : [RESULT_ERROR, self::$memberModel->getError()];
     }
 }

@@ -56,6 +56,8 @@ class Config extends LogicBase
             self::$configModel->setInfo(array('value' => $value), $where);
         }
         
+        action_log('设置', '系统设置保存');
+        
         return [RESULT_SUCCESS, '设置保存成功'];
     }
     
@@ -73,7 +75,11 @@ class Config extends LogicBase
         
         $url = url('configList', array('group' => $data['group'] ? $data['group'] : 0));
         
-        return self::$configModel->setInfo($data) ? [RESULT_SUCCESS, '配置添加成功', $url] : [RESULT_ERROR, self::$configModel->getError()];
+        $result = self::$configModel->setInfo($data);
+        
+        $result && action_log('新增', '新增配置，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '配置添加成功', $url] : [RESULT_ERROR, self::$configModel->getError()];
     }
     
     /**
@@ -90,7 +96,11 @@ class Config extends LogicBase
         
         $url = url('configList', array('group' => $data['group'] ? $data['group'] : 0));
         
-        return self::$configModel->setInfo($data) ? [RESULT_SUCCESS, '配置编辑成功', $url] : [RESULT_ERROR, self::$configModel->getError()];
+        $result = self::$configModel->setInfo($data);
+        
+        $result && action_log('编辑', '编辑配置，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '配置编辑成功', $url] : [RESULT_ERROR, self::$configModel->getError()];
     }
     
     /**
@@ -99,6 +109,10 @@ class Config extends LogicBase
     public function configDel($where = [])
     {
         
-        return self::$configModel->deleteInfo($where) ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$configModel->getError()];
+        $result = self::$configModel->deleteInfo($where);
+        
+        $result && action_log('删除', '删除配置，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$configModel->getError()];
     }
 }

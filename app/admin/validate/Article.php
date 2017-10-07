@@ -15,16 +15,18 @@ class Article extends AdminBase
     protected $rule =   [
         'name'          => 'require',
         'content'       => 'require',
+        'category_id'   => 'require',
     ];
 
     // 验证提示
     protected $message  =   [
         'name.require'         => '文章标题不能为空',
         'content.require'      => '文章内容不能为空',
+        'category_id.require'  => '文章分类必须选择',
     ];
     
     // 应用场景
     protected $scene = [
-        'edit'  =>  ['name', 'content']
+        'edit'  =>  ['name', 'content', 'category_id']
     ];
 }

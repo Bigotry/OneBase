@@ -123,6 +123,8 @@ class Database extends AdminBase
         
         if (!empty($error_table)) : return [RESULT_ERROR, '备份出错，表名：' . $error_table]; endif;
         
+        action_log('备份', '数据库备份');
+        
         return [RESULT_SUCCESS, '备份成功'];
     }
     
@@ -141,6 +143,8 @@ class Database extends AdminBase
         $text = $mark ? '优化' :  '修复';
         
         if (!$list) : return [RESULT_ERROR, $text . '出错']; endif;
+        
+        $mark ? action_log('优化', '数据库优化') : action_log('修复', '数据库修复');
         
         return [RESULT_SUCCESS, $text . '完成'];
     }
@@ -215,6 +219,8 @@ class Database extends AdminBase
         
         if (count(glob($path))) : return [RESULT_ERROR, '备份文件删除失败，请检查权限！']; endif;
         
+        action_log('删除', '数据库备份文件删除，path：'. $path);
+        
         return [RESULT_SUCCESS, '备份文件删除成功'];
     }
     
@@ -276,6 +282,8 @@ class Database extends AdminBase
         }
 
         if (!empty($error)) : return [RESULT_ERROR, $error]; endif;
+        
+        action_log('还原', '数据库还原');
         
         return [RESULT_SUCCESS, '还原成功'];
     }

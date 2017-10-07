@@ -42,7 +42,7 @@ class Login extends AdminBase
             session('member_auth', $auth);
             session('member_auth_sign', data_auth_sign($auth));
 
-            action_log('登录', '后台登录操作');
+            action_log('登录', '登录操作，username：'. $username);
             
             return [RESULT_SUCCESS, '登录成功', url('Index/index')];
 

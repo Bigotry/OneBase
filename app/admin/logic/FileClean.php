@@ -131,6 +131,8 @@ class FileClean extends AdminBase
         
         $this->fileClearDb();
         
+        action_log('清理', '文件清理');
+        
         return [RESULT_SUCCESS, '文件清理成功'];
     }
     

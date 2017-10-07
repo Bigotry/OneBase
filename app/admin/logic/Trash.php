@@ -62,7 +62,11 @@ class Trash extends AdminBase
         
         $model = model($model_name);
         
-        return $model->deleteInfo(['id' => $id], true) ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $model->getError()];
+        $result = $model->deleteInfo(['id' => $id], true);
+        
+        $result && action_log('删除', '删除回收站数据，model_name：' . $model_name .'，id' . $id);
+        
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $model->getError()];
     }
     
     /**
@@ -73,7 +77,11 @@ class Trash extends AdminBase
         
         $model = model($model_name);
         
-        return $model->setFieldValue(['id' => $id], DATA_STATUS_NAME, DATA_NORMAL) ? [RESULT_SUCCESS, '数据恢复成功'] : [RESULT_ERROR, $model->getError()];
+        $result = $model->setFieldValue(['id' => $id], DATA_STATUS_NAME, DATA_NORMAL);
+        
+        $result && action_log('恢复', '恢复回收站数据，model_name：' . $model_name .'，id' . $id);
+        
+        return $result ? [RESULT_SUCCESS, '数据恢复成功'] : [RESULT_ERROR, $model->getError()];
     }
  
 }

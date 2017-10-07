@@ -54,6 +54,8 @@ class Addon extends AdminBase
         
         $controller = new $class_path();
         
+        action_log('安装', '插件安装，name：' . $strtolower_name);
+        
         $this->jump($controller->addonInstall());
     }
     
@@ -70,6 +72,8 @@ class Addon extends AdminBase
         self::$addonLogic->executeSql($strtolower_name, 'uninstall');
         
         $controller = new $class_path();
+        
+        action_log('卸载', '插件卸载，name：' . $strtolower_name);
         
         $this->jump($controller->addonUninstall());
     }

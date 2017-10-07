@@ -60,7 +60,13 @@ class Api extends LogicBase
         
         $url = url('apiList');
         
-        return self::$apiModel->setInfo($data) ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$apiModel->getError()];
+        $result = self::$apiModel->setInfo($data);
+        
+        $handle_text = empty($data['id']) ? '新增' : '编辑';
+        
+        $result && action_log($handle_text, 'API' . $handle_text . '，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$apiModel->getError()];
     }
     
     /**
@@ -86,7 +92,13 @@ class Api extends LogicBase
         
         $url = url('apiGroupList');
         
-        return self::$apiGroupModel->setInfo($data) ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$apiGroupModel->getError()];
+        $result = self::$apiGroupModel->setInfo($data);
+        
+        $handle_text = empty($data['id']) ? '新增' : '编辑';
+        
+        $result && action_log($handle_text, 'API分组' . $handle_text . '，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$apiGroupModel->getError()];
     }
     
     /**
@@ -113,7 +125,11 @@ class Api extends LogicBase
     public function apiDel($where = [])
     {
         
-        return self::$apiModel->deleteInfo($where) ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$apiModel->getError()];
+        $result = self::$apiModel->deleteInfo($where);
+        
+        $result && action_log('删除', 'API删除' . '，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$apiModel->getError()];
     }
     
     /**
@@ -122,7 +138,11 @@ class Api extends LogicBase
     public function apiGroupDel($where = [])
     {
         
-        return self::$apiGroupModel->deleteInfo($where) ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$apiGroupModel->getError()];
+        $result = self::$apiGroupModel->deleteInfo($where);
+        
+        $result && action_log('删除', 'API分组删除' . '，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$apiGroupModel->getError()];
     }
     
     /**

@@ -231,7 +231,11 @@ class Menu extends AdminBase
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
-        return self::$menuModel->setInfo($data) ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
+        $result = self::$menuModel->setInfo($data);
+        
+        $result && action_log('新增', '新增菜单，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
     }
     
     /**
@@ -248,7 +252,11 @@ class Menu extends AdminBase
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
-        return self::$menuModel->setInfo($data) ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
+        $result = self::$menuModel->setInfo($data);
+        
+        $result && action_log('编辑', '编辑菜单，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
     }
     
     /**
@@ -257,7 +265,11 @@ class Menu extends AdminBase
     public function menuDel($where = [])
     {
         
-        return self::$menuModel->deleteInfo($where) ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$menuModel->getError()];
+        $result = self::$menuModel->deleteInfo($where);
+        
+        $result && action_log('删除', '删除菜单，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$menuModel->getError()];
     }
     
     /**

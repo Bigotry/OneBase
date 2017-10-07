@@ -50,7 +50,11 @@ class AuthGroup extends AdminBase
         
         $data['member_id'] = MEMBER_ID;
         
-        return self::$authGroupModel->setInfo($data) ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
+        $result = self::$authGroupModel->setInfo($data);
+        
+        $result && action_log('新增', '新增权限组，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
     /**
@@ -67,7 +71,11 @@ class AuthGroup extends AdminBase
         
         $url = url('groupList');
         
-        return self::$authGroupModel->setInfo($data) ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
+        $result = self::$authGroupModel->setInfo($data);
+        
+        $result && action_log('编辑', '编辑权限组，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
     /**
@@ -76,7 +84,11 @@ class AuthGroup extends AdminBase
     public function groupDel($where = [])
     {
         
-        return self::$authGroupModel->deleteInfo($where) ? [RESULT_SUCCESS, '权限组删除成功'] : [RESULT_ERROR, self::$authGroupModel->getError()];
+        $result = self::$authGroupModel->deleteInfo($where);
+        
+        $result && action_log('删除', '删除权限组，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '权限组删除成功'] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
     /**
@@ -98,7 +110,11 @@ class AuthGroup extends AdminBase
         
         $url = url('groupList');
         
-        return self::$authGroupModel->setInfo($data) ? [RESULT_SUCCESS, '权限设置成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
+        $result = self::$authGroupModel->setInfo($data);
+        
+        $result && action_log('授权', '设置权限组权限，id：' . $data['id']);
+        
+        return $result ? [RESULT_SUCCESS, '权限设置成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
     }
     
     /**

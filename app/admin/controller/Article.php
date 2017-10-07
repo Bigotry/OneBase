@@ -48,8 +48,6 @@ class Article extends AdminBase
         
         $this->articleCommon();
         
-        IS_POST && $this->jump(self::$articleLogic->articleEdit($this->param));
-        
         return $this->fetch('article_edit');
     }
     

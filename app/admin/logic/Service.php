@@ -54,7 +54,11 @@ class Service extends AdminBase
         
         $url = url('service/servicelist', ['service_name' => $data['service_name']]);
         
-        return self::$driverModel->setInfo($info) ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$driverModel->getError()];
+        $result = self::$driverModel->setInfo($info);
+        
+        $result && action_log('安装', '驱动安装或设置，service_name：' . $data['service_name'] . '，driver_name' . $data['driver_name']);
+        
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$driverModel->getError()];
     }
     
     /**
@@ -66,7 +70,11 @@ class Service extends AdminBase
         $where['service_name'] = $data['service_class'];
         $where['driver_name']  = $data['driver_class'];
         
-        return self::$driverModel->deleteInfo($where, true) ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, self::$driverModel->getError()];
+        $result = self::$driverModel->deleteInfo($where, true);
+        
+        $result && action_log('卸载', '驱动卸载，service_name：' . $data['service_class'] . '，driver_name' . $data['driver_class']);
+        
+        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, self::$driverModel->getError()];
     }
     
     /**

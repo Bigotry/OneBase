@@ -44,7 +44,13 @@ class Article extends LogicBase
         
         $url = url('articleCategoryList');
         
-        return self::$articleCategoryModel->setInfo($data) ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$articleCategoryModel->getError()];
+        $result = self::$articleCategoryModel->setInfo($data);
+        
+        $handle_text = empty($data['id']) ? '新增' : '编辑';
+        
+        $result && action_log($handle_text, '文章分类' . $handle_text . '，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$articleCategoryModel->getError()];
     }
     
     /**
@@ -83,11 +89,17 @@ class Article extends LogicBase
         
         $url = url('articleList');
         
-        empty($data[self::$articleModel->getPk()]) && $data['member_id'] = MEMBER_ID;
+        empty($data['id']) && $data['member_id'] = MEMBER_ID;
         
         $data['content'] = html_entity_decode($data['content']);
         
-        return self::$articleModel->setInfo($data) ? [RESULT_SUCCESS, '文章操作成功', $url] : [RESULT_ERROR, self::$articleModel->getError()];
+        $result = self::$articleModel->setInfo($data);
+        
+        $handle_text = empty($data['id']) ? '新增' : '编辑';
+        
+        $result && action_log($handle_text, '文章' . $handle_text . '，name：' . $data['name']);
+        
+        return $result ? [RESULT_SUCCESS, '文章操作成功', $url] : [RESULT_ERROR, self::$articleModel->getError()];
     }
 
     /**
@@ -123,7 +135,11 @@ class Article extends LogicBase
     public function articleCategoryDel($where = [])
     {
         
-        return self::$articleCategoryModel->deleteInfo($where) ? [RESULT_SUCCESS, '文章分类删除成功'] : [RESULT_ERROR, self::$articleCategoryModel->getError()];
+        $result = self::$articleCategoryModel->deleteInfo($where);
+        
+        $result && action_log('删除', '文章分类删除，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '文章分类删除成功'] : [RESULT_ERROR, self::$articleCategoryModel->getError()];
     }
     
     /**
@@ -132,6 +148,10 @@ class Article extends LogicBase
     public function articleDel($where = [])
     {
         
-        return self::$articleModel->deleteInfo($where) ? [RESULT_SUCCESS, '文章删除成功'] : [RESULT_ERROR, self::$articleModel->getError()];
+        $result = self::$articleModel->deleteInfo($where);
+        
+        $result && action_log('删除', '文章删除，where：' . http_build_query($where));
+        
+        return $result ? [RESULT_SUCCESS, '文章删除成功'] : [RESULT_ERROR, self::$articleModel->getError()];
     }
 }
