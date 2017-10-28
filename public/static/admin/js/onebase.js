@@ -5,7 +5,7 @@
 
         var captcha_img_obj = $("#captcha_img");
 
-        captcha_img_obj.attr("src",captcha_img_obj.attr("src").substring(0,13)+"?"+Math.random());
+        captcha_img_obj.attr("src",captcha_img_obj.attr("src")+"?"+Math.random());
     });
     
     //退出
