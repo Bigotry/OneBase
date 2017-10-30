@@ -1,4 +1,7 @@
-<input type="file" name="file" id="upload_file_{$addons_data['name']}">
+<link rel="stylesheet" href="/addon/file/static/Huploadify.css">
+<script src="/addon/file/static/jquery.Huploadify.js"></script>
+
+<div id="upload_file_{$addons_data['name']}"></div>
 
 <input type="hidden" name="{$addons_data['name']}" id="{$addons_data['name']}" value="{$addons_data['value']}"/>
 
@@ -9,18 +12,18 @@
 </div>
 
 <script type="text/javascript">
-    
-    $("#upload_file_{$addons_data.name}").uploadify({
-        "height"          : 30,
-        "swf"             : "{$static_path}uploadify.swf",
-        "fileObjName"     : "file",
-        "buttonText"      : "上传文件",
-        "uploader"        : "{:url('File/fileUpload',array('session_id'=>session_id()))}",
-        "width"           : 120,
-        'removeTimeout'	  : 1,
-        'fileTypeExts'	  : "{$addons_config['allow_postfix']}",
-        "onUploadSuccess" : uploadFile{$addons_data.name},
-        'onFallback' : function() { alert('未检测到兼容版本的Flash.'); }
+
+    $("#upload_file_{$addons_data.name}").Huploadify({
+        auto: true,
+        height: 30,
+        fileObjName: "file",
+        buttonText: "上传文件",
+        uploader: "{:url('File/fileUpload',array('session_id'=>session_id()))}",
+        width: 120,
+        removeTimeout: 1,
+        fileSizeLimit:"{$addons_config['max_size']}",
+        fileTypeExts: "{$addons_config['allow_postfix']}",
+        onUploadComplete: uploadFile{$addons_data.name}
     });
     
     function uploadFile{$addons_data.name}(file, data){
