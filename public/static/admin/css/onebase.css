@@ -90,3 +90,44 @@
     
     width: 400px;
 }
+
+
+/* 图标选择 */
+.js-icon-picker .input-group-addon {
+    cursor: pointer;
+}
+#icon_search {
+    padding: 15px;
+}
+#icon_tab .nav-tabs {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+#icon_tab i {
+    font-size: 2em;
+}
+.js-icon-list {
+    padding-left: 0;
+    padding-bottom: 1px;
+    margin-bottom: 20px;
+    list-style: none;
+    overflow: hidden;
+}
+.js-icon-list li{
+    float: left;
+    width: 5%;
+    padding: 15px;
+    margin: 0 -1px -1px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+.js-icon-list li:hover {
+    background-color: #F5F5F5;
+}
+.js-icon-list li code {
+    display: none;
+}
