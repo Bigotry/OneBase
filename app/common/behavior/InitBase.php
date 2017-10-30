@@ -292,7 +292,7 @@ class InitBase
     private function initAddonStatic()
     {
         
-        $regex = '/[^\s]+\.(jpg|gif|png|bmp|js|css|swf)/i';
+        $regex = '/[^\s]+\.(jpg|gif|png|bmp|js|css)/i';
 
         $url = htmlspecialchars(addslashes(Request::instance()->url()));
         

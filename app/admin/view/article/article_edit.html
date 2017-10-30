@@ -63,7 +63,7 @@
                     {assign name="img_ids_var" value="$info.img_ids" /}
                 {/empty}
                 
-                {:hook('Imgs', ['name' => 'img_ids', 'value' => $img_ids_var])}
+                {:hook('File', ['name' => 'img_ids', 'value' => $img_ids_var, 'type' => 'imgs'])}
             </div>
           </div>
             
