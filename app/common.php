@@ -40,10 +40,10 @@ function data_md5($str, $key = 'OneBase')
  * @param  string $str 要加密的字符串
  * @return string 
  */
-function data_md5_key($str)
+function data_md5_key($str, $key = '')
 {
     
-    return data_md5($str, SYS_ENCRYPT_KEY);
+    return empty($key) ? data_md5($str, SYS_ENCRYPT_KEY) : data_md5($str, $key);
 }
 
 /**
@@ -829,5 +829,93 @@ function closure_list_exe($list = [])
         Db::rollback();
         
         throw $e;
+    }
+}
+
+/**
+ * 写入执行信息记录
+ */
+function write_exe_log($begin = 'app_begin', $end = 'app_end', $type = 0)
+{
+    
+    $request = request();
+    
+    $source_url = empty($_SERVER["HTTP_REFERER"]) ? '未知来源' : $_SERVER["HTTP_REFERER"];
+    
+    $exe_log['ip']              = $request->ip();
+    $exe_log['exe_url']         = $request->url();
+    $exe_log['exe_time']        = number_format((float)debug($begin, $end), 6);
+    $exe_log['exe_memory']      = number_format((float)debug($begin, $end, 'm'), 2);
+    $exe_log['exe_os']          = get_os();
+    $exe_log['source_url']      = $source_url;
+    $exe_log['session_id']      = session_id();
+    $exe_log['browser']         = browser_info();
+    $exe_log['status']          = DATA_NORMAL;
+    $exe_log['create_time']     = TIME_NOW;
+    $exe_log['update_time']     = TIME_NOW;
+    $exe_log['type']            = $type;
+    $exe_log['login_id']        = is_login();
+    
+    $exe_log_path = "../runtime/log/exe_log.php";
+    
+    file_exists($exe_log_path) && $now_contents = file_get_contents($exe_log_path);
+    
+    $arr = var_export($exe_log, true);
+    
+    empty($now_contents) ? $contents = "<?php\nreturn array (".$arr.");\n" : $contents = str_replace(');', ','. $arr . ');', $now_contents);
+    
+    file_put_contents($exe_log_path, $contents);
+}
+
+/**
+ * 获得操作系统
+ */
+function get_os()
+{
+    if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+        $os = $_SERVER['HTTP_USER_AGENT'];
+        if (preg_match('/win/i', $os)) {
+            $os = 'Windows';
+        } else if (preg_match('/mac/i', $os)) {
+            $os = 'MAC';
+        } else if (preg_match('/linux/i', $os)) {
+            $os = 'Linux';
+        } else if (preg_match('/unix/i', $os)) {
+            $os = 'Unix';
+        } else if (preg_match('/bsd/i', $os)) {
+            $os = 'BSD';
+        } else {
+            $os = 'Other';
+        }
+        return $os;
+    } else {
+        return 'unknow';
+    }
+}
+
+
+/**
+ * 获得浏览器
+ */
+function browser_info()
+{
+    if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+        $br = $_SERVER['HTTP_USER_AGENT'];
+        if (preg_match('/MSIE/i', $br)) {
+            $br = 'MSIE';
+        } else if (preg_match('/Firefox/i', $br)) {
+            $br = 'Firefox';
+        } else if (preg_match('/Chrome/i', $br)) {
+            $br = 'Chrome';
+        } else if (preg_match('/Safari/i', $br)) {
+            $br = 'Safari';
+        } else if (preg_match('/Opera/i', $br)) {
+            $br = 'Opera';
+        } else {
+            $br = 'Other';
+        }
+        return $br;
+    } else {
+        return 'unknow';
     }
 }

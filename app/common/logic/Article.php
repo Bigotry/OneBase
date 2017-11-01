@@ -59,7 +59,7 @@ class Article extends LogicBase
     public function getArticleList($where = [], $field = true, $order = '')
     {
         
-        return self::$articleModel->getList($where, $field, $order, DB_LIST_ROWS);
+        return self::$articleModel->getList($where, $field, $order, 3);
     }
     
     /**

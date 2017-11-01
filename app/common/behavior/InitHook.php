@@ -19,6 +19,8 @@ class InitHook
     public function run()
     {
         
+        if(BIND_MODULE == 'install') : goto begin; endif;
+        
         $HookModel  = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . ucwords(SYS_HOOK_DIR_NAME));
         
         $AddonModel = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . ucwords(SYS_ADDON_DIR_NAME));
@@ -40,5 +42,7 @@ class InitHook
             
             endif;
         }
+        
+        begin:
     }
 }

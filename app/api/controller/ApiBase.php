@@ -22,6 +22,8 @@ class ApiBase extends ControllerBase
         self::$apiBaseLogic = get_sington_object('apiBaseLogic', LogicApiBase::class);
         
         self::$apiBaseLogic->checkParam($this->param);
+        
+        debug('api_begin');
     }
     
     /**
@@ -30,6 +32,12 @@ class ApiBase extends ControllerBase
     public function apiReturn($code_data = [], $return_data = [], $return_type = 'json')
     {
         
-        return self::$apiBaseLogic->apiReturn($code_data, $return_data, $return_type);
+        $result = self::$apiBaseLogic->apiReturn($code_data, $return_data, $return_type);
+        
+        debug('api_end');
+        
+        write_exe_log('api_begin', 'api_end', DATA_NORMAL);
+        
+        return $result;
     }
 }
