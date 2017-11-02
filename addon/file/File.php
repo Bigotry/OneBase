@@ -8,7 +8,7 @@ use addon\AddonInterface;
 
 /**
  * 文件上传插件
- * @author     Bigotry <3162875@qq.com>
+ * @author     Jack YanTC <yanshixin.com>
  * @version    1.0
  */
 class File extends AddonBase implements AddonInterface
