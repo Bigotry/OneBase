@@ -1,7 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | Author: Jack YanTC <yanshixin.com>
-// +----------------------------------------------------------------------
 
 namespace addon\file;
 
@@ -11,13 +8,18 @@ use addon\AddonInterface;
 
 /**
  * 文件上传插件
+ * @author     Bigotry <3162875@qq.com>
+ * @version    1.0
  */
-class File extends AddonBase implements AddonInterface {
+class File extends AddonBase implements AddonInterface
+{
 
     /**
      * 实现钩子
+     * @param $param array
      */
-    public function File($param = []) {
+    public function File($param = [])
+    {
 
         $this->assign('addons_data', $param);
 
@@ -28,8 +30,10 @@ class File extends AddonBase implements AddonInterface {
 
     /**
      * 插件安装
+     * @return array
      */
-    public function addonInstall() {
+    public function addonInstall()
+    {
 
         $this->addonCacheUpdate();
 
@@ -38,8 +42,10 @@ class File extends AddonBase implements AddonInterface {
 
     /**
      * 插件卸载
+     * @return array
      */
-    public function addonUninstall() {
+    public function addonUninstall()
+    {
 
         $this->addonCacheUpdate();
 
@@ -48,16 +54,21 @@ class File extends AddonBase implements AddonInterface {
 
     /**
      * 插件基本信息
+     * @return array
      */
-    public function addonInfo() {
+    public function addonInfo()
+    {
 
         return ['name' => 'File', 'title' => '文件上传', 'describe' => '文件上传插件', 'author' => 'Jack', 'version' => '1.0'];
     }
 
     /**
      * 插件配置信息
+     * @param $param array
+     * @return array
      */
-    public function addonConfig($param) {
+    public function addonConfig($param)
+    {
 
         $addons_config['maxwidth'] = '150px';
 
