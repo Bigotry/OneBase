@@ -1,10 +1,16 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\api\controller;
 
 use app\common\controller\ControllerBase;
 use app\api\logic\ApiBase as LogicApiBase;
 
+/**
+ * 接口基类控制器
+ */
 class ApiBase extends ControllerBase
 {
     

@@ -1,13 +1,15 @@
 <?php
-
-/**
- * Install基类
- */
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\install\controller;
 
 use think\Controller;
 
+/**
+ * Install基类
+ */
 class InstallBase extends Controller
 {
     

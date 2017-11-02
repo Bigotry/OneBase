@@ -1,7 +1,13 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\install\controller;
 
+/**
+ * Install Index
+ */
 class Index extends InstallBase
 {
     

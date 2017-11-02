@@ -1,9 +1,15 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\install\controller;
 
 use \think\Db;
 
+/**
+ * Install
+ */
 class Install extends InstallBase
 {
 

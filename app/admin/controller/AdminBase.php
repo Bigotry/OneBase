@@ -1,4 +1,7 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace app\admin\controller;
 
@@ -7,13 +10,8 @@ use app\admin\logic\AdminBase as LogicAdminBase;
 use app\admin\logic\Menu as LogicMenu;
 use app\admin\logic\AuthGroupAccess as LogicAuthGroupAccess;
 
-
 /**
  * 后台基类控制器
- * Class AdminBase
- * @package app\admin\controller
- * @author  Bigotry <3162875@qq.com>
- * @version 1.0
  */
 class AdminBase extends ControllerBase
 {
@@ -43,10 +41,7 @@ class AdminBase extends ControllerBase
     protected $crumbsView           = '';
     
     /**
-     * AdminBase constructor                                      构造方法
-     * @param   LogicAdminBase          $adminBaseLogic          后台基础逻辑
-     * @param   LogicMenu               $menuLogic               菜单逻辑
-     * @param   LogicAuthGroupAccess    $authGroupAccessLogic    权限组授权逻辑
+     * 构造方法
      */
     public function __construct(LogicAdminBase $adminBaseLogic, LogicMenu $menuLogic, LogicAuthGroupAccess $authGroupAccessLogic)
     {
