@@ -51,7 +51,7 @@
         
         var cid = "{$cid}";
         
-        $.post(api_domain + '/api/combination/index.html', {access_token:access_token,list_rows:5, page:page, category_id:cid}, success, "json");
+        $.post(api_domain + '/api.php/combination/index.html', {access_token:access_token,list_rows:5, page:page, category_id:cid}, success, "json");
         return false;
         
         function success(data)

@@ -43,7 +43,7 @@
         
         $(btn).attr('disabled',"true");
         
-        $.post(api_domain + '/api/common/login.html', {access_token:access_token, username:$('#username').val(),password:$('#password').val()}, success, "json");
+        $.post(api_domain + '/api.php/common/login.html', {access_token:access_token, username:$('#username').val(),password:$('#password').val()}, success, "json");
         return false;
         
         function success(data)

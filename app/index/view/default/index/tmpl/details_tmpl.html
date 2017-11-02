@@ -30,7 +30,7 @@
         
         var id = getUrlParam('id');
         
-        $.post(api_domain + '/api/combination/details.html', {access_token:access_token,article_id: id}, success, "json");
+        $.post(api_domain + '/api.php/combination/details.html', {access_token:access_token,article_id: id}, success, "json");
         return false;
         
         function success(data)
