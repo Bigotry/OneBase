@@ -1,22 +1,21 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Jack YanTC <yanshixin.com>
+// +----------------------------------------------------------------------
 
 namespace addon\file;
 
 use app\common\controller\AddonBase;
-
 use addon\AddonInterface;
 
 /**
  * 文件上传插件
- * @author     Jack YanTC <yanshixin.com>
- * @version    1.0
  */
 class File extends AddonBase implements AddonInterface
 {
 
     /**
      * 实现钩子
-     * @param $param array
      */
     public function File($param = [])
     {
@@ -30,7 +29,6 @@ class File extends AddonBase implements AddonInterface
 
     /**
      * 插件安装
-     * @return array
      */
     public function addonInstall()
     {
@@ -42,7 +40,6 @@ class File extends AddonBase implements AddonInterface
 
     /**
      * 插件卸载
-     * @return array
      */
     public function addonUninstall()
     {
@@ -54,7 +51,6 @@ class File extends AddonBase implements AddonInterface
 
     /**
      * 插件基本信息
-     * @return array
      */
     public function addonInfo()
     {
@@ -64,8 +60,6 @@ class File extends AddonBase implements AddonInterface
 
     /**
      * 插件配置信息
-     * @param $param array
-     * @return array
      */
     public function addonConfig($param)
     {

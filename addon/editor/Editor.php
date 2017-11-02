@@ -1,22 +1,21 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: Bigotry <3162875@qq.com>
+// +----------------------------------------------------------------------
 
 namespace addon\editor;
 
 use app\common\controller\AddonBase;
-
 use addon\AddonInterface;
 
 /**
  * 富文本编辑器插件
- * @author     Bigotry <3162875@qq.com>
- * @version    1.0
  */
 class Editor extends AddonBase implements AddonInterface
 {
     
     /**
      * 实现钩子
-     * @param $param array
      */
     public function ArticleEditor($param = [])
     {
@@ -30,7 +29,6 @@ class Editor extends AddonBase implements AddonInterface
     
     /**
      * 插件安装
-     * @return array
      */
     public function addonInstall()
     {
@@ -42,7 +40,6 @@ class Editor extends AddonBase implements AddonInterface
     
     /**
      * 插件卸载
-     * @return array
      */
     public function addonUninstall()
     {
@@ -54,7 +51,6 @@ class Editor extends AddonBase implements AddonInterface
     
     /**
      * 插件基本信息
-     * @return array
      */
     public function addonInfo()
     {
@@ -64,7 +60,6 @@ class Editor extends AddonBase implements AddonInterface
     
     /**
      * 插件配置信息
-     * @return array
      */
     public function addonConfig($param)
     {
