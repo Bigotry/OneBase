@@ -285,9 +285,9 @@ DROP TABLE IF EXISTS `ob_exe_log`;
 CREATE TABLE `ob_exe_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键自增',
   `ip` char(50) NOT NULL DEFAULT '' COMMENT 'IP地址',
-  `exe_url` varchar(200) NOT NULL DEFAULT '' COMMENT '执行URL',
+  `exe_url` varchar(255) NOT NULL DEFAULT '' COMMENT '执行URL',
   `exe_time` float(10,6) unsigned NOT NULL DEFAULT '0.000000' COMMENT '执行时间 单位 秒',
-  `exe_memory` float(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '内存占用KB',
+  `exe_memory` char(20) NOT NULL DEFAULT '0.00' COMMENT '内存占用KB',
   `exe_os` char(30) NOT NULL DEFAULT '' COMMENT '操作系统',
   `source_url` char(200) NOT NULL DEFAULT '' COMMENT '来源URL',
   `session_id` char(32) NOT NULL DEFAULT '' COMMENT 'session_id',
