@@ -52,6 +52,8 @@ class ApiBase extends LogicBase
         
         $return_result = $this->checkDataSign($result);
         
+        $return_result['exe_time'] = debug('api_begin', 'api_end');
+        
         return $return_type == 'json' ? json($return_result) : $return_result;
     }
 
