@@ -134,7 +134,8 @@ class AdminBase extends LogicBase
         $data['qun']            = '<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=3807aa892b97015a8e016778909dee8f23bbd54a4305d827482eda88fcc55b5e"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="OneBase ①" title="OneBase ①"></a>';
         $data['document']       = '制作中...';
         $data['chache_number']  = $cache_info[CACHE_NUMBER_KEY];
-        $data['hit']            = round($cache_info[CACHE_EXE_HIT_KEY] / $cache_info[CACHE_EXE_NUMBER_KEY] * 100, 2) . '%';
+        
+        $data['hit']            = empty($cache_info[CACHE_EXE_NUMBER_KEY]) ?  '100%' : round($cache_info[CACHE_EXE_HIT_KEY] / $cache_info[CACHE_EXE_NUMBER_KEY] * 100, 2) . '%';
 
         return $data;
     }
