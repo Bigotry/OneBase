@@ -255,8 +255,8 @@ INSERT INTO `ob_config` VALUES ('55', 'frontend_theme', '1', '前端主题', '1'
 INSERT INTO `ob_config` VALUES ('56', 'api_domain', '1', 'API部署域名', '4', '', '', '1504779094', '1509432155', '1', 'https://www.onebase.org', '0');
 INSERT INTO `ob_config` VALUES ('57', 'api_key', '1', 'API加密KEY', '4', '', '泄露后API将存在安全隐患', '1505302112', '1509432155', '1', 'l2V|gfZp{8`;jzR~6Y1_', '0');
 INSERT INTO `ob_config` VALUES ('58', 'loading_icon', '4', '页面Loading图标设置', '1', '1:图标1\r\n2:图标2\r\n3:图标3\r\n4:图标4\r\n5:图标5\r\n6:图标6\r\n7:图标7', '页面Loading图标支持7种图标切换', '1505377202', '1506760828', '1', '7', '101');
-INSERT INTO `ob_config` VALUES ('59', 'sys_file_field', '3', '文件字段配置', '3', '', 'key为模型名，值为文件列名。', '1505799386', '1506315470', '1', 'article:file_id', '0');
-INSERT INTO `ob_config` VALUES ('60', 'sys_picture_field', '3', '图片字段配置', '3', '', 'key为模型名，值为图片列名。', '1506315422', '1506315456', '1', 'article:cover_id\r\narticle:img_ids', '0');
+INSERT INTO `ob_config` VALUES ('59', 'sys_file_field', '3', '文件字段配置', '3', '', 'key为模型名，值为文件列名。', '1505799386', '1506315470', '1', '0_article:file_id', '0');
+INSERT INTO `ob_config` VALUES ('60', 'sys_picture_field', '3', '图片字段配置', '3', '', 'key为模型名，值为图片列名。', '1506315422', '1506315456', '1', '0_article:cover_id\r\n1_article:img_ids', '0');
 INSERT INTO `ob_config` VALUES ('61', 'jwt_key', '1', 'JWT加密KEY', '4', '', '', '1506748805', '1509432155', '1', 'l2V|DSFXXXgfZp{8`;FjzR~6Y1_', '0');
 
 -- ----------------------------

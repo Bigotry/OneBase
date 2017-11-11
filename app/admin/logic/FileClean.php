@@ -185,7 +185,7 @@ class FileClean extends AdminBase
         foreach ($sys_field as $k => $v)
         {
             
-            $list_ids = model($k)->getColumn([], $v);
+            $list_ids = model(substr($k,2))->getColumn([], $v);
             
             foreach ($list_ids as $id)
             {
