@@ -33,8 +33,6 @@ class File extends AddonBase implements AddonInterface
     public function addonInstall()
     {
 
-        $this->addonCacheUpdate();
-
         return [RESULT_SUCCESS, '安装成功'];
     }
 
@@ -43,8 +41,6 @@ class File extends AddonBase implements AddonInterface
      */
     public function addonUninstall()
     {
-
-        $this->addonCacheUpdate();
 
         return [RESULT_SUCCESS, '卸载成功'];
     }

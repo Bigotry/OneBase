@@ -140,8 +140,6 @@ class Member extends LogicBase
             $add_data[] = ['member_id' => $data['id'], 'group_id' => $group_id];
         }
         
-        \think\Cache::clear('authgroupaccessauthgroup');
-        
         $result = $model->setList($add_data);
         
         $result && action_log('授权', '会员授权，id：' . $data['id']);

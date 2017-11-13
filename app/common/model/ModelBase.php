@@ -7,7 +7,6 @@ namespace app\common\model;
 
 use think\Model;
 use think\Db;
-use think\Cache;
 
 /**
  * 模型基类
@@ -18,15 +17,6 @@ class ModelBase extends Model
     // 查询对象
     private static $ob_query = null;
 
-    /**
-     * 更新缓存版本号
-     */
-    public function updateCacheVersion()
-    {
-        
-        set_cache_version($this->name);
-    }
-    
     /**
      * 状态获取器
      */
@@ -52,7 +42,6 @@ class ModelBase extends Model
             
             $return_data = $this->allowField(true)->save($data, $where, $sequence);
             
-            $return_data && $this->updateCacheVersion();
         } else {
             
             is_object($data) && $data = $data->toArray();
@@ -77,8 +66,6 @@ class ModelBase extends Model
         
         $return_data = $this->insert($data, false, $is_return_pk);
         
-        $return_data && $this->updateCacheVersion();
-        
         return $return_data;
     }
     
@@ -91,8 +78,6 @@ class ModelBase extends Model
         $data[TIME_UT_NAME] = TIME_NOW;
         
         $return_data = $this->allowField(true)->where($where)->update($data);
-        
-        $return_data && $this->updateCacheVersion();
         
         return $return_data;
     }
@@ -113,8 +98,6 @@ class ModelBase extends Model
     {
         
         $return_data = $this->saveAll($data_list, $replace);
-        
-        $return_data && $this->updateCacheVersion();
         
         return $return_data;
     }
@@ -138,7 +121,6 @@ class ModelBase extends Model
             
             $return_data = $this->where($where)->delete();
             
-            $return_data && $this->updateCacheVersion();
         } else {
             
             $return_data = $this->setFieldValue($where, DATA_STATUS_NAME, DATA_DELETE);
@@ -171,13 +153,9 @@ class ModelBase extends Model
     final protected function getInfo($where = [], $field = true, $join = null, $data = null)
     {
         
-        $cache_tag = get_cache_tag($this->name, $join);
-        
-        $cache_key = get_cache_key($this->name, $where, $field, null, null, $join, null, null, $data, $cache_tag);
-        
         empty($join) ? self::$ob_query = $this->where($where)->field($field) : self::$ob_query = $this->join($join)->where($where)->field($field);
         
-        return $this->getResultData($cache_key, $cache_tag, DATA_DISABLE, $data);
+        return $this->getResultData(DATA_DISABLE, $data);
     }
     
     /**
@@ -196,57 +174,38 @@ class ModelBase extends Model
     
         !empty($limit) && self::$ob_query = self::$ob_query->limit($limit);
         
-        $cache_tag = get_cache_tag($this->name, $join);
-        
         if (DATA_DISABLE === $paginate) : $paginate = DB_LIST_ROWS; endif;
         
-        $cache_key = get_cache_key($this->name, $where, $field, $order, $paginate, $join, $group, $limit, $data, $cache_tag);
-        
-        return $this->getResultData($cache_key, $cache_tag, $paginate, $data);
+        return $this->getResultData($paginate, $data);
     }
     
     /**
      * 获取结果数据
      */
-    final protected function getResultData($cache_key = '', $cache_tag = '', $paginate = 0, $data = null)
+    final protected function getResultData($paginate = 0, $data = null)
     {
         
         $result_data = null;
         
-        $is_auto_cache = config('is_auto_cache');
-        
-        if ($is_auto_cache && Cache::has($cache_key)) {
+        $backtrace = debug_backtrace(false, 2);
 
-            $result_data = unserialize(Cache::get($cache_key));
-            
-            !empty($result_data) && set_cache_statistics_number(CACHE_EXE_HIT_KEY);
-            
+        array_shift($backtrace);
+
+        $function = $backtrace[0]['function'];
+
+        if($function == 'getList') {
+
+            $paginate != false && IS_POST && $paginate = input('list_rows', DB_LIST_ROWS);
+
+            $result_data = false !== $paginate ? self::$ob_query->paginate($paginate, false, ['query' => request()->param()]) : self::$ob_query->select($data);
+
         } else {
-            
-            $backtrace = debug_backtrace(false, 2);
 
-            array_shift($backtrace);
-
-            $function = $backtrace[0]['function'];
-
-            if($function == 'getList') {
-
-                $paginate != false && IS_POST && $paginate = input('list_rows', DB_LIST_ROWS);
-                
-                $result_data = false !== $paginate ? self::$ob_query->paginate($paginate, false, ['query' => request()->param()]) : self::$ob_query->select($data);
-
-            } else {
-
-                $result_data = self::$ob_query->find($data);
-            }
-
-            $is_auto_cache && Cache::tag($cache_tag)->set($cache_key, serialize($result_data));
+            $result_data = self::$ob_query->find($data);
         }
-        
-        !empty($result_data) && $is_auto_cache && set_cache_statistics_number(CACHE_EXE_NUMBER_KEY);
-        
+
         self::$ob_query->removeOption();
-        
+
         return $result_data;
     }
 }

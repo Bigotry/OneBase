@@ -6,7 +6,6 @@
 namespace app\common\behavior;
 
 use think\Loader;
-use think\Db;
 use think\Request;
 
 /**
@@ -32,9 +31,6 @@ class InitBase
         
         // 初始化配置
         $this->initConfig();
-        
-        // 初始化缓存
-        $this->initCacheInfo();
         
         // 注册命名空间
         $this->registerNamespace();
@@ -171,75 +167,6 @@ class InitBase
     }
     
     /**
-     * 初始化缓存Key
-     */
-    private function initCacheKey()
-    {
-        
-        // 自动缓存信息key
-        define('AUTO_CACHE_KEY'                 , 'auto_cache_info');
-        
-        // 缓存版本key名称
-        define('CACHE_VERSION_KEY'              , 'version');
-        
-        // 缓存表key名称
-        define('CACHE_TABLE_KEY'                , 'table');
-        
-        // 缓存key名称
-        define('CACHE_CACHE_KEY'                , 'cache_key');
-        
-        // 缓存执行数量
-        define('CACHE_EXE_NUMBER_KEY'           , 'exe_number');
-        
-        // 缓存命中数量
-        define('CACHE_EXE_HIT_KEY'              , 'hit_number');
-        
-        // 缓存存储最大数量
-        define('CACHE_MAX_NUMBER_KEY'           , 'max_number');
-        
-        // 缓存自动清理间隔（单位：秒）
-        define('CACHE_CLEAR_INTERVAL_TIME_KEY'  , 'clear_interval_time');
-        
-        // 缓存最后读取时间key名称
-        define('CACHE_LAST_GET_TIME_KEY'        , 'last_get_time');
-        
-        // 缓存key数量名称
-        define('CACHE_NUMBER_KEY'               , 'cache_key_number');
-    }
-    
-    /**
-     * 初始化缓存
-     */
-    private function initCacheInfo()
-    {
-        
-        $this->initCacheKey();
-        
-        // 初始化自动缓存信息数组
-        $auto_cache_info = cache(AUTO_CACHE_KEY) ?: [];
-        
-        $list  = Db::query('SHOW TABLE STATUS');
-        
-        foreach ($list as $v):
-            
-        $table_name = str_replace('_', '', str_replace(SYS_DB_PREFIX, '', $v['Name']));
-
-        empty($auto_cache_info[CACHE_TABLE_KEY][$table_name]) && $auto_cache_info[CACHE_TABLE_KEY][$table_name][CACHE_VERSION_KEY] = DATA_DISABLE;
-        
-        endforeach;
-            
-        empty($auto_cache_info[CACHE_EXE_NUMBER_KEY]) && $auto_cache_info[CACHE_EXE_NUMBER_KEY] = DATA_DISABLE;
-        
-        empty($auto_cache_info[CACHE_EXE_HIT_KEY])    && $auto_cache_info[CACHE_EXE_HIT_KEY] = DATA_DISABLE;
-        
-        empty($auto_cache_info[CACHE_CACHE_KEY])      && $auto_cache_info[CACHE_CACHE_KEY] = [];
-        
-        $auto_cache_info[CACHE_MAX_NUMBER_KEY] = SYS_CACHE_MAX_NUMBER;
-        
-        cache(AUTO_CACHE_KEY, $auto_cache_info, DATA_DISABLE);
-    }
-    
-    /**
      * 初始化配置信息
      */
     private function initConfig()
@@ -251,7 +178,7 @@ class InitBase
         
         $config_array = [];
         
-        foreach ($config_list as $info):
+        foreach ((array)$config_list as $info):
             
         $config_array[$info['name']] = $info['value'];
         
@@ -268,14 +195,10 @@ class InitBase
     private function initTmconfig()
     {
         
-        $cache_max_number           = config('cache_max_number');
-        $cache_clear_interval_time  = config('cache_clear_interval_time');
         $list_rows                  = config('list_rows');
         $api_key                    = config('api_key');
         $jwt_key                    = config('jwt_key');
 
-        define('SYS_CACHE_MAX_NUMBER'               , empty($cache_max_number)          ? 1000      : (int)$cache_max_number);
-        define('SYS_CACHE_CLEAR_INTERVAL_TIME'      , empty($cache_clear_interval_time) ? 600       : (int)$cache_clear_interval_time);
         define('DB_LIST_ROWS'                       , empty($list_rows)                 ? 10        : $list_rows);
         define('API_KEY'                            , empty($api_key)                   ? 'OneBase' : $api_key);
         define('JWT_KEY'                            , empty($jwt_key)                   ? 'OneBase' : $jwt_key);

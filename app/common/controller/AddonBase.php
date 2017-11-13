@@ -33,14 +33,4 @@ class AddonBase extends ControllerBase
         
         echo $this->fetch($template_name);
     }
-    
-    /**
-     * 插件缓存数据更新
-     */
-    public function addonCacheUpdate()
-    {
-        
-        set_cache_version(SYS_HOOK_DIR_NAME);
-        set_cache_version(SYS_ADDON_DIR_NAME);
-    }
 }
