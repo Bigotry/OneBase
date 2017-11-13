@@ -838,12 +838,12 @@ function closure_list_exe($list = [])
 function write_exe_log($begin = 'app_begin', $end = 'app_end', $type = 0)
 {
     
-    $request = request();
+    if(empty(config('is_write_exe_log'))) : return false; endif;
     
     $source_url = empty($_SERVER["HTTP_REFERER"]) ? '未知来源' : $_SERVER["HTTP_REFERER"];
     
-    $exe_log['ip']              = $request->ip();
-    $exe_log['exe_url']         = $request->url();
+    $exe_log['ip']              = request()->ip();
+    $exe_log['exe_url']         = request()->url();
     $exe_log['exe_time']        = number_format((float)debug($begin, $end), 6);
     $exe_log['exe_memory']      = number_format((float)debug($begin, $end, 'm'), 2);
     $exe_log['exe_os']          = get_os();
