@@ -172,18 +172,25 @@ class InitBase
     private function initConfig()
     {
         
-        $model = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'Config');
+        $config_array = cache('cache_config_array');
         
-        $config_list = $model->all();
-        
-        $config_array = [];
-        
-        foreach ((array)$config_list as $info):
+        if (empty($config_array)) :
             
-        $config_array[$info['name']] = $info['value'];
-        
-        endforeach;
-        
+            $model = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'Config');
+
+            $config_list = $model->all();
+
+            $config_array = [];
+
+            foreach ((array)$config_list as $info):
+
+            $config_array[$info['name']] = $info['value'];
+
+            endforeach;
+            
+            !empty($config_array) && cache('cache_config_array', $config_array);
+        endif;
+
         config($config_array);
         
         $this->initTmconfig();
