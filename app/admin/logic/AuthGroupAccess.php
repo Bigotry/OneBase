@@ -21,7 +21,9 @@ class AuthGroupAccess extends AdminBase
         
         $model = get_sington_object('menuLogic', LogicMenu::class);
         
-        if (IS_ROOT) : return $model->getMenuList(); endif;
+        $sort = 'sort desc,id asc';
+        
+        if (IS_ROOT) : return $model->getMenuList([], true, $sort); endif;
         
         // 获取用户组列表
         $group_list = $this->getMemberGroupInfo($member_id);
@@ -40,7 +42,7 @@ class AuthGroupAccess extends AdminBase
         // 查询条件
         $where = ['id' => ['in', $menu_ids]];
         
-        return $model->getMenuList($where);
+        return $model->getMenuList($where, true, $sort);
     }
     
     /**
