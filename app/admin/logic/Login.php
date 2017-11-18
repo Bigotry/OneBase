@@ -20,7 +20,13 @@ class Login extends AdminBase
     {
 
         if (empty($username) || empty($password)) : return [RESULT_ERROR, '账号或密码不能为空']; endif;
-            
+        
+        $admin_allow_ip = parse_config_array('admin_allow_ip');
+        
+        $allow_ip = request()->ip();
+        
+        if (!empty($admin_allow_ip) && (string)$username == 'admin' && !in_array($allow_ip, $admin_allow_ip)) : return [RESULT_ERROR, '登录IP受限']; endif;
+        
         if (empty($verify)) : return [RESULT_ERROR, '验证码不能为空']; endif;
        
         if (!captcha_check($verify)) : return [RESULT_ERROR, '验证码输入错误']; endif;
