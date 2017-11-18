@@ -51,6 +51,9 @@ class Common extends ApiBase
         return [$jwt_data];
     }
     
+    /**
+     * 注册方法
+     */
     public static function register($data)
     {
         
@@ -62,6 +65,9 @@ class Common extends ApiBase
         return $memberLogic->setInfo($data);
     }
     
+    /**
+     * JWT验签方法
+     */
     public static function tokenSign($member)
     {
         
@@ -85,7 +91,9 @@ class Common extends ApiBase
         return $jwt_data;
     }
     
-    
+    /**
+     * 修改密码
+     */
     public static function changePassword($data)
     {
         
@@ -104,5 +112,16 @@ class Common extends ApiBase
         $result = $memberLogic->setInfo($member_info);
         
         return $result ? CodeBase::$success : CommonError::$changePasswordFail;
+    }
+    
+    /**
+     * 友情链接接口
+     */
+    public static function getBlogrollList()
+    {
+        
+        $list = model('Blogroll')->getList([DATA_STATUS_NAME => DATA_NORMAL], true, 'sort desc,id asc', false);
+        
+        return [$list];
     }
 }

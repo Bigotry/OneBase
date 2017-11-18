@@ -30,4 +30,13 @@ class Common extends ApiBase
         
         return $this->apiReturn(logicCommon::changePassword($this->param));
     }
+    
+    /**
+     * 友情链接接口
+     */
+    public function getBlogrollList()
+    {
+        
+        return $this->apiReturn(logicCommon::getBlogrollList($this->param));
+    }
 }
