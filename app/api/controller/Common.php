@@ -32,7 +32,7 @@ class Common extends ApiBase
     }
     
     /**
-     * 友情链接接口
+     * 友情链接
      */
     public function getBlogrollList()
     {
