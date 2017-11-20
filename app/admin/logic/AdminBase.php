@@ -48,7 +48,7 @@ class AdminBase extends LogicBase
         
         foreach ($menu_list as $key => $menu_info) {
             
-            list($status, $message) = $this->authCheck(MODULE_NAME . SYS_DS_PROS . $menu_info['url'], $url_list);
+            list($status, $message) = $this->authCheck(strtolower(MODULE_NAME . SYS_DS_PROS . $menu_info['url']), $url_list);
             
             [$message];
             

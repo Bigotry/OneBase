@@ -5,7 +5,7 @@
 
 namespace app\admin\controller;
 
-use app\common\logic\Member as LogicMember;
+use app\admin\logic\Member as LogicMember;
 use app\admin\logic\AuthGroup as LogicAuthGroup;
 
 /**

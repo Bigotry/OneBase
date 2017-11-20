@@ -5,7 +5,7 @@
 
 namespace app\admin\logic;
 
-use app\common\logic\Member as LogicMember;
+use app\admin\logic\Member as LogicMember;
 
 /**
  * 登录逻辑
