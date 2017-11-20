@@ -27,15 +27,17 @@ class AdminBase extends LogicBase
         
         if (IS_ROOT) : return $pass_data; endif;
         
+        $s_url = strtolower($url);
+        
         if (!empty($allow_url_list)) {
             
             foreach ($allow_url_list as $v) {
                 
-                if (strpos(strtolower($url), strtolower($v)) !== false) : return $pass_data; endif;
+                if (strpos($s_url, strtolower($v)) !== false) : return $pass_data; endif;
             }
         }
         
-        $result = in_array(strtolower($url), $url_list) ? true : false;
+        $result = in_array($s_url, array_map("strtolower", $url_list)) ? true : false;
         
         return $result ? $pass_data : [RESULT_ERROR, '未授权操作'];
     }
