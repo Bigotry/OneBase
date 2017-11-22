@@ -53,13 +53,15 @@ class ControllerBase extends Controller
     final protected function jump($jump_type = null, $message = null, $url = null)
     {
         
+        $err_msg = "系统跳转失败";
+        
         if (is_array($jump_type)):
             
         switch (count($jump_type))
         {
             case 2  : list($jump_type, $message)       = $jump_type; break;
             case 3  : list($jump_type, $message, $url) = $jump_type; break;
-            default : die(RESULT_ERROR);
+            default : $this->error($err_msg);
         }
         
         endif;
@@ -73,7 +75,7 @@ class ControllerBase extends Controller
             case $success  : $this->$success($message, $url); break;
             case $error    : $this->$error($message, $url);   break;
             case $redirect : $this->$redirect($message);      break;
-            default        : die(RESULT_ERROR);
+            default        : $this->error($err_msg);
         }
     }
     
