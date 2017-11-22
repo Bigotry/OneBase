@@ -165,6 +165,8 @@ class Member extends AdminBase
         $data['leader_id'] = MEMBER_ID;
         $data['is_inside'] = DATA_NORMAL;
         
+        if (isset($data['password_confirm'])) : unset($data['password_confirm']); endif;
+        
         $result = self::$memberModel->addInfo($data);
         
         $result && action_log('新增', '新增会员，username：' . $data['username']);
