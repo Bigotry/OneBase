@@ -49,7 +49,9 @@ class Index extends AddonBase
             default: die('region select exceptions');
         }
         
-        exit(self::$regionIndexLogic->combineOptions($select_id, $list, $default_option_text));
+        $data = self::$regionIndexLogic->combineOptions($select_id, $list, $default_option_text);
+        
+        return $this->result($data);
     }
     
 }
