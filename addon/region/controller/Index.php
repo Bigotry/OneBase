@@ -46,7 +46,7 @@ class Index extends AddonBase
             case 1: $default_option_text = "---请选择省份---"; break;
             case 2: $default_option_text = "---请选择城市---"; break;
             case 3: $default_option_text = "---请选择区县---"; break;
-            default: die('region select exceptions');
+            default: $this->error('省市县 level 不存在');
         }
         
         $data = self::$regionIndexLogic->combineOptions($select_id, $list, $default_option_text);
