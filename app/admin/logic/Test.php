@@ -51,10 +51,10 @@ class Test extends AdminBase
         
         $SmsModel->setDriver('Alidy');
         
-        $parameter['sign_name']     = 'OneBase架构';
-        $parameter['template_code'] = 'SMS_113455309';
-        $parameter['phone_number']  = '18555550710';
-        $parameter['code']          = '123456';
+        $parameter['sign_name']      = 'OneBase架构';
+        $parameter['template_code']  = 'SMS_113455309';
+        $parameter['phone_number']   = '18555550710';
+        $parameter['template_param'] = ['code' => '123456'];
         
         return $SmsModel->sendSms($parameter);
     }

@@ -56,7 +56,7 @@ class Alidy extends Sms implements Driver
                     $parameter['sign_name'],
                     $parameter['template_code'],
                     $parameter['phone_number'],
-                    ["code" => $parameter['code']]
+                    $parameter['template_param']
                 );
         
         return $response->Code == 'OK' ? true : false;
