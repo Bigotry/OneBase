@@ -12,18 +12,7 @@ class Test extends AdminBase
 {
     
     /**
-     * 测试逻辑默认方法
-     */
-    public function index()
-    {
-        
-        $menu = model('menu');
-        
-        return $menu->getList();
-    }
-    
-    /**
-     * 测试支付
+     * 测试支付服务
      */
     public function pay()
     {
@@ -40,7 +29,7 @@ class Test extends AdminBase
     }
     
     /**
-     * 测试云存储
+     * 测试云存储服务
      */
     public function storage()
     {
@@ -49,6 +38,24 @@ class Test extends AdminBase
         
         $StorageModel->setDriver('Qiniu');
         
-        $StorageModel->upload(130);
+        return $StorageModel->upload(130);
+    }
+    
+    /**
+     * 测试短信服务
+     */
+    public function sendSms()
+    {
+        
+        $SmsModel = model('Sms', 'service');
+        
+        $SmsModel->setDriver('Alidy');
+        
+        $parameter['sign_name']     = 'OneBase架构';
+        $parameter['template_code'] = 'SMS_113455309';
+        $parameter['phone_number']  = '18555550710';
+        $parameter['code']          = '123456';
+        
+        return $SmsModel->sendSms($parameter);
     }
 }
