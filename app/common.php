@@ -295,7 +295,6 @@ function sf($arr = [], $fpath = 'D:\test.php')
  * 插件显示内容里生成访问插件的url
  * @param string $url url
  * @param array $param 参数
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function addons_url($url, $param = array())
 {
@@ -623,7 +622,6 @@ function get_access_token()
  * @param  number $size      字节数
  * @param  string $delimiter 数字和单位分隔符
  * @return string            格式化后的带单位的大小
- * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function format_bytes($size, $delimiter = '')
 {
@@ -639,7 +637,6 @@ function format_bytes($size, $delimiter = '')
  * 时间戳格式化
  * @param int $time
  * @return string 完整的时间显示
- * @author huajie <banhuajie@163.com>
  */
 function format_time($time = null, $format='Y-m-d H:i:s')
 {
@@ -775,7 +772,6 @@ function get_os()
         return 'unknow';
     }
 }
-
 
 /**
  * 获得浏览器

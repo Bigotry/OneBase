@@ -12,6 +12,25 @@ class Test extends AdminBase
 {
     
     /**
+     * 测试事务控制
+     */
+    public function testTransaction()
+    {
+        
+        $func1 = function()
+                {
+                    model('Member')->setFieldValue(['username' => 'demo'], 'nickname', 'demo_test');
+                };
+                
+        $func2 = function()
+                {
+                    $a = 1/0;
+                };
+        
+        closure_list_exe([$func1, $func2]);
+    }
+    
+    /**
      * 测试支付服务
      */
     public function pay()
