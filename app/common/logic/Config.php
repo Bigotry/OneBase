@@ -53,7 +53,7 @@ class Config extends LogicBase
             
             $where = array('name' => $name);
             
-            self::$configModel->setInfo(array('value' => $value), $where);
+            self::$configModel->updateInfo($where, ['value' => $value]);
         }
         
         action_log('设置', '系统设置保存');
