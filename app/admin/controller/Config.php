@@ -30,10 +30,10 @@ class Config extends AdminBase
     /**
      * 系统设置
      */
-    public function setting($config = [])
+    public function setting()
     {
         
-        IS_POST && $this->jump(self::$configLogic->settingSave($config));
+        IS_POST && $this->jump(self::$configLogic->settingSave($this->param));
         
         $where = empty($this->param['group']) ? ['group' => 1] : ['group' => $this->param['group']];
         

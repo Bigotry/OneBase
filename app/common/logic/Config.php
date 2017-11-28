@@ -49,7 +49,8 @@ class Config extends LogicBase
     public function settingSave($data = [])
     {
         
-        foreach ($data as $name => $value) {
+        foreach ($data as $name => $value)
+        {
             
             $where = array('name' => $name);
             
