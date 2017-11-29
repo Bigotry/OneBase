@@ -77,30 +77,31 @@ class AdminBase extends LogicBase
     public function filter($content = '', $url_list = [])
     {
         
-        $expression_ob_link = '%<ob_link.*?>(.*?)</ob_link>%si';
-
         $results = [];
         
-        preg_match_all($expression_ob_link, $content, $results);
-        
-        $expression_href = '/href=\"([^(\}>)]+)\"/';
-        $expression_url  = '/url=\"([^(\}>)]+)\"/';
+        preg_match_all('%<ob_link.*?>(.*?)</ob_link>%si', $content, $results);
         
         foreach ($results[1] as $a)
         {
             
             $href_results = []; 
             
-            preg_match_all($expression_href, $a, $href_results);
+            preg_match_all('/href=\"([^(\}>)]+)\"/', $a, $href_results);
             
-            empty($href_results[0]) && empty($href_results[1]) && preg_match_all($expression_url, $a, $href_results);
+            empty($href_results[0]) && empty($href_results[1]) && preg_match_all('/url=\"([^(\}>)]+)\"/', $a, $href_results);
             
-            $url_array = explode(SYS_DS_PROS, $href_results[1][0]); 
-            $url_array_html = explode('.', $url_array[2]); 
+            $url_array_tmp = explode(SYS_DS_PROS, $href_results[1][0]); 
             
-            $check_url = MODULE_NAME . SYS_DS_PROS . $url_array[1] . SYS_DS_PROS . $url_array_html[0];
+            foreach ($url_array_tmp as $k => $u)
+            {
+                if (strpos($u, EXT) != false) : unset($url_array_tmp[$k]);  break; endif;
+            }
             
-            $result = $this->authCheck($check_url, $url_list);
+            $url_array = array_values($url_array_tmp);
+            
+            $url_array_html = strpos($url_array[1], EXT) === false ? explode('.', $url_array[2]) : explode('.', $url_array[1]);
+            
+            $result = $this->authCheck(MODULE_NAME . SYS_DS_PROS . $url_array[1] . SYS_DS_PROS . $url_array_html[0], $url_list);
             
             $result[0] != RESULT_SUCCESS && $content = str_replace($a, '', $content);
         }
