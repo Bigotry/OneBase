@@ -62,11 +62,13 @@ class Trash extends AdminBase
         
         $model = model($model_name);
         
-        $result = $model->deleteInfo(['id' => $id], true);
+        $where = empty($id) ? ['id' => ['neq', DATA_DISABLE]] : ['id' => $id];
+        
+        $result = $model->deleteInfo($where, true);
         
         $result && action_log('删除', '删除回收站数据，model_name：' . $model_name .'，id' . $id);
         
-        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $model->getError()];
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, '删除失败'];
     }
     
     /**
@@ -77,11 +79,13 @@ class Trash extends AdminBase
         
         $model = model($model_name);
         
-        $result = $model->setFieldValue(['id' => $id], DATA_STATUS_NAME, DATA_NORMAL);
+        $where = empty($id) ? ['id' => ['neq', DATA_DISABLE]] : ['id' => $id];
+        
+        $result = $model->setFieldValue($where, DATA_STATUS_NAME, DATA_NORMAL);
         
         $result && action_log('恢复', '恢复回收站数据，model_name：' . $model_name .'，id' . $id);
         
-        return $result ? [RESULT_SUCCESS, '数据恢复成功'] : [RESULT_ERROR, $model->getError()];
+        return $result ? [RESULT_SUCCESS, '数据恢复成功'] : [RESULT_ERROR, '恢复失败'];
     }
  
 }
