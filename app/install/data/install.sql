@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : localhost_link
 Source Server Version : 50714
 Source Host           : localhost:3306
-Source Database       : onebase_db
+Source Database       : onebase
 
 Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2017-11-01 16:21:39
+Date: 2017-11-30 17:44:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,10 +28,10 @@ CREATE TABLE `ob_action_log` (
   `describe` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '执行的URL',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '执行行为的时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表';
+) ENGINE=MyISAM AUTO_INCREMENT=225 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表';
 
 -- ----------------------------
 -- Records of ob_action_log
@@ -51,16 +51,17 @@ CREATE TABLE `ob_addon` (
   `version` varchar(20) NOT NULL DEFAULT '' COMMENT '版本号',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='插件表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='插件表';
 
 -- ----------------------------
 -- Records of ob_addon
 -- ----------------------------
 INSERT INTO `ob_addon` VALUES ('1', 'Editor', '文本编辑器', '富文本编辑器', '', 'Bigotry', '1.0', '1', '0', '0');
-INSERT INTO `ob_addon` VALUES ('2', 'Icon', '图标选择', '图标选择插件', '', 'Bigotry', '1.0', '1', '0', '0');
 INSERT INTO `ob_addon` VALUES ('3', 'File', '文件上传', '文件上传插件', '', 'Jack', '1.0', '1', '0', '0');
+INSERT INTO `ob_addon` VALUES ('4', 'Icon', '图标选择', '图标选择插件', '', 'Bigotry', '1.0', '1', '0', '0');
+INSERT INTO `ob_addon` VALUES ('7', 'Region', '区域选择', '区域选择插件', '', 'Bigotry', '1.0', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `ob_api`
@@ -90,7 +91,7 @@ CREATE TABLE `ob_api` (
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=192 DEFAULT CHARSET=utf8 COMMENT='API表';
+) ENGINE=MyISAM AUTO_INCREMENT=193 DEFAULT CHARSET=utf8 COMMENT='API表';
 
 -- ----------------------------
 -- Records of ob_api
@@ -100,7 +101,8 @@ INSERT INTO `ob_api` VALUES ('187', '文章分类列表', '44', '0', 'article/ca
 INSERT INTO `ob_api` VALUES ('188', '文章列表', '44', '0', 'article/articlelist', '文章列表接口', '', '1', '[{\"field_name\":\"category_id\",\"data_type\":\"0\",\"is_require\":\"0\",\"field_describe\":\"\\u82e5\\u4e0d\\u4f20\\u9012\\u6b64\\u53c2\\u6570\\u5219\\u4e3a\\u6240\\u6709\\u5206\\u7c7b\"}]', '', '0', '0', '0', '0', '{\r\n    &quot;code&quot;: 0,\r\n    &quot;msg&quot;: &quot;操作成功&quot;,\r\n    &quot;data&quot;: {\r\n        &quot;total&quot;: 9,\r\n        &quot;per_page&quot;: &quot;10&quot;,\r\n        &quot;current_page&quot;: 1,\r\n        &quot;last_page&quot;: 1,\r\n        &quot;data&quot;: [\r\n            {\r\n                &quot;id&quot;: 16,\r\n                &quot;name&quot;: &quot;11111111&quot;,\r\n                &quot;category_id&quot;: 2,\r\n                &quot;describe&quot;: &quot;22222222&quot;,\r\n                &quot;create_time&quot;: &quot;2017-08-07 13:58:37&quot;\r\n            },\r\n            {\r\n                &quot;id&quot;: 15,\r\n                &quot;name&quot;: &quot;tttttt&quot;,\r\n                &quot;category_id&quot;: 1,\r\n                &quot;describe&quot;: &quot;sddd&quot;,\r\n                &quot;create_time&quot;: &quot;2017-08-07 13:24:46&quot;\r\n            }\r\n        ]\r\n    }\r\n}', '0', '0', '1', '1', '1', '1504779780', '1507366268');
 INSERT INTO `ob_api` VALUES ('189', '首页接口', '45', '0', 'combination/index', '首页聚合接口', '', '1', '[{\"field_name\":\"category_id\",\"data_type\":\"0\",\"is_require\":\"0\",\"field_describe\":\"\\u6587\\u7ae0\\u5206\\u7c7bID\"}]', '[{\"field_name\":\"article_category_list\",\"data_type\":\"2\",\"field_describe\":\"\\u6587\\u7ae0\\u5206\\u7c7b\\u6570\\u636e\"},{\"field_name\":\"article_list\",\"data_type\":\"2\",\"field_describe\":\"\\u6587\\u7ae0\\u6570\\u636e\"}]', '1', '0', '1', '0', '{\r\n    &quot;code&quot;: 0,\r\n    &quot;msg&quot;: &quot;操作成功&quot;,\r\n    &quot;data&quot;: {\r\n        &quot;article_category_list&quot;: [\r\n            {\r\n                &quot;id&quot;: 2,\r\n                &quot;name&quot;: &quot;测试文章分类2&quot;\r\n            },\r\n            {\r\n                &quot;id&quot;: 1,\r\n                &quot;name&quot;: &quot;测试文章分类1&quot;\r\n            }\r\n        ],\r\n        &quot;article_list&quot;: {\r\n            &quot;total&quot;: 8,\r\n            &quot;per_page&quot;: &quot;2&quot;,\r\n            &quot;current_page&quot;: &quot;1&quot;,\r\n            &quot;last_page&quot;: 4,\r\n            &quot;data&quot;: [\r\n                {\r\n                    &quot;id&quot;: 15,\r\n                    &quot;name&quot;: &quot;tttttt&quot;,\r\n                    &quot;category_id&quot;: 1,\r\n                    &quot;describe&quot;: &quot;sddd&quot;,\r\n                    &quot;create_time&quot;: &quot;2017-08-07 13:24:46&quot;\r\n                },\r\n                {\r\n                    &quot;id&quot;: 14,\r\n                    &quot;name&quot;: &quot;1111111111111111111&quot;,\r\n                    &quot;category_id&quot;: 1,\r\n                    &quot;describe&quot;: &quot;123123&quot;,\r\n                    &quot;create_time&quot;: &quot;2017-08-04 15:37:20&quot;\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}', '0', '0', '1', '0', '1', '1504785072', '1504948716');
 INSERT INTO `ob_api` VALUES ('190', '详情页接口', '45', '0', 'combination/details', '详情页接口', '', '1', '[{\"field_name\":\"article_id\",\"data_type\":\"0\",\"is_require\":\"1\",\"field_describe\":\"\\u6587\\u7ae0ID\"}]', '[{\"field_name\":\"article_category_list\",\"data_type\":\"2\",\"field_describe\":\"\\u6587\\u7ae0\\u5206\\u7c7b\\u6570\\u636e\"},{\"field_name\":\"article_details\",\"data_type\":\"2\",\"field_describe\":\"\\u6587\\u7ae0\\u8be6\\u60c5\\u6570\\u636e\"}]', '1', '0', '0', '0', '{\r\n    &quot;code&quot;: 0,\r\n    &quot;msg&quot;: &quot;操作成功&quot;,\r\n    &quot;data&quot;: {\r\n        &quot;article_category_list&quot;: [\r\n            {\r\n                &quot;id&quot;: 2,\r\n                &quot;name&quot;: &quot;测试文章分类2&quot;\r\n            },\r\n            {\r\n                &quot;id&quot;: 1,\r\n                &quot;name&quot;: &quot;测试文章分类1&quot;\r\n            }\r\n        ],\r\n        &quot;article_details&quot;: {\r\n            &quot;id&quot;: 1,\r\n            &quot;name&quot;: &quot;213&quot;,\r\n            &quot;category_id&quot;: 1,\r\n            &quot;describe&quot;: &quot;test001&quot;,\r\n            &quot;content&quot;: &quot;第三方发送到&quot;&quot;&quot;,\r\n            &quot;create_time&quot;: &quot;2014-07-22 11:56:53&quot;\r\n        }\r\n    }\r\n}', '0', '0', '0', '0', '1', '1504922092', '1504923179');
-INSERT INTO `ob_api` VALUES ('191', '修改密码', '34', '0', 'common/changepassword', '修改密码接口', '', '1', '[{\"field_name\":\"old_password\",\"data_type\":\"0\",\"is_require\":\"1\",\"field_describe\":\"\\u65e7\\u5bc6\\u7801\"},{\"field_name\":\"new_password\",\"data_type\":\"0\",\"is_require\":\"1\",\"field_describe\":\"\\u65b0\\u5bc6\\u7801\"}]', '', '0', '1', '0', '0', 'dfdd', '0', '0', '0', '0', '1', '1504941496', '1504941496');
+INSERT INTO `ob_api` VALUES ('191', '修改密码', '34', '0', 'common/changepassword', '修改密码接口', '', '1', '[{\"field_name\":\"old_password\",\"data_type\":\"0\",\"is_require\":\"1\",\"field_describe\":\"\\u65e7\\u5bc6\\u7801\"},{\"field_name\":\"new_password\",\"data_type\":\"0\",\"is_require\":\"1\",\"field_describe\":\"\\u65b0\\u5bc6\\u7801\"}]', '', '0', '1', '0', '0', ' ', '0', '0', '0', '0', '1', '1504941496', '1504941496');
+INSERT INTO `ob_api` VALUES ('192', '友情链接列表', '34', '0', 'Common/getBlogrollList', '友情链接接口', '', '0', '', '', '0', '0', '0', '0', '', '0', '2', '0', '0', '1', '1510986310', '1510986310');
 
 -- ----------------------------
 -- Table structure for `ob_api_group`
@@ -109,10 +111,10 @@ DROP TABLE IF EXISTS `ob_api_group`;
 CREATE TABLE `ob_api_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(120) NOT NULL DEFAULT '' COMMENT 'aip分组名称',
-  `sort` tinyint(4) unsigned NOT NULL DEFAULT '0',
+  `sort` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '数据状态',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8 COMMENT='api分组表';
 
@@ -136,16 +138,17 @@ CREATE TABLE `ob_article` (
   `content` text NOT NULL COMMENT '文章内容',
   `cover_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '封面图片id',
   `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件id',
-  `img_ids` varchar(200) NOT NULL DEFAULT '',
+  `img_ids` varchar(200) NOT NULL DEFAULT '' COMMENT '多图字段',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '数据状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='文章表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='文章表';
 
 -- ----------------------------
 -- Records of ob_article
 -- ----------------------------
+INSERT INTO `ob_article` VALUES ('1', '1', '测试', '1', '测试', '萨达', '7', '0', '', '1510388633', '1512031447', '1');
 
 -- ----------------------------
 -- Table structure for `ob_article_category`
@@ -161,11 +164,12 @@ CREATE TABLE `ob_article_category` (
   `icon` char(20) NOT NULL DEFAULT '' COMMENT '分类图标',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='分类表';
 
 -- ----------------------------
 -- Records of ob_article_category
 -- ----------------------------
+INSERT INTO `ob_article_category` VALUES ('1', 'test', 'ces', '1510388612', '1510388612', '1', 'fa-th-list');
 
 -- ----------------------------
 -- Table structure for `ob_auth_group`
@@ -176,18 +180,18 @@ CREATE TABLE `ob_auth_group` (
   `module` varchar(20) NOT NULL DEFAULT '' COMMENT '用户组所属模块',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '用户组名称',
   `describe` varchar(80) NOT NULL DEFAULT '' COMMENT '描述信息',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '用户组状态：为1正常，为0禁用,-1为删除',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '数据状态',
   `rules` varchar(1000) NOT NULL DEFAULT '' COMMENT '用户组拥有的规则id，多个规则 , 隔开',
-  `member_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `member_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '会员id',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='权限组表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='权限组表';
 
 -- ----------------------------
 -- Records of ob_auth_group
 -- ----------------------------
-INSERT INTO `ob_auth_group` VALUES ('1', 'admin', '默认用户组', '', '1', '1,16,17,108,109,27,68,70,126,75,124,135,136,140,141,142,143,144,145,146', '1', '1501068879', '0');
+INSERT INTO `ob_auth_group` VALUES ('1', 'admin', '默认用户组', '', '1', '1,68,75,124,70,126,135,136,140,141,142,143,16,17,108,109,27,144,145,146,185,186,187', '1', '1511150620', '0');
 
 -- ----------------------------
 -- Table structure for `ob_auth_group_access`
@@ -196,14 +200,37 @@ DROP TABLE IF EXISTS `ob_auth_group_access`;
 CREATE TABLE `ob_auth_group_access` (
   `member_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `group_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户组id',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '1'
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '数据状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户组授权表';
 
 -- ----------------------------
 -- Records of ob_auth_group_access
 -- ----------------------------
+INSERT INTO `ob_auth_group_access` VALUES ('2', '1', '1511150698', '1511150698', '1');
+
+-- ----------------------------
+-- Table structure for `ob_blogroll`
+-- ----------------------------
+DROP TABLE IF EXISTS `ob_blogroll`;
+CREATE TABLE `ob_blogroll` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` char(50) NOT NULL DEFAULT '' COMMENT '链接名称',
+  `img_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '链接图片封面',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '链接地址',
+  `describe` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '数据状态',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='友情链接表';
+
+-- ----------------------------
+-- Records of ob_blogroll
+-- ----------------------------
+INSERT INTO `ob_blogroll` VALUES ('1', 'test', '9', 'https://demo.onebase.org', '测试友情链接哦', '0', '1', '1510979859', '1510979859');
 
 -- ----------------------------
 -- Table structure for `ob_config`
@@ -222,42 +249,37 @@ CREATE TABLE `ob_config` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   `value` text NOT NULL COMMENT '配置值',
   `sort` smallint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_name` (`name`),
-  KEY `type` (`type`),
-  KEY `group` (`group`)
-) ENGINE=MyISAM AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COMMENT='配置表';
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COMMENT='配置表';
 
 -- ----------------------------
 -- Records of ob_config
 -- ----------------------------
-INSERT INTO `ob_config` VALUES ('1', 'seo_title', '1', '网站标题', '1', '', '网站标题前台显示标题，优先级低于SEO模块', '1378898976', '1506760828', '1', 'ssssssss11', '3');
-INSERT INTO `ob_config` VALUES ('2', 'seo_description', '2', '网站描述', '1', '', '网站搜索引擎描述，优先级低于SEO模块', '1378898976', '1506760828', '1', '', '100');
-INSERT INTO `ob_config` VALUES ('3', 'seo_keywords', '2', '网站关键字', '1', '', '网站搜索引擎关键字，优先级低于SEO模块', '1378898976', '1506760828', '1', 'test11', '99');
-INSERT INTO `ob_config` VALUES ('9', 'config_type_list', '3', '配置类型列表', '3', '', '主要用于数据解析和页面表单的生成', '1378898976', '1506310525', '1', '0:数字\r\n1:字符\r\n2:文本\r\n3:数组\r\n4:枚举', '100');
-INSERT INTO `ob_config` VALUES ('20', 'config_group_list', '3', '配置分组', '3', '', '配置分组', '1379228036', '1506310525', '1', '1:基础\r\n2:数据\r\n3:系统\r\n4:API', '100');
-INSERT INTO `ob_config` VALUES ('25', 'list_rows', '0', '每页数据记录数', '2', '', '数据每页显示记录数', '1379503896', '1507197630', '1', '10', '10');
-INSERT INTO `ob_config` VALUES ('29', 'data_backup_part_size', '0', '数据库备份卷大小', '2', '', '该值用于限制压缩后的分卷最大长度。单位：B', '1381482488', '1507197630', '1', '52428800', '7');
-INSERT INTO `ob_config` VALUES ('30', 'data_backup_compress', '4', '数据库备份文件是否启用压缩', '2', '0:不压缩\r\n1:启用压缩', '压缩备份文件需要PHP环境支持gzopen,gzwrite函数', '1381713345', '1507197630', '1', '1', '9');
-INSERT INTO `ob_config` VALUES ('31', 'data_backup_compress_level', '4', '数据库备份文件压缩级别', '2', '1:普通\r\n4:一般\r\n9:最高', '数据库备份文件的压缩级别，该配置在开启压缩时生效', '1381713408', '1507197630', '1', '9', '10');
-INSERT INTO `ob_config` VALUES ('33', 'allow_url', '3', '不受权限验证的url', '3', '', '', '1386644047', '1506310525', '1', '0:file/pictureupload\r\n1:addon/execute', '100');
-INSERT INTO `ob_config` VALUES ('42', 'system_title', '1', '系统标题', '1', '', '', '1492276942', '1492277685', '-1', '', '0');
-INSERT INTO `ob_config` VALUES ('43', 'empty_list_describe', '1', '数据列表为空时的描述信息', '2', '', '', '1492278127', '1507197630', '1', 'aOh! 暂时还没有数据~', '0');
-INSERT INTO `ob_config` VALUES ('44', 'trash_config', '3', '回收站配置', '3', '', 'key为模型名称，值为显示列。', '1492312698', '1506310525', '1', 'Config:name\r\nAuthGroup:name\r\nMember:nickname\r\nMenu:name\r\nArticle:name\r\nArticleCategory:name\r\nAddon:name\r\nPicture:name', '0');
-INSERT INTO `ob_config` VALUES ('48', 'is_auto_cache', '4', '是否开启自动缓存', '1', '0:否\r\n1:是', '自动缓存开启后 getInfo 与 getList 方法获取的数据会自动缓存', '1494222635', '1506760828', '1', '1', '0');
-INSERT INTO `ob_config` VALUES ('49', 'static_domain', '1', '静态资源域名', '1', '', '若静态资源为本地资源则此项为空，若为外部资源则为存放静态资源的域名', '1502430387', '1506760828', '1', '', '0');
-INSERT INTO `ob_config` VALUES ('50', 'cache_max_number', '0', '系统最大缓存数量', '2', '', '', '1502526883', '1507197630', '1', '2000', '0');
-INSERT INTO `ob_config` VALUES ('51', 'cache_clear_interval_time', '0', '缓存自动回收时间', '2', '', '', '1502526950', '1507197630', '1', '1000', '0');
-INSERT INTO `ob_config` VALUES ('52', 'team_developer', '3', '研发团队人员', '4', '', '', '1504236453', '1509432155', '1', '0:Bigotry\r\n1:扫地僧', '0');
-INSERT INTO `ob_config` VALUES ('53', 'api_status_option', '3', 'API接口状态', '4', '', '', '1504242433', '1509432155', '1', '0:待研发\r\n1:研发中\r\n2:测试中\r\n3:已完成', '0');
-INSERT INTO `ob_config` VALUES ('54', 'api_data_type_option', '3', 'API数据类型', '4', '', '', '1504328208', '1509432155', '1', '0:字符\r\n1:文本\r\n2:数组\r\n3:文件', '0');
-INSERT INTO `ob_config` VALUES ('55', 'frontend_theme', '1', '前端主题', '1', '', '', '1504762360', '1506760828', '1', 'default', '0');
-INSERT INTO `ob_config` VALUES ('56', 'api_domain', '1', 'API部署域名', '4', '', '', '1504779094', '1509432155', '1', 'https://www.onebase.org', '0');
-INSERT INTO `ob_config` VALUES ('57', 'api_key', '1', 'API加密KEY', '4', '', '泄露后API将存在安全隐患', '1505302112', '1509432155', '1', 'l2V|gfZp{8`;jzR~6Y1_', '0');
-INSERT INTO `ob_config` VALUES ('58', 'loading_icon', '4', '页面Loading图标设置', '1', '1:图标1\r\n2:图标2\r\n3:图标3\r\n4:图标4\r\n5:图标5\r\n6:图标6\r\n7:图标7', '页面Loading图标支持7种图标切换', '1505377202', '1506760828', '1', '7', '101');
-INSERT INTO `ob_config` VALUES ('59', 'sys_file_field', '3', '文件字段配置', '3', '', 'key为模型名，值为文件列名。', '1505799386', '1506315470', '1', '0_article:file_id', '0');
-INSERT INTO `ob_config` VALUES ('60', 'sys_picture_field', '3', '图片字段配置', '3', '', 'key为模型名，值为图片列名。', '1506315422', '1506315456', '1', '0_article:cover_id\r\n1_article:img_ids', '0');
-INSERT INTO `ob_config` VALUES ('61', 'jwt_key', '1', 'JWT加密KEY', '4', '', '', '1506748805', '1509432155', '1', 'l2V|DSFXXXgfZp{8`;FjzR~6Y1_', '0');
+INSERT INTO `ob_config` VALUES ('1', 'seo_title', '1', '网站标题', '1', '', '网站标题前台显示标题，优先级低于SEO模块', '1378898976', '1511863400', '1', 'OneBase免费开源架构', '3');
+INSERT INTO `ob_config` VALUES ('2', 'seo_description', '2', '网站描述', '1', '', '网站搜索引擎描述，优先级低于SEO模块', '1378898976', '1511863400', '1', 'OneBase免费开源架构', '100');
+INSERT INTO `ob_config` VALUES ('3', 'seo_keywords', '2', '网站关键字', '1', '', '网站搜索引擎关键字，优先级低于SEO模块', '1378898976', '1511863400', '1', 'OneBase免费开源架构', '99');
+INSERT INTO `ob_config` VALUES ('9', 'config_type_list', '3', '配置类型列表', '3', '', '主要用于数据解析和页面表单的生成', '1378898976', '1512033787', '1', '0:数字\r\n1:字符\r\n2:文本\r\n3:数组\r\n4:枚举\r\n5:图片\r\n6:文件\r\n7:富文本\r\n8:单选\r\n9:多选\r\n10:日期\r\n11:时间\r\n12:颜色', '100');
+INSERT INTO `ob_config` VALUES ('20', 'config_group_list', '3', '配置分组', '3', '', '配置分组', '1379228036', '1512033787', '1', '1:基础\r\n2:数据\r\n3:系统\r\n4:API', '100');
+INSERT INTO `ob_config` VALUES ('25', 'list_rows', '0', '每页数据记录数', '2', '', '数据每页显示记录数', '1379503896', '1511608007', '1', '10', '10');
+INSERT INTO `ob_config` VALUES ('29', 'data_backup_part_size', '0', '数据库备份卷大小', '2', '', '该值用于限制压缩后的分卷最大长度。单位：B', '1381482488', '1511608007', '1', '52428800', '7');
+INSERT INTO `ob_config` VALUES ('30', 'data_backup_compress', '4', '数据库备份文件是否启用压缩', '2', '0:不压缩\r\n1:启用压缩', '压缩备份文件需要PHP环境支持gzopen,gzwrite函数', '1381713345', '1511608007', '1', '1', '9');
+INSERT INTO `ob_config` VALUES ('31', 'data_backup_compress_level', '4', '数据库备份文件压缩级别', '2', '1:普通\r\n4:一般\r\n9:最高', '数据库备份文件的压缩级别，该配置在开启压缩时生效', '1381713408', '1511608007', '1', '9', '10');
+INSERT INTO `ob_config` VALUES ('33', 'allow_url', '3', '不受权限验证的url', '3', '', '', '1386644047', '1512033787', '1', '0:file/pictureupload\r\n1:addon/execute', '100');
+INSERT INTO `ob_config` VALUES ('43', 'empty_list_describe', '1', '数据列表为空时的描述信息', '2', '', '', '1492278127', '1511608007', '1', 'aOh! 暂时还没有数据~', '0');
+INSERT INTO `ob_config` VALUES ('44', 'trash_config', '3', '回收站配置', '3', '', 'key为模型名称，值为显示列。', '1492312698', '1512033787', '1', 'Config:name\r\nAuthGroup:name\r\nMember:nickname\r\nMenu:name\r\nArticle:name\r\nArticleCategory:name\r\nAddon:name\r\nPicture:name\r\nFile:name\r\nActionLog:describe\r\nApiGroup:name\r\nApi:name\r\nBlogroll:name\r\nExeLog:exe_url\r\nSeo:name', '99');
+INSERT INTO `ob_config` VALUES ('49', 'static_domain', '1', '静态资源域名', '1', '', '若静态资源为本地资源则此项为空，若为外部资源则为存放静态资源的域名', '1502430387', '1511863400', '1', '', '0');
+INSERT INTO `ob_config` VALUES ('65', 'admin_allow_ip', '3', '超级管理员登录IP', '3', '', '后台超级管理员登录IP限制，其他角色不受限。', '1510995243', '1512033787', '1', '0:127.0.0.1', '0');
+INSERT INTO `ob_config` VALUES ('52', 'team_developer', '3', '研发团队人员', '4', '', '', '1504236453', '1511607763', '1', '0:Bigotry\r\n1:扫地僧', '0');
+INSERT INTO `ob_config` VALUES ('53', 'api_status_option', '3', 'API接口状态', '4', '', '', '1504242433', '1511607763', '1', '0:待研发\r\n1:研发中\r\n2:测试中\r\n3:已完成', '0');
+INSERT INTO `ob_config` VALUES ('54', 'api_data_type_option', '3', 'API数据类型', '4', '', '', '1504328208', '1511607763', '1', '0:字符\r\n1:文本\r\n2:数组\r\n3:文件', '0');
+INSERT INTO `ob_config` VALUES ('55', 'frontend_theme', '1', '前端主题', '1', '', '', '1504762360', '1511863400', '1', 'default', '0');
+INSERT INTO `ob_config` VALUES ('56', 'api_domain', '1', 'API部署域名', '4', '', '', '1504779094', '1511607763', '1', 'https://demo.onebase.org', '0');
+INSERT INTO `ob_config` VALUES ('57', 'api_key', '1', 'API加密KEY', '4', '', '泄露后API将存在安全隐患', '1505302112', '1511607763', '1', 'l2V|gfZp{8`;jzR~6Y1_', '0');
+INSERT INTO `ob_config` VALUES ('58', 'loading_icon', '4', '页面Loading图标设置', '1', '1:图标1\r\n2:图标2\r\n3:图标3\r\n4:图标4\r\n5:图标5\r\n6:图标6\r\n7:图标7', '页面Loading图标支持7种图标切换', '1505377202', '1511863400', '1', '7', '4');
+INSERT INTO `ob_config` VALUES ('59', 'sys_file_field', '3', '文件字段配置', '3', '', 'key为模型名，值为文件列名。', '1505799386', '1512033787', '1', '0_article:file_id', '99');
+INSERT INTO `ob_config` VALUES ('60', 'sys_picture_field', '3', '图片字段配置', '3', '', 'key为模型名，值为图片列名。', '1506315422', '1512033787', '1', '0_article:cover_id\r\n1_article:img_ids', '99');
+INSERT INTO `ob_config` VALUES ('61', 'jwt_key', '1', 'JWT加密KEY', '4', '', '', '1506748805', '1511607763', '1', 'l2V|DSFXXXgfZp{8`;FjzR~6Y1_', '0');
+INSERT INTO `ob_config` VALUES ('64', 'is_write_exe_log', '4', '是否写入执行记录', '3', '0:否\r\n1:是', '', '1510543461', '1512033787', '1', '0', '101');
 
 -- ----------------------------
 -- Table structure for `ob_driver`
@@ -270,7 +292,7 @@ CREATE TABLE `ob_driver` (
   `config` text NOT NULL COMMENT '配置',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='插件表';
 
@@ -286,19 +308,19 @@ CREATE TABLE `ob_exe_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键自增',
   `ip` char(50) NOT NULL DEFAULT '' COMMENT 'IP地址',
   `exe_url` varchar(2000) NOT NULL DEFAULT '' COMMENT '执行URL',
-  `exe_time` float(10,6) unsigned NOT NULL DEFAULT '0.000000' COMMENT '执行时间 单位 秒',
-  `exe_memory` char(20) NOT NULL DEFAULT '0.00' COMMENT '内存占用KB',
+  `exe_time` char(20) NOT NULL DEFAULT '' COMMENT '执行时间 单位 秒',
+  `exe_memory` char(20) NOT NULL DEFAULT '' COMMENT '内存占用',
   `exe_os` char(30) NOT NULL DEFAULT '' COMMENT '操作系统',
   `source_url` varchar(2000) NOT NULL DEFAULT '' COMMENT '来源URL',
   `session_id` char(32) NOT NULL DEFAULT '' COMMENT 'session_id',
   `browser` char(30) NOT NULL DEFAULT '' COMMENT '浏览器',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `login_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '执行者ID',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型  0 ： 应用范围 ， 1：API 范围 ',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=235 DEFAULT CHARSET=utf8 COMMENT='执行记录表';
+) ENGINE=MyISAM AUTO_INCREMENT=369 DEFAULT CHARSET=utf8 COMMENT='执行记录表';
 
 -- ----------------------------
 -- Records of ob_exe_log
@@ -315,10 +337,10 @@ CREATE TABLE `ob_file` (
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '远程地址',
   `sha1` char(40) NOT NULL DEFAULT '' COMMENT '文件 sha1编码',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '上传时间',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '数据状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='文件表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='文件表';
 
 -- ----------------------------
 -- Records of ob_file
@@ -333,18 +355,19 @@ CREATE TABLE `ob_hook` (
   `name` varchar(40) NOT NULL DEFAULT '' COMMENT '钩子名称',
   `describe` varchar(255) NOT NULL COMMENT '描述',
   `addon_list` varchar(255) NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 ''，''分割',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '数据状态',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='钩子表';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COMMENT='钩子表';
 
 -- ----------------------------
 -- Records of ob_hook
 -- ----------------------------
 INSERT INTO `ob_hook` VALUES ('33', 'ArticleEditor', '富文本编辑器', 'Editor', '1', '0', '0');
-INSERT INTO `ob_hook` VALUES ('34', 'Icon', '图标选择钩子', 'Icon', '1', '0', '0');
 INSERT INTO `ob_hook` VALUES ('36', 'File', '文件上传钩子', 'File', '1', '0', '0');
+INSERT INTO `ob_hook` VALUES ('37', 'Icon', '图标选择钩子', 'Icon', '1', '0', '0');
+INSERT INTO `ob_hook` VALUES ('40', 'RegionSelect', '区域选择', 'Region', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `ob_member`
@@ -364,11 +387,7 @@ CREATE TABLE `ob_member` (
   `is_share_member` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否共享会员',
   `is_inside` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否为后台使用者',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COMMENT='会员表';
-
--- ----------------------------
--- Records of ob_member
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='会员表';
 
 -- ----------------------------
 -- Table structure for `ob_menu`
@@ -384,15 +403,15 @@ CREATE TABLE `ob_menu` (
   `is_hide` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否隐藏',
   `icon` char(30) NOT NULL DEFAULT '' COMMENT '图标',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 COMMENT='菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=184 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
 -- ----------------------------
 -- Records of ob_menu
 -- ----------------------------
-INSERT INTO `ob_menu` VALUES ('1', '系统首页', '0', '1', 'admin', 'index/index', '0', 'fa-home', '1', '1501928381', '0');
+INSERT INTO `ob_menu` VALUES ('1', '系统首页', '0', '100', 'admin', 'index/index', '0', 'fa-home', '1', '1510983463', '0');
 INSERT INTO `ob_menu` VALUES ('16', '会员管理', '0', '3', 'admin', 'member/index', '0', 'fa-users', '1', '1501928389', '0');
 INSERT INTO `ob_menu` VALUES ('17', '会员列表', '16', '1', 'admin', 'member/memberlist', '0', 'fa-list', '1', '1495272875', '0');
 INSERT INTO `ob_menu` VALUES ('18', '会员添加', '16', '0', 'admin', 'member/memberadd', '0', 'fa-user-plus', '1', '1491837324', '0');
@@ -459,10 +478,14 @@ INSERT INTO `ob_menu` VALUES ('171', '文件清理', '166', '0', 'admin', 'filec
 INSERT INTO `ob_menu` VALUES ('172', '图片清理', '171', '0', 'admin', 'maintain/pictureclear', '0', 'fa-file-image-o', '-1', '1506310096', '1505789249');
 INSERT INTO `ob_menu` VALUES ('173', '文件清理', '171', '0', 'admin', 'maintain/fileclear', '0', 'fa-file', '-1', '1506310100', '1505789307');
 INSERT INTO `ob_menu` VALUES ('174', '行为日志', '166', '0', 'admin', 'log/loglist', '0', 'fa-street-view', '1', '1507201516', '1507200836');
-INSERT INTO `ob_menu` VALUES ('175', '测试权限', '0', '0', 'admin', 'http://www.ob.com:8080/admin/article/articleadd.html', '0', '', '-1', '1508120742', '1508120713');
 INSERT INTO `ob_menu` VALUES ('176', '执行记录', '166', '0', 'admin', 'exelog/index', '0', 'fa-list-alt', '1', '1509433351', '1509433351');
 INSERT INTO `ob_menu` VALUES ('177', '全局范围', '176', '0', 'admin', 'exelog/applist', '0', 'fa-tags', '1', '1509433570', '1509433570');
 INSERT INTO `ob_menu` VALUES ('178', '接口范围', '176', '0', 'admin', 'exelog/apilist', '0', 'fa-tag', '1', '1509433591', '1509433591');
+INSERT INTO `ob_menu` VALUES ('179', '友情链接', '68', '0', 'admin', 'blogroll/index', '0', 'fa-heart', '1', '1510641081', '1510641081');
+INSERT INTO `ob_menu` VALUES ('180', '链接列表', '179', '0', 'admin', 'blogroll/blogrolllist', '0', 'fa-th', '1', '1510641658', '1510641658');
+INSERT INTO `ob_menu` VALUES ('181', '链接添加', '179', '0', 'admin', 'blogroll/blogrolladd', '0', 'fa-plus', '1', '1510641739', '1510641739');
+INSERT INTO `ob_menu` VALUES ('182', '链接编辑', '180', '0', 'admin', 'blogroll/blogrolledit', '1', 'fa-pencil-square-o', '1', '1510641816', '1510641816');
+INSERT INTO `ob_menu` VALUES ('183', '链接删除', '180', '0', 'admin', 'blogroll/blogrolldel', '1', 'fa-trash-o', '1', '1510642626', '1510642626');
 
 -- ----------------------------
 -- Table structure for `ob_picture`
@@ -475,14 +498,442 @@ CREATE TABLE `ob_picture` (
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '图片链接',
   `sha1` char(40) NOT NULL DEFAULT '' COMMENT '文件 sha1编码',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='图片表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='图片表';
 
 -- ----------------------------
 -- Records of ob_picture
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `ob_region`
+-- ----------------------------
+DROP TABLE IF EXISTS `ob_region`;
+CREATE TABLE `ob_region` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '地区名称',
+  `level` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '深度',
+  `upid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '父级',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=910007 DEFAULT CHARSET=utf8 COMMENT='省市县数据表';
+
+-- ----------------------------
+-- Records of ob_region
+-- ----------------------------
+INSERT INTO `ob_region` VALUES ('110000', '北京市', '1', '0');
+INSERT INTO `ob_region` VALUES ('120000', '天津市', '1', '0');
+INSERT INTO `ob_region` VALUES ('130000', '河北省', '1', '0');
+INSERT INTO `ob_region` VALUES ('140000', '山西省', '1', '0');
+INSERT INTO `ob_region` VALUES ('150000', '内蒙古', '1', '0');
+INSERT INTO `ob_region` VALUES ('210000', '辽宁省', '1', '0');
+INSERT INTO `ob_region` VALUES ('220000', '吉林省', '1', '0');
+INSERT INTO `ob_region` VALUES ('230000', '黑龙江', '1', '0');
+INSERT INTO `ob_region` VALUES ('310000', '上海市', '1', '0');
+INSERT INTO `ob_region` VALUES ('320000', '江苏省', '1', '0');
+INSERT INTO `ob_region` VALUES ('330000', '浙江省', '1', '0');
+INSERT INTO `ob_region` VALUES ('340000', '安徽省', '1', '0');
+INSERT INTO `ob_region` VALUES ('350000', '福建省', '1', '0');
+INSERT INTO `ob_region` VALUES ('360000', '江西省', '1', '0');
+INSERT INTO `ob_region` VALUES ('370000', '山东省', '1', '0');
+INSERT INTO `ob_region` VALUES ('410000', '河南省', '1', '0');
+INSERT INTO `ob_region` VALUES ('420000', '湖北省', '1', '0');
+INSERT INTO `ob_region` VALUES ('430000', '湖南省', '1', '0');
+INSERT INTO `ob_region` VALUES ('440000', '广东省', '1', '0');
+INSERT INTO `ob_region` VALUES ('450000', '广西省', '1', '0');
+INSERT INTO `ob_region` VALUES ('460000', '海南省', '1', '0');
+INSERT INTO `ob_region` VALUES ('500000', '重庆市', '1', '0');
+INSERT INTO `ob_region` VALUES ('510000', '四川省', '1', '0');
+INSERT INTO `ob_region` VALUES ('520000', '贵州省', '1', '0');
+INSERT INTO `ob_region` VALUES ('530000', '云南省', '1', '0');
+INSERT INTO `ob_region` VALUES ('540000', '西　藏', '1', '0');
+INSERT INTO `ob_region` VALUES ('610000', '陕西省', '1', '0');
+INSERT INTO `ob_region` VALUES ('620000', '甘肃省', '1', '0');
+INSERT INTO `ob_region` VALUES ('630000', '青海省', '1', '0');
+INSERT INTO `ob_region` VALUES ('640000', '宁　夏', '1', '0');
+INSERT INTO `ob_region` VALUES ('650000', '新　疆', '1', '0');
+INSERT INTO `ob_region` VALUES ('710000', '台湾省', '1', '0');
+INSERT INTO `ob_region` VALUES ('810000', '香　港', '1', '0');
+INSERT INTO `ob_region` VALUES ('820000', '澳　门', '1', '0');
+INSERT INTO `ob_region` VALUES ('110100', '北京市', '2', '110000');
+INSERT INTO `ob_region` VALUES ('110200', '县', '2', '110000');
+INSERT INTO `ob_region` VALUES ('120100', '市辖区', '2', '120000');
+INSERT INTO `ob_region` VALUES ('120200', '县', '2', '120000');
+INSERT INTO `ob_region` VALUES ('130100', '石家庄市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('130200', '唐山市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('130300', '秦皇岛市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('130400', '邯郸市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('130500', '邢台市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('130600', '保定市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('130700', '张家口市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('130800', '承德市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('130900', '沧州市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('131000', '廊坊市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('131100', '衡水市', '2', '130000');
+INSERT INTO `ob_region` VALUES ('140100', '太原市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('140200', '大同市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('140300', '阳泉市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('140400', '长治市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('140500', '晋城市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('140600', '朔州市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('140700', '晋中市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('140800', '运城市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('140900', '忻州市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('141000', '临汾市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('141100', '吕梁市', '2', '140000');
+INSERT INTO `ob_region` VALUES ('150100', '呼和浩特市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('150200', '包头市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('150300', '乌海市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('150400', '赤峰市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('150500', '通辽市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('150600', '鄂尔多斯市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('150700', '呼伦贝尔市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('150800', '巴彦淖尔市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('150900', '乌兰察布市', '2', '150000');
+INSERT INTO `ob_region` VALUES ('152200', '兴安盟', '2', '150000');
+INSERT INTO `ob_region` VALUES ('152500', '锡林郭勒盟', '2', '150000');
+INSERT INTO `ob_region` VALUES ('152900', '阿拉善盟', '2', '150000');
+INSERT INTO `ob_region` VALUES ('210100', '沈阳市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('210200', '大连市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('210300', '鞍山市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('210400', '抚顺市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('210500', '本溪市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('210600', '丹东市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('210700', '锦州市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('210800', '营口市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('210900', '阜新市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('211000', '辽阳市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('211100', '盘锦市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('211200', '铁岭市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('211300', '朝阳市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('211400', '葫芦岛市', '2', '210000');
+INSERT INTO `ob_region` VALUES ('220100', '长春市', '2', '220000');
+INSERT INTO `ob_region` VALUES ('220200', '吉林市', '2', '220000');
+INSERT INTO `ob_region` VALUES ('220300', '四平市', '2', '220000');
+INSERT INTO `ob_region` VALUES ('220400', '辽源市', '2', '220000');
+INSERT INTO `ob_region` VALUES ('220500', '通化市', '2', '220000');
+INSERT INTO `ob_region` VALUES ('220600', '白山市', '2', '220000');
+INSERT INTO `ob_region` VALUES ('220700', '松原市', '2', '220000');
+INSERT INTO `ob_region` VALUES ('220800', '白城市', '2', '220000');
+INSERT INTO `ob_region` VALUES ('222400', '延边朝鲜族自治州', '2', '220000');
+INSERT INTO `ob_region` VALUES ('230100', '哈尔滨市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('230200', '齐齐哈尔市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('230300', '鸡西市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('230400', '鹤岗市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('230500', '双鸭山市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('230600', '大庆市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('230700', '伊春市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('230800', '佳木斯市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('230900', '七台河市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('231000', '牡丹江市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('231100', '黑河市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('231200', '绥化市', '2', '230000');
+INSERT INTO `ob_region` VALUES ('232700', '大兴安岭地区', '2', '230000');
+INSERT INTO `ob_region` VALUES ('310100', '市辖区', '2', '310000');
+INSERT INTO `ob_region` VALUES ('310200', '县', '2', '310000');
+INSERT INTO `ob_region` VALUES ('320100', '南京市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('320200', '无锡市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('320300', '徐州市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('320400', '常州市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('320500', '苏州市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('320600', '南通市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('320700', '连云港市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('320800', '淮安市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('320900', '盐城市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('321000', '扬州市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('321100', '镇江市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('321200', '泰州市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('321300', '宿迁市', '2', '320000');
+INSERT INTO `ob_region` VALUES ('330100', '杭州市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('330200', '宁波市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('330300', '温州市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('330400', '嘉兴市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('330500', '湖州市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('330600', '绍兴市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('330700', '金华市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('330800', '衢州市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('330900', '舟山市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('331000', '台州市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('331100', '丽水市', '2', '330000');
+INSERT INTO `ob_region` VALUES ('340100', '合肥市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('340200', '芜湖市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('340300', '蚌埠市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('340400', '淮南市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('340500', '马鞍山市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('340600', '淮北市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('340700', '铜陵市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('340800', '安庆市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('341000', '黄山市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('341100', '滁州市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('341200', '阜阳市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('341300', '宿州市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('341500', '六安市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('341600', '亳州市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('341700', '池州市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('341800', '宣城市', '2', '340000');
+INSERT INTO `ob_region` VALUES ('350100', '福州市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('350200', '厦门市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('350300', '莆田市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('350400', '三明市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('350500', '泉州市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('350600', '漳州市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('350700', '南平市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('350800', '龙岩市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('350900', '宁德市', '2', '350000');
+INSERT INTO `ob_region` VALUES ('360100', '南昌市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('360200', '景德镇市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('360300', '萍乡市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('360400', '九江市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('360500', '新余市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('360600', '鹰潭市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('360700', '赣州市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('360800', '吉安市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('360900', '宜春市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('361000', '抚州市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('361100', '上饶市', '2', '360000');
+INSERT INTO `ob_region` VALUES ('370100', '济南市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('370200', '青岛市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('370300', '淄博市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('370400', '枣庄市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('370500', '东营市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('370600', '烟台市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('370700', '潍坊市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('370800', '济宁市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('370900', '泰安市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('371000', '威海市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('371100', '日照市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('371200', '莱芜市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('371300', '临沂市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('371400', '德州市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('371500', '聊城市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('371600', '滨州市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('371700', '菏泽市', '2', '370000');
+INSERT INTO `ob_region` VALUES ('410100', '郑州市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('410200', '开封市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('410300', '洛阳市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('410400', '平顶山市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('410500', '安阳市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('410600', '鹤壁市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('410700', '新乡市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('410800', '焦作市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('410900', '濮阳市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('411000', '许昌市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('411100', '漯河市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('411200', '三门峡市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('411300', '南阳市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('411400', '商丘市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('411500', '信阳市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('411600', '周口市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('411700', '驻马店市', '2', '410000');
+INSERT INTO `ob_region` VALUES ('420100', '武汉市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('420200', '黄石市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('420300', '十堰市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('420500', '宜昌市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('420600', '襄樊市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('420700', '鄂州市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('420800', '荆门市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('420900', '孝感市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('421000', '荆州市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('421100', '黄冈市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('421200', '咸宁市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('421300', '随州市', '2', '420000');
+INSERT INTO `ob_region` VALUES ('422800', '恩施土家族苗族自治州', '2', '420000');
+INSERT INTO `ob_region` VALUES ('429000', '省直辖行政单位', '2', '420000');
+INSERT INTO `ob_region` VALUES ('430100', '长沙市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('430200', '株洲市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('430300', '湘潭市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('430400', '衡阳市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('430500', '邵阳市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('430600', '岳阳市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('430700', '常德市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('430800', '张家界市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('430900', '益阳市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('431000', '郴州市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('431100', '永州市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('431200', '怀化市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('431300', '娄底市', '2', '430000');
+INSERT INTO `ob_region` VALUES ('433100', '湘西土家族苗族自治州', '2', '430000');
+INSERT INTO `ob_region` VALUES ('440100', '广州市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('440200', '韶关市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('440300', '深圳市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('440400', '珠海市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('440500', '汕头市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('440600', '佛山市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('440700', '江门市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('440800', '湛江市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('440900', '茂名市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('441200', '肇庆市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('441300', '惠州市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('441400', '梅州市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('441500', '汕尾市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('441600', '河源市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('441700', '阳江市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('441800', '清远市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('441900', '东莞市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('442000', '中山市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('445100', '潮州市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('445200', '揭阳市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('445300', '云浮市', '2', '440000');
+INSERT INTO `ob_region` VALUES ('450100', '南宁市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('450200', '柳州市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('450300', '桂林市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('450400', '梧州市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('450500', '北海市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('450600', '防城港市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('450700', '钦州市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('450800', '贵港市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('450900', '玉林市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('451000', '百色市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('451100', '贺州市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('451200', '河池市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('451300', '来宾市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('451400', '崇左市', '2', '450000');
+INSERT INTO `ob_region` VALUES ('460100', '海口市', '2', '460000');
+INSERT INTO `ob_region` VALUES ('460200', '三亚市', '2', '460000');
+INSERT INTO `ob_region` VALUES ('469000', '省直辖县级行政单位', '2', '460000');
+INSERT INTO `ob_region` VALUES ('500100', '市辖区', '2', '500000');
+INSERT INTO `ob_region` VALUES ('500200', '县', '2', '500000');
+INSERT INTO `ob_region` VALUES ('500300', '市', '2', '500000');
+INSERT INTO `ob_region` VALUES ('510100', '成都市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('510300', '自贡市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('510400', '攀枝花市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('510500', '泸州市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('510600', '德阳市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('510700', '绵阳市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('510800', '广元市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('510900', '遂宁市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511000', '内江市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511100', '乐山市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511300', '南充市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511400', '眉山市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511500', '宜宾市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511600', '广安市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511700', '达州市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511800', '雅安市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('511900', '巴中市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('512000', '资阳市', '2', '510000');
+INSERT INTO `ob_region` VALUES ('513200', '阿坝藏族羌族自治州', '2', '510000');
+INSERT INTO `ob_region` VALUES ('513300', '甘孜藏族自治州', '2', '510000');
+INSERT INTO `ob_region` VALUES ('513400', '凉山彝族自治州', '2', '510000');
+INSERT INTO `ob_region` VALUES ('520100', '贵阳市', '2', '520000');
+INSERT INTO `ob_region` VALUES ('520200', '六盘水市', '2', '520000');
+INSERT INTO `ob_region` VALUES ('520300', '遵义市', '2', '520000');
+INSERT INTO `ob_region` VALUES ('520400', '安顺市', '2', '520000');
+INSERT INTO `ob_region` VALUES ('522200', '铜仁地区', '2', '520000');
+INSERT INTO `ob_region` VALUES ('522300', '黔西南布依族苗族自治州', '2', '520000');
+INSERT INTO `ob_region` VALUES ('522400', '毕节地区', '2', '520000');
+INSERT INTO `ob_region` VALUES ('522600', '黔东南苗族侗族自治州', '2', '520000');
+INSERT INTO `ob_region` VALUES ('522700', '黔南布依族苗族自治州', '2', '520000');
+INSERT INTO `ob_region` VALUES ('530100', '昆明市', '2', '530000');
+INSERT INTO `ob_region` VALUES ('530300', '曲靖市', '2', '530000');
+INSERT INTO `ob_region` VALUES ('530400', '玉溪市', '2', '530000');
+INSERT INTO `ob_region` VALUES ('530500', '保山市', '2', '530000');
+INSERT INTO `ob_region` VALUES ('530600', '昭通市', '2', '530000');
+INSERT INTO `ob_region` VALUES ('530700', '丽江市', '2', '530000');
+INSERT INTO `ob_region` VALUES ('530800', '思茅市', '2', '530000');
+INSERT INTO `ob_region` VALUES ('530900', '临沧市', '2', '530000');
+INSERT INTO `ob_region` VALUES ('532300', '楚雄彝族自治州', '2', '530000');
+INSERT INTO `ob_region` VALUES ('532500', '红河哈尼族彝族自治州', '2', '530000');
+INSERT INTO `ob_region` VALUES ('532600', '文山壮族苗族自治州', '2', '530000');
+INSERT INTO `ob_region` VALUES ('532800', '西双版纳傣族自治州', '2', '530000');
+INSERT INTO `ob_region` VALUES ('532900', '大理白族自治州', '2', '530000');
+INSERT INTO `ob_region` VALUES ('533100', '德宏傣族景颇族自治州', '2', '530000');
+INSERT INTO `ob_region` VALUES ('533300', '怒江傈僳族自治州', '2', '530000');
+INSERT INTO `ob_region` VALUES ('533400', '迪庆藏族自治州', '2', '530000');
+INSERT INTO `ob_region` VALUES ('540100', '拉萨市', '2', '540000');
+INSERT INTO `ob_region` VALUES ('542100', '昌都地区', '2', '540000');
+INSERT INTO `ob_region` VALUES ('542200', '山南地区', '2', '540000');
+INSERT INTO `ob_region` VALUES ('542300', '日喀则地区', '2', '540000');
+INSERT INTO `ob_region` VALUES ('542400', '那曲地区', '2', '540000');
+INSERT INTO `ob_region` VALUES ('542500', '阿里地区', '2', '540000');
+INSERT INTO `ob_region` VALUES ('542600', '林芝地区', '2', '540000');
+INSERT INTO `ob_region` VALUES ('610100', '西安市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('610200', '铜川市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('610300', '宝鸡市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('610400', '咸阳市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('610500', '渭南市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('610600', '延安市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('610700', '汉中市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('610800', '榆林市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('610900', '安康市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('611000', '商洛市', '2', '610000');
+INSERT INTO `ob_region` VALUES ('620100', '兰州市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('620200', '嘉峪关市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('620300', '金昌市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('620400', '白银市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('620500', '天水市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('620600', '武威市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('620700', '张掖市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('620800', '平凉市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('620900', '酒泉市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('621000', '庆阳市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('621100', '定西市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('621200', '陇南市', '2', '620000');
+INSERT INTO `ob_region` VALUES ('622900', '临夏回族自治州', '2', '620000');
+INSERT INTO `ob_region` VALUES ('623000', '甘南藏族自治州', '2', '620000');
+INSERT INTO `ob_region` VALUES ('630100', '西宁市', '2', '630000');
+INSERT INTO `ob_region` VALUES ('632100', '海东地区', '2', '630000');
+INSERT INTO `ob_region` VALUES ('632200', '海北藏族自治州', '2', '630000');
+INSERT INTO `ob_region` VALUES ('632300', '黄南藏族自治州', '2', '630000');
+INSERT INTO `ob_region` VALUES ('632500', '海南藏族自治州', '2', '630000');
+INSERT INTO `ob_region` VALUES ('632600', '果洛藏族自治州', '2', '630000');
+INSERT INTO `ob_region` VALUES ('632700', '玉树藏族自治州', '2', '630000');
+INSERT INTO `ob_region` VALUES ('632800', '海西蒙古族藏族自治州', '2', '630000');
+INSERT INTO `ob_region` VALUES ('640100', '银川市', '2', '640000');
+INSERT INTO `ob_region` VALUES ('640200', '石嘴山市', '2', '640000');
+INSERT INTO `ob_region` VALUES ('640300', '吴忠市', '2', '640000');
+INSERT INTO `ob_region` VALUES ('640400', '固原市', '2', '640000');
+INSERT INTO `ob_region` VALUES ('640500', '中卫市', '2', '640000');
+INSERT INTO `ob_region` VALUES ('650100', '乌鲁木齐市', '2', '650000');
+INSERT INTO `ob_region` VALUES ('650200', '克拉玛依市', '2', '650000');
+INSERT INTO `ob_region` VALUES ('652100', '吐鲁番地区', '2', '650000');
+INSERT INTO `ob_region` VALUES ('652200', '哈密地区', '2', '650000');
+INSERT INTO `ob_region` VALUES ('652300', '昌吉回族自治州', '2', '650000');
+INSERT INTO `ob_region` VALUES ('652700', '博尔塔拉蒙古自治州', '2', '650000');
+INSERT INTO `ob_region` VALUES ('652800', '巴音郭楞蒙古自治州', '2', '650000');
+INSERT INTO `ob_region` VALUES ('652900', '阿克苏地区', '2', '650000');
+INSERT INTO `ob_region` VALUES ('653000', '克孜勒苏柯尔克孜自治州', '2', '650000');
+INSERT INTO `ob_region` VALUES ('653100', '喀什地区', '2', '650000');
+INSERT INTO `ob_region` VALUES ('653200', '和田地区', '2', '650000');
+INSERT INTO `ob_region` VALUES ('654000', '伊犁哈萨克自治州', '2', '650000');
+INSERT INTO `ob_region` VALUES ('654200', '塔城地区', '2', '650000');
+INSERT INTO `ob_region` VALUES ('654300', '阿勒泰地区', '2', '650000');
+INSERT INTO `ob_region` VALUES ('659000', '省直辖行政单位', '2', '650000');
+INSERT INTO `ob_region` VALUES ('110101', '东城区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110102', '西城区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110103', '崇文区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110104', '宣武区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110105', '朝阳区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110106', '丰台区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110107', '石景山区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110108', '海淀区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110109', '门头沟区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110111', '房山区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110112', '通州区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110113', '顺义区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110114', '昌平区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110115', '大兴区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110116', '怀柔区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110117', '平谷区', '3', '110100');
+INSERT INTO `ob_region` VALUES ('110228', '密云县', '3', '110200');
+INSERT INTO `ob_region` VALUES ('110229', '延庆县', '3', '110200');
+INSERT INTO `ob_region` VALUES ('120101', '和平区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120102', '河东区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120103', '河西区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120104', '南开区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120105', '河北区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120106', '红桥区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120107', '塘沽区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120108', '汉沽区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120109', '大港区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120110', '东丽区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120111', '西青区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120112', '津南区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120113', '北辰区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120114', '武清区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120115', '宝坻区', '3', '120100');
+INSERT INTO `ob_region` VALUES ('120221', '宁河县', '3', '120200');
 
 -- ----------------------------
 -- Table structure for `ob_seo`

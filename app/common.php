@@ -726,8 +726,8 @@ function write_exe_log($begin = 'app_begin', $end = 'app_end', $type = 0)
     
     $exe_log['ip']              = request()->ip();
     $exe_log['exe_url']         = request()->url();
-    $exe_log['exe_time']        = number_format((float)debug($begin, $end), 6);
-    $exe_log['exe_memory']      = number_format((float)debug($begin, $end, 'm'), 2);
+    $exe_log['exe_time']        = debug($begin, $end);
+    $exe_log['exe_memory']      = debug($begin, $end, 'm');
     $exe_log['exe_os']          = get_os();
     $exe_log['source_url']      = $source_url;
     $exe_log['session_id']      = session_id();
