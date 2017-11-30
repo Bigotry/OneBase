@@ -70,8 +70,9 @@ class AuthGroupAccess extends AdminBase
         $model = model($this->name);
         
         $model->alias('a');
-
-        $where['a.member_id'] = $member_id;
+        
+        is_array($member_id) ? $where['a.member_id'] = ['in', $member_id] : $where['a.member_id'] = $member_id;
+        
         $where['a.status']    = DATA_NORMAL;
         
         $field = 'a.member_id, a.group_id, g.name, g.describe, g.rules';
@@ -83,4 +84,12 @@ class AuthGroupAccess extends AdminBase
         return $model->getList($where, $field, '', false, $join);
     }
     
+    /**
+     * 获取授权列表
+     */
+    public function getAuthGroupAccessList($where = [], $field = true, $order = '', $paginate = false)
+    {
+        
+        return model($this->name)->getList($where, $field, $order, $paginate);
+    }
 }

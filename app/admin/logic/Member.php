@@ -5,6 +5,8 @@
 
 namespace app\admin\logic;
 
+use app\admin\logic\AuthGroup as LogicAuthGroup;
+
 /**
  * 会员逻辑
  */
@@ -116,6 +118,30 @@ class Member extends AdminBase
     }
     
     /**
+     * 获取会员的所有下级会员
+     */
+    public function getSubMemberIds($id = 0, $data = [])
+    {
+        
+        $member_list = self::$memberModel->getList(['leader_id' => $id], 'id', 'id asc', false);
+        
+        foreach ($member_list as $v)
+        {
+            
+            if (!empty($v['id'])) :
+                
+                $data[] = $v['id'];
+            
+                $data = array_unique(array_merge($data, $this->getSubMemberIds($v['id'], $data)));
+            endif;
+            
+            continue;
+        }
+            
+        return $data;
+    }
+    
+    /**
      * 会员添加到用户组
      */
     public function addToGroup($data = [])
@@ -142,9 +168,19 @@ class Member extends AdminBase
         
         $result = $model->setList($add_data);
         
-        $result && action_log('授权', '会员授权，id：' . $data['id']);
+        if ($result) {
+            
+            action_log('授权', '会员授权，id：' . $data['id']);
         
-        return $result ? [RESULT_SUCCESS, '会员授权成功', $url] : [RESULT_ERROR, $model->getError()];
+            $auth = new LogicAuthGroup();
+
+            $auth->updateSubAuthByMember($data['id']);
+            
+            return [RESULT_SUCCESS, '会员授权成功', $url];
+        } else {
+            
+            return [RESULT_ERROR, $model->getError()];
+        }
     }
     
     /**
