@@ -29,12 +29,12 @@
     function getPageHtml(data)
     {
         
-        $.post("{:url('common/page')}", {current_page:data.current_page,last_page:data.last_page}, success, "text");
+        $.post("{:url('common/page')}", {current_page:data.current_page,last_page:data.last_page}, success, "json");
         return false;
         
         function success(data)
         {
-            $('#page_div').html(data);
+            $('#page_div').html(data.content);
         }
     }
 

@@ -46,12 +46,12 @@
         
         $('.fakeloader').show();
 
-        $.get($(obj).attr('url'), {}, success, "text");
+        $.get($(obj).attr('url'), {}, success, "json");
         return false;
         function success(data)
         {
             
-            $("#content").html(data);
+            $("#content").html(data.content);
             
             setTimeout(function(){ $('.fakeloader').hide(); }, 500);
         }

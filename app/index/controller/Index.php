@@ -21,7 +21,6 @@ class Index extends IndexBase
         $this->assign('cid', session('cid'));
         
         // SEO信息
-        
         $articleLogic = get_sington_object('articleLogic', LogicArticle::class);
         
         // 分类变量

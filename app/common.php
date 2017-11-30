@@ -5,6 +5,8 @@
  */
 
 use think\Db;
+use think\Response;
+use think\exception\HttpResponseException;
 
 /**
  * 检测用户是否登录
@@ -825,4 +827,15 @@ function send_email($address, $title, $message)
     if (!$mail->send()) : return $mail->ErrorInfo; endif;
     
     return true;
+}
+
+/**
+ * 抛出响应异常
+ */
+function throw_response_exception($data = [], $type = 'json')
+{
+    
+    $response = Response::create($data, $type);
+
+    throw new HttpResponseException($response);
 }

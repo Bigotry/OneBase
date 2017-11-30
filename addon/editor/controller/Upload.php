@@ -7,8 +7,6 @@ namespace addon\editor\controller;
 
 use app\common\controller\AddonBase;
 use addon\editor\logic\Upload as LogicUpload;
-use think\exception\HttpResponseException;
-use think\Response;
 
 /**
  * 编辑器插件上传控制器
@@ -26,8 +24,6 @@ class Upload extends AddonBase
         
         $result = $UploadLogic->pictureUpload();
         
-        $response = Response::create($result, 'json');
-        
-        throw new HttpResponseException($response);
+        return throw_response_exception($result);
     }
 }

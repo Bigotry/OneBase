@@ -35,7 +35,7 @@ class ServiceBase extends ModelBase
         
         $driver_info = model('Driver')->getInfo(['driver_name' => $driver_name]);
         
-        empty($driver_info) && die('未安装此驱动，请先安装');
+        empty($driver_info) && exception('未安装此驱动，请先安装');
         
         $driver_info_arr = $driver_info->toArray();
         

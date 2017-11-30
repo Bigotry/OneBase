@@ -7,8 +7,6 @@ namespace app\api\logic;
 
 use app\common\logic\LogicBase;
 use app\api\error\CodeBase;
-use think\exception\HttpResponseException;
-use think\Response;
 
 /**
  * Api基础逻辑
@@ -80,9 +78,7 @@ class ApiBase extends LogicBase
     public function apiError($code_data = [])
     {
         
-        $response = Response::create($code_data, 'json');
-        
-        throw new HttpResponseException($response);
+        return throw_response_exception($code_data);
     }
 
     /**

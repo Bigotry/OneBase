@@ -16,7 +16,7 @@
               <span class="">（文章分类）</span>
                 <select name="category_id" class="form-control">
                     {volist name='article_category_list' id='vo'}
-                        <option value="{$vo['id']}">{$vo['name']}</option>
+                        <option value="{$vo['id']}" {notempty name="info['category_id']"}{if condition="$info['category_id'] eq $vo['id']"} selected="selected" {/if}{/notempty} >{$vo['name']}</option>
                     {/volist}
                 </select>
             </div>
@@ -109,8 +109,3 @@
       </div>
       </div>
 </form>
-
-
-<script type="text/javascript">
-    ob.setValue("category_id", {$info['category_id']|default=0});
-</script>

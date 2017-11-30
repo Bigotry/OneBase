@@ -6,7 +6,7 @@
 namespace app\api\controller;
 
 use app\api\logic\Document as LogicDocument;
-use \app\common\controller\ControllerBase;
+use app\common\controller\ControllerBase;
 
 /**
  * 首页控制器
@@ -52,12 +52,11 @@ class Index extends ControllerBase
         $this->assign('info', $info);
         
         // 测试期间使用token ， 测试完成请删除
-        
         $this->assign('test_access_token', get_access_token());
         
         $content = $this->fetch('content_template');
         
-        if (IS_AJAX) : exit($content); endif;
+        if (IS_AJAX) : return throw_response_exception(['content' => $content]); endif;
         
         $this->assign('content', $content);
         
