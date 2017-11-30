@@ -73,6 +73,7 @@ class Install extends InstallBase
             } else {
                 
                 $db_config = array();
+                
                 list($db_config['DB_TYPE'], $db_config['DB_HOST'], $db_config['DB_NAME'], $db_config['DB_USER'], $db_config['DB_PWD'],
                      $db_config['DB_PORT'], $db_config['DB_PREFIX']) = $db;
                 
@@ -82,11 +83,11 @@ class Install extends InstallBase
                 //创建数据库
                 $dbname = $db_config['DB_NAME'];
                 
-                $db_object = Db::connect($db_config['DB_TYPE'].'://'.$db_config['DB_USER'].':'.$db_config['DB_PWD'].'@'.$db_config['DB_HOST'].':'.$db_config['DB_PORT'].'/'.$db_config['DB_NAME'].'#utf8');
+                $db_object = Db::connect($db_config['DB_TYPE'].'://'.$db_config['DB_USER'].':'.$db_config['DB_PWD'].'@'.$db_config['DB_HOST'].':'.$db_config['DB_PORT']);
                 
                 $sql = "CREATE DATABASE IF NOT EXISTS `{$dbname}` DEFAULT CHARACTER SET utf8";
-                $db_object->execute($sql) || $this->error($db_object->getError());
                 
+                $db_object->execute($sql) || $this->error($db_object->getError());
             }
 
             //跳转到数据库安装页面
