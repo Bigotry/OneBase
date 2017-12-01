@@ -79,29 +79,29 @@
       + "<p>菜单栏是否展开，默认为是。</p>"
       + "</div>"
         //Sidebar mini expand on hover toggle
-      + "<div class='form-group'>"
-      + "<label class='control-sidebar-subheading'>"
-      + "<input type='checkbox' data-enable='expandOnHover' class='pull-right'/> "
-      + "是否开启导航自动切换"
-      + "</label>"
-      + "<p>开启后鼠标悬浮或离开会自动切换布局，默认为否。</p>"
-      + "</div>"
+//      + "<div class='form-group'>"
+//      + "<label class='control-sidebar-subheading'>"
+//      + "<input type='checkbox' data-enable='expandOnHover' class='pull-right'/> "
+//      + "是否开启导航自动切换"
+//      + "</label>"
+//      + "<p>开启后鼠标悬浮或离开会自动切换布局，默认为否。</p>"
+//      + "</div>"
         //Control Sidebar Toggle
-      + "<div class='form-group'>"
-      + "<label class='control-sidebar-subheading'>"
-      + "<input type='checkbox' data-controlsidebar='control-sidebar-open' class='pull-right'/> "
-      + "右侧控制栏是否为浮动布局"
-      + "</label>"
-      + "<p>浮动布局展开与关闭不会影响其他页面元素，非浮动布局左侧元素会向左滑动，默认为是。</p>"
-      + "</div>"
+//      + "<div class='form-group'>"
+//      + "<label class='control-sidebar-subheading'>"
+//      + "<input type='checkbox' data-controlsidebar='control-sidebar-open' class='pull-right'/> "
+//      + "右侧控制栏是否为浮动布局"
+//      + "</label>"
+//      + "<p>浮动布局展开与关闭不会影响其他页面元素，非浮动布局左侧元素会向左滑动，默认为是。</p>"
+//      + "</div>"
         //Control Sidebar Skin Toggle
-      + "<div class='form-group'>"
-      + "<label class='control-sidebar-subheading'>"
-      + "<input type='checkbox' data-sidebarskin='toggle' class='pull-right'/> "
-      + "控制栏皮肤切换"
-      + "</label>"
-      + "<p>右侧控制栏的皮肤切换</p>"
-      + "</div>"
+//      + "<div class='form-group'>"
+//      + "<label class='control-sidebar-subheading'>"
+//      + "<input type='checkbox' data-sidebarskin='toggle' class='pull-right'/> "
+//      + "控制栏皮肤切换"
+//      + "</label>"
+//      + "<p>右侧控制栏的皮肤切换</p>"
+//      + "</div>"
   );
   var skins_list = $("<ul />", {"class": 'list-unstyled clearfix'});
 
@@ -224,12 +224,36 @@
     $("body").toggleClass(cls);
     AdminLTE.layout.fixSidebar();
     //Fix the problem with right sidebar and layout boxed
-    if (cls == "layout-boxed")
-      AdminLTE.controlSidebar._fix($(".control-sidebar-bg"));
-    if ($('body').hasClass('fixed') && cls == 'fixed') {
-      AdminLTE.pushMenu.expandOnHover();
-      AdminLTE.layout.activate();
+    if (cls == "layout-boxed" && !$('body').hasClass('layout-boxed')){
+        
+        AdminLTE.controlSidebar._fix($(".control-sidebar-bg"));
+        
+        ob.store('control-sidebar-layout-boxed-tag', '');
+        
+    } else if(cls == "layout-boxed" && $('body').hasClass('layout-boxed')){
+        
+        ob.store('control-sidebar-layout-boxed-tag', 'layout-boxed');
     }
+    
+    if ($('body').hasClass('fixed') && cls == 'fixed') {
+        
+        ob.store('control-sidebar-fixed-tag', 'fixed');
+        
+        AdminLTE.pushMenu.expandOnHover();
+        AdminLTE.layout.activate();
+    } else if(!$('body').hasClass('fixed') && cls == 'fixed'){
+        
+        ob.store('control-sidebar-fixed-tag', '');
+    }
+    
+    if ($('body').hasClass('sidebar-collapse') && cls == 'sidebar-collapse') {
+        
+        ob.store('sidebar-collapse-tag', 'sidebar-collapse');
+    } else if(!$('body').hasClass('sidebar-collapse') && cls == 'sidebar-collapse'){
+        
+        ob.store('sidebar-collapse-tag', '');
+    }
+    
     AdminLTE.controlSidebar._fix($(".control-sidebar-bg"));
     AdminLTE.controlSidebar._fix($(".control-sidebar"));
   }
@@ -313,19 +337,25 @@
     $("[data-sidebarskin='toggle']").on('click', function () {
       var sidebar = $(".control-sidebar");
       if (sidebar.hasClass("control-sidebar-dark")) {
-        sidebar.removeClass("control-sidebar-dark")
-        sidebar.addClass("control-sidebar-light")
+        sidebar.removeClass("control-sidebar-dark");
+        sidebar.addClass("control-sidebar-light");
       } else {
-        sidebar.removeClass("control-sidebar-light")
-        sidebar.addClass("control-sidebar-dark")
+        sidebar.removeClass("control-sidebar-light");
+        sidebar.addClass("control-sidebar-dark");
       }
     });
 
     $("[data-enable='expandOnHover']").on('click', function () {
-      $(this).attr('disabled', true);
-      AdminLTE.pushMenu.expandOnHover();
-      if (!$('body').hasClass('sidebar-collapse'))
-        $("[data-layout='sidebar-collapse']").click();
+        
+        $(this).attr('disabled', true);
+        
+        AdminLTE.pushMenu.expandOnHover();
+      
+//      if (!$('body').hasClass('sidebar-collapse')){
+//          
+//          $("[data-layout='sidebar-collapse']").click();
+//      }else if($('body').hasClass('sidebar-collapse')){
+//      }
     });
 
     // Reset options

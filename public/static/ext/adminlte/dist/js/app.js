@@ -291,9 +291,10 @@ function _init() {
           $(".sidebar").slimScroll({destroy: true}).height("auto");
         }
         return;
-      } else if (typeof $.fn.slimScroll == 'undefined' && window.console) {
-        window.console.error("Error: the fixed layout requires the slimscroll plugin!");
-      }
+    }
+//      } else if (typeof $.fn.slimScroll == 'undefined' && window.console) {
+//        window.console.error("Error: the fixed layout requires the slimscroll plugin!");
+//      }
       //Enable slimscroll for fixed layout
       if ($.AdminLTE.options.sidebarSlimScroll) {
         if (typeof $.fn.slimScroll != 'undefined') {
@@ -329,13 +330,21 @@ function _init() {
         //Enable sidebar push menu
         if ($(window).width() > (screenSizes.sm - 1)) {
           if ($("body").hasClass('sidebar-collapse')) {
-            $("body").removeClass('sidebar-collapse').trigger('expanded.pushMenu');
+              
+                ob.store('sidebar-collapse-tag', '');
+              
+                $("body").removeClass('sidebar-collapse').trigger('expanded.pushMenu');
+                
           } else {
-            $("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
+              
+                ob.store('sidebar-collapse-tag', 'sidebar-collapse');
+                
+                $("body").addClass('sidebar-collapse').trigger('collapsed.pushMenu');
           }
         }
         //Handle sidebar push menu for small screens
         else {
+            
           if ($("body").hasClass('sidebar-open')) {
             $("body").removeClass('sidebar-open').removeClass('sidebar-collapse').trigger('collapsed.pushMenu');
           } else {
@@ -489,22 +498,24 @@ function _init() {
     },
     //Open the control sidebar
     open: function (sidebar, slide) {
-      //Slide over content
-      if (slide) {
-        sidebar.addClass('control-sidebar-open');
-      } else {
-        //Push the content by adding the open class to the body instead
-        //of the sidebar itself
-        $('body').addClass('control-sidebar-open');
-      }
+        
+        //Slide over content
+        if (slide) {
+          sidebar.addClass('control-sidebar-open');
+        } else {
+          //Push the content by adding the open class to the body instead
+          //of the sidebar itself
+          $('body').addClass('control-sidebar-open');
+        }
     },
     //Close the control sidebar
     close: function (sidebar, slide) {
-      if (slide) {
-        sidebar.removeClass('control-sidebar-open');
-      } else {
-        $('body').removeClass('control-sidebar-open');
-      }
+        
+        if (slide) {
+          sidebar.removeClass('control-sidebar-open');
+        } else {
+          $('body').removeClass('control-sidebar-open');
+        }
     },
     _fix: function (sidebar) {
       var _this = this;

@@ -46,5 +46,24 @@
             input.val(value);
         }
     };
+    
+    /* 前端存储 */
+    ob.store = function(name, val){
+        
+        if (typeof (Storage) !== "undefined") {
+            
+            if ("undefined" !== typeof (val)) {
+                
+                localStorage.setItem(name, val);
+            } else {
+                
+                return localStorage.getItem(name);
+            }
+        } else {
+            
+          window.alert('store error!');
+        }
+    };
+    
 
 })(jQuery);
