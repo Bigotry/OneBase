@@ -131,3 +131,20 @@
 .js-icon-list li code {
     display: none;
 }
+
+.content-header{
+    position: relative;
+    padding: 0px;
+    margin-bottom: 10px;
+}
+.breadcrumb{
+    float: right;
+    background: transparent;
+    margin-top: 0px !important;
+    font-size: 12px;
+    padding: 7px 5px;
+    position: absolute;
+    top: -3px !important;
+    right: 10px;
+    border-radius: 2px;
+}
