@@ -19,9 +19,7 @@ class Login extends AdminBase
     public function loginHandle($username = '', $password = '', $verify = '')
     {
 
-        $jump_url = url('login/login');
-        
-        if (empty($username) || empty($password)) : return [RESULT_ERROR, '账号或密码不能为空', $jump_url]; endif;
+        if (empty($username) || empty($password)) : return [RESULT_ERROR, '账号或密码不能为空']; endif;
         
         /**
          *  Admin 登录IP限制，若有IP限制需求 可解开注释
@@ -32,15 +30,15 @@ class Login extends AdminBase
             if (!empty($admin_allow_ip) && (string)$username == 'admin' && !in_array($allow_ip, $admin_allow_ip)) : return [RESULT_ERROR, '登录IP受限', $jump_url]; endif;
          */
         
-        if (empty($verify)) : return [RESULT_ERROR, '验证码不能为空', $jump_url]; endif;
+        if (empty($verify)) : return [RESULT_ERROR, '验证码不能为空']; endif;
        
-        if (!captcha_check($verify)) : return [RESULT_ERROR, '验证码输入错误', $jump_url]; endif;
+        if (!captcha_check($verify)) : return [RESULT_ERROR, '验证码输入错误']; endif;
         
         $memberLogic = get_sington_object('memberLogic', LogicMember::class);
         
         $member = $memberLogic->getMemberInfo(['username' => $username]);
 
-        if (empty($member)) : return [RESULT_ERROR, '用户不存在', $jump_url]; endif;
+        if (empty($member)) : return [RESULT_ERROR, '用户不存在']; endif;
         
         // 验证用户密码
         if (data_md5_key($password) === $member['password']) {
@@ -59,7 +57,7 @@ class Login extends AdminBase
 
         } else {
             
-            return [RESULT_ERROR, '密码输入错误', $jump_url];
+            return [RESULT_ERROR, '密码输入错误'];
         }
     }
     
