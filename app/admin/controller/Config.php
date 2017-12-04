@@ -43,6 +43,8 @@ class Config extends AdminBase
         
         $this->assign('group', $where['group']);
         
+        tag();
+        
         return  $this->fetch('setting');
     }
 
@@ -59,6 +61,8 @@ class Config extends AdminBase
         $this->assign('list', self::$configLogic->getConfigList($where));
         
         $this->assign('group', $where ? $this->param['group'] : 0);
+        
+        tag();
         
         return $this->fetch('config_list');
     }

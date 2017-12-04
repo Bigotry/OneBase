@@ -35,6 +35,8 @@ class Blogroll extends AdminBase
         
         $this->assign('list', self::$blogrollLogic->getBlogrollList());
         
+        tag();
+        
         return $this->fetch('blogroll_list');
     }
     

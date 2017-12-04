@@ -147,15 +147,15 @@ class Member extends AdminBase
     public function addToGroup($data = [])
     {
         
-        if (SYS_ADMINISTRATOR_ID == $data['id']) : return [RESULT_ERROR, '天神不能授权哦~']; endif;
+        $url = url('memberList');
+        
+        if (SYS_ADMINISTRATOR_ID == $data['id']) : return [RESULT_ERROR, '天神不能授权哦~', $url]; endif;
         
         $model = model('AuthGroupAccess');
         
         $where = ['member_id' => ['in', $data['id']]];
         
         $model->deleteInfo($where, true);
-        
-        $url = url('memberList');
         
         if (empty($data['group_id'])) : return [RESULT_SUCCESS, '会员授权成功', $url]; endif;
         
@@ -223,12 +223,14 @@ class Member extends AdminBase
     public function memberDel($where = [])
     {
         
-        if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) : return [RESULT_ERROR, '天神和自己不能删除哦~']; endif;
+        $url = url('memberList');
+        
+        if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) : return [RESULT_ERROR, '天神和自己不能删除哦~', $url]; endif;
         
         $result = self::$memberModel->deleteInfo($where);
                 
         $result && action_log('删除', '删除会员，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '会员删除成功'] : [RESULT_ERROR, self::$memberModel->getError()];
+        return $result ? [RESULT_SUCCESS, '会员删除成功', $url] : [RESULT_ERROR, self::$memberModel->getError(), $url];
     }
 }

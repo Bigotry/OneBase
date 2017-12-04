@@ -53,6 +53,8 @@ class Member extends AdminBase
         
         $this->assign('id', $this->param['id']);
         
+        tag();
+        
         return $this->fetch('member_auth');
     }
     
@@ -67,6 +69,8 @@ class Member extends AdminBase
         !empty($this->param['mark']) && self::$memberLogic->exportMemberList($where, true, 'id desc');
         
         $this->assign('list', self::$memberLogic->getMemberList($where, true, 'id desc'));
+        
+        tag();
         
         return $this->fetch('member_list');
     }
@@ -88,6 +92,6 @@ class Member extends AdminBase
     public function memberDel($id = 0)
     {
         
-        $this->jump(self::$memberLogic->memberDel(['id' => $id]));
+        return $this->jump(self::$memberLogic->memberDel(['id' => $id]));
     }
 }

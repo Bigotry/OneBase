@@ -41,6 +41,8 @@ class Service extends AdminBase
         
         $view = is_null($service_name) ? 'service_list' : 'driver_list';
         
+        tag();
+        
         return $this->fetch($view);
     }
     
@@ -63,6 +65,8 @@ class Service extends AdminBase
         $this->assign('param', $param);
         
         $this->assign('info',  $info);
+        
+        tag();
         
         return $this->fetch('driver_install');
     }

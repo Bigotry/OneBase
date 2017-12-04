@@ -721,3 +721,12 @@ function throw_response_exception($data = [], $type = 'json')
 
     throw new HttpResponseException($response);
 }
+
+/**
+ * 响应HTML
+ */
+function response_html($html = '')
+{
+    
+    throw_response_exception($html, 'html');
+}

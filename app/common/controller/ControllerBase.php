@@ -27,6 +27,9 @@ class ControllerBase extends Controller
         
         // 初始化全局静态资源
         $this->initCommonStatic();
+        
+        // 初始化响应类型
+        $this->initResponseType();
     }
     
     /**
@@ -38,13 +41,24 @@ class ControllerBase extends Controller
         defined('IS_POST')          or define('IS_POST',         $this->request->isPost());
         defined('IS_GET')           or define('IS_GET',          $this->request->isGet());
         defined('IS_AJAX')          or define('IS_AJAX',         $this->request->isAjax());
+        defined('IS_PJAX')          or define('IS_PJAX',         $this->request->isPjax());
         defined('MODULE_NAME')      or define('MODULE_NAME',     $this->request->module());
         defined('CONTROLLER_NAME')  or define('CONTROLLER_NAME', $this->request->controller());
         defined('ACTION_NAME')      or define('ACTION_NAME',     $this->request->action());
         defined('URL')              or define('URL',             strtolower($this->request->controller() . SYS_DS_PROS . $this->request->action()));
         defined('URL_MODULE')       or define('URL_MODULE',      strtolower($this->request->module()) . SYS_DS_PROS . URL);
+        defined('URL_TRUE')         or define('URL_TRUE',        $this->request->url(true));
         
         $this->param = $this->request->param();
+    }
+    
+    /**
+     * 初始化响应类型
+     */
+    final private function initResponseType()
+    {
+        
+        IS_AJAX && !IS_PJAX  ? config('default_ajax_return', 'json') : config('default_ajax_return', 'html');
     }
     
     /**
@@ -53,30 +67,68 @@ class ControllerBase extends Controller
     final protected function jump($jump_type = null, $message = null, $url = null)
     {
         
-        $err_msg = "系统跳转失败";
+        $data = is_array($jump_type) ? $this->parseJumpArray($jump_type) : $this->parseJumpArray([$jump_type, $message, $url]);
         
-        if (is_array($jump_type)):
-            
-        switch (count($jump_type))
-        {
-            case 2  : list($jump_type, $message)       = $jump_type; break;
-            case 3  : list($jump_type, $message, $url) = $jump_type; break;
-            default : $this->error($err_msg);
-        }
-        
-        endif;
+        return !IS_PJAX ? $this->defaultJump($data) : $this->pjaxJump($data);
+    }
+    
+    /**
+     * 默认系统跳转处理
+     */
+    final protected function defaultJump($data)
+    {
         
         $success  = RESULT_SUCCESS;
         $error    = RESULT_ERROR;
         $redirect = RESULT_REDIRECT;
 
-        switch ($jump_type)
+        switch ($data['jump_type'])
         {
-            case $success  : $this->$success($message, $url); break;
-            case $error    : $this->$error($message, $url);   break;
-            case $redirect : $this->$redirect($message);      break;
-            default        : $this->error($err_msg);
+            case $success  : $this->$success($data['message'],  $data['url']);      break;
+            case $error    : $this->$error($data['message'],    $data['url']);      break;
+            case $redirect : $this->$redirect($data['url']);                        break;
+            default        : exception('System jump failure');
         }
+    }
+    
+    /**
+     * PJAX系统跳转处理
+     */
+    final protected function pjaxJump($data)
+    {
+        
+        $success  = RESULT_SUCCESS;
+        $error    = RESULT_ERROR;
+        
+        $html = "<script type='text/javascript'>";
+        
+        switch ($data['jump_type'])
+        {
+            case $success  : $html .= "toast.success('" . $data['message'] . "');";    break;
+            case $error    : $html .= "toast.error('"   . $data['message'] . "');";    break;
+            default        : exception('System jump failure');
+        }
+        
+        !isset($data['url']) && $html .= "$.pjax({url: '". tag(false)."',container: '.content'});";
+        
+        !empty($data['url']) && is_string($data['url']) && $html .= "$.pjax({url: '".$data['url']."',container: '.content'});";
+        
+        is_bool($data['url']) && $html .= "javascript:history.back(-1);$('.content').html(backups_content);";
+        
+        $html .= "</script>";
+        
+        response_html($html);
+    }
+    
+    /**
+     * 解析跳转数组
+     */
+    final protected function  parseJumpArray($jump_array = [])
+    {
+        
+        !isset($jump_array[2]) && $jump_array[2] = null;
+       
+        return ['jump_type' => $jump_array[0], 'message' => $jump_array[1], 'url' => $jump_array[2]];
     }
     
     /**
@@ -86,5 +138,6 @@ class ControllerBase extends Controller
     {
         
         $this->assign('loading_icon', config('loading_icon'));
+        $this->assign('pjax_mode',    config('pjax_mode'));
     }
 }

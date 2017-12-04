@@ -35,6 +35,8 @@ class Trash extends AdminBase
         
         $this->assign('list', self::$trashLogic->getTrashList());
         
+        tag();
+        
         return $this->fetch('trash_list');
     }
     
@@ -49,6 +51,8 @@ class Trash extends AdminBase
         $this->assign('model_name', $data['model_name']);
         $this->assign('list', $data['list']);
         $this->assign('dynamic_field', $data['dynamic_field']);
+        
+        tag();
         
         return $this->fetch('trash_data_list');
     }

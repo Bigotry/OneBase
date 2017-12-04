@@ -35,6 +35,8 @@ class Seo extends AdminBase
         
         $this->assign('list', self::$seoLogic->getSeoList());
         
+        tag();
+        
         return $this->fetch('seo_list');
     }
     

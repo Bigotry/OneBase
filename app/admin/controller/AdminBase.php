@@ -40,6 +40,9 @@ class AdminBase extends ControllerBase
     // 面包屑视图
     protected $crumbsView           = '';
     
+    // 页面标题
+    protected $title                = '';
+    
     /**
      * 构造方法
      */
@@ -72,7 +75,7 @@ class AdminBase extends ControllerBase
     {
         
         // 验证登录
-        !MEMBER_ID && $this->redirect('Login/login');
+        !MEMBER_ID && $this->redirect('login/login');
         
         // 获取授权菜单列表
         $this->authMenuList = $this->authGroupAccessLogic->getAuthMenuList(MEMBER_ID);
@@ -81,13 +84,16 @@ class AdminBase extends ControllerBase
         $this->authMenuUrlList = $this->authGroupAccessLogic->getAuthMenuUrlList($this->authMenuList);
         
         // 检查菜单权限
-        list($jump_type, $message) = $this->adminBaseLogic->authCheck(URL_MODULE, $this->authMenuUrlList);
+        list($jump_type, $message, $url) = $this->adminBaseLogic->authCheck(URL_MODULE, $this->authMenuUrlList);
         
         // 权限验证不通过则跳转提示
-        RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message);
+        RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message, $url);
         
         // 初始化基础数据
-        IS_AJAX ?: $this->initBaseInfo();
+        IS_AJAX && !IS_PJAX ?: $this->initBaseInfo();
+        
+        // 若为PJAX则关闭布局
+        IS_AJAX && $this->view->engine->layout(false);
     }
     
     /**
@@ -109,7 +115,10 @@ class AdminBase extends ControllerBase
         $this->crumbsView = $this->menuLogic->getCrumbsView();
         
         // 获取默认标题
-        $this->assign('ob_title', $this->menuLogic->getDefaultTitle());
+        $this->title = $this->menuLogic->getDefaultTitle();
+        
+        // 设置页面标题
+        $this->assign('ob_title', $this->title);
         
         // 菜单视图
         $this->assign('menu_view', $this->menuView);
@@ -144,12 +153,27 @@ class AdminBase extends ControllerBase
     }
     
     /**
-     * 重写fetch方法支持权限过滤
+     * 获取内容头部视图
+     */
+    final protected function getContentHeader($describe = '')
+    {
+        
+        $title           = empty($this->title) ? '' : $this->title;
+        
+        $describe_html   = empty($describe)    ? '' : '<small>' . $describe . '</small>';
+        
+        return "<section class='content-header'><h1>$title $describe_html</h1>$this->crumbsView</section>";
+    }
+    
+    /**
+     * 重写fetch方法
      */
     final protected function fetch($template = '', $vars = [], $replace = [], $config = [])
     {
         
         $content = parent::fetch($template, $vars, $replace, $config);
+        
+        IS_PJAX && $content = $this->getContentHeader() . $content;
         
         return $this->adminBaseLogic->filter($content, $this->authMenuUrlList);
     }

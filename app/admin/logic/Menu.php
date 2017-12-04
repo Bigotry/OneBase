@@ -41,15 +41,13 @@ class Menu extends AdminBase
         
         //遍历菜单列表
         foreach ($menu_list as $menu_info) {
-
-            $url = url($menu_info['url']);
             
             if (!empty($menu_info[$child])) {
              
                 $icon = empty($menu_info['icon']) ? 'fa-dot-circle-o' : $menu_info['icon'];
                 
                 $menu_view.=  "<li menu_id='".$menu_info['id']."'>
-                                 <a href='$url'><i class='fa $icon'></i> <span>".$menu_info['name']."</span>
+                                 <a href='javascript:;'><i class='fa $icon'></i> <span>".$menu_info['name']."</span>
                                    <span class='pull-right-container'>
                                      <i class='fa fa-angle-left pull-right'></i>
                                    </span>
@@ -60,6 +58,8 @@ class Menu extends AdminBase
             } else {
                 
                 $icon = empty($menu_info['icon']) ? 'fa-circle-o' : $menu_info['icon'];
+                
+                $url = url($menu_info['url']);
                 
                 $menu_view .= "<li menu_id='".$menu_info['id']."'><a href='$url'><i class='fa $icon'></i> <span>".$menu_info['name']."</span></a></li>";
             }
@@ -154,10 +154,11 @@ class Menu extends AdminBase
         
         // 获取自己及父菜单列表
         $this->getParentMenuList($menu_info['id']);
- 
+
         // 选中面包屑中的菜单
+
         foreach (self::$crumbs as $menu_info) {
-            
+
             $replace_data = "menu_id='".$menu_info['id']."'";
             
             $menu_view = str_replace($replace_data, " class='active' ", $menu_view);
@@ -227,15 +228,13 @@ class Menu extends AdminBase
         
         $validate_result = $validate->scene('add')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
-        
-        $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError(), false]; endif;
         
         $result = self::$menuModel->setInfo($data);
         
         $result && action_log('新增', '新增菜单，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
+        return $result ? [RESULT_SUCCESS, '菜单添加成功'] : [RESULT_ERROR, self::$menuModel->getError(), false];
     }
     
     /**
@@ -248,7 +247,7 @@ class Menu extends AdminBase
         
         $validate_result = $validate->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError(), false]; endif;
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
@@ -256,7 +255,7 @@ class Menu extends AdminBase
         
         $result && action_log('编辑', '编辑菜单，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
+        return $result ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, self::$menuModel->getError(), false];
     }
     
     /**
@@ -269,7 +268,7 @@ class Menu extends AdminBase
         
         $result && action_log('删除', '删除菜单，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$menuModel->getError()];
+        return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$menuModel->getError(), false];
     }
     
     /**

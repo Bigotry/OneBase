@@ -15,3 +15,12 @@ function action_log($name = '', $describe = '')
     
     $logLogic->logAdd($name, $describe);
 }
+
+/**
+ * 记录URL
+ */
+function tag($is_set = true)
+{
+    
+    return $is_set ? cookie('__forward__', URL_TRUE) : cookie('__forward__');
+}

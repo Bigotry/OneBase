@@ -35,6 +35,8 @@ class Log extends AdminBase
         
         $this->assign('list', self::$logLogic->getLogList([], true, TIME_CT_NAME . ' desc'));
         
+        tag();
+        
         return $this->fetch('log_list');
     }
   

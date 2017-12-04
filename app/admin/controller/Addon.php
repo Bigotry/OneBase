@@ -86,6 +86,8 @@ class Addon extends AdminBase
         
         $this->assign('list', self::$addonLogic->getAddonList());
         
+        tag();
+        
         return $this->fetch('addon_list');
     }
     
@@ -96,6 +98,8 @@ class Addon extends AdminBase
     {
         
         $this->assign('list', self::$addonLogic->getHookList());
+        
+        tag();
         
         return $this->fetch('hook_list');
     }

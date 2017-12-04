@@ -35,6 +35,8 @@ class Auth extends AdminBase
         
         $this->assign('list', self::$authGroupLogic->getAuthGroupList(['member_id' => MEMBER_ID], true, '', DB_LIST_ROWS));
         
+        tag();
+        
         return $this->fetch('group_list');
     }
     
@@ -90,6 +92,8 @@ class Auth extends AdminBase
         $this->assign('list', $menu_view);
         
         $this->assign('id', $this->param['id']);
+        
+        tag();
         
         return $this->fetch('menu_auth');
     }

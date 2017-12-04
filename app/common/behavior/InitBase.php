@@ -206,9 +206,9 @@ class InitBase
         $api_key                    = config('api_key');
         $jwt_key                    = config('jwt_key');
 
-        define('DB_LIST_ROWS'                       , empty($list_rows)                 ? 10        : $list_rows);
-        define('API_KEY'                            , empty($api_key)                   ? 'OneBase' : $api_key);
-        define('JWT_KEY'                            , empty($jwt_key)                   ? 'OneBase' : $jwt_key);
+        define('DB_LIST_ROWS'       , empty($list_rows)                 ? 10        : $list_rows);
+        define('API_KEY'            , empty($api_key)                   ? 'OneBase' : $api_key);
+        define('JWT_KEY'            , empty($jwt_key)                   ? 'OneBase' : $jwt_key);
     }
     
     /**

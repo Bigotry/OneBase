@@ -41,6 +41,8 @@ class Fileclean extends AdminBase
         
         $this->assign('list', $list);
         
+        tag();
+        
         return $this->fetch('file_clear');
     }
 }
