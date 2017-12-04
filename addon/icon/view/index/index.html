@@ -1,4 +1,4 @@
-<input class="form-control icon-select" name="{$addons_data['name']}" id="{$addons_data['name']}" placeholder="请选择图标" {notempty name="addons_data['value']"} value="{$addons_data['value']}" {/notempty}  type="text">
+<input class="form-control addon-icon-select" name="{$addons_data['name']}" id="{$addons_data['name']}" placeholder="请选择图标" {notempty name="addons_data['value']"} value="{$addons_data['value']}" {/notempty}  type="text">
 
 <div class="remodal" id="icon_modal{$addons_data['name']}" data-remodal-id="icon_modal{$addons_data['name']}" role="dialog" aria-labelledby="icon_modal" aria-describedby="小图标选择" style="max-width: 90%; height: 80%; overflow:auto;">
     <div id="icon_tab">
@@ -16,7 +16,7 @@
     
     $("#icon_modal{$addons_data['name']}").hide();
     
-    $(".icon-select").click(function(){
+    $(".addon-icon-select").click(function(){
     
         var addons_icon_name = $(this).attr('name');
     
