@@ -32,11 +32,11 @@
                   <td>{$vo.is_hide_text}</td>
                   <td>{$vo.status_text}</td>
                   <td class="col-md-3 text-center">
-                      <a href="{:url('menuList', array('pid' => $vo['id']))}" class="btn"><i class="fa fa-reorder"></i> 子菜单</a>
+                      <a href="{:url('menuList',array('pid' => $vo['id']))}" class="btn"><i class="fa fa-reorder"></i> 子菜单</a>
                       &nbsp;
-                      <ob_link><a href="{:url('menuEdit', array('id' => $vo['id']))}" class="btn"><i class="fa fa-edit"></i> 编 辑</a></ob_link>
+                      <ob_link><a href="{:url('menuEdit',array('id' => $vo['id']))}" class="btn"><i class="fa fa-edit"></i> 编 辑</a></ob_link>
                       &nbsp;
-                      <ob_link><a class="btn confirm ajax-get"  href="{:url('menuDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
+                      <ob_link><a class="btn confirm ajax-get"  href="{:url('menuDel',array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
                   </td>
                 </tr>
             {/volist}

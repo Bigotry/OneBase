@@ -81,9 +81,9 @@ class AdminBase extends LogicBase
         
         $results = [];
         
-        preg_match_all('%<ob_link.*?>(.*?)</ob_link>%si', $content, $results);
+        preg_match_all('/<ob_link>.*?<\/ob_link>/', $content, $results);
         
-        foreach ($results[1] as $a)
+        foreach ($results[0] as $a)
         {
             
             $href_results = []; 
@@ -103,7 +103,9 @@ class AdminBase extends LogicBase
             
             $url_array_html = strpos($url_array[1], EXT) === false ? explode('.', $url_array[2]) : explode('.', $url_array[1]);
             
-            $result = $this->authCheck(MODULE_NAME . SYS_DS_PROS . $url_array[1] . SYS_DS_PROS . $url_array_html[0], $url_list);
+            $check_url = MODULE_NAME . SYS_DS_PROS . $url_array[1] . SYS_DS_PROS . $url_array_html[0];
+            
+            $result = $this->authCheck($check_url, $url_list);
             
             $result[0] != RESULT_SUCCESS && $content = str_replace($a, '', $content);
         }

@@ -24,10 +24,10 @@
                   <td>{$vo.author}</td>
                   <td class="col-md-2 text-center">
                       {eq name="vo['is_install']" value="1"}
-                        <a href="{:url('driverInstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}" class="btn"><i class="fa fa-edit"></i> 设 置</a>
-                        <a class="btn confirm ajax-get" href="{:url('driverUninstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}"><i class="fa fa-remove"></i> 卸 载</a>
+                        <ob_link><a href="{:url('driverInstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}" class="btn"><i class="fa fa-edit"></i> 设 置</a></ob_link>
+                        <ob_link><a class="btn confirm ajax-get" href="{:url('driverUninstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}"><i class="fa fa-remove"></i> 卸 载</a></ob_link>
                         {else/}
-                        <a href="{:url('driverInstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}" class="btn"><i class="fa fa-refresh"></i> 安 装</a>
+                        <ob_link><a href="{:url('driverInstall', array('service_class' => input('service_name'), 'driver_class' => $vo['driver_class']))}" class="btn"><i class="fa fa-refresh"></i> 安 装</a></ob_link>
                       {/eq}
                   </td>
                 </tr>
