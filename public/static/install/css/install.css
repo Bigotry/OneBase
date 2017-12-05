@@ -13,7 +13,7 @@
 body {
     position: relative;
     padding-top: 40px;
-	font: 14px/1.5 "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
+    font: 14px/1.5 "microsoft yahei", Helvetica, Tahoma, Arial, sans-serif;
 }
 
 /* Code in headings */
@@ -94,11 +94,11 @@ hr.soften {
     color: #fff;
     text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
     background: #378503; /* Old browsers */
-    background: -moz-linear-gradient(45deg, #1F221F 0%, #0CA818 100%);
-    background: -webkit-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
-    background: -o-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
-    background: -ms-linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
-    background: linear-gradient(45deg, #1F221F 0%,#0CA818 100%);
+    background: -moz-linear-gradient(45deg, #1F221F 0%, #1c211c 100%);
+    background: -webkit-linear-gradient(45deg, #1F221F 0%,#1c211c 100%);
+    background: -o-linear-gradient(45deg, #1F221F 0%,#1c211c 100%);
+    background: -ms-linear-gradient(45deg, #1F221F 0%,#1c211c 100%);
+    background: linear-gradient(45deg, #1F221F 0%,#1c211c 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1F221F', endColorstr='#0CA818',GradientType=1 );
     -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
     -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);

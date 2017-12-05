@@ -120,7 +120,7 @@ hr.soften {
 /* Link styles (used on .masthead-links as well) */
 .jumbotron a {
   color: #fff;
-  color: rgba(255,255,255,.5);
+  /*color: rgba(255,255,255,.5);*/
   -webkit-transition: all .2s ease-in-out;
      -moz-transition: all .2s ease-in-out;
           transition: all .2s ease-in-out;
