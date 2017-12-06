@@ -11,11 +11,7 @@ if(pjax_mode == 1)
     });
 }
 
-var backups_content = '';
-
 $(document).on('pjax:send', function() {
-
-    backups_content = $('.content').clone(true);
 
     $('.fakeloader').show();
 });

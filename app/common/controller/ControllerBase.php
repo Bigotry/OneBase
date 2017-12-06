@@ -113,7 +113,7 @@ class ControllerBase extends Controller
         
         !empty($data['url']) && is_string($data['url']) && $html .= "$.pjax({url: '".$data['url']."',container: '.content'});";
         
-        is_bool($data['url']) && $html .= "javascript:history.back(-1);$('.content').html(backups_content);";
+        is_bool($data['url']) && $html .= "javascript:history.go(-1);";
         
         $html .= "</script>";
         
