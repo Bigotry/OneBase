@@ -48,6 +48,7 @@ class ControllerBase extends Controller
         defined('URL')              or define('URL',             strtolower($this->request->controller() . SYS_DS_PROS . $this->request->action()));
         defined('URL_MODULE')       or define('URL_MODULE',      strtolower($this->request->module()) . SYS_DS_PROS . URL);
         defined('URL_TRUE')         or define('URL_TRUE',        $this->request->url(true));
+        defined('DOMAIN')           or define('DOMAIN',        $this->request->domain());
         
         $this->param = $this->request->param();
     }
@@ -69,19 +70,12 @@ class ControllerBase extends Controller
         
         $data = is_array($jump_type) ? $this->parseJumpArray($jump_type) : $this->parseJumpArray([$jump_type, $message, $url]);
         
-        return !IS_PJAX ? $this->defaultJump($data) : $this->pjaxJump($data);
-    }
-    
-    /**
-     * 默认系统跳转处理
-     */
-    final protected function defaultJump($data)
-    {
-        
         $success  = RESULT_SUCCESS;
         $error    = RESULT_ERROR;
         $redirect = RESULT_REDIRECT;
-
+        
+        !empty($data['url']) && $data['url'] = DOMAIN . $data['url'];
+        
         switch ($data['jump_type'])
         {
             case $success  : $this->$success($data['message'],  $data['url']);      break;
@@ -89,35 +83,6 @@ class ControllerBase extends Controller
             case $redirect : $this->$redirect($data['url']);                        break;
             default        : exception('System jump failure');
         }
-    }
-    
-    /**
-     * PJAX系统跳转处理
-     */
-    final protected function pjaxJump($data)
-    {
-        
-        $success  = RESULT_SUCCESS;
-        $error    = RESULT_ERROR;
-        
-        $html = "<script type='text/javascript'>";
-        
-        switch ($data['jump_type'])
-        {
-            case $success  : $html .= "toast.success('" . $data['message'] . "');";    break;
-            case $error    : $html .= "toast.error('"   . $data['message'] . "');";    break;
-            default        : exception('System jump failure');
-        }
-        
-        !isset($data['url']) && $html .= "$.pjax({url: '". tag(false)."',container: '.content'});";
-        
-        !empty($data['url']) && is_string($data['url']) && $html .= "$.pjax({url: '".$data['url']."',container: '.content'});";
-        
-        is_bool($data['url']) && $html .= "javascript:history.go(-1);";
-        
-        $html .= "</script>";
-        
-        response_html($html);
     }
     
     /**

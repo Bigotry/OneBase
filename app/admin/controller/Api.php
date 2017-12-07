@@ -35,8 +35,6 @@ class Api extends AdminBase
         
         $this->assign('list', self::$apiLogic->getApiList([], true, 'sort desc, id desc'));
         
-        tag();
-        
         return $this->fetch('api_list');
     }
     
@@ -114,8 +112,6 @@ class Api extends AdminBase
     {
         
         $this->apiAssignGroupList();
-        
-        tag();
         
         return $this->fetch('api_group_list');
     }

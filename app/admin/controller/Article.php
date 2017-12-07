@@ -37,8 +37,6 @@ class Article extends AdminBase
         
         $this->assign('list', self::$articleLogic->getArticleList($where, true, 'create_time desc'));
         
-        tag();
-        
         return $this->fetch('article_list');
     }
     
@@ -115,8 +113,6 @@ class Article extends AdminBase
         
         $this->assign('list', self::$articleLogic->getArticleCategoryList());
        
-        tag();
-        
         return $this->fetch('article_category_list');
     }
     

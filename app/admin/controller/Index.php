@@ -22,8 +22,6 @@ class Index extends AdminBase
         
         $this->assign('info', $index_data);
         
-        tag();
-        
         return $this->fetch('index');
     }
 }

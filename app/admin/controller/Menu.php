@@ -23,8 +23,6 @@ class Menu extends AdminBase
         
         $this->assign('pid', $where['pid']);
         
-        tag();
-        
         return $this->fetch('menu_list');
     }
     

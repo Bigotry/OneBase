@@ -19,9 +19,7 @@ class AdminBase extends LogicBase
     public function authCheck($url = '', $url_list = [])
     {
 
-        $jump_url = url('index/index');
-        
-        $pass_data = [RESULT_SUCCESS, '权限检查通过', $jump_url];
+        $pass_data = [RESULT_SUCCESS, '权限检查通过'];
         
         $allow_url = config('allow_url');
         
@@ -41,7 +39,7 @@ class AdminBase extends LogicBase
         
         $result = in_array($s_url, array_map("strtolower", $url_list)) ? true : false;
         
-        return $result ? $pass_data : [RESULT_ERROR, '未授权操作', $jump_url];
+        return $result ? $pass_data : [RESULT_ERROR, '未授权操作'];
     }
     
     /**

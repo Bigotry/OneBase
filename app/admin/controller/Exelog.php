@@ -35,8 +35,6 @@ class Exelog extends AdminBase
         
         $this->assign('list', self::$exeLogLogic->getLogList(['type' => DATA_DISABLE], true, TIME_CT_NAME . ' desc'));
         
-        tag();
-        
         return $this->fetch('app_list');
     }
     
@@ -47,8 +45,6 @@ class Exelog extends AdminBase
     {
         
         $this->assign('list', self::$exeLogLogic->getLogList(['type' => DATA_NORMAL], true, TIME_CT_NAME . ' desc'));
-        
-        tag();
         
         return $this->fetch('api_list');
     }

@@ -55,8 +55,6 @@ class Database extends AdminBase
         
         $this->assign('list', self::$databaseLogic->getTableList());
         
-        tag();
-        
         return $this->fetch('data_backup');
     }
     
@@ -67,8 +65,6 @@ class Database extends AdminBase
     {
 
         $this->assign('list', self::$databaseLogic->getBackupList());
-        
-        tag();
         
         return $this->fetch('data_restore');
     }

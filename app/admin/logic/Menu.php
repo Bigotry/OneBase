@@ -228,13 +228,15 @@ class Menu extends AdminBase
         
         $validate_result = $validate->scene('add')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError(), false]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $result = self::$menuModel->setInfo($data);
         
         $result && action_log('新增', '新增菜单，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '菜单添加成功'] : [RESULT_ERROR, self::$menuModel->getError(), false];
+        $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
+        
+        return $result ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
     }
     
     /**
@@ -247,7 +249,7 @@ class Menu extends AdminBase
         
         $validate_result = $validate->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError(), false]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
@@ -255,7 +257,7 @@ class Menu extends AdminBase
         
         $result && action_log('编辑', '编辑菜单，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, self::$menuModel->getError(), false];
+        return $result ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, self::$menuModel->getError()];
     }
     
     /**
@@ -268,7 +270,7 @@ class Menu extends AdminBase
         
         $result && action_log('删除', '删除菜单，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$menuModel->getError(), false];
+        return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, self::$menuModel->getError()];
     }
     
     /**

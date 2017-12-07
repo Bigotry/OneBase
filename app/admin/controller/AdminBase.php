@@ -84,10 +84,10 @@ class AdminBase extends ControllerBase
         $this->authMenuUrlList = $this->authGroupAccessLogic->getAuthMenuUrlList($this->authMenuList);
         
         // 检查菜单权限
-        list($jump_type, $message, $url) = $this->adminBaseLogic->authCheck(URL_MODULE, $this->authMenuUrlList);
+        list($jump_type, $message) = $this->adminBaseLogic->authCheck(URL_MODULE, $this->authMenuUrlList);
         
         // 权限验证不通过则跳转提示
-        RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message, $url);
+        RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message);
         
         // 初始化基础数据
         IS_AJAX && !IS_PJAX ?: $this->initBaseInfo();
