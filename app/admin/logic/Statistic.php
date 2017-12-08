@@ -12,6 +12,25 @@ class Statistic extends AdminBase
 {
     
     /**
+     * 访客浏览器与操作系统统计
+     */
+    public function performerFacility()
+    {
+        
+        $log = model('ExeLog');
+        
+        $browser_list = $log->getList(['status' => DATA_NORMAL], 'browser as name,count(id) as value', '', false, [], 'browser');
+        
+        $browser_name_data = array_extract($browser_list, 'name');
+        
+        $system_list = $log->getList(['status' => DATA_NORMAL], 'exe_os as name,count(id) as value', '', false, [], 'exe_os');
+        
+        $system_name_data = array_extract($system_list, 'name');
+        
+        return compact('browser_list', 'browser_name_data', 'system_list', 'system_name_data');
+    }
+    
+    /**
      * 后台会员权限等级树结构
      */
     public function getMemberTree()

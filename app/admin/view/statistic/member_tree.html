@@ -4,12 +4,6 @@
     
     var myChart = echarts.init(document.getElementById('main'));
 
-    myChart.showLoading();
-
-    var data = {$data};
-
-    myChart.hideLoading();
-
     myChart.setOption(option = {
         tooltip: {
             trigger: 'item',
@@ -19,7 +13,7 @@
             {
                 type: 'tree',
 
-                data: [data],
+                data: [{$data}],
 
                 top: '1%',
                 left: '7%',

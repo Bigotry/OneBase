@@ -39,4 +39,20 @@ class Statistic extends AdminBase
         
         return $this->fetch('member_tree');
     }
+    
+    /**
+     * 访客浏览器与操作系统统计
+     */
+    public function performerFacility()
+    {
+        
+        $data = self::$statisticLogic->performerFacility();
+        
+        $this->assign('browser_list',       json_encode($data['browser_list']));
+        $this->assign('browser_name_data',  json_encode($data['browser_name_data']));
+        $this->assign('system_list',        json_encode($data['system_list']));
+        $this->assign('system_name_data',   json_encode($data['system_name_data']));
+        
+        return $this->fetch('performer_facility');
+    }
 }
