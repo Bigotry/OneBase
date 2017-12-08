@@ -1,0 +1,58 @@
+<script src="__STATIC__/admin/js/echarts.min.js"></script>
+
+<div id="main" style="height: 800px; overflow:auto;"></div>
+
+<script type="text/javascript">
+    
+    var myChart = echarts.init(document.getElementById('main'));
+
+    myChart.showLoading();
+
+    var data = {$data};
+
+    myChart.hideLoading();
+
+    myChart.setOption(option = {
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
+        series: [
+            {
+                type: 'tree',
+
+                data: [data],
+
+                top: '1%',
+                left: '7%',
+                bottom: '1%',
+                right: '20%',
+
+                symbolSize: 15,
+
+                label: {
+                    normal: {
+                        position: 'left',
+                        verticalAlign: 'middle',
+                        align: 'right',
+                        fontSize: 15
+                    }
+                },
+
+                leaves: {
+                    label: {
+                        normal: {
+                            position: 'right',
+                            verticalAlign: 'middle',
+                            align: 'left'
+                        }
+                    }
+                },
+
+                expandAndCollapse: true,
+                animationDuration: 550,
+                animationDurationUpdate: 750
+            }
+        ]
+    });
+</script>

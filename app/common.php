@@ -96,9 +96,7 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
     // 创建Tree
     $tree = [];
     
-    if (!is_array($list)):
-    return false;
-    endif;
+    if (!is_array($list)): return false; endif;
     
     // 创建基于主键的数组引用
     $refer = [];

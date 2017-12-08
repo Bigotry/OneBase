@@ -27,4 +27,16 @@ class Statistic extends AdminBase
         self::$statisticLogic = get_sington_object('statisticLogic', LogicStatistic::class);
     }
     
+    /**
+     * 后台会员权限等级树结构
+     */
+    public function memberTree()
+    {
+        
+        $data = self::$statisticLogic->getMemberTree();
+        
+        $this->assign('data', json_encode($data));
+        
+        return $this->fetch('member_tree');
+    }
 }
