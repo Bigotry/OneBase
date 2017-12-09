@@ -25,7 +25,7 @@ OneBase是一个免费开源的，快速、简单的面向对象的应用研发�
 
 # 快速体验入口
 
-官网首页：[官网首页](https://onebase.org)
+官网首页：https://onebase.org
 
 
 
