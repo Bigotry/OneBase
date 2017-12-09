@@ -68,4 +68,17 @@ class Statistic extends AdminBase
         
         return $this->fetch('exe_speed');
     }
+    
+    /**
+     * 会员增长
+     */
+    public function memberGrowth()
+    {
+        
+        $data = self::$statisticLogic->memberGrowth();
+        
+        $this->assign('data', json_encode($data));
+        
+        return $this->fetch('member_growth');
+    }
 }

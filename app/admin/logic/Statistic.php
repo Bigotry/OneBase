@@ -12,6 +12,97 @@ class Statistic extends AdminBase
 {
     
     /**
+     * 会员增长
+     */
+    public function memberGrowth()
+    {
+        
+        $cache_data = cache('cache_member_growth_data');
+        
+        if (!empty($cache_data)) : return $cache_data; endif;
+        
+        $data = $this->getMemberGrowthStruct();
+
+        $list = $this->getMemberGrowthData($data);
+
+        $result = $this->formatMemberGrowthData($data, $list);
+        
+        // 缓存一天
+        cache('cache_member_growth_data', $result, 86400);
+        
+        return $result;
+    }
+    
+    /**
+     * 格式化会员统计数据
+     */
+    public function formatMemberGrowthData($data, $list)
+    {
+        
+        foreach ($list as $v) :
+            
+            switch (date("Y-m-d",strtotime($v['create_time']))) :
+                case $data[0][0]    : $data[0][1]++;  break;
+                case $data[1][0]    : $data[1][1]++;  break;
+                case $data[2][0]    : $data[2][1]++;  break;
+                case $data[3][0]    : $data[3][1]++;  break;
+                case $data[4][0]    : $data[4][1]++;  break;
+                case $data[5][0]    : $data[5][1]++;  break;
+                case $data[6][0]    : $data[6][1]++;  break;
+                case $data[7][0]    : $data[7][1]++;  break;
+                case $data[8][0]    : $data[8][1]++;  break;
+                case $data[9][0]    : $data[9][1]++;  break;
+                case $data[10][0]   : $data[10][1]++; break;
+                case $data[11][0]   : $data[11][1]++; break;
+                case $data[12][0]   : $data[12][1]++; break;
+                case $data[13][0]   : $data[13][1]++; break;
+                case $data[14][0]   : $data[14][1]++; break;
+            endswitch;
+            
+        endforeach;
+        
+        return $data;
+    }
+    
+    /**
+     * 获取会员增长数据15天数据
+     */
+    public function getMemberGrowthData($data)
+    {
+        
+        $s_time = strtotime($data[0][0]);
+        $e_time = strtotime($data[14][0]) + 86400 - 1;
+        
+        $member = model('member');
+        
+        $where['status']      = DATA_NORMAL;
+        $where['is_inside']   = DATA_DISABLE;
+        $where['create_time'] = [['elt', $e_time], ['egt', $s_time]];
+        
+        $list = $member->getList($where, 'id,create_time,is_inside,status', '', false);
+        
+        return $list;
+    }
+    
+    /**
+     * 获取会员增长数据15天结构
+     */
+    public function getMemberGrowthStruct()
+    {
+        
+        $s_date = date("Y-m-d",strtotime("-15 day"));
+        $e_date = date("Y-m-d",strtotime("-1 day"));
+        
+        $date_array = get_date_from_range($s_date, $e_date);
+        
+        $data_struct = [];
+        
+        foreach ($date_array as $v) : $data_struct[] = [$v, DATA_DISABLE]; endforeach;
+        
+        return $data_struct;
+    }
+    
+    /**
      * 执行速度
      */
     public function exeSpeed()
