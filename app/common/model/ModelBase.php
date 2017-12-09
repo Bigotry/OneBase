@@ -164,6 +164,8 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = 0, $join = [], $group = '', $limit = null, $data = null)
     {
         
+        if(is_string($where)) : return $this->query($where); endif;
+        
         empty($join) && !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
         
         self::$ob_query = $this->where($where)->order($order)->field($field);
@@ -207,5 +209,23 @@ class ModelBase extends Model
         self::$ob_query->removeOption();
 
         return $result_data;
+    }
+    
+    /**
+     * 原生查询
+     */
+    final protected function query($sql = '')
+    {
+        
+        return Db::query($sql);
+    }
+    
+    /**
+     * 原生执行
+     */
+    final protected function execute($sql = '')
+    {
+        
+        return Db::execute($sql);
     }
 }
