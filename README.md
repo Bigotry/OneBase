@@ -27,7 +27,15 @@ OneBase是一个免费开源的，快速、简单的面向对象的应用研发�
 
 官网首页：https://onebase.org
 
+后台演示：https://demo.onebase.org/admin.php
 
+接口演示：https://demo.onebase.org/api.php
+
+前端演示：https://demo.onebase.org
+
+源码下载：https://gitee.com/Bigotry/OneBase
+
+研发文档：https://www.kancloud.cn/onebase/onebase/441459
 
 
 * * * * *
