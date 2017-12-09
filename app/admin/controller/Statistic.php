@@ -55,4 +55,17 @@ class Statistic extends AdminBase
         
         return $this->fetch('performer_facility');
     }
+    
+    /**
+     * 执行速度
+     */
+    public function exeSpeed()
+    {
+        
+        $data = self::$statisticLogic->exeSpeed();
+        
+        $this->assign('data', $data);
+        
+        return $this->fetch('exe_speed');
+    }
 }
