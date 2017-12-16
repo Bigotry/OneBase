@@ -20,9 +20,6 @@ class InitBase
     public function run()
     {
         
-        // 检测是否为安装流程
-        if(BIND_MODULE != 'install') :
-        
         // 初始化常量
         $this->initConst();
         
@@ -34,8 +31,6 @@ class InitBase
         
         // 注册命名空间
         $this->registerNamespace();
-        
-        endif;
     }
     
     /**

@@ -19,6 +19,6 @@ class AppEnd
 
         debug('app_end');
         
-        BIND_MODULE != 'install' && write_exe_log('app_begin', 'app_end');
+        write_exe_log('app_begin', 'app_end');
     }
 }
