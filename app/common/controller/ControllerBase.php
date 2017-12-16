@@ -42,11 +42,12 @@ class ControllerBase extends Controller
         defined('IS_GET')           or define('IS_GET',          $this->request->isGet());
         defined('IS_AJAX')          or define('IS_AJAX',         $this->request->isAjax());
         defined('IS_PJAX')          or define('IS_PJAX',         $this->request->isPjax());
-        defined('MODULE_NAME')      or define('MODULE_NAME',     $this->request->module());
-        defined('CONTROLLER_NAME')  or define('CONTROLLER_NAME', $this->request->controller());
-        defined('ACTION_NAME')      or define('ACTION_NAME',     $this->request->action());
-        defined('URL')              or define('URL',             strtolower($this->request->controller() . SYS_DS_PROS . $this->request->action()));
-        defined('URL_MODULE')       or define('URL_MODULE',      strtolower($this->request->module()) . SYS_DS_PROS . URL);
+        defined('IS_MOBILE')        or define('IS_MOBILE',       $this->request->isMobile());
+        defined('MODULE_NAME')      or define('MODULE_NAME',     strtolower($this->request->module()));
+        defined('CONTROLLER_NAME')  or define('CONTROLLER_NAME', strtolower($this->request->controller()));
+        defined('ACTION_NAME')      or define('ACTION_NAME',     strtolower($this->request->action()));
+        defined('URL')              or define('URL',             CONTROLLER_NAME . SYS_DS_PROS . ACTION_NAME);
+        defined('URL_MODULE')       or define('URL_MODULE',      MODULE_NAME . SYS_DS_PROS . URL);
         defined('URL_TRUE')         or define('URL_TRUE',        $this->request->url(true));
         defined('DOMAIN')           or define('DOMAIN',          $this->request->domain());
         
@@ -74,13 +75,16 @@ class ControllerBase extends Controller
         $error    = RESULT_ERROR;
         $redirect = RESULT_REDIRECT;
         
-        !empty($data['url']) && $data['url'] = DOMAIN . $data['url'];
+        $u = 'url';
+        $m = 'message';
+        
+        !empty($data[$u]) && $data[$u] = DOMAIN . $data[$u];
         
         switch ($data['jump_type'])
         {
-            case $success  : $this->$success($data['message'],  $data['url']);      break;
-            case $error    : $this->$error($data['message'],    $data['url']);      break;
-            case $redirect : $this->$redirect($data['url']);                        break;
+            case $success  : $this->$success($data[$m], $data[$u]); break;
+            case $error    : $this->$error($data[$m], $data[$u]);   break;
+            case $redirect : $this->$redirect($data[$u]);           break;
             default        : exception('System jump failure');
         }
     }
@@ -103,6 +107,7 @@ class ControllerBase extends Controller
     {
         
         $this->assign('loading_icon', config('loading_icon'));
+        
         $this->assign('pjax_mode',    config('pjax_mode'));
     }
 }
