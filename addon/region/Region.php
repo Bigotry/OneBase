@@ -24,7 +24,7 @@ class Region extends AddonBase implements AddonInterface
         
         $this->assign('addons_config', $this->addonConfig($param));
         
-        $this->addonTemplate('index/index');
+        return $this->fetch('index/index');
     }
     
     /**

@@ -24,7 +24,7 @@ class File extends AddonBase implements AddonInterface
 
         $this->assign('addons_config', $this->addonConfig($param));
 
-        $this->addonTemplate('index/' . $param['type']);
+        return $this->fetch('index/' . $param['type']);
     }
 
     /**
