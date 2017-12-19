@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\common\logic\Config as LogicConfig;
-
 /**
  * 配置控制器
  */
 class Config extends AdminBase
 {
-    
-    // 配置逻辑
-    private static $configLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$configLogic = get_sington_object('configLogic', LogicConfig::class);
-    }
     
     /**
      * 系统设置
@@ -33,13 +17,13 @@ class Config extends AdminBase
     public function setting()
     {
         
-        IS_POST && $this->jump(self::$configLogic->settingSave($this->param));
+        IS_POST && $this->jump($this->request->logicConfig->settingSave($this->param));
         
         $where = empty($this->param['group']) ? ['group' => 1] : ['group' => $this->param['group']];
         
         $this->getConfigCommonData();
         
-        $this->assign('list', self::$configLogic->getConfigList($where, true, 'sort', false));
+        $this->assign('list', $this->request->logicConfig->getConfigList($where, true, 'sort', false));
         
         $this->assign('group', $where['group']);
         
@@ -56,7 +40,7 @@ class Config extends AdminBase
         
         $this->getConfigCommonData();
         
-        $this->assign('list', self::$configLogic->getConfigList($where));
+        $this->assign('list', $this->request->logicConfig->getConfigList($where));
         
         $this->assign('group', $where ? $this->param['group'] : 0);
         
@@ -84,7 +68,7 @@ class Config extends AdminBase
     public function configAdd()
     {
         
-        IS_POST && $this->jump(self::$configLogic->configAdd($this->param));
+        IS_POST && $this->jump($this->request->logicConfig->configAdd($this->param));
         
         $this->getConfigCommonData();
         
@@ -99,9 +83,9 @@ class Config extends AdminBase
     public function configEdit()
     {
         
-        IS_POST && $this->jump(self::$configLogic->configEdit($this->param));
+        IS_POST && $this->jump($this->request->logicConfig->configEdit($this->param));
         
-        $info = self::$configLogic->getConfigInfo(['id' => $this->param['id']]);
+        $info = $this->request->logicConfig->getConfigInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -116,6 +100,6 @@ class Config extends AdminBase
     public function configDel($id = 0)
     {
         
-        $this->jump(self::$configLogic->configDel(['id' => $id]));
+        $this->jump($this->request->logicConfig->configDel(['id' => $id]));
     }
 }

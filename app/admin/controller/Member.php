@@ -5,30 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\Member as LogicMember;
-use app\admin\logic\AuthGroup as LogicAuthGroup;
-
 /**
  * 会员控制器
  */
 class Member extends AdminBase
 {
-    
-    /**
-     * 会员逻辑
-     */
-    private static $memberLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$memberLogic = get_sington_object('memberLogic', LogicMember::class);
-    }
 
     /**
      * 会员授权
@@ -36,18 +17,16 @@ class Member extends AdminBase
     public function memberAuth()
     {
         
-        IS_POST && $this->jump(self::$memberLogic->addToGroup($this->param));
-        
-        $authGroupLogic = get_sington_object('authGroupLogic', LogicAuthGroup::class);
+        IS_POST && $this->jump($this->request->logicMember->addToGroup($this->param));
         
         // 所有的权限组
-        $group_list = $authGroupLogic->getAuthGroupList(['member_id' => MEMBER_ID]);
+        $group_list = $this->request->logicAuthGroup->getAuthGroupList(['member_id' => MEMBER_ID]);
         
         // 会员当前权限组
         $member_group_list = $this->authGroupAccessLogic->getMemberGroupInfo($this->param['id']);
 
         // 选择权限组
-        $list = $authGroupLogic->selectAuthGroupList($group_list, $member_group_list);
+        $list = $this->request->logicAuthGroup->selectAuthGroupList($group_list, $member_group_list);
         
         $this->assign('list', $list);
         
@@ -62,11 +41,11 @@ class Member extends AdminBase
     public function memberList()
     {
         
-        $where = self::$memberLogic->getWhere($this->param);
+        $where = $this->request->logicMember->getWhere($this->param);
         
-        !empty($this->param['mark']) && self::$memberLogic->exportMemberList($where, true, 'id desc');
+        !empty($this->param['mark']) && $this->request->logicMember->exportMemberList($where, true, 'id desc');
         
-        $this->assign('list', self::$memberLogic->getMemberList($where, true, 'id desc'));
+        $this->assign('list', $this->request->logicMember->getMemberList($where, true, 'id desc'));
         
         return $this->fetch('member_list');
     }
@@ -77,7 +56,7 @@ class Member extends AdminBase
     public function memberAdd()
     {
         
-        IS_POST && $this->jump(self::$memberLogic->memberAdd($this->param));
+        IS_POST && $this->jump($this->request->logicMember->memberAdd($this->param));
         
         return $this->fetch('member_edit');
     }
@@ -88,6 +67,6 @@ class Member extends AdminBase
     public function memberDel($id = 0)
     {
         
-        return $this->jump(self::$memberLogic->memberDel(['id' => $id]));
+        return $this->jump($this->request->logicMember->memberDel(['id' => $id]));
     }
 }

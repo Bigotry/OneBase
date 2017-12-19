@@ -6,27 +6,12 @@
 namespace app\admin\controller;
 
 use app\common\controller\ControllerBase;
-use app\admin\logic\Login as LogicLogin;
 
 /**
  * 登录控制器
  */
 class Login extends ControllerBase
 {
-    
-    // 登录逻辑
-    private static $loginLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        // 执行父类构造方法
-        parent::_initialize();
-        
-        self::$loginLogic = get_sington_object('loginLogic', LogicLogin::class);
-    }
     
     /**
      * 登录
@@ -48,7 +33,7 @@ class Login extends ControllerBase
     public function loginHandle($username = '', $password = '', $verify = '')
     {
         
-        $this->jump(self::$loginLogic->loginHandle($username, $password, $verify));
+        $this->jump($this->request->logicLogin->loginHandle($username, $password, $verify));
     }
     
     /**
@@ -57,7 +42,7 @@ class Login extends ControllerBase
     public function logout()
     {
         
-        $this->jump(self::$loginLogic->logout());
+        $this->jump($this->request->logicLogin->logout());
     }
     
     /**
@@ -66,7 +51,7 @@ class Login extends ControllerBase
     public function clearCache()
     {
         
-        $this->jump(self::$loginLogic->clearCache());
+        $this->jump($this->request->logicLogin->clearCache());
     }
     
 }

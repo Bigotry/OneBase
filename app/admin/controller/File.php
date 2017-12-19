@@ -6,7 +6,6 @@
 namespace app\admin\controller;
 
 use app\common\controller\ControllerBase;
-use app\common\logic\File as LogicFile;
 
 /**
  * 文件控制器
@@ -14,27 +13,13 @@ use app\common\logic\File as LogicFile;
 class File extends ControllerBase
 {
     
-    // 文件逻辑
-    private static $fileLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$fileLogic = get_sington_object('fileLogic', LogicFile::class);
-    }
-    
     /**
      * 图片上传
      */
     public function pictureUpload()
     {
         
-        $result = self::$fileLogic->pictureUpload();
+        $result = $this->request->logicFile->pictureUpload();
 
         return json($result);
     }
@@ -45,9 +30,8 @@ class File extends ControllerBase
     public function fileUpload()
     {
         
-        $result = self::$fileLogic->fileUpload();
+        $result = $this->request->logicFile->fileUpload();
 
         return json($result);
     }
-  
 }

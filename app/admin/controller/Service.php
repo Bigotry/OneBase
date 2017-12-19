@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\Service as LogicService;
-
 /**
  * 服务控制器
  */
 class Service extends AdminBase
 {
-    
-    // 服务逻辑
-    private static $serviceLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$serviceLogic = get_sington_object('serviceLogic', LogicService::class);
-    }
     
     /**
      * 服务 or 驱动 列表
@@ -37,7 +21,7 @@ class Service extends AdminBase
         
         $this->setTitle($title);
         
-        $this->assign('list', self::$serviceLogic->getServiceList($service_name));
+        $this->assign('list', $this->request->logicService->getServiceList($service_name));
         
         $view = is_null($service_name) ? 'service_list' : 'driver_list';
         
@@ -50,13 +34,13 @@ class Service extends AdminBase
     public function driverInstall()
     {
         
-        IS_POST && $this->jump(self::$serviceLogic->driverInstall($this->param));
+        IS_POST && $this->jump($this->request->logicService->driverInstall($this->param));
         
         $model = model(ucfirst($this->param['service_class']), LAYER_SERVICE_NAME);
         
         $param = $model->driverParam($this->param['driver_class']);
         
-        $info = self::$serviceLogic->getDriverInfo(['service_name' => $this->param['service_class'], 'driver_name' => $this->param['driver_class']]);
+        $info = $this->request->logicService->getDriverInfo(['service_name' => $this->param['service_class'], 'driver_name' => $this->param['driver_class']]);
         
         $info['config'] = unserialize($info['config']);
         
@@ -73,6 +57,6 @@ class Service extends AdminBase
     public function driverUninstall()
     {
         
-        $this->jump(self::$serviceLogic->driverUninstall($this->param));
+        $this->jump($this->request->logicService->driverUninstall($this->param));
     }
 }

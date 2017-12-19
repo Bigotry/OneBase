@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\AuthGroup as LogicAuthGroup;
-
 /**
  * 权限控制器
  */
 class Auth extends AdminBase
 {
-    
-    // 权限组逻辑
-    public static $authGroupLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$authGroupLogic = get_sington_object('authGroupLogic', LogicAuthGroup::class);
-    }
     
     /**
      * 权限组列表
@@ -33,7 +17,7 @@ class Auth extends AdminBase
     public function groupList()
     {
         
-        $this->assign('list', self::$authGroupLogic->getAuthGroupList(['member_id' => MEMBER_ID], true, '', DB_LIST_ROWS));
+        $this->assign('list', $this->request->logicAuthGroup->getAuthGroupList(['member_id' => MEMBER_ID], true, '', DB_LIST_ROWS));
         
         return $this->fetch('group_list');
     }
@@ -44,7 +28,7 @@ class Auth extends AdminBase
     public function groupAdd()
     {
         
-        IS_POST && $this->jump(self::$authGroupLogic->groupAdd($this->param));
+        IS_POST && $this->jump($this->request->logicAuthGroup->groupAdd($this->param));
         
         return $this->fetch('group_edit');
     }
@@ -55,9 +39,9 @@ class Auth extends AdminBase
     public function groupEdit()
     {
         
-        IS_POST && $this->jump(self::$authGroupLogic->groupEdit($this->param));
+        IS_POST && $this->jump($this->request->logicAuthGroup->groupEdit($this->param));
         
-        $info = self::$authGroupLogic->getGroupInfo(['id' => $this->param['id']]);
+        $info = $this->request->logicAuthGroup->getGroupInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -70,7 +54,7 @@ class Auth extends AdminBase
     public function groupDel($id = 0)
     {
         
-        $this->jump(self::$authGroupLogic->groupDel(['id' => $id]));
+        $this->jump($this->request->logicAuthGroup->groupDel(['id' => $id]));
     }
     
     /**
@@ -79,7 +63,7 @@ class Auth extends AdminBase
     public function menuAuth()
     {
         
-        IS_POST && $this->jump(self::$authGroupLogic->setGroupRules($this->param));
+        IS_POST && $this->jump($this->request->logicAuthGroup->setGroupRules($this->param));
         
         // 获取未被过滤的菜单树
         $menu_tree = $this->adminBaseLogic->getListTree($this->authMenuList);

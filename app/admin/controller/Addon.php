@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\common\logic\Addon as LogicAddon;
-
 /**
  * 插件控制器
  */
 class Addon extends AdminBase
 {
-    
-    // 插件逻辑
-    private static $addonLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$addonLogic = get_sington_object('addonLogic', LogicAddon::class);
-    }
     
     /**
      * 执行插件控制器
@@ -50,7 +34,7 @@ class Addon extends AdminBase
 
         $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $strtolower_name . SYS_DS_CONS . $name;
         
-        self::$addonLogic->executeSql($strtolower_name, 'install');
+        $this->request->logicAddon->executeSql($strtolower_name, 'install');
         
         $controller = new $class_path();
         
@@ -69,7 +53,7 @@ class Addon extends AdminBase
 
         $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $strtolower_name . SYS_DS_CONS . $name;
         
-        self::$addonLogic->executeSql($strtolower_name, 'uninstall');
+        $this->request->logicAddon->executeSql($strtolower_name, 'uninstall');
         
         $controller = new $class_path();
         
@@ -84,7 +68,7 @@ class Addon extends AdminBase
     public function addonList()
     {
         
-        $this->assign('list', self::$addonLogic->getAddonList());
+        $this->assign('list', $this->request->logicAddon->getAddonList());
         
         return $this->fetch('addon_list');
     }
@@ -95,7 +79,7 @@ class Addon extends AdminBase
     public function hookList()
     {
         
-        $this->assign('list', self::$addonLogic->getHookList());
+        $this->assign('list', $this->request->logicAddon->getHookList());
         
         return $this->fetch('hook_list');
     }

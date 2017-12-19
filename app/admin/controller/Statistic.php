@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\Statistic as LogicStatistic;
-
 /**
  * 统计分析控制器
  */
 class Statistic extends AdminBase
 {
-    
-    // 统计分析逻辑
-    private static $statisticLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$statisticLogic = get_sington_object('statisticLogic', LogicStatistic::class);
-    }
     
     /**
      * 后台会员权限等级树结构
@@ -33,7 +17,7 @@ class Statistic extends AdminBase
     public function memberTree()
     {
         
-        $data = self::$statisticLogic->getMemberTree();
+        $data = $this->request->logicStatistic->getMemberTree();
         
         $this->assign('data', json_encode($data));
         
@@ -46,7 +30,7 @@ class Statistic extends AdminBase
     public function performerFacility()
     {
         
-        $data = self::$statisticLogic->performerFacility();
+        $data = $this->request->logicStatistic->performerFacility();
         
         $this->assign('browser_list',       json_encode($data['browser_list']));
         $this->assign('browser_name_data',  json_encode($data['browser_name_data']));
@@ -62,7 +46,7 @@ class Statistic extends AdminBase
     public function exeSpeed()
     {
         
-        $data = self::$statisticLogic->exeSpeed();
+        $data = $this->request->logicStatistic->exeSpeed();
         
         $this->assign('data', $data);
         
@@ -75,7 +59,7 @@ class Statistic extends AdminBase
     public function memberGrowth()
     {
         
-        $data = self::$statisticLogic->memberGrowth();
+        $data = $this->request->logicStatistic->memberGrowth();
         
         $this->assign('data', json_encode($data));
         

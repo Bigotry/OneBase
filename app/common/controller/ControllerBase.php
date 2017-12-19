@@ -30,6 +30,9 @@ class ControllerBase extends Controller
         
         // 初始化响应类型
         $this->initResponseType();
+        
+        // 依赖注入
+        di();
     }
     
     /**
@@ -110,4 +113,5 @@ class ControllerBase extends Controller
         
         $this->assign('pjax_mode',    config('pjax_mode'));
     }
+    
 }

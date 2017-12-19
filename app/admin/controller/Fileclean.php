@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\FileClean as LogicFileClean;
-
 /**
  * 文件清理控制器
  */
 class Fileclean extends AdminBase
 {
-    
-    // 文件清理逻辑
-    private static $fileCleanLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$fileCleanLogic = get_sington_object('fileCleanLogic', LogicFileClean::class);
-    }
     
     /**
      * 文件清理
@@ -33,9 +17,9 @@ class Fileclean extends AdminBase
     public function cleanList()
     {
 
-        IS_POST && $this->jump(self::$fileCleanLogic->fileClear());
+        IS_POST && $this->jump($this->request->logicFileclean->fileClear());
         
-        $list = self::$fileCleanLogic->getFileClearList();
+        $list = $this->request->logicFileclean->getFileClearList();
         
         session('file_clear_list', $list);
         

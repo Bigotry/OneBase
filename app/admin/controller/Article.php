@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\common\logic\Article as LogicArticle;
-
 /**
  * 文章控制器
  */
 class Article extends AdminBase
 {
-    
-    // 文章逻辑
-    private static $articleLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$articleLogic = get_sington_object('articleLogic', LogicArticle::class);
-    }
     
     /**
      * 文章列表
@@ -33,9 +17,9 @@ class Article extends AdminBase
     public function articleList()
     {
         
-        $where = self::$articleLogic->getWhere($this->param);
+        $where = $this->request->logicArticle->getWhere($this->param);
         
-        $this->assign('list', self::$articleLogic->getArticleList($where, true, 'create_time desc'));
+        $this->assign('list', $this->request->logicArticle->getArticleList($where, true, 'create_time desc'));
         
         return $this->fetch('article_list');
     }
@@ -59,7 +43,7 @@ class Article extends AdminBase
         
         $this->articleCommon();
         
-        $info = self::$articleLogic->getArticleInfo(['id' => $this->param['id']]);
+        $info = $this->request->logicArticle->getArticleInfo(['id' => $this->param['id']]);
         
         !empty($info) && $info['img_ids_array'] = str2arr($info['img_ids']);
         
@@ -74,9 +58,9 @@ class Article extends AdminBase
     public function articleCommon()
     {
         
-        IS_POST && $this->jump(self::$articleLogic->articleEdit($this->param));
+        IS_POST && $this->jump($this->request->logicArticle->articleEdit($this->param));
         
-        $this->assign('article_category_list', self::$articleLogic->getArticleCategoryList([], 'id,name', '', false));
+        $this->assign('article_category_list', $this->request->logicArticle->getArticleCategoryList([], 'id,name', '', false));
     }
     
     /**
@@ -85,7 +69,7 @@ class Article extends AdminBase
     public function articleCategoryAdd()
     {
         
-        IS_POST && $this->jump(self::$articleLogic->articleCategoryEdit($this->param));
+        IS_POST && $this->jump($this->request->logicArticle->articleCategoryEdit($this->param));
         
         return $this->fetch('article_category_edit');
     }
@@ -96,9 +80,9 @@ class Article extends AdminBase
     public function articleCategoryEdit()
     {
         
-        IS_POST && $this->jump(self::$articleLogic->articleCategoryEdit($this->param));
+        IS_POST && $this->jump($this->request->logicArticle->articleCategoryEdit($this->param));
         
-        $info = self::$articleLogic->getArticleCategoryInfo(['id' => $this->param['id']]);
+        $info = $this->request->logicArticle->getArticleCategoryInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -111,7 +95,7 @@ class Article extends AdminBase
     public function articleCategoryList()
     {
         
-        $this->assign('list', self::$articleLogic->getArticleCategoryList());
+        $this->assign('list', $this->request->logicArticle->getArticleCategoryList());
        
         return $this->fetch('article_category_list');
     }
@@ -122,7 +106,7 @@ class Article extends AdminBase
     public function articleDel($id = 0)
     {
         
-        $this->jump(self::$articleLogic->articleDel(['id' => $id]));
+        $this->jump($this->request->logicArticle->articleDel(['id' => $id]));
     }
     
     /**
@@ -131,6 +115,6 @@ class Article extends AdminBase
     public function articleCategoryDel($id = 0)
     {
         
-        $this->jump(self::$articleLogic->articleCategoryDel(['id' => $id]));
+        $this->jump($this->request->logicArticle->articleCategoryDel(['id' => $id]));
     }
 }

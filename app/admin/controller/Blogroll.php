@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\Blogroll as LogicBlogroll;
-
 /**
  * 友情链接控制器
  */
 class Blogroll extends AdminBase
 {
-    
-    // 友情链接逻辑
-    private static $blogrollLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$blogrollLogic = get_sington_object('blogrollLogic', LogicBlogroll::class);
-    }
     
     /**
      * 友情链接列表
@@ -33,7 +17,7 @@ class Blogroll extends AdminBase
     public function blogrollList()
     {
         
-        $this->assign('list', self::$blogrollLogic->getBlogrollList());
+        $this->assign('list', $this->request->logicBlogroll->getBlogrollList());
         
         return $this->fetch('blogroll_list');
     }
@@ -44,7 +28,7 @@ class Blogroll extends AdminBase
     public function blogrollAdd()
     {
         
-        IS_POST && $this->jump(self::$blogrollLogic->blogrollEdit($this->param));
+        IS_POST && $this->jump($this->request->logicBlogroll->blogrollEdit($this->param));
         
         return $this->fetch('blogroll_edit');
     }
@@ -55,9 +39,9 @@ class Blogroll extends AdminBase
     public function blogrollEdit()
     {
         
-        IS_POST && $this->jump(self::$blogrollLogic->blogrollEdit($this->param));
+        IS_POST && $this->jump($this->request->logicBlogroll->blogrollEdit($this->param));
         
-        $info = self::$blogrollLogic->getBlogrollInfo(['id' => $this->param['id']]);
+        $info = $this->request->logicBlogroll->getBlogrollInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -70,6 +54,6 @@ class Blogroll extends AdminBase
     public function blogrollDel($id = 0)
     {
         
-        $this->jump(self::$blogrollLogic->blogrollDel(['id' => $id]));
+        $this->jump($this->request->logicBlogroll->blogrollDel(['id' => $id]));
     }
 }

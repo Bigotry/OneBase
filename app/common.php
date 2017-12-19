@@ -171,11 +171,29 @@ function parse_config_array($name = '')
 function get_sington_object($object_name = '', $class = null)
 {
 
-    $request = \think\Request::instance();
+    $request = request();
     
     $request->__isset($object_name) ?: $request->bind($object_name, new $class());
     
     return $request->__get($object_name);
+}
+
+/**
+ * 实现依赖注入
+ */
+function di()
+{
+
+    $di_config = require APP_PATH . 'di' . EXT;
+    
+    $di_config_array = !empty($di_config[MODULE_NAME]) ? $di_config[MODULE_NAME] : [];
+    
+    foreach ($di_config_array as $k => $v)
+    {
+        if (CONTROLLER_NAME != $k) : continue; endif;
+
+        foreach ($v as $p => $a) { get_sington_object($a, $p); }
+    }
 }
 
 /**

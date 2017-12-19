@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\Log as LogicLog;
-
 /**
  * 行为日志控制器
  */
 class Log extends AdminBase
 {
-    
-    // 行为日志逻辑
-    private static $logLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$logLogic = get_sington_object('logLogic', LogicLog::class);
-    }
     
     /**
      * 日志列表
@@ -33,7 +17,7 @@ class Log extends AdminBase
     public function logList()
     {
         
-        $this->assign('list', self::$logLogic->getLogList([], true, TIME_CT_NAME . ' desc'));
+        $this->assign('list', $this->request->logicLog->getLogList([], true, TIME_CT_NAME . ' desc'));
         
         return $this->fetch('log_list');
     }
@@ -44,7 +28,7 @@ class Log extends AdminBase
     public function logDel($id = 0)
     {
         
-        $this->jump(self::$logLogic->logDel(['id' => $id]));
+        $this->jump($this->request->logicLog->logDel(['id' => $id]));
     }
   
     /**
@@ -53,6 +37,6 @@ class Log extends AdminBase
     public function logClean()
     {
         
-        $this->jump(self::$logLogic->logDel([DATA_STATUS_NAME => DATA_NORMAL]));
+        $this->jump($this->request->logicLog->logDel([DATA_STATUS_NAME => DATA_NORMAL]));
     }
 }

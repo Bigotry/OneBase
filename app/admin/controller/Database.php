@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\Database as LogicDatabase;
-
 /**
  * 数据库备份控制器
  */
 class Database extends AdminBase
 {
-    
-    // 数据库备份逻辑
-    private static $databaseLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$databaseLogic = get_sington_object('databaseLogic', LogicDatabase::class);
-    }
     
     /**
      * 优化表
@@ -33,7 +17,7 @@ class Database extends AdminBase
     public function optimize()
     {
         
-        $this->jump(self::$databaseLogic->optimize());
+        $this->jump($this->request->logicDatabase->optimize());
     }
     
     /**
@@ -42,7 +26,7 @@ class Database extends AdminBase
     public function repair()
     {
         
-        $this->jump(self::$databaseLogic->optimize(false));
+        $this->jump($this->request->logicDatabase->optimize(false));
     }
     
     /**
@@ -51,9 +35,9 @@ class Database extends AdminBase
     public function dataBackup()
     {
         
-        IS_POST && $this->jump(self::$databaseLogic->dataBackup());
+        IS_POST && $this->jump($this->request->logicDatabase->dataBackup());
         
-        $this->assign('list', self::$databaseLogic->getTableList());
+        $this->assign('list', $this->request->logicDatabase->getTableList());
         
         return $this->fetch('data_backup');
     }
@@ -64,7 +48,7 @@ class Database extends AdminBase
     public function dataRestore()
     {
 
-        $this->assign('list', self::$databaseLogic->getBackupList());
+        $this->assign('list', $this->request->logicDatabase->getBackupList());
         
         return $this->fetch('data_restore');
     }
@@ -75,7 +59,7 @@ class Database extends AdminBase
     public function dataRestoreHandle($time = 0)
     {
 
-       $this->jump(self::$databaseLogic->dataRestore($time));
+       $this->jump($this->request->logicDatabase->dataRestore($time));
     }
     
     /**
@@ -84,6 +68,6 @@ class Database extends AdminBase
     public function backupDel($time = 0)
     {
 
-        $this->jump(self::$databaseLogic->backupDel($time));
+        $this->jump($this->request->logicDatabase->backupDel($time));
     }
 }

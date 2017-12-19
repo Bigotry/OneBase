@@ -5,27 +5,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\logic\Trash as LogicTrash;
-
 /**
  * 回收站控制器
  */
 class Trash extends AdminBase
 {
-    
-    // 回收站逻辑
-    private static $trashLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$trashLogic = get_sington_object('trashLogic', LogicTrash::class);
-    }
     
     /**
      * 回收站列表
@@ -33,7 +17,7 @@ class Trash extends AdminBase
     public function trashList()
     {
         
-        $this->assign('list', self::$trashLogic->getTrashList());
+        $this->assign('list', $this->request->logicTrash->getTrashList());
         
         return $this->fetch('trash_list');
     }
@@ -44,7 +28,7 @@ class Trash extends AdminBase
     public function trashDataList()
     {
         
-        $data = self::$trashLogic->getTrashDataList($this->param['name']);
+        $data = $this->request->logicTrash->getTrashDataList($this->param['name']);
         
         $this->assign('model_name', $data['model_name']);
         $this->assign('list', $data['list']);
@@ -59,7 +43,7 @@ class Trash extends AdminBase
     public function trashDataDel($model_name = '', $id = 0)
     {
         
-        $this->jump(self::$trashLogic->trashDataDel($model_name, $id));
+        $this->jump($this->request->logicTrash->trashDataDel($model_name, $id));
     }
     
     /**
@@ -68,6 +52,6 @@ class Trash extends AdminBase
     public function restoreData($model_name = '', $id = 0)
     {
         
-        $this->jump(self::$trashLogic->restoreData($model_name, $id));
+        $this->jump($this->request->logicTrash->restoreData($model_name, $id));
     }
 }
