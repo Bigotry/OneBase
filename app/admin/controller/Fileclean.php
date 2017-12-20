@@ -17,9 +17,9 @@ class Fileclean extends AdminBase
     public function cleanList()
     {
 
-        IS_POST && $this->jump($this->request->logicFileclean->fileClear());
+        IS_POST && $this->jump($this->request->logicFileClean->fileClear());
         
-        $list = $this->request->logicFileclean->getFileClearList();
+        $list = $this->request->logicFileClean->getFileClearList();
         
         session('file_clear_list', $list);
         

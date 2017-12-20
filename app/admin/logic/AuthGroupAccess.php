@@ -67,9 +67,7 @@ class AuthGroupAccess extends AdminBase
     public function getMemberGroupInfo($member_id = 0)
     {
         
-        $model = model($this->name);
-        
-        $model->alias('a');
+        $this->AuthGroupAccess->alias('a');
         
         is_array($member_id) ? $where['a.member_id'] = ['in', $member_id] : $where['a.member_id'] = $member_id;
         
@@ -81,7 +79,7 @@ class AuthGroupAccess extends AdminBase
                     [SYS_DB_PREFIX . 'auth_group g', 'a.group_id = g.id'],
                 ];
         
-        return $model->getList($where, $field, '', false, $join);
+        return $this->AuthGroupAccess->getList($where, $field, '', false, $join);
     }
     
     /**
@@ -90,6 +88,6 @@ class AuthGroupAccess extends AdminBase
     public function getAuthGroupAccessList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        return model($this->name)->getList($where, $field, $order, $paginate);
+        return $this->AuthGroupAccess->getList($where, $field, $order, $paginate);
     }
 }

@@ -14,27 +14,13 @@ class Service extends AdminBase
     // 对象实例
     protected static $instance = [];
     
-    // 驱动模型
-    public static $driverModel = null;
-    
-    /**
-     * 构造方法
-     */
-    public function __construct()
-    {
-        
-        parent::__construct();
-        
-        self::$driverModel = model('Driver');
-    }
-    
     /**
      * 获取驱动信息
      */
     public function getDriverInfo($where = [], $field = true)
     {
         
-        return self::$driverModel->getInfo($where, $field);
+        return $this->Driver->getInfo($where, $field);
     }
     
     /**
@@ -46,7 +32,7 @@ class Service extends AdminBase
         $where['service_name'] = $data['service_name'];
         $where['driver_name']  = $data['driver_name'];
         
-        $info = self::$driverModel->getInfo($where);
+        $info = $this->Driver->getInfo($where);
         
         $info['config']       = serialize($data['param']);
         $info['service_name'] = $data['service_name'];
@@ -54,11 +40,11 @@ class Service extends AdminBase
         
         $url = url('service/servicelist', ['service_name' => $data['service_name']]);
         
-        $result = self::$driverModel->setInfo($info);
+        $result = $this->Driver->setInfo($info);
         
         $result && action_log('安装', '驱动安装或设置，service_name：' . $data['service_name'] . '，driver_name' . $data['driver_name']);
         
-        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$driverModel->getError()];
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $this->Driver->getError()];
     }
     
     /**
@@ -70,11 +56,11 @@ class Service extends AdminBase
         $where['service_name'] = $data['service_class'];
         $where['driver_name']  = $data['driver_class'];
         
-        $result = self::$driverModel->deleteInfo($where, true);
+        $result = $this->Driver->deleteInfo($where, true);
         
         $result && action_log('卸载', '驱动卸载，service_name：' . $data['service_class'] . '，driver_name' . $data['driver_class']);
         
-        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, self::$driverModel->getError()];
+        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $this->Driver->getError()];
     }
     
     /**
@@ -97,7 +83,7 @@ class Service extends AdminBase
                 
                 $info = $object->driverInfo();
                 
-                $dv_info = self::$driverModel->getInfo(['driver_name' => $info['driver_class']]);
+                $dv_info = $this->Driver->getInfo(['driver_name' => $info['driver_class']]);
 
                 empty($dv_info) ? $info['is_install'] = DATA_DISABLE : $info['is_install'] = DATA_NORMAL;
             }

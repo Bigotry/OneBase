@@ -17,7 +17,7 @@ class Exelog extends AdminBase
     public function appList()
     {
         
-        $this->assign('list', $this->request->logicExelog->getLogList(['type' => DATA_DISABLE], true, TIME_CT_NAME . ' desc'));
+        $this->assign('list', $this->request->logicExeLog->getLogList(['type' => DATA_DISABLE], true, TIME_CT_NAME . ' desc'));
         
         return $this->fetch('app_list');
     }
@@ -28,7 +28,7 @@ class Exelog extends AdminBase
     public function apiList()
     {
         
-        $this->assign('list', $this->request->logicExelog->getLogList(['type' => DATA_NORMAL], true, TIME_CT_NAME . ' desc'));
+        $this->assign('list', $this->request->logicExeLog->getLogList(['type' => DATA_NORMAL], true, TIME_CT_NAME . ' desc'));
         
         return $this->fetch('api_list');
     }
@@ -39,7 +39,7 @@ class Exelog extends AdminBase
     public function logImport()
     {
         
-        $this->jump($this->request->logicExelog->logImport());
+        $this->jump($this->request->logicExeLog->logImport());
     }
   
     /**
@@ -48,6 +48,6 @@ class Exelog extends AdminBase
     public function logClean()
     {
         
-        $this->jump($this->request->logicExelog->logDel([DATA_STATUS_NAME => DATA_NORMAL]));
+        $this->jump($this->request->logicExeLog->logDel([DATA_STATUS_NAME => DATA_NORMAL]));
     }
 }

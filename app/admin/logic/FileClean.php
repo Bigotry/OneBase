@@ -11,24 +11,6 @@ namespace app\admin\logic;
 class FileClean extends AdminBase
 {
     
-    // 图片模型
-    public static $pictureModel  = null;
-    
-    // 文件模型
-    public static $fileModel     = null;
-    
-    /**
-     * 构造方法
-     */
-    public function __construct()
-    {
-        
-        parent::__construct();
-        
-        self::$pictureModel     = model('Picture');
-        self::$fileModel        = model('File');
-    }
-    
     /**
      * 获取文件列表
      */
@@ -88,9 +70,9 @@ class FileClean extends AdminBase
         
         $list = $this->getFileList();
         
-        $picture_list = $this->getFileShowList(self::$pictureModel, $list, 'picture_list');
+        $picture_list = $this->getFileShowList($this->Picture, $list, 'picture_list');
         
-        $file_list = $this->getFileShowList(self::$fileModel, $list, 'file_list');
+        $file_list = $this->getFileShowList($this->File, $list, 'file_list');
         
         return array_merge($picture_list, $file_list);
     }
@@ -197,7 +179,7 @@ class FileClean extends AdminBase
         
         $allow_ids = array_values(array_unique($file_ids));
         
-        $model = $type == 'picture' ? self::$pictureModel : self::$fileModel;
+        $model = $type == 'picture' ? $this->Picture : $this->File;
         
         $model->deleteInfo(['id' => ['not in', $allow_ids]], true);
     }

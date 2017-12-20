@@ -11,27 +11,13 @@ namespace app\admin\logic;
 class Log extends AdminBase
 {
     
-    // 行为日志模型
-    public static $logModel    = null;
-    
-    /**
-     * 构造方法
-     */
-    public function __construct()
-    {
-        
-        parent::__construct();
-        
-        self::$logModel = model('ActionLog');
-    }
-    
     /**
      * 获取日志列表
      */
     public function getLogList($where = [], $field = true, $order = '')
     {
         
-        return self::$logModel->getList($where, $field, $order);
+        return $this->ActionLog->getList($where, $field, $order);
     }
   
     /**
@@ -40,7 +26,7 @@ class Log extends AdminBase
     public function logDel($where = [])
     {
         
-        return self::$logModel->deleteInfo($where) ? [RESULT_SUCCESS, '日志删除成功'] : [RESULT_ERROR, self::$logModel->getError()];
+        return $this->ActionLog->deleteInfo($where) ? [RESULT_SUCCESS, '日志删除成功'] : [RESULT_ERROR, $this->ActionLog->getError()];
     }
     
     /**
@@ -63,6 +49,6 @@ class Log extends AdminBase
         
         $url = url('logList');
         
-        return self::$logModel->setInfo($data) ? [RESULT_SUCCESS, '日志添加成功', $url] : [RESULT_ERROR, self::$logModel->getError()];
+        return $this->ActionLog->setInfo($data) ? [RESULT_SUCCESS, '日志添加成功', $url] : [RESULT_ERROR, $this->ActionLog->getError()];
     }
 }

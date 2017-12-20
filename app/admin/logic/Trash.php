@@ -23,13 +23,11 @@ class Trash extends AdminBase
         
         foreach ($trash_config as $k => $v) {
             
-            $model = model($k);
-            
             $temp = [];
             [$v];
-            $temp['name']   = $k;
-            $temp['model_path']  = $model->class;
-            $temp['number'] = $model->stat([DATA_STATUS_NAME => DATA_DELETE]);
+            $temp['name']           = $k;
+            $temp['model_path']     = $this->$k->class;
+            $temp['number']         = $this->$k->stat([DATA_STATUS_NAME => DATA_DELETE]);
             
             $list[] = $temp;
         }
@@ -49,7 +47,7 @@ class Trash extends AdminBase
         
         $field = 'id,' . TIME_CT_NAME . ','.TIME_UT_NAME.',' . $dynamic_field;
         
-        $list = model($model_name)->getList([DATA_STATUS_NAME => DATA_DELETE], $field, 'id desc');
+        $list = $this->$model_name->getList([DATA_STATUS_NAME => DATA_DELETE], $field, 'id desc');
         
         return compact('list', 'dynamic_field', 'model_name');
     }
@@ -60,11 +58,9 @@ class Trash extends AdminBase
     public function trashDataDel($model_name = '', $id = 0)
     {
         
-        $model = model($model_name);
-        
         $where = empty($id) ? ['id' => ['neq', DATA_DISABLE]] : ['id' => $id];
         
-        $result = $model->deleteInfo($where, true);
+        $result = $this->$model_name->deleteInfo($where, true);
         
         $result && action_log('删除', '删除回收站数据，model_name：' . $model_name .'，id' . $id);
         
@@ -77,11 +73,9 @@ class Trash extends AdminBase
     public function restoreData($model_name = '', $id = 0)
     {
         
-        $model = model($model_name);
-        
         $where = empty($id) ? ['id' => ['neq', DATA_DISABLE]] : ['id' => $id];
         
-        $result = $model->setFieldValue($where, DATA_STATUS_NAME, DATA_NORMAL);
+        $result = $this->$model_name->setFieldValue($where, DATA_STATUS_NAME, DATA_NORMAL);
         
         $result && action_log('恢复', '恢复回收站数据，model_name：' . $model_name .'，id' . $id);
         

@@ -14,27 +14,13 @@ use app\admin\logic\Member as LogicMember;
 class AuthGroup extends AdminBase
 {
     
-    // 权限组模型
-    public static $authGroupModel    = null;
-    
-    /**
-     * 构造方法
-     */
-    public function __construct()
-    {
-        
-        parent::__construct();
-        
-        self::$authGroupModel = model($this->name);
-    }
-    
     /**
      * 获取权限分组列表
      */
     public function getAuthGroupList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        return self::$authGroupModel->getList($where, $field, $order, $paginate);
+        return $this->AuthGroup->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -43,7 +29,7 @@ class AuthGroup extends AdminBase
     public function groupAdd($data = [])
     {
         
-        $validate = validate($this->name);
+        $validate = validate('AuthGroup');
         
         $validate_result = $validate->scene('add')->check($data);
         
@@ -53,11 +39,11 @@ class AuthGroup extends AdminBase
         
         $data['member_id'] = MEMBER_ID;
         
-        $result = self::$authGroupModel->setInfo($data);
+        $result = $this->AuthGroup->setInfo($data);
         
         $result && action_log('新增', '新增权限组，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
+        return $result ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, $this->AuthGroup->getError()];
     }
     
     /**
@@ -66,7 +52,7 @@ class AuthGroup extends AdminBase
     public function groupEdit($data = [])
     {
         
-        $validate = validate($this->name);
+        $validate = validate('AuthGroup');
         
         $validate_result = $validate->scene('edit')->check($data);
         
@@ -74,11 +60,11 @@ class AuthGroup extends AdminBase
         
         $url = url('groupList');
         
-        $result = self::$authGroupModel->setInfo($data);
+        $result = $this->AuthGroup->setInfo($data);
         
         $result && action_log('编辑', '编辑权限组，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, self::$authGroupModel->getError()];
+        return $result ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, $this->AuthGroup->getError()];
     }
     
     /**
@@ -87,11 +73,11 @@ class AuthGroup extends AdminBase
     public function groupDel($where = [])
     {
         
-        $result = self::$authGroupModel->deleteInfo($where);
+        $result = $this->AuthGroup->deleteInfo($where);
         
         $result && action_log('删除', '删除权限组，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '权限组删除成功'] : [RESULT_ERROR, self::$authGroupModel->getError()];
+        return $result ? [RESULT_SUCCESS, '权限组删除成功'] : [RESULT_ERROR, $this->AuthGroup->getError()];
     }
     
     /**
@@ -100,7 +86,7 @@ class AuthGroup extends AdminBase
     public function getGroupInfo($where = [], $field = true)
     {
         
-        return self::$authGroupModel->getInfo($where, $field);
+        return $this->AuthGroup->getInfo($where, $field);
     }
 
     /**
@@ -113,7 +99,7 @@ class AuthGroup extends AdminBase
         
         $url = url('groupList');
         
-        $result = self::$authGroupModel->setInfo($data);
+        $result = $this->AuthGroup->setInfo($data);
         
         if ($result) {
             
@@ -124,7 +110,7 @@ class AuthGroup extends AdminBase
             return [RESULT_SUCCESS, '权限设置成功', $url];
         } else {
             
-            return [RESULT_ERROR, self::$authGroupModel->getError()];
+            return [RESULT_ERROR, $this->AuthGroup->getError()];
         }
     }
     
@@ -216,7 +202,7 @@ class AuthGroup extends AdminBase
             
             $v['rules'] = arr2str(array_values($rules_arr));
             
-            self::$authGroupModel->setFieldValue(['id' => $v['id']], 'rules', $v['rules']);
+            $this->AuthGroup->setFieldValue(['id' => $v['id']], 'rules', $v['rules']);
         }
     }
 }
