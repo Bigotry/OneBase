@@ -136,6 +136,7 @@ class InitBase
         define('PATH_PICTURE'           , PATH_UPLOAD . 'picture'   . DS);
         define('PATH_FILE'              , PATH_UPLOAD . 'file'      . DS);
         define('PATH_SERVICE'           , ROOT_PATH   . DS . SYS_APP_NAMESPACE . DS . SYS_COMMON_DIR_NAME . DS . LAYER_SERVICE_NAME . DS);
+        define('PATH_COMMON_LOGIC'      , SYS_APP_NAMESPACE . SYS_DS_CONS . SYS_COMMON_DIR_NAME . SYS_DS_CONS . LAYER_LOGIC_NAME . SYS_DS_CONS);
     }
     
     /**

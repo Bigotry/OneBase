@@ -8,7 +8,7 @@
  */
 
 // 业务逻辑层路径
-$common = SYS_APP_NAMESPACE.SYS_DS_CONS.SYS_COMMON_DIR_NAME.SYS_DS_CONS.LAYER_LOGIC_NAME.SYS_DS_CONS;
+$common = PATH_COMMON_LOGIC;
 
 $admin  = str_replace(SYS_COMMON_DIR_NAME, 'admin', $common);
 $api    = str_replace(SYS_COMMON_DIR_NAME, 'api',   $common);
