@@ -5,7 +5,7 @@
 
 namespace app\api\controller;
 
-use app\api\logic\Common as logicCommon;
+use app\api\logic\Common as LogicCommon;
 
 /**
  * 公共基础接口控制器
@@ -19,7 +19,7 @@ class Common extends ApiBase
     public function login()
     {
         
-        return $this->apiReturn(logicCommon::login($this->param));
+        return $this->apiReturn(LogicCommon::login($this->param));
     }
     
     /**
@@ -28,7 +28,7 @@ class Common extends ApiBase
     public function changePassword()
     {
         
-        return $this->apiReturn(logicCommon::changePassword($this->param));
+        return $this->apiReturn(LogicCommon::changePassword($this->param));
     }
     
     /**
@@ -37,6 +37,6 @@ class Common extends ApiBase
     public function getBlogrollList()
     {
         
-        return $this->apiReturn(logicCommon::getBlogrollList($this->param));
+        return $this->apiReturn(LogicCommon::getBlogrollList($this->param));
     }
 }

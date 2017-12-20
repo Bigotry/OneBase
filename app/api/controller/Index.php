@@ -5,7 +5,6 @@
 
 namespace app\api\controller;
 
-use app\api\logic\Document as LogicDocument;
 use app\common\controller\ControllerBase;
 
 /**
@@ -20,11 +19,9 @@ class Index extends ControllerBase
     public function index()
     {
         
-        $documentLogic = get_sington_object('documentLogic', LogicDocument::class);
+        $list = $this->request->logicDocument->getApiList();
         
-        $list = $documentLogic->getApiList();
-        
-        $code_list = $documentLogic->apiErrorCodeData();
+        $code_list = $this->request->logicDocument->apiErrorCodeData();
         
         $this->assign('code_list', $code_list);
         
@@ -43,11 +40,9 @@ class Index extends ControllerBase
     public function details($id = 0)
     {
 
-        $documentLogic = get_sington_object('documentLogic', LogicDocument::class);
+        $list = $this->request->logicDocument->getApiList();
         
-        $list = $documentLogic->getApiList();
-        
-        $info = $documentLogic->getApiInfo(['id' => $id]);
+        $info = $this->request->logicDocument->getApiInfo(['id' => $id]);
         
         $this->assign('info', $info);
         

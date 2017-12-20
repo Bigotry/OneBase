@@ -42,5 +42,11 @@ return [
                         $admin   . 'AuthGroup'  => $prefix . 'AuthGroup',
                     ],
     ],
+    
+    // api 模块依赖注入定义
+    'api' => [
+        
+        'index'     => [$api    . 'Document'    => $prefix . 'Document'],
+    ],
 
 ];
