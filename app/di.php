@@ -48,5 +48,11 @@ return [
         
         'index'     => [$api    . 'Document'    => $prefix . 'Document'],
     ],
+    
+    // index 模块依赖注入定义
+    'index' => [
+        
+        'index'     => [$common . 'Article'     => $prefix . 'Article'],
+    ],
 
 ];
