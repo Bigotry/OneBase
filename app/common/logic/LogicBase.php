@@ -13,24 +13,12 @@ use app\common\model\ModelBase;
 class LogicBase extends ModelBase
 {
     
-    // 绑定
-    protected $bind = [];
-    
-    /**
-     * 赋值
-     */
-    public function __set($name, $value)
-    {
-        
-        $this->bind[$name] = $value;
-    }
-
     /**
      * 读取
      */
     public function __get($name)
     {
         
-        return isset($this->bind[$name]) ? $this->bind[$name] : model($name);
+        return model($name);
     }
 }
