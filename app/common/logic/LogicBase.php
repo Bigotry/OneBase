@@ -17,19 +17,6 @@ class LogicBase extends ModelBase
     protected $bind = [];
     
     /**
-     * 设置当前请求绑定的对象实例
-     * @access public
-     * @param string|array $name    绑定的对象标识
-     * @param mixed  $obj           绑定的对象实例
-     * @return mixed
-     */
-    public function bind($name, $obj = null)
-    {
-        
-        $this->bind[$name] = $obj;
-    }
-
-    /**
      * 赋值
      */
     public function __set($name, $value)
@@ -45,14 +32,5 @@ class LogicBase extends ModelBase
     {
         
         return isset($this->bind[$name]) ? $this->bind[$name] : model($name);
-    }
-
-    /**
-     * 检测
-     */
-    public function __isset($name)
-    {
-        
-        return isset($this->bind[$name]);
     }
 }
