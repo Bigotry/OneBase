@@ -7,7 +7,6 @@ namespace app\api\logic;
 
 use app\api\error\CodeBase;
 use app\api\error\Common as CommonError;
-use app\common\logic\Member as LogicMember;
 use \Firebase\JWT\JWT;
 
 /**
@@ -19,25 +18,21 @@ class Common extends ApiBase
     /**
      * 登录接口逻辑
      */
-    public static function login($data = [])
+    public function login($data = [])
     {
       
-        $validate = validate('Member');
-        
-        $validate_result = $validate->scene('login')->check($data);
+        $validate_result = $this->validateMember->scene('login')->check($data);
         
         if (!$validate_result) : return CommonError::$usernameOrPasswordEmpty; endif;
         
-        $memberLogic = get_sington_object('memberLogic', LogicMember::class);
-        
         begin:
         
-        $member = $memberLogic->getMemberInfo(['username' => $data['username']]);
+        $member = $this->logicMember->getMemberInfo(['username' => $data['username']]);
 
         // 若不存在用户则注册
         if (empty($member))
         {
-            $register_result = static::register($data);
+            $register_result = $this->register($data);
             
             if (!$register_result) : return CommonError::$registerFail; endif;
             
@@ -46,7 +41,7 @@ class Common extends ApiBase
         
         if (data_md5_key($data['password']) !== $member['password']) : return CommonError::$passwordError; endif;
         
-        $jwt_data = static::tokenSign($member);
+        $jwt_data = $this->tokenSign($member);
         
         return [$jwt_data];
     }
@@ -54,15 +49,13 @@ class Common extends ApiBase
     /**
      * 注册方法
      */
-    public static function register($data)
+    public function register($data)
     {
         
         $data['nickname']  = $data['username'];
         $data['password']  = data_md5_key($data['password']);
 
-        $memberLogic = get_sington_object('memberLogic', LogicMember::class);
-        
-        return $memberLogic->setInfo($data);
+        return $this->logicMember->setInfo($data);
     }
     
     /**
@@ -94,14 +87,12 @@ class Common extends ApiBase
     /**
      * 修改密码
      */
-    public static function changePassword($data)
+    public function changePassword($data)
     {
         
         $member = get_member_by_token($data['user_token']);
         
-        $memberLogic = get_sington_object('memberLogic', LogicMember::class);
-        
-        $member_info = $memberLogic->getMemberInfo(['id' => $member->member_id]);
+        $member_info = $this->logicMember->getMemberInfo(['id' => $member->member_id]);
         
         if (empty($data['old_password']) || empty($data['new_password'])) : return CommonError::$oldOrNewPassword; endif;
         
@@ -109,7 +100,7 @@ class Common extends ApiBase
 
         $member_info['password'] = $data['new_password'];
         
-        $result = $memberLogic->setInfo($member_info);
+        $result = $this->logicMember->setInfo($member_info);
         
         return $result ? CodeBase::$success : CommonError::$changePasswordFail;
     }
@@ -117,10 +108,10 @@ class Common extends ApiBase
     /**
      * 友情链接
      */
-    public static function getBlogrollList()
+    public function getBlogrollList()
     {
         
-        $list = model('Blogroll')->getList([DATA_STATUS_NAME => DATA_NORMAL], true, 'sort desc,id asc', false);
+        $list = $this->modelBlogroll->getList([DATA_STATUS_NAME => DATA_NORMAL], true, 'sort desc,id asc', false);
         
         return [$list];
     }

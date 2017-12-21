@@ -5,7 +5,7 @@
 
 namespace app\api\logic;
 
-use app\common\logic\Article as LogicArticle;
+use app\common\logic\Article as CommonArticle;
 
 /**
  * 文章接口逻辑
@@ -13,24 +13,26 @@ use app\common\logic\Article as LogicArticle;
 class Article extends ApiBase
 {
     
-    public static $articleLogic = null;
-
-
-    public static function initLogic()
+    public static $commonArticleLogic = null;
+    
+    /**
+     * 基类初始化
+     */
+    public function __construct()
     {
+        // 执行父类构造方法
+        parent::__construct();
         
-        static::$articleLogic = get_sington_object('articleLogic', LogicArticle::class);
+        empty(static::$commonArticleLogic) && static::$commonArticleLogic = get_sington_object('Article', CommonArticle::class);
     }
     
     /**
      * 获取文章分类列表
      */
-    public static function getArticleCategoryList()
+    public function getArticleCategoryList()
     {
         
-        static::initLogic();
-        
-        $list = static::$articleLogic->getArticleCategoryList([], 'id,name', 'id desc', false);
+        $list = static::$commonArticleLogic->getArticleCategoryList([], 'id,name', 'id desc', false);
         
         return [$list];
     }
@@ -38,16 +40,14 @@ class Article extends ApiBase
     /**
      * 获取文章列表
      */
-    public static function getArticleList($data = [])
+    public function getArticleList($data = [])
     {
-        
-        static::initLogic();
         
         $where = [];
         
         !empty($data['category_id']) && $where['category_id'] = $data['category_id'];
         
-        $list = static::$articleLogic->getArticleList($where, 'id,name,category_id,describe,create_time', 'create_time desc');
+        $list = static::$commonArticleLogic->getArticleList($where, 'id,name,category_id,describe,create_time', 'create_time desc');
         
         return [$list];
     }
@@ -55,12 +55,10 @@ class Article extends ApiBase
     /**
      * 获取文章信息
      */
-    public static function getArticleInfo($data = [])
+    public function getArticleInfo($data = [])
     {
         
-        static::initLogic();
-        
-        $info = static::$articleLogic->getArticleInfo(['id' => $data['article_id']], 'id,name,category_id,describe,content,create_time');
+        $info = static::$commonArticleLogic->getArticleInfo(['id' => $data['article_id']], 'id,name,category_id,describe,content,create_time');
         
         $info['content'] = html_entity_decode($info['content'] );
         

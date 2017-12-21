@@ -63,9 +63,7 @@ class ApiBase extends LogicBase
     public function checkDataSign($data)
     {
         
-        $ApiModel = model('Api');
-        
-        $info = $ApiModel->getInfo(['api_url' => URL]);
+        $info = $this->modelApi->getInfo(['api_url' => URL]);
         
         $info['is_response_sign'] && !empty($data['data']) && $data['data']['data_sign'] = data_auth_sign($data['data']);
         
@@ -87,9 +85,7 @@ class ApiBase extends LogicBase
     public function checkParam($param = [])
     {
         
-        $ApiModel = model('Api');
-        
-        $info = $ApiModel->getInfo(['api_url' => URL]);
+        $info = $this->modelApi->getInfo(['api_url' => URL]);
         
         empty($info) && $this->apiError(CodeBase::$apiUrlError);
         

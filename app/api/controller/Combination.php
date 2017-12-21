@@ -5,8 +5,6 @@
 
 namespace app\api\controller;
 
-use app\api\logic\Article as LogicArticle;
-
 /**
  * 聚合接口控制器
  */
@@ -19,8 +17,8 @@ class Combination extends ApiBase
     public function index()
     {
         
-        list($article_category_list) = LogicArticle::getArticleCategoryList();
-        list($article_list)          = LogicArticle::getArticleList($this->param);
+        list($article_category_list) = $this->logicArticle->getArticleCategoryList();
+        list($article_list)          = $this->logicArticle->getArticleList($this->param);
         
         return $this->apiReturn([compact('article_category_list', 'article_list')]);
     }
@@ -31,8 +29,8 @@ class Combination extends ApiBase
     public function details()
     {
         
-        list($article_category_list) = LogicArticle::getArticleCategoryList();
-        list($article_details)       = LogicArticle::getArticleInfo($this->param);
+        list($article_category_list) = $this->logicArticle->getArticleCategoryList();
+        list($article_details)       = $this->logicArticle->getArticleInfo($this->param);
         
         return $this->apiReturn([compact('article_category_list', 'article_details')]);
     }

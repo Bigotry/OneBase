@@ -6,16 +6,12 @@
 namespace app\api\controller;
 
 use app\common\controller\ControllerBase;
-use app\api\logic\ApiBase as LogicApiBase;
 
 /**
  * 接口基类控制器
  */
 class ApiBase extends ControllerBase
 {
-    
-    // API基础逻辑
-    private static $apiBaseLogic = null;
     
     /**
      * 基类初始化
@@ -25,9 +21,7 @@ class ApiBase extends ControllerBase
         
         parent::__construct();
         
-        self::$apiBaseLogic = get_sington_object('apiBaseLogic', LogicApiBase::class);
-        
-        self::$apiBaseLogic->checkParam($this->param);
+        $this->logicApiBase->checkParam($this->param);
         
         debug('api_begin');
     }
@@ -38,7 +32,7 @@ class ApiBase extends ControllerBase
     public function apiReturn($code_data = [], $return_data = [], $return_type = 'json')
     {
         
-        $result = self::$apiBaseLogic->apiReturn($code_data, $return_data, $return_type);
+        $result = $this->logicApiBase->apiReturn($code_data, $return_data, $return_type);
         
         debug('api_end');
         

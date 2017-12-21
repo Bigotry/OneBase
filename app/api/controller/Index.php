@@ -19,9 +19,9 @@ class Index extends ControllerBase
     public function index()
     {
         
-        $list = $this->request->logicDocument->getApiList();
+        $list = $this->logicDocument->getApiList();
         
-        $code_list = $this->request->logicDocument->apiErrorCodeData();
+        $code_list = $this->logicDocument->apiErrorCodeData();
         
         $this->assign('code_list', $code_list);
         
@@ -40,9 +40,9 @@ class Index extends ControllerBase
     public function details($id = 0)
     {
 
-        $list = $this->request->logicDocument->getApiList();
+        $list = $this->logicDocument->getApiList();
         
-        $info = $this->request->logicDocument->getApiInfo(['id' => $id]);
+        $info = $this->logicDocument->getApiInfo(['id' => $id]);
         
         $this->assign('info', $info);
         

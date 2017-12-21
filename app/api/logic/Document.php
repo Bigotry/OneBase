@@ -17,9 +17,9 @@ class Document extends ApiBase
     public function getApiList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        $api_group_list = model('ApiGroup')->getList($where, $field, $order, $paginate);
+        $api_group_list = $this->modelApiGroup->getList($where, $field, $order, $paginate);
         
-        $api_list = model('Api')->getList($where, $field, $order, $paginate);
+        $api_list = $this->modelApi->getList($where, $field, $order, $paginate);
         
         foreach ($api_group_list as &$group_info)
         {
@@ -52,7 +52,7 @@ class Document extends ApiBase
     public function getApiGroupList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        return model('ApiGroup')->getList($where, $field, $order, $paginate);
+        return $this->modelApiGroup->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -61,7 +61,7 @@ class Document extends ApiBase
     public function getApiInfo($where = [], $field = true)
     {
         
-        $info = model('Api')->getInfo($where, $field);
+        $info = $this->modelApi->getInfo($where, $field);
         
         $api_data_type_option = parse_config_array('api_data_type_option');
         $api_status_option    = parse_config_array('api_status_option');
@@ -119,7 +119,7 @@ class Document extends ApiBase
     public function apiErrorCodeData()
     {
         
-        $path = APP_PATH . 'api' . SYS_DS_PROS . 'error';
+        $path = APP_PATH . 'api' . SYS_DS_PROS . RESULT_ERROR;
         
         $file_list  = file_list($path);
         
@@ -128,7 +128,7 @@ class Document extends ApiBase
         foreach ($file_list as $v)
         {
             
-            $class_path = SYS_DS_CONS . SYS_APP_NAMESPACE . SYS_DS_CONS . 'api' . SYS_DS_CONS . 'error' . SYS_DS_CONS;    
+            $class_path = SYS_DS_CONS . SYS_APP_NAMESPACE . SYS_DS_CONS . 'api' . SYS_DS_CONS . RESULT_ERROR . SYS_DS_CONS;    
             
             $class_name = str_replace(EXT, '', $v);
             
