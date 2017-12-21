@@ -179,24 +179,6 @@ function get_sington_object($object_name = '', $class = null)
 }
 
 /**
- * 实现依赖注入
- */
-function di()
-{
-
-    $di_config = require APP_PATH . 'di' . EXT;
-    
-    $di_config_array = !empty($di_config[MODULE_NAME]) ? $di_config[MODULE_NAME] : [];
-    
-    foreach ($di_config_array as $k => $v)
-    {
-        if (CONTROLLER_NAME != $k) : continue; endif;
-
-        foreach ($v as $p => $a) { get_sington_object($a, $p); }
-    }
-}
-
-/**
  * 将二维数组数组按某个键提取出来组成新的索引数组
  */
 function array_extract($array = [], $key = 'id')
@@ -759,4 +741,13 @@ function throw_response_exception($data = [], $type = 'json')
     $response = Response::create($data, $type);
 
     throw new HttpResponseException($response);
+}
+
+/**
+ * 字符串前缀验证
+ */
+function str_prefix($str, $prefix)
+{
+    
+    return strpos($str, $prefix) === DATA_DISABLE ? true : false;
 }
