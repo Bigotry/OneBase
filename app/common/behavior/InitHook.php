@@ -38,7 +38,9 @@ class InitHook
             if(empty($v)) : continue; endif;
                 
             $where[DATA_STATUS_NAME] = DATA_NORMAL;
+            
             $name_list = explode(',', $v);
+            
             $where['name'] = ['in', $name_list];
 
             $cache_key = 'cache_' . md5(serialize($where));

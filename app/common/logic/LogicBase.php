@@ -13,12 +13,4 @@ use app\common\model\ModelBase;
 class LogicBase extends ModelBase
 {
     
-    /**
-     * 读取
-     */
-    public function __get($name)
-    {
-        
-        return model($name);
-    }
 }

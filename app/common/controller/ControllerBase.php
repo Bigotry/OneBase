@@ -30,9 +30,6 @@ class ControllerBase extends Controller
         
         // 初始化响应类型
         $this->initResponseType();
-        
-        // 依赖注入
-        di();
     }
     
     /**
@@ -88,7 +85,7 @@ class ControllerBase extends Controller
             case $success  : $this->$success($data[$m], $data[$u]); break;
             case $error    : $this->$error($data[$m], $data[$u]);   break;
             case $redirect : $this->$redirect($data[$u]);           break;
-            default        : exception('System jump failure');
+            default        : exception('系统跳转失败:' . $data[$u]);
         }
     }
     
@@ -114,4 +111,14 @@ class ControllerBase extends Controller
         $this->assign('pjax_mode',    config('pjax_mode'));
     }
     
+    /**
+     * 获取逻辑层实例
+     */
+    public function __get($name)
+    {
+        
+        !str_prefix($name, LAYER_LOGIC_NAME) && exception('逻辑层引用需前缀:' . LAYER_LOGIC_NAME);
+        
+        return model(str_replace(LAYER_LOGIC_NAME, '', $name), LAYER_LOGIC_NAME);
+    }
 }

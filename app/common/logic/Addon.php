@@ -26,13 +26,11 @@ class Addon extends LogicBase
        
         $list = [];
         
-        $model = model($this->name);
-        
         foreach ($object_list as $object) {
             
             $addon_info = $object->addonInfo();
             
-            $info = $model->getInfo(['name' => $addon_info['name']]);
+            $info = $this->modelAddon->getInfo(['name' => $addon_info['name']]);
             
             $addon_info['is_install'] = empty($info) ? DATA_DISABLE : DATA_NORMAL;
             
@@ -66,7 +64,9 @@ class Addon extends LogicBase
     public function getHookList($where = [], $field = true, $order = '')
     {
         
-        return model(ucwords(SYS_HOOK_DIR_NAME))->getList($where, $field, $order);
+        $m = LAYER_MODEL_NAME . ucwords(SYS_HOOK_DIR_NAME);
+        
+        return $this->$m->getList($where, $field, $order);
     }
     
     /**

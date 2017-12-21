@@ -13,24 +13,6 @@ use think\Image;
 class File extends LogicBase
 {
     
-    // 图片模型
-    public static $pictureModel = null;
-    
-    // 文件模型
-    public static $fileModel    = null;
-    
-    /**
-     * 构造方法
-     */
-    public function __construct()
-    {
-        
-        parent::__construct();
-        
-        self::$fileModel    = model($this->name);
-        self::$pictureModel = model('Picture');
-    }
-    
     /**
      * 图片上传
      * small,medium,big
@@ -42,7 +24,7 @@ class File extends LogicBase
         
         $sha1  = $object_info->hash();
         
-        $picture_info = self::$pictureModel->getInfo(['sha1' => $sha1], 'id,name,path,sha1');
+        $picture_info = $this->modelPicture->getInfo(['sha1' => $sha1], 'id,name,path,sha1');
         
         if (!empty($picture_info)) : return $picture_info; endif;
         
@@ -66,7 +48,7 @@ class File extends LogicBase
         
         $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
         
-        $result = self::$pictureModel->addInfo($data);
+        $result = $this->modelPicture->addInfo($data);
         
         $this->checkStorage($result);
         
@@ -85,7 +67,7 @@ class File extends LogicBase
         
         $sha1  = $object_info->hash();
         
-        $file_info = self::$fileModel->getInfo(['sha1' => $sha1], 'id,name,path,sha1');
+        $file_info = $this->modelFile->getInfo(['sha1' => $sha1], 'id,name,path,sha1');
         
         if (!empty($file_info)) : return $file_info; endif;
         
@@ -99,7 +81,7 @@ class File extends LogicBase
         
         $data = ['name' => $filename, 'path' => $file_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
         
-        $result = self::$fileModel->addInfo($data);
+        $result = $this->modelFile->addInfo($data);
         
         $this->checkStorage($result, 'uploadFile');
         
@@ -118,13 +100,11 @@ class File extends LogicBase
         
         if (empty($storage_driver)) : return false; endif;
         
-        $StorageModel = model('Storage', LAYER_SERVICE_NAME);
+        $this->serviceStorage->setDriver($storage_driver);
 
-        $StorageModel->setDriver($storage_driver);
-
-        $storage_result = $StorageModel->$method($result);
+        $storage_result = $this->serviceStorage->$method($result);
         
-        $method != 'uploadPicture' ? self::$fileModel->setFieldValue(['id' => $result], 'url', $storage_result) : self::$pictureModel->setFieldValue(['id' => $result], 'url', $storage_result);
+        $method != 'uploadPicture' ? $this->modelFile->setFieldValue(['id' => $result], 'url', $storage_result) : $this->modelPicture->setFieldValue(['id' => $result], 'url', $storage_result);
     }
     
 }

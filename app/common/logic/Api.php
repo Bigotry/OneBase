@@ -11,31 +11,13 @@ namespace app\common\logic;
 class Api extends LogicBase
 {
     
-    // API模型
-    public static $apiModel         = null;
-    
-    // API分组模型
-    public static $apiGroupModel    = null;
-    
-    /**
-     * 构造方法
-     */
-    public function __construct()
-    {
-        
-        parent::__construct();
-        
-        self::$apiModel         = model($this->name);
-        self::$apiGroupModel    = model('ApiGroup');
-    }
-    
     /**
      * 获取API列表
      */
     public function getApiList($where = [], $field = true, $order = '', $paginate = 0)
     {
         
-        return self::$apiModel->getList($where, $field, $order, $paginate);
+        return $this->modelApi->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -44,13 +26,11 @@ class Api extends LogicBase
     public function apiEdit($data = [])
     {
         
-        $validate = validate('Api');
+        $validate_result = $this->validateApi->scene('edit')->check($data);
         
-        $validate_result = $validate->scene('edit')->check($data);
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateApi->getError()]; endif;
         
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
-        
-        if (!$validate->checkFieldData($data)) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$this->validateApi->checkFieldData($data)) : return [RESULT_ERROR, $this->validateApi->getError()]; endif;
             
         !empty($data['is_request_data'])  ? $data['request_data']  = transform_array_to_json($data['request_data'])  : $data['request_data']  = '';
         !empty($data['is_response_data']) ? $data['response_data'] = transform_array_to_json($data['response_data']) : $data['response_data'] = '';
@@ -60,13 +40,13 @@ class Api extends LogicBase
         
         $url = url('apiList');
         
-        $result = self::$apiModel->setInfo($data);
+        $result = $this->modelApi->setInfo($data);
         
         $handle_text = empty($data['id']) ? '新增' : '编辑';
         
         $result && action_log($handle_text, 'API' . $handle_text . '，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$apiModel->getError()];
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $this->modelApi->getError()];
     }
     
     /**
@@ -75,7 +55,7 @@ class Api extends LogicBase
     public function getApiGroupList($where = [], $field = true, $order = '')
     {
         
-        return self::$apiGroupModel->getList($where, $field, $order, false);
+        return $this->modelApiGroup->getList($where, $field, $order, false);
     }
     
     /**
@@ -84,21 +64,19 @@ class Api extends LogicBase
     public function apiGroupEdit($data = [])
     {
         
-        $validate = validate('ApiGroup');
+        $validate_result = $this->validateApiGroup->scene('edit')->check($data);
         
-        $validate_result = $validate->scene('edit')->check($data);
-        
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateApiGroup->getError()]; endif;
         
         $url = url('apiGroupList');
         
-        $result = self::$apiGroupModel->setInfo($data);
+        $result = $this->modelApiGroup->setInfo($data);
         
         $handle_text = empty($data['id']) ? '新增' : '编辑';
         
         $result && action_log($handle_text, 'API分组' . $handle_text . '，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$apiGroupModel->getError()];
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $this->modelApiGroup->getError()];
     }
     
     /**
@@ -107,7 +85,7 @@ class Api extends LogicBase
     public function getApiInfo($where = [], $field = true)
     {
 
-        return self::$apiModel->getInfo($where, $field);
+        return $this->modelApi->getInfo($where, $field);
     }
     
     /**
@@ -116,7 +94,7 @@ class Api extends LogicBase
     public function getApiGroupInfo($where = [], $field = true)
     {
         
-        return self::$apiGroupModel->getInfo($where, $field);
+        return $this->modelApiGroup->getInfo($where, $field);
     }
     
     /**
@@ -125,11 +103,11 @@ class Api extends LogicBase
     public function apiDel($where = [])
     {
         
-        $result = self::$apiModel->deleteInfo($where);
+        $result = $this->modelApi->deleteInfo($where);
         
         $result && action_log('删除', 'API删除' . '，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$apiModel->getError()];
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $this->modelApi->getError()];
     }
     
     /**
@@ -138,11 +116,11 @@ class Api extends LogicBase
     public function apiGroupDel($where = [])
     {
         
-        $result = self::$apiGroupModel->deleteInfo($where);
+        $result = $this->modelApiGroup->deleteInfo($where);
         
         $result && action_log('删除', 'API分组删除' . '，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$apiGroupModel->getError()];
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $this->modelApiGroup->getError()];
     }
     
     /**

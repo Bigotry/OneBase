@@ -11,27 +11,13 @@ namespace app\common\logic;
 class Seo extends LogicBase
 {
     
-    // SEO模型
-    public static $seoModel = null;
-    
-    /**
-     * 构造方法
-     */
-    public function __construct()
-    {
-        
-        parent::__construct();
-        
-        self::$seoModel  = model('Seo');
-    }
-    
     /**
      * 获取SEO列表
      */
     public function getSeoList($where = [], $field = true, $order = '', $paginate = 0)
     {
         
-        return self::$seoModel->getList($where, $field, $order, $paginate);
+        return $this->modelSeo->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -40,21 +26,19 @@ class Seo extends LogicBase
     public function seoEdit($data = [])
     {
         
-        $validate = validate('Seo');
+        $validate_result = $this->validateSeo->scene('edit')->check($data);
         
-        $validate_result = $validate->scene('edit')->check($data);
-        
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateSeo->getError()]; endif;
         
         $url = url('seoList');
         
-        $result = self::$seoModel->setInfo($data);
+        $result = $this->modelSeo->setInfo($data);
         
         $handle_text = empty($data['id']) ? '新增' : '编辑';
         
         $result && action_log($handle_text, 'SEO' . $handle_text . '，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, self::$seoModel->getError()];
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $this->modelSeo->getError()];
     }
 
     /**
@@ -63,7 +47,7 @@ class Seo extends LogicBase
     public function getSeoInfo($where = [], $field = true)
     {
         
-        return self::$seoModel->getInfo($where, $field);
+        return $this->modelSeo->getInfo($where, $field);
     }
     
     /**
@@ -72,10 +56,10 @@ class Seo extends LogicBase
     public function seoDel($where = [])
     {
         
-        $result = self::$seoModel->deleteInfo($where);
+        $result = $this->modelSeo->deleteInfo($where);
         
         $result && action_log('删除', 'SEO删除' . '，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, self::$seoModel->getError()];
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $this->modelSeo->getError()];
     }
 }
