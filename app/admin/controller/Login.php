@@ -33,7 +33,7 @@ class Login extends ControllerBase
     public function loginHandle($username = '', $password = '', $verify = '')
     {
         
-        $this->jump($this->request->logicLogin->loginHandle($username, $password, $verify));
+        $this->jump($this->logicLogin->loginHandle($username, $password, $verify));
     }
     
     /**
@@ -42,7 +42,7 @@ class Login extends ControllerBase
     public function logout()
     {
         
-        $this->jump($this->request->logicLogin->logout());
+        $this->jump($this->logicLogin->logout());
     }
     
     /**
@@ -51,7 +51,7 @@ class Login extends ControllerBase
     public function clearCache()
     {
         
-        $this->jump($this->request->logicLogin->clearCache());
+        $this->jump($this->logicLogin->clearCache());
     }
     
 }

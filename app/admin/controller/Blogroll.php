@@ -17,7 +17,7 @@ class Blogroll extends AdminBase
     public function blogrollList()
     {
         
-        $this->assign('list', $this->request->logicBlogroll->getBlogrollList());
+        $this->assign('list', $this->logicBlogroll->getBlogrollList());
         
         return $this->fetch('blogroll_list');
     }
@@ -28,7 +28,7 @@ class Blogroll extends AdminBase
     public function blogrollAdd()
     {
         
-        IS_POST && $this->jump($this->request->logicBlogroll->blogrollEdit($this->param));
+        IS_POST && $this->jump($this->logicBlogroll->blogrollEdit($this->param));
         
         return $this->fetch('blogroll_edit');
     }
@@ -39,9 +39,9 @@ class Blogroll extends AdminBase
     public function blogrollEdit()
     {
         
-        IS_POST && $this->jump($this->request->logicBlogroll->blogrollEdit($this->param));
+        IS_POST && $this->jump($this->logicBlogroll->blogrollEdit($this->param));
         
-        $info = $this->request->logicBlogroll->getBlogrollInfo(['id' => $this->param['id']]);
+        $info = $this->logicBlogroll->getBlogrollInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -54,6 +54,6 @@ class Blogroll extends AdminBase
     public function blogrollDel($id = 0)
     {
         
-        $this->jump($this->request->logicBlogroll->blogrollDel(['id' => $id]));
+        $this->jump($this->logicBlogroll->blogrollDel(['id' => $id]));
     }
 }

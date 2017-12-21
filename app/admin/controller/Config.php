@@ -17,13 +17,13 @@ class Config extends AdminBase
     public function setting()
     {
         
-        IS_POST && $this->jump($this->request->logicConfig->settingSave($this->param));
+        IS_POST && $this->jump($this->logicConfig->settingSave($this->param));
         
         $where = empty($this->param['group']) ? ['group' => 1] : ['group' => $this->param['group']];
         
         $this->getConfigCommonData();
         
-        $this->assign('list', $this->request->logicConfig->getConfigList($where, true, 'sort', false));
+        $this->assign('list', $this->logicConfig->getConfigList($where, true, 'sort', false));
         
         $this->assign('group', $where['group']);
         
@@ -40,7 +40,7 @@ class Config extends AdminBase
         
         $this->getConfigCommonData();
         
-        $this->assign('list', $this->request->logicConfig->getConfigList($where));
+        $this->assign('list', $this->logicConfig->getConfigList($where));
         
         $this->assign('group', $where ? $this->param['group'] : 0);
         
@@ -68,7 +68,7 @@ class Config extends AdminBase
     public function configAdd()
     {
         
-        IS_POST && $this->jump($this->request->logicConfig->configAdd($this->param));
+        IS_POST && $this->jump($this->logicConfig->configAdd($this->param));
         
         $this->getConfigCommonData();
         
@@ -83,9 +83,9 @@ class Config extends AdminBase
     public function configEdit()
     {
         
-        IS_POST && $this->jump($this->request->logicConfig->configEdit($this->param));
+        IS_POST && $this->jump($this->logicConfig->configEdit($this->param));
         
-        $info = $this->request->logicConfig->getConfigInfo(['id' => $this->param['id']]);
+        $info = $this->logicConfig->getConfigInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -100,6 +100,6 @@ class Config extends AdminBase
     public function configDel($id = 0)
     {
         
-        $this->jump($this->request->logicConfig->configDel(['id' => $id]));
+        $this->jump($this->logicConfig->configDel(['id' => $id]));
     }
 }

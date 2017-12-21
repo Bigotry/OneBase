@@ -17,7 +17,7 @@ class Trash extends AdminBase
     public function trashList()
     {
         
-        $this->assign('list', $this->request->logicTrash->getTrashList());
+        $this->assign('list', $this->logicTrash->getTrashList());
         
         return $this->fetch('trash_list');
     }
@@ -28,7 +28,7 @@ class Trash extends AdminBase
     public function trashDataList()
     {
         
-        $data = $this->request->logicTrash->getTrashDataList($this->param['name']);
+        $data = $this->logicTrash->getTrashDataList($this->param['name']);
         
         $this->assign('model_name', $data['model_name']);
         $this->assign('list', $data['list']);
@@ -43,7 +43,7 @@ class Trash extends AdminBase
     public function trashDataDel($model_name = '', $id = 0)
     {
         
-        $this->jump($this->request->logicTrash->trashDataDel($model_name, $id));
+        $this->jump($this->logicTrash->trashDataDel($model_name, $id));
     }
     
     /**
@@ -52,6 +52,6 @@ class Trash extends AdminBase
     public function restoreData($model_name = '', $id = 0)
     {
         
-        $this->jump($this->request->logicTrash->restoreData($model_name, $id));
+        $this->jump($this->logicTrash->restoreData($model_name, $id));
     }
 }

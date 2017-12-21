@@ -17,7 +17,7 @@ class Auth extends AdminBase
     public function groupList()
     {
         
-        $this->assign('list', $this->request->logicAuthGroup->getAuthGroupList(['member_id' => MEMBER_ID], true, '', DB_LIST_ROWS));
+        $this->assign('list', $this->logicAuthGroup->getAuthGroupList(['member_id' => MEMBER_ID], true, '', DB_LIST_ROWS));
         
         return $this->fetch('group_list');
     }
@@ -28,7 +28,7 @@ class Auth extends AdminBase
     public function groupAdd()
     {
         
-        IS_POST && $this->jump($this->request->logicAuthGroup->groupAdd($this->param));
+        IS_POST && $this->jump($this->logicAuthGroup->groupAdd($this->param));
         
         return $this->fetch('group_edit');
     }
@@ -39,9 +39,9 @@ class Auth extends AdminBase
     public function groupEdit()
     {
         
-        IS_POST && $this->jump($this->request->logicAuthGroup->groupEdit($this->param));
+        IS_POST && $this->jump($this->logicAuthGroup->groupEdit($this->param));
         
-        $info = $this->request->logicAuthGroup->getGroupInfo(['id' => $this->param['id']]);
+        $info = $this->logicAuthGroup->getGroupInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -54,7 +54,7 @@ class Auth extends AdminBase
     public function groupDel($id = 0)
     {
         
-        $this->jump($this->request->logicAuthGroup->groupDel(['id' => $id]));
+        $this->jump($this->logicAuthGroup->groupDel(['id' => $id]));
     }
     
     /**
@@ -63,13 +63,13 @@ class Auth extends AdminBase
     public function menuAuth()
     {
         
-        IS_POST && $this->jump($this->request->logicAuthGroup->setGroupRules($this->param));
+        IS_POST && $this->jump($this->logicAuthGroup->setGroupRules($this->param));
         
         // 获取未被过滤的菜单树
-        $menu_tree = $this->adminBaseLogic->getListTree($this->authMenuList);
+        $menu_tree = $this->logicAdminBase->getListTree($this->authMenuList);
         
         // 菜单转换为多选视图，支持无限级
-        $menu_view = $this->menuLogic->menuToCheckboxView($menu_tree);
+        $menu_view = $this->logicMenu->menuToCheckboxView($menu_tree);
         
         $this->assign('list', $menu_view);
         

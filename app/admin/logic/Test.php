@@ -19,7 +19,7 @@ class Test extends AdminBase
         
         $func1 = function()
                 {
-                    model('Member')->setFieldValue(['username' => 'demo'], 'nickname', 'demo_test');
+                    $this->modelMember->setFieldValue(['username' => 'demo'], 'nickname', 'demo_test');
                 };
                 
         $func2 = function()
@@ -36,15 +36,13 @@ class Test extends AdminBase
     public function pay()
     {
         
-        $PayModel = model('Pay', 'service');
-        
-        $PayModel->setDriver('Alipay');
+        $this->servicePay->setDriver('Alipay');
         
         $test_order['order_sn'] =  date('ymdhis', time()) . rand(10000, 99999);
         $test_order['body'] =  '测试';
         $test_order['order_amount'] =  0.01;
         
-        exit($PayModel->pay($test_order));
+        exit($this->servicePay->pay($test_order));
     }
     
     /**
@@ -53,11 +51,9 @@ class Test extends AdminBase
     public function storage()
     {
         
-        $StorageModel = model('Storage', 'service');
+        $this->serviceStorage->setDriver('Qiniu');
         
-        $StorageModel->setDriver('Qiniu');
-        
-        return $StorageModel->upload(130);
+        return $this->serviceStorage->upload(130);
     }
     
     /**
@@ -66,15 +62,13 @@ class Test extends AdminBase
     public function sendSms()
     {
         
-        $SmsModel = model('Sms', 'service');
-        
-        $SmsModel->setDriver('Alidy');
+        $this->serviceSms->setDriver('Alidy');
         
         $parameter['sign_name']      = 'OneBase架构';
         $parameter['template_code']  = 'SMS_113455309';
         $parameter['phone_number']   = '18555550710';
         $parameter['template_param'] = ['code' => '123456'];
         
-        return $SmsModel->sendSms($parameter);
+        return $this->serviceSms->sendSms($parameter);
     }
 }

@@ -5,8 +5,6 @@
 
 namespace app\admin\logic;
 
-use app\admin\logic\Menu as LogicMenu;
-
 /**
  * 授权逻辑
  */
@@ -19,11 +17,9 @@ class AuthGroupAccess extends AdminBase
     public function getAuthMenuList($member_id = 0)
     {
         
-        $model = get_sington_object('menuLogic', LogicMenu::class);
-        
         $sort = 'sort desc,id asc';
         
-        if (IS_ROOT) : return $model->getMenuList([], true, $sort); endif;
+        if (IS_ROOT) : return $this->logicMenu->getMenuList([], true, $sort); endif;
         
         // 获取用户组列表
         $group_list = $this->getMemberGroupInfo($member_id);
@@ -42,7 +38,7 @@ class AuthGroupAccess extends AdminBase
         // 查询条件
         $where = ['id' => ['in', $menu_ids]];
         
-        return $model->getMenuList($where, true, $sort);
+        return $this->modelMenu->getMenuList($where, true, $sort);
     }
     
     /**
@@ -67,7 +63,7 @@ class AuthGroupAccess extends AdminBase
     public function getMemberGroupInfo($member_id = 0)
     {
         
-        $this->AuthGroupAccess->alias('a');
+        $this->modelAuthGroupAccess->alias('a');
         
         is_array($member_id) ? $where['a.member_id'] = ['in', $member_id] : $where['a.member_id'] = $member_id;
         
@@ -79,7 +75,7 @@ class AuthGroupAccess extends AdminBase
                     [SYS_DB_PREFIX . 'auth_group g', 'a.group_id = g.id'],
                 ];
         
-        return $this->AuthGroupAccess->getList($where, $field, '', false, $join);
+        return $this->modelAuthGroupAccess->getList($where, $field, '', false, $join);
     }
     
     /**
@@ -88,6 +84,6 @@ class AuthGroupAccess extends AdminBase
     public function getAuthGroupAccessList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        return $this->AuthGroupAccess->getList($where, $field, $order, $paginate);
+        return $this->modelAuthGroupAccess->getList($where, $field, $order, $paginate);
     }
 }

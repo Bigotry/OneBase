@@ -41,7 +41,7 @@ class Statistic extends AdminBase
         
         foreach ($list as $v) :
             
-            switch (date("Y-m-d",strtotime($v['create_time']))) :
+            switch (date("Y-m-d",strtotime($v[TIME_CT_NAME]))) :
                 case $data[0][0]    : $data[0][1]++;  break;
                 case $data[1][0]    : $data[1][1]++;  break;
                 case $data[2][0]    : $data[2][1]++;  break;
@@ -77,7 +77,7 @@ class Statistic extends AdminBase
         $where['is_inside']   = DATA_DISABLE;
         $where['create_time'] = [['elt', $e_time], ['egt', $s_time]];
         
-        $list = $this->Member->getList($where, 'id,create_time,is_inside,status', '', false);
+        $list = $this->modelMember->getList($where, 'id,create_time,is_inside,status', '', false);
         
         return $list;
     }
@@ -111,7 +111,7 @@ class Statistic extends AdminBase
         if (!empty($cache_data)) : return $cache_data; endif;
         
         // 取最近的1万条执行记录进行速度分析
-        $list = $this->ExeLog->getList(['status' => DATA_NORMAL], 'id,exe_time', 'id desc', false, [], '', 10000);
+        $list = $this->modelExeLog->getList(['status' => DATA_NORMAL], 'id,exe_time', 'id desc', false, [], '', 10000);
 
         $data = [0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0];
 
@@ -146,11 +146,11 @@ class Statistic extends AdminBase
         
         if (!empty($cache_data)) : return $cache_data; endif;
         
-        $browser_list = $this->ExeLog->getList(['status' => DATA_NORMAL], 'browser as name,count(id) as value', '', false, [], 'browser');
+        $browser_list = $this->modelExeLog->getList(['status' => DATA_NORMAL], 'browser as name,count(id) as value', '', false, [], 'browser');
         
         $browser_name_data = array_extract($browser_list, 'name');
         
-        $system_list = $this->ExeLog->getList(['status' => DATA_NORMAL], 'exe_os as name,count(id) as value', '', false, [], 'exe_os');
+        $system_list = $this->modelExeLog->getList(['status' => DATA_NORMAL], 'exe_os as name,count(id) as value', '', false, [], 'exe_os');
         
         $system_name_data = array_extract($system_list, 'name');
         
@@ -172,7 +172,7 @@ class Statistic extends AdminBase
         
         if (!empty($cache_data)) : return $cache_data; endif;
         
-        $list = $this->Member->getList(['status' => DATA_NORMAL, 'is_inside' => DATA_NORMAL], 'id,username,status,leader_id,is_inside', '', false);
+        $list = $this->modelMember->getList(['status' => DATA_NORMAL, 'is_inside' => DATA_NORMAL], 'id,username,status,leader_id,is_inside', '', false);
         
         $list_tree = list_to_tree($list, 'id', 'leader_id', 'children', DATA_DISABLE, ['username' => 'name', 'leader_id' => 'value']);
         

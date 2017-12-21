@@ -5,9 +5,6 @@
 
 namespace app\admin\logic;
 
-use app\admin\logic\AuthGroupAccess as LogicAuthGroupAccess;
-use app\admin\logic\Member as LogicMember;
-
 /**
  * 权限组逻辑
  */
@@ -20,7 +17,7 @@ class AuthGroup extends AdminBase
     public function getAuthGroupList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        return $this->AuthGroup->getList($where, $field, $order, $paginate);
+        return $this->modelAuthGroup->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -29,21 +26,19 @@ class AuthGroup extends AdminBase
     public function groupAdd($data = [])
     {
         
-        $validate = validate('AuthGroup');
+        $validate_result = $this->validateAuthGroup->scene('add')->check($data);
         
-        $validate_result = $validate->scene('add')->check($data);
-        
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateAuthGroup->getError()]; endif;
         
         $url = url('groupList');
         
         $data['member_id'] = MEMBER_ID;
         
-        $result = $this->AuthGroup->setInfo($data);
+        $result = $this->modelAuthGroup->setInfo($data);
         
         $result && action_log('新增', '新增权限组，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, $this->AuthGroup->getError()];
+        return $result ? [RESULT_SUCCESS, '权限组添加成功', $url] : [RESULT_ERROR, $this->modelAuthGroup->getError()];
     }
     
     /**
@@ -52,19 +47,17 @@ class AuthGroup extends AdminBase
     public function groupEdit($data = [])
     {
         
-        $validate = validate('AuthGroup');
+        $validate_result = $this->validateAuthGroup->scene('edit')->check($data);
         
-        $validate_result = $validate->scene('edit')->check($data);
-        
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateAuthGroup->getError()]; endif;
         
         $url = url('groupList');
         
-        $result = $this->AuthGroup->setInfo($data);
+        $result = $this->modelAuthGroup->setInfo($data);
         
         $result && action_log('编辑', '编辑权限组，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, $this->AuthGroup->getError()];
+        return $result ? [RESULT_SUCCESS, '权限组编辑成功', $url] : [RESULT_ERROR, $this->modelAuthGroup->getError()];
     }
     
     /**
@@ -73,11 +66,11 @@ class AuthGroup extends AdminBase
     public function groupDel($where = [])
     {
         
-        $result = $this->AuthGroup->deleteInfo($where);
+        $result = $this->modelAuthGroup->deleteInfo($where);
         
         $result && action_log('删除', '删除权限组，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '权限组删除成功'] : [RESULT_ERROR, $this->AuthGroup->getError()];
+        return $result ? [RESULT_SUCCESS, '权限组删除成功'] : [RESULT_ERROR, $this->modelAuthGroup->getError()];
     }
     
     /**
@@ -86,7 +79,7 @@ class AuthGroup extends AdminBase
     public function getGroupInfo($where = [], $field = true)
     {
         
-        return $this->AuthGroup->getInfo($where, $field);
+        return $this->modelAuthGroup->getInfo($where, $field);
     }
 
     /**
@@ -99,7 +92,7 @@ class AuthGroup extends AdminBase
         
         $url = url('groupList');
         
-        $result = $this->AuthGroup->setInfo($data);
+        $result = $this->modelAuthGroup->setInfo($data);
         
         if ($result) {
             
@@ -110,7 +103,7 @@ class AuthGroup extends AdminBase
             return [RESULT_SUCCESS, '权限设置成功', $url];
         } else {
             
-            return [RESULT_ERROR, $this->AuthGroup->getError()];
+            return [RESULT_ERROR, $this->modelAuthGroup->getError()];
         }
     }
     
@@ -138,9 +131,7 @@ class AuthGroup extends AdminBase
     public function updateSubAuthByMember($member_id = 0)
     {
         
-        $auth = new LogicAuthGroupAccess();
-            
-        $group_list = $auth->getMemberGroupInfo($member_id);
+        $group_list = $this->logicAuthGroupAccess->getMemberGroupInfo($member_id);
         
         $rules_str_list = array_extract($group_list, 'rules');
         
@@ -153,11 +144,9 @@ class AuthGroup extends AdminBase
         // 当前授权会员的所有权限节点数组
         $rules_unique_array = array_unique($rules_array);
         
-        $member = new LogicMember();
+        $sub_member_ids = $this->logicMember->getSubMemberIds($member_id);
         
-        $sub_member_ids = $member->getSubMemberIds($member_id);
-        
-        $sub_group_list = $auth->getMemberGroupInfo($sub_member_ids);
+        $sub_group_list = $this->logicAuthGroupAccess->getMemberGroupInfo($sub_member_ids);
         
         // 所有下级的权限组id集合
         $sub_group_ids = array_unique(array_extract($sub_group_list, 'group_id'));
@@ -173,9 +162,7 @@ class AuthGroup extends AdminBase
     public function updateSubAuthByGroup($group_id = 0)
     {
         
-        $auth = new LogicAuthGroupAccess();
-            
-        $group_list = $auth->getAuthGroupAccessList(['group_id' => $group_id]);
+        $group_list = $this->logicAuthGroupAccess->getAuthGroupAccessList(['group_id' => $group_id]);
         
         $member_arr_ids = array_unique(array_extract($group_list, 'member_id'));
         
@@ -202,7 +189,7 @@ class AuthGroup extends AdminBase
             
             $v['rules'] = arr2str(array_values($rules_arr));
             
-            $this->AuthGroup->setFieldValue(['id' => $v['id']], 'rules', $v['rules']);
+            $this->modelAuthGroup->setFieldValue(['id' => $v['id']], 'rules', $v['rules']);
         }
     }
 }

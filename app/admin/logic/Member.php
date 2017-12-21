@@ -5,8 +5,6 @@
 
 namespace app\admin\logic;
 
-use app\admin\logic\AuthGroup as LogicAuthGroup;
-
 /**
  * 会员逻辑
  */
@@ -19,7 +17,7 @@ class Member extends AdminBase
     public function getMemberInfo($where = [], $field = true)
     {
         
-        return $this->Member->getInfo($where, $field);
+        return $this->modelMember->getInfo($where, $field);
     }
     
     /**
@@ -28,7 +26,7 @@ class Member extends AdminBase
     public function getMemberList($where = [], $field = true, $order = '')
     {
         
-        return $this->Member->getList($where, $field, $order);
+        return $this->modelMember->getList($where, $field, $order);
     }
     
     /**
@@ -37,12 +35,12 @@ class Member extends AdminBase
     public function exportMemberList($where = [], $field = true, $order = '')
     {
         
-        $list = $this->Member->getList($where, $field, $order, false);
+        $list = $this->modelMember->getList($where, $field, $order, false);
         
         foreach ($list as $info)
         {
             
-            $info['leader_nickname'] = $this->Member->getValue(['id' => $info['leader_id']], 'nickname', '无');
+            $info['leader_nickname'] = $this->modelMember->getValue(['id' => $info['leader_id']], 'nickname', '无');
         }
         
         $titles = "昵称,用户名,邮箱,手机,注册时间,上级";
@@ -90,7 +88,7 @@ class Member extends AdminBase
     public function getInheritMemberIds($id = 0, $data = [])
     {
         
-        $member_id = $this->Member->getValue(['id' => $id, 'is_share_member' => DATA_NORMAL], 'leader_id');
+        $member_id = $this->modelMember->getValue(['id' => $id, 'is_share_member' => DATA_NORMAL], 'leader_id');
         
         if (empty($member_id)) {
             
@@ -109,7 +107,7 @@ class Member extends AdminBase
     public function getSubMemberIds($id = 0, $data = [])
     {
         
-        $member_list = $this->Member->getList(['leader_id' => $id], 'id', 'id asc', false);
+        $member_list = $this->modelMember->getList(['leader_id' => $id], 'id', 'id asc', false);
         
         foreach ($member_list as $v)
         {
@@ -139,7 +137,7 @@ class Member extends AdminBase
         
         $where = ['member_id' => ['in', $data['id']]];
         
-        $this->AuthGroupAccess->deleteInfo($where, true);
+        $this->modelAuthGroupAccess->deleteInfo($where, true);
         
         if (empty($data['group_id'])) : return [RESULT_SUCCESS, '会员授权成功', $url]; endif;
         
@@ -150,20 +148,18 @@ class Member extends AdminBase
             $add_data[] = ['member_id' => $data['id'], 'group_id' => $group_id];
         }
         
-        $result = $this->AuthGroupAccess->setList($add_data);
+        $result = $this->modelAuthGroupAccess->setList($add_data);
         
         if ($result) {
             
             action_log('授权', '会员授权，id：' . $data['id']);
         
-            $auth = new LogicAuthGroup();
-
-            $auth->updateSubAuthByMember($data['id']);
+            $this->logicAuthGroup->updateSubAuthByMember($data['id']);
             
             return [RESULT_SUCCESS, '会员授权成功', $url];
         } else {
             
-            return [RESULT_ERROR, $this->AuthGroupAccess->getError()];
+            return [RESULT_ERROR, $this->modelAuthGroupAccess->getError()];
         }
     }
     
@@ -173,11 +169,9 @@ class Member extends AdminBase
     public function memberAdd($data = [])
     {
         
-        $validate = validate('Member');
+        $validate_result = $this->validateMember->scene('add')->check($data);
         
-        $validate_result = $validate->scene('add')->check($data);
-        
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateMember->getError()]; endif;
         
         $url = url('memberList');
         
@@ -185,11 +179,11 @@ class Member extends AdminBase
         $data['leader_id'] = MEMBER_ID;
         $data['is_inside'] = DATA_NORMAL;
         
-        $result = $this->Member->setInfo($data);
+        $result = $this->modelMember->setInfo($data);
         
         $result && action_log('新增', '新增会员，username：' . $data['username']);
         
-        return $result ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, $this->Member->getError()];
+        return $result ? [RESULT_SUCCESS, '会员添加成功', $url] : [RESULT_ERROR, $this->modelMember->getError()];
     }
     
     /**
@@ -198,7 +192,7 @@ class Member extends AdminBase
     public function setMemberValue($where = [], $field = '', $value = '')
     {
         
-        return $this->Member->setFieldValue($where, $field, $value);
+        return $this->modelMember->setFieldValue($where, $field, $value);
     }
     
     /**
@@ -211,10 +205,10 @@ class Member extends AdminBase
         
         if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) : return [RESULT_ERROR, '天神和自己不能删除哦~', $url]; endif;
         
-        $result = $this->Member->deleteInfo($where);
+        $result = $this->modelMember->deleteInfo($where);
                 
         $result && action_log('删除', '删除会员，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '会员删除成功', $url] : [RESULT_ERROR, $this->Member->getError(), $url];
+        return $result ? [RESULT_SUCCESS, '会员删除成功', $url] : [RESULT_ERROR, $this->modelMember->getError(), $url];
     }
 }

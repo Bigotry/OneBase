@@ -17,7 +17,7 @@ class Blogroll extends AdminBase
     public function getBlogrollList($where = [], $field = true, $order = '', $paginate = 0)
     {
         
-        return $this->Blogroll->getList($where, $field, $order, $paginate);
+        return $this->modelBlogroll->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -26,21 +26,19 @@ class Blogroll extends AdminBase
     public function blogrollEdit($data = [])
     {
         
-        $validate = validate('Blogroll');
+        $validate_result = $this->validateBlogroll->scene('edit')->check($data);
         
-        $validate_result = $validate->scene('edit')->check($data);
-        
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateBlogroll->getError()]; endif;
         
         $url = url('blogrollList');
         
-        $result = $this->Blogroll->setInfo($data);
+        $result = $this->modelBlogroll->setInfo($data);
         
         $handle_text = empty($data['id']) ? '新增' : '编辑';
         
         $result && action_log($handle_text, '友情链接' . $handle_text . '，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $this->Blogroll->getError()];
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $this->modelBlogroll->getError()];
     }
 
     /**
@@ -49,7 +47,7 @@ class Blogroll extends AdminBase
     public function getBlogrollInfo($where = [], $field = true)
     {
         
-        return $this->Blogroll->getInfo($where, $field);
+        return $this->modelBlogroll->getInfo($where, $field);
     }
     
     /**
@@ -58,10 +56,10 @@ class Blogroll extends AdminBase
     public function blogrollDel($where = [])
     {
         
-        $result = $this->Blogroll->deleteInfo($where);
+        $result = $this->modelBlogroll->deleteInfo($where);
         
         $result && action_log('删除', '友情链接删除' . '，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $this->Blogroll->getError()];
+        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $this->modelBlogroll->getError()];
     }
 }

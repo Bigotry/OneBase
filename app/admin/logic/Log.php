@@ -17,7 +17,7 @@ class Log extends AdminBase
     public function getLogList($where = [], $field = true, $order = '')
     {
         
-        return $this->ActionLog->getList($where, $field, $order);
+        return $this->modelActionLog->getList($where, $field, $order);
     }
   
     /**
@@ -26,7 +26,7 @@ class Log extends AdminBase
     public function logDel($where = [])
     {
         
-        return $this->ActionLog->deleteInfo($where) ? [RESULT_SUCCESS, '日志删除成功'] : [RESULT_ERROR, $this->ActionLog->getError()];
+        return $this->modelActionLog->deleteInfo($where) ? [RESULT_SUCCESS, '日志删除成功'] : [RESULT_ERROR, $this->modelActionLog->getError()];
     }
     
     /**
@@ -49,6 +49,6 @@ class Log extends AdminBase
         
         $url = url('logList');
         
-        return $this->ActionLog->setInfo($data) ? [RESULT_SUCCESS, '日志添加成功', $url] : [RESULT_ERROR, $this->ActionLog->getError()];
+        return $this->modelActionLog->setInfo($data) ? [RESULT_SUCCESS, '日志添加成功', $url] : [RESULT_ERROR, $this->modelActionLog->getError()];
     }
 }

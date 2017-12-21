@@ -17,9 +17,9 @@ class Article extends AdminBase
     public function articleList()
     {
         
-        $where = $this->request->logicArticle->getWhere($this->param);
+        $where = $this->logicArticle->getWhere($this->param);
         
-        $this->assign('list', $this->request->logicArticle->getArticleList($where, true, 'create_time desc'));
+        $this->assign('list', $this->logicArticle->getArticleList($where, true, 'create_time desc'));
         
         return $this->fetch('article_list');
     }
@@ -43,7 +43,7 @@ class Article extends AdminBase
         
         $this->articleCommon();
         
-        $info = $this->request->logicArticle->getArticleInfo(['id' => $this->param['id']]);
+        $info = $this->logicArticle->getArticleInfo(['id' => $this->param['id']]);
         
         !empty($info) && $info['img_ids_array'] = str2arr($info['img_ids']);
         
@@ -58,9 +58,9 @@ class Article extends AdminBase
     public function articleCommon()
     {
         
-        IS_POST && $this->jump($this->request->logicArticle->articleEdit($this->param));
+        IS_POST && $this->jump($this->logicArticle->articleEdit($this->param));
         
-        $this->assign('article_category_list', $this->request->logicArticle->getArticleCategoryList([], 'id,name', '', false));
+        $this->assign('article_category_list', $this->logicArticle->getArticleCategoryList([], 'id,name', '', false));
     }
     
     /**
@@ -69,7 +69,7 @@ class Article extends AdminBase
     public function articleCategoryAdd()
     {
         
-        IS_POST && $this->jump($this->request->logicArticle->articleCategoryEdit($this->param));
+        IS_POST && $this->jump($this->logicArticle->articleCategoryEdit($this->param));
         
         return $this->fetch('article_category_edit');
     }
@@ -80,9 +80,9 @@ class Article extends AdminBase
     public function articleCategoryEdit()
     {
         
-        IS_POST && $this->jump($this->request->logicArticle->articleCategoryEdit($this->param));
+        IS_POST && $this->jump($this->logicArticle->articleCategoryEdit($this->param));
         
-        $info = $this->request->logicArticle->getArticleCategoryInfo(['id' => $this->param['id']]);
+        $info = $this->logicArticle->getArticleCategoryInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -95,7 +95,7 @@ class Article extends AdminBase
     public function articleCategoryList()
     {
         
-        $this->assign('list', $this->request->logicArticle->getArticleCategoryList());
+        $this->assign('list', $this->logicArticle->getArticleCategoryList());
        
         return $this->fetch('article_category_list');
     }
@@ -106,7 +106,7 @@ class Article extends AdminBase
     public function articleDel($id = 0)
     {
         
-        $this->jump($this->request->logicArticle->articleDel(['id' => $id]));
+        $this->jump($this->logicArticle->articleDel(['id' => $id]));
     }
     
     /**
@@ -115,6 +115,6 @@ class Article extends AdminBase
     public function articleCategoryDel($id = 0)
     {
         
-        $this->jump($this->request->logicArticle->articleCategoryDel(['id' => $id]));
+        $this->jump($this->logicArticle->articleCategoryDel(['id' => $id]));
     }
 }

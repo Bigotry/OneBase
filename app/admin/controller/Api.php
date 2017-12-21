@@ -17,7 +17,7 @@ class Api extends AdminBase
     public function apiList()
     {
         
-        $this->assign('list', $this->request->logicApi->getApiList([], true, 'sort desc, id desc'));
+        $this->assign('list', $this->logicApi->getApiList([], true, 'sort desc, id desc'));
         
         return $this->fetch('api_list');
     }
@@ -28,7 +28,7 @@ class Api extends AdminBase
     public function apiAdd()
     {
         
-        IS_POST && $this->jump($this->request->logicApi->apiEdit($this->param));
+        IS_POST && $this->jump($this->logicApi->apiEdit($this->param));
         
         $this->apiAssignGroupList('group_list');
         
@@ -36,7 +36,7 @@ class Api extends AdminBase
         $info['response_data_json'] = $this->getApiDataFieldDefault(false);
         
         $this->assign('info', $info);
-        $this->assign('api_data_type_option', $this->request->logicApi->getApiDataOption());
+        $this->assign('api_data_type_option', $this->logicApi->getApiDataOption());
         
         return $this->fetch('api_edit');
     }
@@ -56,17 +56,17 @@ class Api extends AdminBase
     public function apiEdit()
     {
         
-        IS_POST && $this->jump($this->request->logicApi->apiEdit($this->param));
+        IS_POST && $this->jump($this->logicApi->apiEdit($this->param));
         
         $this->apiAssignGroupList('group_list');
         
-        $info = $this->request->logicApi->getApiInfo(['id' => $this->param['id']]);
+        $info = $this->logicApi->getApiInfo(['id' => $this->param['id']]);
         
         !empty($info['request_data'])  ? $info['request_data_json']  = json_encode(relevance_arr_to_index_arr($info['request_data']))  : $info['request_data_json']  = $this->getApiDataFieldDefault();
         !empty($info['response_data']) ? $info['response_data_json'] = json_encode(relevance_arr_to_index_arr($info['response_data'])) : $info['response_data_json'] = $this->getApiDataFieldDefault(false);
         
         $this->assign('info', $info);
-        $this->assign('api_data_type_option', $this->request->logicApi->getApiDataOption());
+        $this->assign('api_data_type_option', $this->logicApi->getApiDataOption());
         
         return $this->fetch('api_edit');
     }
@@ -77,7 +77,7 @@ class Api extends AdminBase
     public function apiAssignGroupList($name = 'list')
     {
         
-        $this->assign($name, $this->request->logicApi->getApiGroupList([], true, 'sort desc'));
+        $this->assign($name, $this->logicApi->getApiGroupList([], true, 'sort desc'));
     }
     
     /**
@@ -86,7 +86,7 @@ class Api extends AdminBase
     public function apiDel($id = 0)
     {
         
-        $this->jump($this->request->logicApi->apiDel(['id' => $id]));
+        $this->jump($this->logicApi->apiDel(['id' => $id]));
     }
     
     /**
@@ -106,7 +106,7 @@ class Api extends AdminBase
     public function apiGroupAdd()
     {
         
-        IS_POST && $this->jump($this->request->logicApi->apiGroupEdit($this->param));
+        IS_POST && $this->jump($this->logicApi->apiGroupEdit($this->param));
         
         return $this->fetch('api_group_edit');
     }
@@ -117,9 +117,9 @@ class Api extends AdminBase
     public function apiGroupEdit()
     {
         
-        IS_POST && $this->jump($this->request->logicApi->apiGroupEdit($this->param));
+        IS_POST && $this->jump($this->logicApi->apiGroupEdit($this->param));
         
-        $info = $this->request->logicApi->getApiGroupInfo(['id' => $this->param['id']]);
+        $info = $this->logicApi->getApiGroupInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -132,6 +132,6 @@ class Api extends AdminBase
     public function apiGroupDel($id = 0)
     {
         
-        $this->jump($this->request->logicApi->apiGroupDel(['id' => $id]));
+        $this->jump($this->logicApi->apiGroupDel(['id' => $id]));
     }
 }

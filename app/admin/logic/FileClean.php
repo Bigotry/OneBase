@@ -70,9 +70,9 @@ class FileClean extends AdminBase
         
         $list = $this->getFileList();
         
-        $picture_list = $this->getFileShowList($this->Picture, $list, 'picture_list');
+        $picture_list = $this->getFileShowList($this->modelPicture, $list, 'picture_list');
         
-        $file_list = $this->getFileShowList($this->File, $list, 'file_list');
+        $file_list = $this->getFileShowList($this->modelFile, $list, 'file_list');
         
         return array_merge($picture_list, $file_list);
     }
@@ -179,7 +179,7 @@ class FileClean extends AdminBase
         
         $allow_ids = array_values(array_unique($file_ids));
         
-        $model = $type == 'picture' ? $this->Picture : $this->File;
+        $model = $type == 'picture' ? $this->modelPicture : $this->modelFile;
         
         $model->deleteInfo(['id' => ['not in', $allow_ids]], true);
     }

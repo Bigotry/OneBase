@@ -18,7 +18,7 @@ class Index extends AdminBase
     {
         
         // 获取首页数据
-        $index_data = $this->adminBaseLogic->getIndexData();
+        $index_data = $this->logicAdminBase->getIndexData();
         
         $this->assign('info', $index_data);
         

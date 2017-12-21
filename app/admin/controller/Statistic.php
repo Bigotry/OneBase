@@ -17,7 +17,7 @@ class Statistic extends AdminBase
     public function memberTree()
     {
         
-        $data = $this->request->logicStatistic->getMemberTree();
+        $data = $this->logicStatistic->getMemberTree();
         
         $this->assign('data', json_encode($data));
         
@@ -30,7 +30,7 @@ class Statistic extends AdminBase
     public function performerFacility()
     {
         
-        $data = $this->request->logicStatistic->performerFacility();
+        $data = $this->logicStatistic->performerFacility();
         
         $this->assign('browser_list',       json_encode($data['browser_list']));
         $this->assign('browser_name_data',  json_encode($data['browser_name_data']));
@@ -46,7 +46,7 @@ class Statistic extends AdminBase
     public function exeSpeed()
     {
         
-        $data = $this->request->logicStatistic->exeSpeed();
+        $data = $this->logicStatistic->exeSpeed();
         
         $this->assign('data', $data);
         
@@ -59,7 +59,7 @@ class Statistic extends AdminBase
     public function memberGrowth()
     {
         
-        $data = $this->request->logicStatistic->memberGrowth();
+        $data = $this->logicStatistic->memberGrowth();
         
         $this->assign('data', json_encode($data));
         

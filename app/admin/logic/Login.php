@@ -5,8 +5,6 @@
 
 namespace app\admin\logic;
 
-use app\admin\logic\Member as LogicMember;
-
 /**
  * 登录逻辑
  */
@@ -21,29 +19,18 @@ class Login extends AdminBase
 
         if (empty($username) || empty($password)) : return [RESULT_ERROR, '账号或密码不能为空']; endif;
         
-        /**
-         *  Admin 登录IP限制，若有IP限制需求 可解开注释
-            $admin_allow_ip = parse_config_array('admin_allow_ip');
-
-            $allow_ip = request()->ip();
-
-            if (!empty($admin_allow_ip) && (string)$username == 'admin' && !in_array($allow_ip, $admin_allow_ip)) : return [RESULT_ERROR, '登录IP受限', $jump_url]; endif;
-         */
-        
         if (empty($verify)) : return [RESULT_ERROR, '验证码不能为空']; endif;
        
         if (!captcha_check($verify)) : return [RESULT_ERROR, '验证码输入错误']; endif;
         
-        $memberLogic = get_sington_object('memberLogic', LogicMember::class);
-        
-        $member = $memberLogic->getMemberInfo(['username' => $username]);
+        $member = $this->logicMember->getMemberInfo(['username' => $username]);
 
         if (empty($member)) : return [RESULT_ERROR, '用户不存在']; endif;
         
         // 验证用户密码
         if (data_md5_key($password) === $member['password']) {
             
-            $memberLogic->setMemberValue(['id' => $member['id']], TIME_UT_NAME, TIME_NOW);
+            $this->logicMember->setMemberValue(['id' => $member['id']], TIME_UT_NAME, TIME_NOW);
             
             $auth = ['member_id' => $member['id'], TIME_UT_NAME => TIME_NOW];
             

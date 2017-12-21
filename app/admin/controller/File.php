@@ -19,7 +19,7 @@ class File extends ControllerBase
     public function pictureUpload()
     {
         
-        $result = $this->request->logicFile->pictureUpload();
+        $result = $this->logicFile->pictureUpload();
 
         return json($result);
     }
@@ -30,7 +30,7 @@ class File extends ControllerBase
     public function fileUpload()
     {
         
-        $result = $this->request->logicFile->fileUpload();
+        $result = $this->logicFile->fileUpload();
 
         return json($result);
     }

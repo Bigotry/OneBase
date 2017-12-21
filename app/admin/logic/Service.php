@@ -20,7 +20,7 @@ class Service extends AdminBase
     public function getDriverInfo($where = [], $field = true)
     {
         
-        return $this->Driver->getInfo($where, $field);
+        return $this->modelDriver->getInfo($where, $field);
     }
     
     /**
@@ -32,7 +32,7 @@ class Service extends AdminBase
         $where['service_name'] = $data['service_name'];
         $where['driver_name']  = $data['driver_name'];
         
-        $info = $this->Driver->getInfo($where);
+        $info = $this->modelDriver->getInfo($where);
         
         $info['config']       = serialize($data['param']);
         $info['service_name'] = $data['service_name'];
@@ -40,11 +40,11 @@ class Service extends AdminBase
         
         $url = url('service/servicelist', ['service_name' => $data['service_name']]);
         
-        $result = $this->Driver->setInfo($info);
+        $result = $this->modelDriver->setInfo($info);
         
         $result && action_log('安装', '驱动安装或设置，service_name：' . $data['service_name'] . '，driver_name' . $data['driver_name']);
         
-        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $this->Driver->getError()];
+        return $result ? [RESULT_SUCCESS, '操作成功', $url] : [RESULT_ERROR, $this->modelDriver->getError()];
     }
     
     /**
@@ -56,11 +56,11 @@ class Service extends AdminBase
         $where['service_name'] = $data['service_class'];
         $where['driver_name']  = $data['driver_class'];
         
-        $result = $this->Driver->deleteInfo($where, true);
+        $result = $this->modelDriver->deleteInfo($where, true);
         
         $result && action_log('卸载', '驱动卸载，service_name：' . $data['service_class'] . '，driver_name' . $data['driver_class']);
         
-        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $this->Driver->getError()];
+        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $this->modelDriver->getError()];
     }
     
     /**
@@ -83,7 +83,7 @@ class Service extends AdminBase
                 
                 $info = $object->driverInfo();
                 
-                $dv_info = $this->Driver->getInfo(['driver_name' => $info['driver_class']]);
+                $dv_info = $this->modelDriver->getInfo(['driver_name' => $info['driver_class']]);
 
                 empty($dv_info) ? $info['is_install'] = DATA_DISABLE : $info['is_install'] = DATA_NORMAL;
             }

@@ -19,7 +19,7 @@ class Menu extends AdminBase
         
         $where = empty($this->param['pid']) ? ['pid' => 0] : ['pid' => $this->param['pid']];
         
-        $this->assign('list', $this->menuLogic->getMenuList($where, true, 'sort desc,id asc', DB_LIST_ROWS));
+        $this->assign('list', $this->logicMenu->getMenuList($where, true, 'sort desc,id asc', DB_LIST_ROWS));
         
         $this->assign('pid', $where['pid']);
         
@@ -32,7 +32,7 @@ class Menu extends AdminBase
     public function getMenuSelectData()
     {
         
-        $menu_select = $this->menuLogic->menuToSelect($this->authMenuTree);
+        $menu_select = $this->logicMenu->menuToSelect($this->authMenuTree);
         
         $this->assign('menu_select', $menu_select);
     }
@@ -45,7 +45,7 @@ class Menu extends AdminBase
         
         $this->param['module'] = MODULE_NAME;
         
-        IS_POST && $this->jump($this->menuLogic->menuAdd($this->param));
+        IS_POST && $this->jump($this->logicMenu->menuAdd($this->param));
         
         //获取菜单Select结构数据
         $this->getMenuSelectData();
@@ -61,9 +61,9 @@ class Menu extends AdminBase
     public function menuEdit()
     {
         
-        IS_POST && $this->jump($this->menuLogic->menuEdit($this->param));
+        IS_POST && $this->jump($this->logicMenu->menuEdit($this->param));
         
-        $info = $this->menuLogic->getMenuInfo(['id' => $this->param['id']]);
+        $info = $this->logicMenu->getMenuInfo(['id' => $this->param['id']]);
         
         $this->assign('info', $info);
         
@@ -79,6 +79,6 @@ class Menu extends AdminBase
     public function menuDel($id = 0)
     {
         
-        $this->jump($this->menuLogic->menuDel(['id' => $id]));
+        $this->jump($this->logicMenu->menuDel(['id' => $id]));
     }
 }

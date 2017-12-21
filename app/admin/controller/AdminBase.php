@@ -6,9 +6,6 @@
 namespace app\admin\controller;
 
 use app\common\controller\ControllerBase;
-use app\admin\logic\AdminBase as LogicAdminBase;
-use app\admin\logic\Menu as LogicMenu;
-use app\admin\logic\AuthGroupAccess as LogicAuthGroupAccess;
 
 /**
  * 后台基类控制器
@@ -16,50 +13,32 @@ use app\admin\logic\AuthGroupAccess as LogicAuthGroupAccess;
 class AdminBase extends ControllerBase
 {
     
-    // 后台基础逻辑
-    protected $adminBaseLogic       = null;
-    
-    // 菜单逻辑
-    protected $menuLogic            = null;
-    
-    // 授权逻辑
-    protected $authGroupAccessLogic = null;
-    
     // 授权过的菜单列表
-    protected $authMenuList         = [];
+    protected $authMenuList     =   [];
     
     // 授权过的菜单url列表
-    protected $authMenuUrlList      = [];
+    protected $authMenuUrlList  =   [];
     
     // 授权过的菜单树
-    protected $authMenuTree         = [];
+    protected $authMenuTree     =   [];
     
     // 菜单视图
-    protected $menuView             = '';
+    protected $menuView         =   '';
     
     // 面包屑视图
-    protected $crumbsView           = '';
+    protected $crumbsView       =   '';
     
     // 页面标题
-    protected $title                = '';
+    protected $title            =   '';
     
     /**
      * 构造方法
      */
-    public function __construct(LogicAdminBase $adminBaseLogic, LogicMenu $menuLogic, LogicAuthGroupAccess $authGroupAccessLogic)
+    public function __construct()
     {
         
         // 执行父类构造方法
         parent::__construct();
-        
-        // 注入后台逻辑
-        $this->adminBaseLogic = $adminBaseLogic;
-        
-        // 注入菜单逻辑
-        $this->menuLogic = $menuLogic;
-        
-        // 注入授权逻辑
-        $this->authGroupAccessLogic = $authGroupAccessLogic;
         
         // 初始化后台模块常量
         $this->initAdminConst();
@@ -78,13 +57,13 @@ class AdminBase extends ControllerBase
         !MEMBER_ID && $this->redirect('login/login');
         
         // 获取授权菜单列表
-        $this->authMenuList = $this->authGroupAccessLogic->getAuthMenuList(MEMBER_ID);
+        $this->authMenuList = $this->logicAuthGroupAccess->getAuthMenuList(MEMBER_ID);
         
         // 获得权限菜单URL列表
-        $this->authMenuUrlList = $this->authGroupAccessLogic->getAuthMenuUrlList($this->authMenuList);
+        $this->authMenuUrlList = $this->logicAuthGroupAccess->getAuthMenuUrlList($this->authMenuList);
         
         // 检查菜单权限
-        list($jump_type, $message) = $this->adminBaseLogic->authCheck(URL_MODULE, $this->authMenuUrlList);
+        list($jump_type, $message) = $this->logicAdminBase->authCheck(URL_MODULE, $this->authMenuUrlList);
         
         // 权限验证不通过则跳转提示
         RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message);
@@ -103,19 +82,19 @@ class AdminBase extends ControllerBase
     {
         
         // 获取过滤后的菜单树
-        $this->authMenuTree = $this->adminBaseLogic->getMenuTree($this->authMenuList, $this->authMenuUrlList);
+        $this->authMenuTree = $this->logicAdminBase->getMenuTree($this->authMenuList, $this->authMenuUrlList);
        
         // 菜单转换为视图
-        $this->menuView = $this->menuLogic->menuToView($this->authMenuTree);
+        $this->menuView = $this->logicMenu->menuToView($this->authMenuTree);
         
         // 菜单自动选择
-        $this->menuView = $this->menuLogic->selectMenu($this->menuView);
+        $this->menuView = $this->logicMenu->selectMenu($this->menuView);
         
         // 获取面包屑
-        $this->crumbsView = $this->menuLogic->getCrumbsView();
+        $this->crumbsView = $this->logicMenu->getCrumbsView();
         
         // 获取默认标题
-        $this->title = $this->menuLogic->getDefaultTitle();
+        $this->title = $this->logicMenu->getDefaultTitle();
         
         // 设置页面标题
         $this->assign('ob_title', $this->title);
@@ -175,6 +154,6 @@ class AdminBase extends ControllerBase
         
         IS_PJAX && $content = $this->getContentHeader() . $content;
         
-        return $this->adminBaseLogic->filter($content, $this->authMenuUrlList);
+        return $this->logicAdminBase->filter($content, $this->authMenuUrlList);
     }
 }

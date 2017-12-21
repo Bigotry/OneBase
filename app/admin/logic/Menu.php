@@ -98,7 +98,7 @@ class Menu extends AdminBase
         
         $id = input('id');
         
-        $auth_group_info = model('AuthGroup', LAYER_LOGIC_NAME)->getGroupInfo(['id' => $id], 'rules');
+        $auth_group_info = $this->logicAuthGroup->getGroupInfo(['id' => $id], 'rules');
         
         $rules_array = str2arr($auth_group_info['rules']);
         
@@ -192,7 +192,7 @@ class Menu extends AdminBase
     public function getMenuList($where = [], $field = true, $order = '', $paginate = false)
     {
         
-        return $this->Menu->getList($where, $field, $order, $paginate);
+        return $this->modelMenu->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -201,7 +201,7 @@ class Menu extends AdminBase
     public function getMenuInfo($where = [], $field = true)
     {
         
-        return $this->Menu->getInfo($where, $field);
+        return $this->modelMenu->getInfo($where, $field);
     }
     
     /**
@@ -210,19 +210,17 @@ class Menu extends AdminBase
     public function menuAdd($data = [])
     {
         
-        $validate = validate('Menu');
+        $validate_result = $this->validateMenu->scene('add')->check($data);
         
-        $validate_result = $validate->scene('add')->check($data);
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateMenu->getError()]; endif;
         
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
-        
-        $result = $this->Menu->setInfo($data);
+        $result = $this->modelMenu->setInfo($data);
         
         $result && action_log('新增', '新增菜单，name：' . $data['name']);
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
-        return $result ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, $this->Menu->getError()];
+        return $result ? [RESULT_SUCCESS, '菜单添加成功', $url] : [RESULT_ERROR, $this->modelMenu->getError()];
     }
     
     /**
@@ -231,19 +229,17 @@ class Menu extends AdminBase
     public function menuEdit($data = [])
     {
         
-        $validate = validate('Menu');
+        $validate_result = $this->validateMenu->scene('edit')->check($data);
         
-        $validate_result = $validate->scene('edit')->check($data);
-        
-        if (!$validate_result) : return [RESULT_ERROR, $validate->getError()]; endif;
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateMenu->getError()]; endif;
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         
-        $result = $this->Menu->setInfo($data);
+        $result = $this->modelMenu->setInfo($data);
         
         $result && action_log('编辑', '编辑菜单，name：' . $data['name']);
         
-        return $result ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, $this->Menu->getError()];
+        return $result ? [RESULT_SUCCESS, '菜单编辑成功', $url] : [RESULT_ERROR, $this->modelMenu->getError()];
     }
     
     /**
@@ -252,11 +248,11 @@ class Menu extends AdminBase
     public function menuDel($where = [])
     {
         
-        $result = $this->Menu->deleteInfo($where);
+        $result = $this->modelMenu->deleteInfo($where);
         
         $result && action_log('删除', '删除菜单，where：' . http_build_query($where));
         
-        return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, $this->Menu->getError()];
+        return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, $this->modelMenu->getError()];
     }
     
     /**
@@ -265,6 +261,6 @@ class Menu extends AdminBase
     public function getDefaultTitle()
     {
         
-        return $this->Menu->getValue(['module' => MODULE_NAME, 'url' => URL], 'name');
+        return $this->modelMenu->getValue(['module' => MODULE_NAME, 'url' => URL], 'name');
     }
 }

@@ -17,7 +17,7 @@ class Database extends AdminBase
     public function optimize()
     {
         
-        $this->jump($this->request->logicDatabase->optimize());
+        $this->jump($this->logicDatabase->optimize());
     }
     
     /**
@@ -26,7 +26,7 @@ class Database extends AdminBase
     public function repair()
     {
         
-        $this->jump($this->request->logicDatabase->optimize(false));
+        $this->jump($this->logicDatabase->optimize(false));
     }
     
     /**
@@ -35,9 +35,9 @@ class Database extends AdminBase
     public function dataBackup()
     {
         
-        IS_POST && $this->jump($this->request->logicDatabase->dataBackup());
+        IS_POST && $this->jump($this->logicDatabase->dataBackup());
         
-        $this->assign('list', $this->request->logicDatabase->getTableList());
+        $this->assign('list', $this->logicDatabase->getTableList());
         
         return $this->fetch('data_backup');
     }
@@ -48,7 +48,7 @@ class Database extends AdminBase
     public function dataRestore()
     {
 
-        $this->assign('list', $this->request->logicDatabase->getBackupList());
+        $this->assign('list', $this->logicDatabase->getBackupList());
         
         return $this->fetch('data_restore');
     }
@@ -59,7 +59,7 @@ class Database extends AdminBase
     public function dataRestoreHandle($time = 0)
     {
 
-       $this->jump($this->request->logicDatabase->dataRestore($time));
+       $this->jump($this->logicDatabase->dataRestore($time));
     }
     
     /**
@@ -68,6 +68,6 @@ class Database extends AdminBase
     public function backupDel($time = 0)
     {
 
-        $this->jump($this->request->logicDatabase->backupDel($time));
+        $this->jump($this->logicDatabase->backupDel($time));
     }
 }

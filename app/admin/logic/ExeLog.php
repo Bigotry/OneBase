@@ -17,7 +17,7 @@ class ExeLog extends AdminBase
     public function getLogList($where = [], $field = true, $order = '')
     {
         
-        return $this->ExeLog->getList($where, $field, $order);
+        return $this->modelExeLog->getList($where, $field, $order);
     }
   
     /**
@@ -32,7 +32,7 @@ class ExeLog extends AdminBase
         
         if (empty($exe_log_array) || DATA_NORMAL == $exe_log_array) : return [RESULT_ERROR, '日志文件为空']; endif;
         
-        $this->ExeLog->setList($exe_log_array) && file_put_contents($exe_log_path, '');
+        $this->modelExeLog->setList($exe_log_array) && file_put_contents($exe_log_path, '');
         
         return [RESULT_SUCCESS, '日志已入库'];
     }
@@ -43,6 +43,6 @@ class ExeLog extends AdminBase
     public function logDel($where = [])
     {
         
-        return $this->ExeLog->deleteInfo($where) ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $this->ExeLog->getError()];
+        return $this->modelExeLog->deleteInfo($where) ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, '删除失败'];
     }
 }

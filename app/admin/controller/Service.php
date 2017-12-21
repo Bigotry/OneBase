@@ -21,7 +21,7 @@ class Service extends AdminBase
         
         $this->setTitle($title);
         
-        $this->assign('list', $this->request->logicService->getServiceList($service_name));
+        $this->assign('list', $this->logicService->getServiceList($service_name));
         
         $view = is_null($service_name) ? 'service_list' : 'driver_list';
         
@@ -34,13 +34,13 @@ class Service extends AdminBase
     public function driverInstall()
     {
         
-        IS_POST && $this->jump($this->request->logicService->driverInstall($this->param));
+        IS_POST && $this->jump($this->logicService->driverInstall($this->param));
         
         $model = model(ucfirst($this->param['service_class']), LAYER_SERVICE_NAME);
         
         $param = $model->driverParam($this->param['driver_class']);
         
-        $info = $this->request->logicService->getDriverInfo(['service_name' => $this->param['service_class'], 'driver_name' => $this->param['driver_class']]);
+        $info = $this->logicService->getDriverInfo(['service_name' => $this->param['service_class'], 'driver_name' => $this->param['driver_class']]);
         
         $info['config'] = unserialize($info['config']);
         
@@ -57,6 +57,6 @@ class Service extends AdminBase
     public function driverUninstall()
     {
         
-        $this->jump($this->request->logicService->driverUninstall($this->param));
+        $this->jump($this->logicService->driverUninstall($this->param));
     }
 }

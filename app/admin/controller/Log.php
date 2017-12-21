@@ -17,7 +17,7 @@ class Log extends AdminBase
     public function logList()
     {
         
-        $this->assign('list', $this->request->logicLog->getLogList([], true, TIME_CT_NAME . ' desc'));
+        $this->assign('list', $this->logicLog->getLogList([], true, TIME_CT_NAME . ' desc'));
         
         return $this->fetch('log_list');
     }
@@ -28,7 +28,7 @@ class Log extends AdminBase
     public function logDel($id = 0)
     {
         
-        $this->jump($this->request->logicLog->logDel(['id' => $id]));
+        $this->jump($this->logicLog->logDel(['id' => $id]));
     }
   
     /**
@@ -37,6 +37,6 @@ class Log extends AdminBase
     public function logClean()
     {
         
-        $this->jump($this->request->logicLog->logDel([DATA_STATUS_NAME => DATA_NORMAL]));
+        $this->jump($this->logicLog->logDel([DATA_STATUS_NAME => DATA_NORMAL]));
     }
 }

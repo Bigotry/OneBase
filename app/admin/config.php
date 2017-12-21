@@ -7,7 +7,7 @@
 
 $static_domain = config('static_domain');
 
-empty($static_domain) ? $static['__STATIC__'] = '/static' :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . 'static';
+empty($static_domain) ? $static['__STATIC__'] = SYS_DS_PROS . SYS_STATIC_DIR_NAME :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
 
 return [
     

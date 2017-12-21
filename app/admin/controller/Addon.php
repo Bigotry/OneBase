@@ -34,7 +34,7 @@ class Addon extends AdminBase
 
         $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $strtolower_name . SYS_DS_CONS . $name;
         
-        $this->request->logicAddon->executeSql($strtolower_name, 'install');
+        $this->logicAddon->executeSql($strtolower_name, 'install');
         
         $controller = new $class_path();
         
@@ -53,7 +53,7 @@ class Addon extends AdminBase
 
         $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $strtolower_name . SYS_DS_CONS . $name;
         
-        $this->request->logicAddon->executeSql($strtolower_name, 'uninstall');
+        $this->logicAddon->executeSql($strtolower_name, 'uninstall');
         
         $controller = new $class_path();
         
@@ -68,7 +68,7 @@ class Addon extends AdminBase
     public function addonList()
     {
         
-        $this->assign('list', $this->request->logicAddon->getAddonList());
+        $this->assign('list', $this->logicAddon->getAddonList());
         
         return $this->fetch('addon_list');
     }
@@ -79,7 +79,7 @@ class Addon extends AdminBase
     public function hookList()
     {
         
-        $this->assign('list', $this->request->logicAddon->getHookList());
+        $this->assign('list', $this->logicAddon->getHookList());
         
         return $this->fetch('hook_list');
     }
