@@ -11,7 +11,7 @@ namespace app\index\logic;
 class Seo extends IndexBase
 {
 
-    public static function getSeoInfo()
+    public function getSeoInfo()
     {
         
         $cache_key = 'cache_' . serialize(URL_MODULE);
@@ -20,7 +20,7 @@ class Seo extends IndexBase
         
         if (empty($data)) {
             
-            $info = model('Seo')->getInfo(['url' => URL_MODULE]);
+            $info = $this->modelSeo->getInfo(['url' => URL_MODULE]);
 
             if (empty($info)) :
 
