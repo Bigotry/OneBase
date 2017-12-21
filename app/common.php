@@ -712,6 +712,7 @@ function get_date_from_range($startdate, $enddate)
 function browser_info()
 {
     if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+        
         $br = $_SERVER['HTTP_USER_AGENT'];
         if (preg_match('/MSIE/i', $br)) {
             $br = 'MSIE';
@@ -726,8 +727,10 @@ function browser_info()
         } else {
             $br = 'Other';
         }
+        
         return $br;
     } else {
+        
         return 'unknow';
     }
 }
