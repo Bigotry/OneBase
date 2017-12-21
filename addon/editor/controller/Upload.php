@@ -20,9 +20,7 @@ class Upload extends AddonBase
     public function pictureUpload()
     {
         
-        $UploadLogic = new LogicUpload();
-        
-        $result = $UploadLogic->pictureUpload();
+        $result = (new LogicUpload())->pictureUpload();
         
         return throw_response_exception($result);
     }

@@ -19,9 +19,7 @@ class Upload
     public function pictureUpload()
     {
         
-        $fileLogic = get_sington_object('fileLogic', LogicFile::class);
-        
-        $result = $fileLogic->pictureUpload('imgFile');
+        $result = get_sington_object('fileLogic', LogicFile::class)->pictureUpload('imgFile');
         
         if (false === $result) : return [RESULT_ERROR => DATA_NORMAL, RESULT_MESSAGE => '文件上传失败']; endif;
         
