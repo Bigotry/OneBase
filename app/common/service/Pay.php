@@ -7,10 +7,7 @@ namespace app\common\service;
 
 /**
  * 支付服务
- * 
- * $this->servicePay->driverAlipay->pay($test_order);
  */
-
 class Pay extends ServiceBase implements BaseInterface
 {
     
