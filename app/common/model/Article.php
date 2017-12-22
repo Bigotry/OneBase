@@ -17,9 +17,7 @@ class Article extends ModelBase
     public function getNicknameAttr()
     {
         
-        $model = model('Member');
-        
-        return $model->getValue([$model->getPk() => $this->data['member_id']], 'nickname');
+        return $this->modelMember->getValue([$this->modelMember->getPk() => $this->data['member_id']], 'nickname');
     }
     
     /**
@@ -28,8 +26,6 @@ class Article extends ModelBase
     public function getCategoryNameAttr()
     {
         
-        $model = model('ArticleCategory');
-        
-        return $model->getValue([$model->getPk() => $this->data['category_id']], 'name');
+        return $this->modelArticleCategory->getValue([$this->modelMember->getPk() => $this->data['category_id']], 'name');
     }
 }

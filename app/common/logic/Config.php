@@ -45,8 +45,6 @@ class Config extends LogicBase
         
         action_log('设置', '系统设置保存');
         
-        cache('cache_config_array', null);
-        
         return [RESULT_SUCCESS, '设置保存成功'];
     }
     
@@ -65,8 +63,6 @@ class Config extends LogicBase
         $result = $this->modelConfig->setInfo($data);
         
         $result && action_log('新增', '新增配置，name：' . $data['name']);
-        
-        cache('cache_config_array', null);
         
         return $result ? [RESULT_SUCCESS, '配置添加成功', $url] : [RESULT_ERROR, $this->modelConfig->getError()];
     }
@@ -87,8 +83,6 @@ class Config extends LogicBase
         
         $result && action_log('编辑', '编辑配置，name：' . $data['name']);
         
-        cache('cache_config_array', null);
-        
         return $result ? [RESULT_SUCCESS, '配置编辑成功', $url] : [RESULT_ERROR, $this->modelConfig->getError()];
     }
     
@@ -101,8 +95,6 @@ class Config extends LogicBase
         $result = $this->modelConfig->deleteInfo($where);
         
         $result && action_log('删除', '删除配置，where：' . http_build_query($where));
-        
-        cache('cache_config_array', null);
         
         return $result ? [RESULT_SUCCESS, '菜单删除成功'] : [RESULT_ERROR, $this->modelConfig->getError()];
     }

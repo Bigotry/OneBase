@@ -26,6 +26,6 @@ class Member extends ModelBase
     public function getLeaderNicknameAttr()
     {
         
-        return model('Member')->getValue(['id' => $this->data['leader_id']], 'nickname', '无');
+        return $this->modelMember->getValue(['id' => $this->data['leader_id']], 'nickname', '无');
     }
 }

@@ -35,9 +35,7 @@ class Api extends ModelBase
     public function getGroupNameAttr()
     {
         
-        $model = model('ApiGroup');
-        
-        return $model->getValue(['id' => $this->data['group_id']], 'name');
+        return $this->modelApiGroup->getValue(['id' => $this->data['group_id']], 'name');
     }
     
     /**
