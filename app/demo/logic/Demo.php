@@ -80,7 +80,7 @@ class Demo extends LogicBase
         $test_order['body']             =   '测试';
         $test_order['order_amount']     =   0.01;
         
-        exit($this->servicePay->driverAlipay->pay($test_order));
+        echo $this->servicePay->driverAlipay->pay($test_order);
     }
     
     /**
