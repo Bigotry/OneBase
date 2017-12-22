@@ -239,7 +239,7 @@ class ModelBase extends Model
         
         if(false === $layer) : return parent::__get($name); endif;
         
-        $model = str_replace($layer, '', $name);
+        $model = sr($name, $layer);
         
         return LAYER_VALIDATE_NAME == $layer ? validate($model) : model($model, $layer);
     }

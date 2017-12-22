@@ -110,14 +110,14 @@ class Service extends AdminBase
             
             $driver_name = strtolower($service_name);
             
-            $file_list  = file_list(PATH_SERVICE . $driver_name. DS . 'driver');
+            $file_list  = file_list(PATH_SERVICE . $driver_name. DS . SYS_DRIVER_DIR_NAME);
 
             $object_path = SYS_DS_CONS . SYS_APP_NAMESPACE . SYS_DS_CONS . SYS_COMMON_DIR_NAME . SYS_DS_CONS . LAYER_SERVICE_NAME . SYS_DS_CONS . $driver_name . SYS_DS_CONS . SYS_DRIVER_DIR_NAME;
         }
         
         foreach ($file_list as $v) {
             
-            $class_name = str_replace(EXT, '', $v);
+            $class_name = sr($v, EXT);
             
             if (false === strpos($class_name, 'Base') && !isset(self::$instance[$class_name])) {
                 

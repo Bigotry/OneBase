@@ -292,6 +292,15 @@ function sf($arr = [], $fpath = 'D:\test.php')
 }
 
 /**
+ * 字符串替换
+ */
+function sr($str = '', $target = '', $content = '')
+{
+    
+    return str_replace($target, $content, $str);
+}
+
+/**
  * 插件显示内容里生成访问插件的url
  * @param string $url url
  * @param array $param 参数

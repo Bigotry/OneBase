@@ -23,13 +23,7 @@ function parse_string_val($string, $vars)
         
         $del_end = substr($del_start, 0, strlen($del_start) - 1); 
         
-        if (isset($vars[$del_end])) {
-            
-            $string = str_replace($v, $vars[$del_end], $string);
-        } else {
-            
-            $string = str_replace($v, '', $string);
-        }
+        $string = isset($vars[$del_end]) ? str_replace($v, $vars[$del_end], $string) : sr($string, $v);
     }
     
     return $string;

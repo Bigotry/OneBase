@@ -105,7 +105,7 @@ class AdminBase extends LogicBase
             
             $result = $this->authCheck($check_url, $url_list);
             
-            $result[0] != RESULT_SUCCESS && $content = str_replace($a, '', $content);
+            $result[0] != RESULT_SUCCESS && $content = sr($content, $a);
         }
         
         return $content;

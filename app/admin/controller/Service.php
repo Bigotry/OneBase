@@ -38,7 +38,9 @@ class Service extends AdminBase
         
         $model = model(ucfirst($this->param['service_class']), LAYER_SERVICE_NAME);
         
-        $param = $model->driverParam($this->param['driver_class']);
+        $model->setDriver($this->param['driver_class']);
+
+        $param = $model->driverParam();
         
         $info = $this->logicService->getDriverInfo(['service_name' => $this->param['service_class'], 'driver_name' => $this->param['driver_class']]);
         

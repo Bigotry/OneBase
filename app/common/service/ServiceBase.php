@@ -14,15 +14,13 @@ class ServiceBase extends ModelBase
 {
     
     // 驱动
-    protected $driver = null;
+    public $driver = null;
     
     /**
      * 驱动参数
      */
-    public function driverParam($driver_class = '')
+    public function driverParam()
     {
-        
-        $this->setDriver($driver_class);
         
         return $this->driver->getDriverParam();
     }
@@ -33,7 +31,7 @@ class ServiceBase extends ModelBase
     public function driverConfig($driver_name = '')
     {
         
-        $driver_info = model('Driver')->getInfo(['driver_name' => $driver_name]);
+        $driver_info = $this->modelDriver->getInfo(['driver_name' => $driver_name]);
         
         empty($driver_info) && exception('未安装此驱动，请先安装');
         
@@ -49,5 +47,18 @@ class ServiceBase extends ModelBase
     {
         
         $this->driver = model(ucfirst($driver_class), LAYER_SERVICE_NAME . SYS_DS_CONS . strtolower($this->name) . SYS_DS_CONS . SYS_DRIVER_DIR_NAME);
+    }
+    
+    /**
+     * 重写获取器获取驱动
+     */
+    public function __get($name)
+    {
+        
+        if(!str_prefix($name, SYS_DRIVER_DIR_NAME)) : return parent::__get($name); endif;
+        
+        empty($this->driver) && $this->setDriver(sr($name, SYS_DRIVER_DIR_NAME));
+        
+        return $this->driver;
     }
 }

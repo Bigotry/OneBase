@@ -130,7 +130,7 @@ class Document extends ApiBase
             
             $class_path = SYS_DS_CONS . SYS_APP_NAMESPACE . SYS_DS_CONS . 'api' . SYS_DS_CONS . RESULT_ERROR . SYS_DS_CONS;    
             
-            $class_name = str_replace(EXT, '', $v);
+            $class_name = sr($v, EXT);
             
             $ref = new \ReflectionClass($class_path . $class_name);
 

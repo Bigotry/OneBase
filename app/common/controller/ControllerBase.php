@@ -119,6 +119,6 @@ class ControllerBase extends Controller
         
         !str_prefix($name, LAYER_LOGIC_NAME) && exception('逻辑层引用需前缀:' . LAYER_LOGIC_NAME);
         
-        return model(str_replace(LAYER_LOGIC_NAME, '', $name), LAYER_LOGIC_NAME);
+        return model(sr($name, LAYER_LOGIC_NAME), LAYER_LOGIC_NAME);
     }
 }

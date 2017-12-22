@@ -53,7 +53,7 @@ class Qiniu extends Storage implements Driver
         
         $uploadMgr = new UploadManager();
 
-        $info = model('picture')->getInfo(['id' => $file_id]);
+        $info = $this->modelPicture->getInfo(['id' => $file_id]);
         
         $path_arr = explode(SYS_DS_PROS, $info['path']); 
   
@@ -101,7 +101,7 @@ class Qiniu extends Storage implements Driver
         
         $uploadMgr = new UploadManager();
 
-        $info = model('file')->getInfo(['id' => $file_id]);
+        $info = $this->modelFile->getInfo(['id' => $file_id]);
         
         $path_arr = explode(SYS_DS_PROS, $info['path']); 
         
