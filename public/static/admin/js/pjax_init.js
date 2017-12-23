@@ -4,34 +4,34 @@ $.pjax.defaults.maxCacheLength = 0;
 pjax_mode == 1 && $(document).pjax('a[target!=_blank]', '.content');
 
 $(document).on('pjax:send', function() {
-    
+
     $('.fakeloader').show();
 });
 
 $(document).on('pjax:complete', function() {
-    
+
     $('.fakeloader').hide();
 
     /**
      * PJAX模式重写get请求提交处理
      */
     $('.ajax-get').click(function(){
-        
+
         var target;
-        
+
         if ( $(this).hasClass('confirm') ) {
-            
+
             if(!confirm('确认要执行该操作吗?')){
-                
+
                 return false;
             }
         }
-        
+
         if ( (target = $(this).attr('href')) || (target = $(this).attr('url')) ) {
-            
+
             $.get(target).success(function(data){  obalertp(data);  });
         }
-        
+
         return false;
     });
 
@@ -104,7 +104,7 @@ $(document).on('pjax:complete', function() {
             $.post(target,query).success(function(data){
 
                 obalertp(data);
-                
+
                 is_ladda_button ? button.stop('.ladda-button') : $(that).removeClass('disabled').prop('disabled',false);
             });
         }
@@ -118,8 +118,18 @@ $(document).on('pjax:complete', function() {
  * PJAX模式重写跳转处理
  */
 var obalertp = function (data) {
-    	
+
     data.code ? toast.success(data.msg) : toast.error(data.msg);
 
     data.url && $.pjax({url: data.url,container: '.content'});
 };
+
+/**
+ * PJAX模式左侧菜单优化点击显示
+ */
+$('.sidebar-menu li').click(function () {
+    if ($(this).find('ul').length <= 0) {
+        $(this).siblings('li').removeClass('active');
+        $(this).addClass('active');
+    }
+});
