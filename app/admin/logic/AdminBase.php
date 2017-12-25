@@ -143,7 +143,7 @@ class AdminBase extends LogicBase
         $data['author']         = 'Bigotry';
         $data['website']        = 'www.onebase.org';
         $data['qun']            = '<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=3807aa892b97015a8e016778909dee8f23bbd54a4305d827482eda88fcc55b5e"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="OneBase ①" title="OneBase ①"></a>';
-        $data['document']       = '制作中...';
+        $data['document']       = '<a target="_blank" href="http://document.onebase.org">http://document.onebase.org</a>';
         
         return $data;
     }
