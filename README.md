@@ -46,7 +46,7 @@ OneBase是一个基于ThinkPHP5的免费开源，快速简单，面向对象的�
 
 源码下载：https://gitee.com/Bigotry/OneBase
 
-研发文档：https://www.kancloud.cn/onebase/ob/484179
+研发文档：http://document.onebase.org
 
 
 
