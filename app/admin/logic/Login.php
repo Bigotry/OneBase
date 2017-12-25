@@ -46,10 +46,7 @@ class Login extends AdminBase
     public function logout()
     {
         
-        session('member_info', null);
-        session('member_auth', null);
-        session('member_auth_sign', null);
-        session('[destroy]');
+        clear_login_session();
         
         return [RESULT_SUCCESS, '注销成功', url('login/login')];
     }

@@ -45,6 +45,8 @@ class AdminBase extends LogicBase
         
         $result = in_array($s_url, array_map("strtolower", $url_list)) ? true : false;
         
+        !('admin/index/index' == $s_url && !$result) ?: clear_login_session();
+        
         return $result ? $pass_data : [RESULT_ERROR, '未授权操作'];
     }
     

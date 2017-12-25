@@ -44,7 +44,7 @@ class AuthGroupAccess extends AdminBase
         // 查询条件
         $where = ['id' => ['in', $menu_ids]];
         
-        return $this->modelMenu->getMenuList($where, true, $sort);
+        return $this->logicMenu->getMenuList($where, true, $sort);
     }
     
     /**

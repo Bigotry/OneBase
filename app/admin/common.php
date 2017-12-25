@@ -21,3 +21,14 @@ function action_log($name = '', $describe = '')
     
     $logLogic->logAdd($name, $describe);
 }
+
+/**
+ * 清除登录 session
+ */
+function clear_login_session()
+{
+    
+    session('member_info',      null);
+    session('member_auth',      null);
+    session('member_auth_sign', null);
+}
