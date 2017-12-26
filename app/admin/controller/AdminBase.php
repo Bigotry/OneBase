@@ -72,7 +72,7 @@ class AdminBase extends ControllerBase
         list($jump_type, $message) = $this->logicAdminBase->authCheck(URL_MODULE, $this->authMenuUrlList);
         
         // 权限验证不通过则跳转提示
-        RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message);
+        RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message, url('index/index'));
         
         // 初始化基础数据
         IS_AJAX && !IS_PJAX ?: $this->initBaseInfo();
@@ -122,10 +122,10 @@ class AdminBase extends ControllerBase
     {
         
         // 会员ID
-        defined('MEMBER_ID') or define('MEMBER_ID', is_login());
+        defined('MEMBER_ID')    or  define('MEMBER_ID',     is_login());
         
         // 是否为超级管理员
-        defined('IS_ROOT')   or define('IS_ROOT', is_administrator());
+        defined('IS_ROOT')      or  define('IS_ROOT',       is_administrator());
     }
     
     /**

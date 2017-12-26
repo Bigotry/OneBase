@@ -25,7 +25,7 @@ class Login extends ControllerBase
     public function login()
     {
         
-        is_login() && $this->jump(RESULT_REDIRECT, '已登录则跳过登录页', 'index/index');
+        is_login() && $this->jump(RESULT_REDIRECT, '已登录则跳过登录页', url('index/index'));
         
         // 关闭布局
         $this->view->engine->layout(false);

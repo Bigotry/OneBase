@@ -42,6 +42,29 @@
            $(this).parent().parent().parent().parent().closest('div').find('input').prop('checked',this.checked);
         });
 
+        //当前节点选中后触发选中所有父级
+        $('input').on('click',function(){ selectParentElement(this); });
+
     }(jQuery);
+    
+    
+    function selectParentElement(obj)
+    {
+        
+        var tag = false;
+        
+        var rules_all = $(obj).parent().parent().parent().parent().parent().prev();
+        var rules = $(obj).parent().parent().prev();
+
+        if (typeof (rules_all.html()) !== "undefined") { obj = rules_all; tag = true; }
+
+        if (typeof (rules.html()) !== "undefined") { obj = rules; tag = true; }
+
+        if (false === tag) {  return false; } 
+            
+        selectParentElement(obj);
+
+        obj.find("input").prop("checked", 'checked');
+    }
     
 </script>
