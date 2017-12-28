@@ -54,7 +54,7 @@ OneBase是一个基于ThinkPHP5的免费开源，快速简单，面向对象的�
 
 * * * * *
 
-![OneBase系统架构图](https://gitee.com/uploads/images/2017/1228/110910_f58f8dd8_917834.png "OneBase系统架构图.png")
+![OneBase系统架构图](https://gitee.com/uploads/images/2017/1228/112704_2e32357d_917834.png "OneBase系统架构图.png")
 
 
 # 部分效果图
