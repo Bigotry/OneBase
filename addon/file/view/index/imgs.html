@@ -11,7 +11,7 @@
     
         {volist name="img_ids_list" id='vo'}
             <div class="upload-pre-item" style="float:left; margin: 10px;">
-                <div style="cursor:pointer; color:red;" class="pic_del"  onclick="picDel{$addons_data.name}(this, {$vo})" ><img src="/addon/file/static/uploadify-cancel.png" /></div> 
+                <div style="cursor:pointer;" class="pic_del"  onclick="picDel{$addons_data.name}(this, {$vo})" ><img src="/addon/file/static/uploadify-cancel.png" /></div> 
                 <a target="_blank" href="{$vo|default='0'|get_picture_url}">
                     <img style="max-width: {$addons_config['maxwidth']};" src="{$vo|default='0'|get_picture_url}"/>
                 </a>
@@ -53,7 +53,7 @@
         
         var src = '/upload/picture/' + data.path;
         
-        $(".upload-img-box" + addons_name).append('<div class="upload-pre-item" style="float:left; margin: 10px;"> <div style="cursor:pointer; color:red;" class="pic_del"  onclick="picDel{$addons_data.name}(this,'+data.id+')" ><img src="/addon/file/static/uploadify-cancel.png" /></div> <a target="_blank" href="' + src + '"> <img style="max-width: ' + maxwidth + ';" src="' + src + '"/></a></div>');
+        $(".upload-img-box" + addons_name).append('<div class="upload-pre-item" style="float:left; margin: 10px;"> <div style="cursor:pointer; " class="pic_del"  onclick="picDel{$addons_data.name}(this,'+data.id+')" ><img src="/addon/file/static/uploadify-cancel.png" /></div> <a target="_blank" href="' + src + '"> <img style="max-width: ' + maxwidth + ';" src="' + src + '"/></a></div>');
     }
     
     function picDel{$addons_data.name}(obj, pic_id)
