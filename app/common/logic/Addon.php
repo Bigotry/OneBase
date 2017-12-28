@@ -90,4 +90,49 @@ class Addon extends LogicBase
             !empty(trim($value)) && Db::execute($value);
 	}
     }
+    
+    /**
+     * 执行插件
+     */
+    public function executeAction($addon_name = null, $controller_name = null, $action_name = null)
+    {
+        
+        $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $addon_name . SYS_DS_CONS . LAYER_CONTROLLER_NAME . SYS_DS_CONS . $controller_name;
+        
+        return (new $class_path())->$action_name();
+    }
+    
+    /**
+     * 插件安装
+     */
+    public function addonInstall($name = null)
+    {
+        
+        $strtolower_name = strtolower($name);
+
+        $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $strtolower_name . SYS_DS_CONS . $name;
+        
+        $this->executeSql($strtolower_name, 'install');
+        
+        action_log('安装', '插件安装，name：' . $strtolower_name);
+        
+        return (new $class_path())->addonInstall();
+    }
+    
+    /**
+     * 插件卸载
+     */
+    public function addonUninstall($name = null)
+    {
+        
+        $strtolower_name = strtolower($name);
+
+        $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $strtolower_name . SYS_DS_CONS . $name;
+        
+        $this->executeSql($strtolower_name, 'uninstall');
+        
+        action_log('卸载', '插件卸载，name：' . $strtolower_name);
+        
+        return (new $class_path())->addonUninstall();
+    }
 }

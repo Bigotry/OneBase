@@ -23,11 +23,7 @@ class Addon extends AdminBase
     public function execute($addon_name = null, $controller_name = null, $action_name = null)
     {
         
-        $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $addon_name . SYS_DS_CONS . LAYER_CONTROLLER_NAME . SYS_DS_CONS . $controller_name;
-        
-        $controller = new $class_path();
-        
-        $controller->$action_name();
+        return $this->logicAddon->executeAction($addon_name, $controller_name, $action_name);
     }
     
     /**
@@ -36,17 +32,7 @@ class Addon extends AdminBase
     public function addonInstall($name = null)
     {
         
-        $strtolower_name = strtolower($name);
-
-        $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $strtolower_name . SYS_DS_CONS . $name;
-        
-        $this->logicAddon->executeSql($strtolower_name, 'install');
-        
-        $controller = new $class_path();
-        
-        action_log('安装', '插件安装，name：' . $strtolower_name);
-        
-        $this->jump($controller->addonInstall());
+        $this->jump($this->logicAddon->addonInstall($name));
     }
     
     /**
@@ -55,17 +41,7 @@ class Addon extends AdminBase
     public function addonUninstall($name = null)
     {
         
-        $strtolower_name = strtolower($name);
-
-        $class_path = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $strtolower_name . SYS_DS_CONS . $name;
-        
-        $this->logicAddon->executeSql($strtolower_name, 'uninstall');
-        
-        $controller = new $class_path();
-        
-        action_log('卸载', '插件卸载，name：' . $strtolower_name);
-        
-        $this->jump($controller->addonUninstall());
+        $this->jump($this->logicAddon->addonUninstall($name));
     }
     
     /**
