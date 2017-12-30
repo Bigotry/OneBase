@@ -20,10 +20,7 @@ class IndexBase extends ControllerBase
 {
     
     /**
-     * IndexBase constructor                                      构造方法
-     * @param   LogicAdminBase          $adminBaseLogic          后台基础逻辑
-     * @param   LogicMenu               $menuLogic               菜单逻辑
-     * @param   LogicAuthGroupAccess    $authGroupAccessLogic    权限组授权逻辑
+     * 构造方法
      */
     public function __construct()
     {
