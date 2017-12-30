@@ -27,8 +27,8 @@ class Demo extends LogicBase
         
         /**
          * 控制器层引用业务逻辑层
-         * 控制器层只能使用此方式引用业务逻辑层 前缀 logic
          * 执行查询文章列表逻辑
+         * 前缀 logic
          */
         $this->logicArticle->getArticleList();
         

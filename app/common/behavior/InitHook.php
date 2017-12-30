@@ -28,8 +28,8 @@ class InitHook
         $hook  = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . ucwords(SYS_HOOK_DIR_NAME));
 
         $list = $hook->column('id,name,addon_list');
-            
-        while(list($k, $v) = each($list)) : $addon_list[$v['name']] = get_addon_class($v['addon_list']); endwhile;
+
+        foreach ($list as $v) : $addon_list[$v['name']] = get_addon_class($v['addon_list']); endforeach;
         
         Hook::import($addon_list);
     }
