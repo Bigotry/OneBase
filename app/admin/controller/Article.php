@@ -25,7 +25,7 @@ class Article extends AdminBase
         
         $where = $this->logicArticle->getWhere($this->param);
         
-        $this->assign('list', $this->logicArticle->getArticleList($where, true, 'create_time desc'));
+        $this->assign('list', $this->logicArticle->getArticleList($where, 'a.*,m.nickname,c.name as category_name', 'a.create_time desc'));
         
         return $this->fetch('article_list');
     }
@@ -49,7 +49,7 @@ class Article extends AdminBase
         
         $this->articleCommon();
         
-        $info = $this->logicArticle->getArticleInfo(['id' => $this->param['id']]);
+        $info = $this->logicArticle->getArticleInfo(['a.id' => $this->param['id']], 'a.*,m.nickname,c.name as category_name');
         
         !empty($info) && $info['img_ids_array'] = str2arr($info['img_ids']);
         

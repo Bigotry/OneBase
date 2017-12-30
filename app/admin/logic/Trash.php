@@ -66,7 +66,7 @@ class Trash extends AdminBase
     public function trashDataDel($model_name = '', $id = 0)
     {
         
-        $where = empty($id) ? ['id' => ['neq', DATA_DISABLE]] : ['id' => $id];
+        $where = empty($id) ? [DATA_STATUS_NAME => DATA_DELETE] : ['id' => $id];
         
         $m = LAYER_MODEL_NAME . $model_name;
         
@@ -83,7 +83,7 @@ class Trash extends AdminBase
     public function restoreData($model_name = '', $id = 0)
     {
         
-        $where = empty($id) ? ['id' => ['neq', DATA_DISABLE]] : ['id' => $id];
+        $where = empty($id) ? [DATA_STATUS_NAME => ['neq', DATA_NORMAL]] : ['id' => $id];
         
         $m = LAYER_MODEL_NAME . $model_name;
         

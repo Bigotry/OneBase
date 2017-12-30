@@ -41,10 +41,19 @@ class Article extends LogicBase
     /**
      * 获取文章列表
      */
-    public function getArticleList($where = [], $field = true, $order = '')
+    public function getArticleList($where = [], $field = 'a.*', $order = '')
     {
         
-        return $this->modelArticle->getList($where, $field, $order);
+        $this->modelArticle->alias('a');
+        
+        $join = [
+                    [SYS_DB_PREFIX . 'member m', 'a.member_id = m.id'],
+                    [SYS_DB_PREFIX . 'article_category c', 'a.category_id = c.id'],
+                ];
+        
+        $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+        
+        return $this->modelArticle->getList($where, $field, $order, DB_LIST_ROWS, $join);
     }
     
     /**
@@ -55,7 +64,7 @@ class Article extends LogicBase
         
         $where = [];
         
-        !empty($data['search_data']) && $where['name|describe'] = ['like', '%'.$data['search_data'].'%'];
+        !empty($data['search_data']) && $where['a.name|a.describe'] = ['like', '%'.$data['search_data'].'%'];
         
         return $where;
     }
@@ -88,10 +97,19 @@ class Article extends LogicBase
     /**
      * 获取文章信息
      */
-    public function getArticleInfo($where = [], $field = true)
+    public function getArticleInfo($where = [], $field = 'a.*')
     {
         
-        return $this->modelArticle->getInfo($where, $field);
+        $this->modelArticle->alias('a');
+        
+        $join = [
+                    [SYS_DB_PREFIX . 'member m', 'a.member_id = m.id'],
+                    [SYS_DB_PREFIX . 'article_category c', 'a.category_id = c.id'],
+                ];
+        
+        $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+        
+        return $this->modelArticle->getInfo($where, $field, $join);
     }
     
     /**

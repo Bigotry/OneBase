@@ -34,7 +34,7 @@ class Index extends IndexBase
         //文章变量
         if (!empty($this->param['id'])) :
             
-            $article_info = $this->logicArticle->getArticleInfo(['id' => $this->param['id']]);
+            $article_info = $this->logicArticle->getArticleInfo(['a.id' => $this->param['id']]);
 
             $this->assign('article_title',      '-'.$article_info['name']);
             $this->assign('article_describe',   '-'.$article_info['describe']);

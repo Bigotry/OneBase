@@ -51,9 +51,9 @@ class Article extends ApiBase
         
         $where = [];
         
-        !empty($data['category_id']) && $where['category_id'] = $data['category_id'];
+        !empty($data['category_id']) && $where['a.category_id'] = $data['category_id'];
         
-        $list = static::$commonArticleLogic->getArticleList($where, 'id,name,category_id,describe,create_time', 'create_time desc');
+        $list = static::$commonArticleLogic->getArticleList($where, 'a.id,a.name,a.category_id,a.describe,a.create_time', 'a.create_time desc');
         
         return [$list];
     }
@@ -64,7 +64,7 @@ class Article extends ApiBase
     public function getArticleInfo($data = [])
     {
         
-        $info = static::$commonArticleLogic->getArticleInfo(['id' => $data['article_id']], 'id,name,category_id,describe,content,create_time');
+        $info = static::$commonArticleLogic->getArticleInfo(['a.id' => $data['article_id']], 'a.*,m.nickname,c.name as category_name');
         
         $info['content'] = html_entity_decode($info['content'] );
         
