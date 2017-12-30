@@ -113,4 +113,33 @@ class File extends LogicBase
         $method != 'uploadPicture' ? $this->modelFile->setFieldValue(['id' => $result], 'url', $storage_result) : $this->modelPicture->setFieldValue(['id' => $result], 'url', $storage_result);
     }
     
+    /**
+     * 获取文件路径
+     */
+    public function getFileUrl($id = 0)
+    {
+        
+        $info = $this->modelFile->where(['id' => $id])->field('path,url')->find();
+
+        if (!empty($info['url']))  : return config('static_domain') . SYS_DS_PROS . $info['url'];   endif;
+
+        if (!empty($info['path'])) : return '/upload/file/'.$info['path'];                          endif;
+
+        return '暂无文件';
+    }
+    
+    /**
+     * 获取图片路径
+     */
+    public function getPictureUrl($id = 0)
+    {
+        
+        $info = $this->modelPicture->where(['id' => $id])->field('path,url')->find();
+
+        if (!empty($info['url']))  : return config('static_domain') . SYS_DS_PROS . $info['url'];   endif;
+
+        if (!empty($info['path'])) : return '/upload/picture/'.$info['path'];                       endif;
+
+        return '/static/admin/img/onimg.png';
+    }
 }

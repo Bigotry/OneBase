@@ -335,25 +335,6 @@ function addons_url($url, $param = array())
 }
 
 /**
- * 字符串命名风格转换
- * type 0 将Java风格转换为C的风格 1 将C风格转换为Java的风格
- * @param string $name 字符串
- * @param integer $type 转换类型
- * @return string
- */
-function parse_name($name, $type=0)
-{
-    
-    if ($type) {
-        
-        return ucfirst(preg_replace_callback('/_([a-zA-Z])/', function($match){return strtoupper($match[1]);}, $name));
-    } else {
-        
-        return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
-    }
-}
-
-/**
  * 获取目录列表
  */
 function get_dir($dir_name)
@@ -387,13 +368,7 @@ function get_dir($dir_name)
 function get_picture_url($id = 0)
 {
     
-    $info = model('Picture')->where(['id' => $id])->field('path,url')->find();
-
-    if (!empty($info['url']))  : return config('static_domain') . SYS_DS_PROS . $info['url'];  endif;
-
-    if (!empty($info['path'])) : return '/upload/picture/'.$info['path'];  endif;
-
-    return '/static/admin/img/onimg.png';
+    return action(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'FileBase' . SYS_DS_PROS . 'getPictureUrl', ['id' => $id]);
 }
 
 /**
@@ -402,13 +377,7 @@ function get_picture_url($id = 0)
 function get_file_url($id = 0)
 {
     
-    $info = model('File')->where(['id' => $id])->field('path,url')->find();
-
-    if (!empty($info['url']))  : return config('static_domain') . SYS_DS_PROS . $info['url'];  endif;
-
-    if (!empty($info['path'])) : return '/upload/file/'.$info['path'];  endif;
-
-    return '暂无文件';
+    return action(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'FileBase' . SYS_DS_PROS . 'getFileUrl', ['id' => $id]);
 }
 
 /**

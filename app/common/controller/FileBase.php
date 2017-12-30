@@ -9,35 +9,29 @@
 // | Repository | https://gitee.com/Bigotry/OneBase                      |
 // +---------------------------------------------------------------------+
 
-namespace app\admin\controller;
-
-use app\common\controller\FileBase;
+namespace app\common\controller;
 
 /**
- * 文件控制器
+ * 文件操作控制器基类
  */
-class File extends FileBase
+class FileBase extends ControllerBase
 {
     
     /**
-     * 图片上传
+     * 获取文件路径
      */
-    public function pictureUpload()
+    public function getFileUrl($id = 0)
     {
         
-        $result = $this->logicFile->pictureUpload();
-
-        return json($result);
+        return $this->logicFile->getFileUrl($id);
     }
     
     /**
-     * 文件上传
+     * 获取图片路径
      */
-    public function fileUpload()
+    public function getPictureUrl($id = 0)
     {
         
-        $result = $this->logicFile->fileUpload();
-
-        return json($result);
+        return $this->logicFile->getPictureUrl($id);
     }
 }
