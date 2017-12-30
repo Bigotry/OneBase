@@ -25,13 +25,4 @@ class Member extends ModelBase
         
         return data_md5_key($value);
     }
-    
-    /**
-     * 上级获取器
-     */
-    public function getLeaderNicknameAttr()
-    {
-        
-        return $this->modelMember->getValue(['id' => $this->data['leader_id']], 'nickname', '无');
-    }
 }

@@ -49,9 +49,9 @@ class Member extends AdminBase
         
         $where = $this->logicMember->getWhere($this->param);
         
-        !empty($this->param['mark']) && $this->logicMember->exportMemberList($where, true, 'id desc');
+        !empty($this->param['mark']) && $this->logicMember->exportMemberList($where);
         
-        $this->assign('list', $this->logicMember->getMemberList($where, true, 'id desc'));
+        $this->assign('list', $this->logicMember->getMemberList($where));
         
         return $this->fetch('member_list');
     }

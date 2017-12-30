@@ -23,31 +23,37 @@ class Member extends AdminBase
     public function getMemberInfo($where = [], $field = true)
     {
         
-        return $this->modelMember->getInfo($where, $field);
+        $info = $this->modelMember->getInfo($where, $field);
+        
+        $info['leader_nickname'] = $this->modelMember->getValue(['id' => $info['leader_id']], 'nickname');
+        
+        return $info;
     }
     
     /**
      * 获取会员列表
      */
-    public function getMemberList($where = [], $field = true, $order = '')
+    public function getMemberList($where = [], $field = 'm.*,b.nickname as leader_nickname', $order = '', $paginate = DB_LIST_ROWS)
     {
         
-        return $this->modelMember->getList($where, $field, $order);
+        $this->modelMember->alias('m');
+        
+        $join = [
+                    [SYS_DB_PREFIX . 'member b', 'm.leader_id = b.id', 'LEFT'],
+                ];
+        
+        $where['m.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+        
+        return $this->modelMember->getList($where, $field, $order, $paginate, $join);
     }
     
     /**
      * 导出会员列表
      */
-    public function exportMemberList($where = [], $field = true, $order = '')
+    public function exportMemberList($where = [], $field = 'm.*,b.nickname as leader_nickname', $order = '')
     {
         
-        $list = $this->modelMember->getList($where, $field, $order, false);
-        
-        foreach ($list as $info)
-        {
-            
-            $info['leader_nickname'] = $this->modelMember->getValue(['id' => $info['leader_id']], 'nickname', '无');
-        }
+        $list = $this->getMemberList($where, $field, $order, false);
         
         $titles = "昵称,用户名,邮箱,手机,注册时间,上级";
         $keys   = "nickname,username,email,mobile,create_time,leader_nickname";
@@ -65,7 +71,7 @@ class Member extends AdminBase
         
         $where = [];
         
-        !empty($data['search_data']) && $where['nickname|username|email|mobile'] = ['like', '%'.$data['search_data'].'%'];
+        !empty($data['search_data']) && $where['m.nickname|m.username|m.email|m.mobile'] = ['like', '%'.$data['search_data'].'%'];
         
         if (!is_administrator()) {
             
@@ -77,11 +83,11 @@ class Member extends AdminBase
                 
                 $ids[] = MEMBER_ID;
                 
-                $where['leader_id'] = ['in', $ids];
+                $where['m.leader_id'] = ['in', $ids];
                 
             } else {
                 
-                $where['leader_id'] = MEMBER_ID;
+                $where['m.leader_id'] = MEMBER_ID;
             }
         }
         
