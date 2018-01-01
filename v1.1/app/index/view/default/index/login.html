@@ -1,0 +1,61 @@
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h2>源自相同起点，演绎不同精彩！</h2>
+        <p class="lead"></p>
+    </div>
+</header>
+
+
+<div id="main-container" class="container">
+    <section>
+            <div class="span12">
+                <div class="control-group">
+                  <label class="control-label">用户名</label>
+                  <div class="controls">
+                      <input type="text" id="username" style="height: 30px;" class="span3" placeholder="请输入用户名" name="username">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">密码</label>
+                  <div class="controls">
+                    <input type="password" id="password" style="height: 30px;" class="span3" placeholder="请输入密码"  name="password">
+                  </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="button" class="btn" onclick="submitLogin(this)">登 陆</button>
+                    </div>
+                </div>
+            </div>
+    </section>
+        
+</div>
+
+
+<script>
+    
+    var login_info = Cookies.get('login_info');
+    
+    if(!(typeof(login_info)=="undefined")) { window.location.href = '/';  }
+    
+    function submitLogin(btn)
+    {
+        
+        $(btn).attr('disabled',"true");
+        
+        $.post(api_domain + '/api.php/common/login.html', {access_token:access_token, username:$('#username').val(),password:$('#password').val()}, success, "json");
+        return false;
+        
+        function success(data)
+        {
+            
+            if (data.code != 0) {  toast.error(data.msg); $(btn).removeAttr("disabled"); return; }
+            
+            Cookies.set('login_info', data.data);
+            
+            toast.success('登录成功');
+            
+            setTimeout(function(){ window.location.href = '/'; }, 500);
+        }
+    }
+</script>

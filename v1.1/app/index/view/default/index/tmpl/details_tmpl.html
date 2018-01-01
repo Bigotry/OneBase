@@ -1,0 +1,51 @@
+<div class="tmpl_div"  style="display: none;">
+
+    <!--首页文章分类模板-->
+    <div id='article_category_ul_tmpl'>
+        <li class="article_category_li_${id}"><a href="/?cid=${id}"><i class='icon-chevron-right'></i>${name}</a></li> 
+    </div>
+    
+    <!--文章详情顶部模板-->
+    <div id='article_details_header_tmpl'>
+        <div class="container">
+                <h2>${name}</h2>
+                <p>
+                    <span  class="pull-left">
+                        <span> 发布时间：${create_time}</span>
+                    </span>
+                </p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+        
+        $('.fakeloader').show();
+        
+        $.template("article_category_ul_tmpl",     $('#article_category_ul_tmpl'));
+        $.template("article_details_header_tmpl",  $('#article_details_header_tmpl'));
+        
+        var id = getUrlParam('id');
+        
+        $.post(api_domain + '/api.php/combination/details.html', {access_token:access_token,article_id: id}, success, "json");
+        return false;
+        
+        function success(data)
+        {
+            
+            $.tmpl("article_category_ul_tmpl",      data.data.article_category_list).appendTo("#article_category_ul");
+            $.tmpl("article_details_header_tmpl",   data.data.article_details).appendTo(".article_details_header");
+
+            $('#article_details_content').html(data.data.article_details.content);
+            
+            $('.article_category_li_' + "{$cid}").addClass('active');
+            
+            $('.fakeloader').hide();
+        }
+        
+    });
+    
+    
+</script>
