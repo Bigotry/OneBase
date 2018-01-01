@@ -1,0 +1,38 @@
+<footer class="footer">
+  <div class="container">
+      <p> 本站由 <strong><a href="http://www.onebase.org" target="_blank">OneBase</a></strong> 强力驱动</p>
+  </div>
+</footer>
+<script type="text/javascript">
+    $(function(){
+        
+        $(window).resize(function(){ $("#main-container").css("min-height", window.screen.height - 480); }).resize();
+            
+        var login_info = Cookies.get('login_info');
+        
+        // 登录成功
+        if(!(typeof(login_info)=="undefined"))
+        {
+            var login_info = JSON.parse(login_info);
+            
+            $('#nickname_span').text(login_info.nickname);
+
+            $('.login_true').show();
+            $('.login_false').hide();
+        }
+        
+    });
+    
+    
+    function logout()
+    {
+        
+        Cookies.remove('login_info');
+         
+        toast.success('注销成功');
+        
+        setTimeout(function(){ window.location.href = '/'; }, 500);
+    }
+</script>
+</body>
+</html>

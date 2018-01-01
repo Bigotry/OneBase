@@ -1,0 +1,111 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>标题</label>
+              <span class="">（文章标题名称）</span>
+              <input class="form-control" name="name" placeholder="请输入文章标题名称" value="{$info['name']|default=''}" type="text">
+            </div>
+          </div>
+            
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>分类</label>
+              <span class="">（文章分类）</span>
+                <select name="category_id" class="form-control">
+                    {volist name='article_category_list' id='vo'}
+                        <option value="{$vo['id']}" {notempty name="info['category_id']"}{if condition="$info['category_id'] eq $vo['id']"} selected="selected" {/if}{/notempty} >{$vo['name']}</option>
+                    {/volist}
+                </select>
+            </div>
+          </div>
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>描述</label>
+                <span class="">（文章描述信息/简介）</span>
+                <textarea class="form-control" name="describe" rows="3" placeholder="请输入文章描述信息/简介">{$info['describe']|default=''}</textarea>
+            </div>
+          </div>
+            
+            
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>封面图片</label>
+                <span class="">（请上传单张封面图片）</span>
+                <br/>
+                
+                {empty name="info"}
+                    {assign name="cover_id_var" value="0" /}
+                {else /}
+                    {assign name="cover_id_var" value="$info.cover_id" /}
+                {/empty}
+                
+                {:hook('File', ['name' => 'cover_id', 'value' => $cover_id_var, 'type' => 'img'])}
+            </div>
+          </div>
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>多图片</label>
+                <span class="">（请上传多图片）</span>
+                <br/>
+                
+                {empty name="info"}
+                    {assign name="img_ids_var" value="" /}
+                {else /}
+                    {assign name="img_ids_var" value="$info.img_ids" /}
+                {/empty}
+                
+                {:hook('File', ['name' => 'img_ids', 'value' => $img_ids_var, 'type' => 'imgs'])}
+            </div>
+          </div>
+            
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>附件</label>
+                <span class="">（文章可下载附件）</span>
+                <br/>
+                
+                {empty name="info"}
+                    {assign name="file_id_var" value="0" /}
+                {else /}
+                    {assign name="file_id_var" value="$info.file_id" /}
+                {/empty}
+                
+                {:hook('File', ['name' => 'file_id', 'value' => $file_id_var, 'type' => 'file'])}
+            </div>
+          </div>
+            
+          </div>
+        <div class="row">
+           
+            
+          <div class="col-md-12">
+            <div class="form-group">
+                <label>文章内容</label>
+                <textarea class="form-control textarea_editor" name="content" placeholder="请输入文章内容">{$info['content']|default=''}</textarea>
+                {:hook('ArticleEditor', array('name'=> 'content','value'=> ''))}
+            </div>
+          </div>
+            
+        </div>
+        
+      <div class="box-footer">
+          
+        <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+        
+        <button  type="submit" class="btn  ladda-button ajax-post" data-style="slide-up" target-form="form_single">
+            <span class="ladda-label">确 定</span>
+        </button>
+         
+        <a class="btn " onclick="javascript:history.back(-1);return false;"> 返 回</a>
+      </div>
+        
+      </div>
+      </div>
+</form>
