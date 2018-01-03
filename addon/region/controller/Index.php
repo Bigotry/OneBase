@@ -12,27 +12,12 @@
 namespace addon\region\controller;
 
 use app\common\controller\AddonBase;
-use addon\region\logic\Index as LogicIndex;
 
 /**
  * 区域选择控制器
  */
 class Index extends AddonBase
 {
-
-    // 区域选择逻辑
-    private static $regionIndexLogic = null;
-    
-    /**
-     * 构造方法
-     */
-    public function _initialize()
-    {
-        
-        parent::_initialize();
-        
-        self::$regionIndexLogic = get_sington_object('regionIndexLogic', LogicIndex::class);
-    }
     
     /**
      * 获取选项信息
@@ -45,7 +30,7 @@ class Index extends AddonBase
         
         $select_id = input('select_id', DATA_DISABLE);
         
-        $list = self::$regionIndexLogic->getList($where);
+        $list = $this->logicIndex->getRegionList($where);
         
         switch ($where['level'])
         {
@@ -55,7 +40,7 @@ class Index extends AddonBase
             default: $this->error('省市县 level 不存在');
         }
         
-        $data = self::$regionIndexLogic->combineOptions($select_id, $list, $default_option_text);
+        $data = $this->logicIndex->combineOptions($select_id, $list, $default_option_text);
         
         return $this->result($data);
     }

@@ -12,7 +12,6 @@
 namespace addon\editor\controller;
 
 use app\common\controller\AddonBase;
-use addon\editor\logic\Upload as LogicUpload;
 
 /**
  * 编辑器插件上传控制器
@@ -26,7 +25,7 @@ class Upload extends AddonBase
     public function pictureUpload()
     {
         
-        $result = (new LogicUpload())->pictureUpload();
+        $result = $this->logicUpload->pictureUpload();
         
         return throw_response_exception($result);
     }

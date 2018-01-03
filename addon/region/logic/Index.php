@@ -11,12 +11,12 @@
 
 namespace addon\region\logic;
 
-use think\Db;
+use app\common\model\Addon;
 
 /**
  * 省市县三级联动插件逻辑
  */
-class Index
+class Index extends Addon
 {
 
     /**
@@ -42,7 +42,7 @@ class Index
     /**
      * 获取区域列表
      */
-    public function getList($where = [])
+    public function getRegionList($where = [])
     {
         
         $cache_key = 'cache_region_' . md5(serialize($where));
@@ -51,7 +51,7 @@ class Index
         
         if (!empty($cache_list)) : return $cache_list; endif;
         
-        $list = Db::name('region')->where($where)->field(true)->select();
+        $list = $this->modelRegion->getList($where, true, 'id', false);
         
         !empty($list) && cache($cache_key, $list);
         
