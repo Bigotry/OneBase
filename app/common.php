@@ -741,3 +741,20 @@ function str_prefix($str, $prefix)
     
     return strpos($str, $prefix) === DATA_DISABLE ? true : false;
 }
+
+/**
+ * 插件对象注入
+ */
+function addon_ioc($this, $name, $layer)
+{
+    
+    !str_prefix($name, $layer) && exception('逻辑与模型层引用需前缀:' . $layer);
+
+    $class_arr = explode(SYS_DS_CONS, get_class($this));
+
+    $sr_name = sr($name, $layer);
+
+    $class_logic = SYS_ADDON_DIR_NAME . SYS_DS_CONS . $class_arr[DATA_NORMAL] . SYS_DS_CONS . $layer . SYS_DS_CONS . $sr_name;
+
+    return get_sington_object(SYS_ADDON_DIR_NAME . '_' . $layer . '_' . $sr_name, $class_logic);
+}

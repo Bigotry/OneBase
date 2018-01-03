@@ -17,4 +17,12 @@ namespace app\common\model;
 class Addon extends ModelBase
 {
     
+    /**
+     * 获取插件模型层实例
+     */
+    public function __get($name)
+    {
+        
+        return addon_ioc($this, $name, LAYER_MODEL_NAME);
+    }
 }

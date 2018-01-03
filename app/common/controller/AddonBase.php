@@ -43,4 +43,13 @@ class AddonBase extends ControllerBase
         
         echo $this->view->fetch($template, $vars, array_merge($replace_default, $replace), $config);
     }
+    
+    /**
+     * 获取插件逻辑层实例
+     */
+    public function __get($name)
+    {
+        
+        return addon_ioc($this, $name, LAYER_LOGIC_NAME);
+    }
 }
