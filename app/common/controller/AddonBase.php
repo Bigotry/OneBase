@@ -35,7 +35,7 @@ class AddonBase extends ControllerBase
         
         $view_path = PATH_ADDON . $addon_name . DS . LAYER_VIEW_NAME . DS;
         
-        $static_path = SYS_DS_PROS .SYS_ADDON_DIR_NAME. SYS_DS_PROS . $addon_name . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
+        $static_path = SYS_DS_PROS . SYS_STATIC_DIR_NAME . SYS_DS_PROS . SYS_ADDON_DIR_NAME . SYS_DS_PROS . $addon_name;
         
         $replace_default['__STATIC__'] = $static_path; 
         

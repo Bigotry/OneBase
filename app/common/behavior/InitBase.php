@@ -12,7 +12,6 @@
 namespace app\common\behavior;
 
 use think\Loader;
-use think\Request;
 
 /**
  * 初始化基础信息行为
@@ -28,9 +27,6 @@ class InitBase
         
         // 初始化常量
         $this->initConst();
-        
-        // 初始化插件静态资源
-        $this->initAddonStatic();
         
         // 初始化配置
         $this->initConfig();
@@ -208,45 +204,5 @@ class InitBase
         
         // 注册插件根命名空间
         Loader::addNamespace(SYS_ADDON_DIR_NAME, PATH_ADDON);
-    }
-    
-    /**
-     * 初始化插件静态资源
-     */
-    private function initAddonStatic()
-    {
-        
-        $regex = '/[^\s]+\.(jpg|gif|png|bmp|js|css)/i';
-
-        $url = htmlspecialchars(addslashes(Request::instance()->url()));
-        
-        if(strpos($url, SYS_ADDON_DIR_NAME) !== false && preg_match($regex, $url)) :
-
-            $url = PATH_ADDON . str_replace(SYS_DS_PROS, DS, substr($url, strlen(SYS_DS_PROS . SYS_ADDON_DIR_NAME . SYS_DS_PROS)));
-        
-            if(strpos($url, '?') !== false) : $url = strstr($url,"?", true); endif;
-        
-            !is_file($url) && exit('plugin resources do not exist.');
-
-            $ext = pathinfo($url, PATHINFO_EXTENSION);
-
-            $header = 'Content-Type:';
-
-            in_array($ext, ['jpg','gif','png','bmp']) && $header .= "image/jpeg;text/html;";
-
-            switch ($ext)
-            {
-                case 'css' : $header  .= "text/css;"; break;
-                case 'js'  : $header  .= "application/x-javascript;"; break;
-                case 'swf' : $header  .= "application/octet-stream;"; break;
-            }
-
-            $header .= "charset=utf-8";
-
-            header($header);
-
-            exit(file_get_contents($url));
-
-        endif;
     }
 }
