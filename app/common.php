@@ -633,7 +633,7 @@ function write_exe_log($begin = 'app_begin', $end = 'app_end', $type = 0)
     $exe_log['type']            = $type;
     $exe_log['login_id']        = is_login();
     
-    $exe_log_path = "../runtime/log/exe_log.php";
+    $exe_log_path = "../log/exe_log.php";
     
     file_exists($exe_log_path) && $now_contents = file_get_contents($exe_log_path);
     

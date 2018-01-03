@@ -32,7 +32,7 @@ class ExeLog extends AdminBase
     public function logImport()
     {
         
-        $exe_log_path = "../runtime/log/exe_log.php";
+        $exe_log_path = "../log/exe_log.php";
         
         $exe_log_array = require $exe_log_path;
         
