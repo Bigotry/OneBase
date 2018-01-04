@@ -111,6 +111,22 @@ $(document).on('pjax:complete', function() {
 
         return false;
     });
+    
+    //搜索功能
+    $("#search").click(function(){
+        
+        var url = searchFormUrl(this);
+
+        $.pjax({url: url,container: '.content'});
+    });
+
+    //回车搜索
+    $(".search-input").keyup(function(e){
+        if(e.keyCode === 13){
+                $("#search").click();
+                return false;
+        }
+    });
 
 });
 
@@ -133,3 +149,22 @@ $('.sidebar-menu li').click(function () {
         $(this).addClass('active');
     }
 });
+
+/**
+ * 搜索表单url
+ */
+var searchFormUrl = function (obj) {
+
+    var url = $(obj).attr('url');
+    
+    var query  = $('.search-form').find('input').serialize();
+    query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+    query = query.replace(/^&/g,'');
+    if( url.indexOf('?')>0 ){
+        url += '&' + query;
+    }else{
+        url += '?' + query;
+    }
+    
+    return url;
+};

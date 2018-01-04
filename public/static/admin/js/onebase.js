@@ -50,16 +50,8 @@
     
     //搜索功能
     $("#search").click(function(){
-            var url = $(this).attr('url');
-            var query  = $('.search-form').find('input').serialize();
-            query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
-            query = query.replace(/^&/g,'');
-            if( url.indexOf('?')>0 ){
-                url += '&' + query;
-            }else{
-                url += '?' + query;
-            }
-            window.location.href = url;
+        
+        window.location.href = searchFormUrl(this);
     });
 
     //回车搜索
@@ -68,14 +60,6 @@
                 $("#search").click();
                 return false;
         }
-    });
-    
-    //导出功能
-    $(".export").click(function(){
-        
-        $('.search-form').append("<input type='hidden' name='mark' value='export'/>");
-
-        $('#search').trigger("click");
     });
     
     //ajax get请求
@@ -327,4 +311,22 @@ var toast = {
         };
         toastr.warning(text, title);
     }
+};
+
+/**
+ * 搜索表单url
+ */
+var searchFormUrl = function (obj) {
+
+    var url = $(obj).attr('url');
+    var query  = $('.search-form').find('input').serialize();
+    query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+    query = query.replace(/^&/g,'');
+    if( url.indexOf('?')>0 ){
+        url += '&' + query;
+    }else{
+        url += '?' + query;
+    }
+    
+    return url;
 };
