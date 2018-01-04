@@ -290,14 +290,16 @@ function hook($tag = '', $params = [])
 }
 
 /**
- * 保存文件
+ * 将数据保存为PHP文件，用于调试，默认将调试数据输出到log目录下
  */
-function sf($arr = [], $fpath = 'D:\test.php')
+function sf($arr = [], $fpath = 'debug')
 {
     
     $data = "<?php\nreturn ".var_export($arr, true).";\n?>";
     
-    file_put_contents($fpath, $data);
+    $obj = get_sington_object('obIdWork', \ob\IdWork::class);
+    
+    file_put_contents('../log/' . $fpath . '_' . $obj->nextId() . EXT, $data);
 }
 
 /**
