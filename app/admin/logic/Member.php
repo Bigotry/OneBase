@@ -199,6 +199,25 @@ class Member extends AdminBase
     }
     
     /**
+     * 会员编辑
+     */
+    public function memberEdit($data = [])
+    {
+        
+        $validate_result = $this->validateMember->scene('edit')->check($data);
+        
+        if (!$validate_result) : return [RESULT_ERROR, $this->validateMember->getError()]; endif;
+        
+        $url = url('memberList');
+        
+        $result = $this->modelMember->setInfo($data);
+        
+        $result && action_log('编辑', '编辑会员，id：' . $data['id']);
+        
+        return $result ? [RESULT_SUCCESS, '会员编辑成功', $url] : [RESULT_ERROR, $this->modelMember->getError()];
+    }
+    
+    /**
      * 设置会员信息
      */
     public function setMemberValue($where = [], $field = '', $value = '')

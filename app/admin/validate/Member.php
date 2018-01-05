@@ -25,6 +25,8 @@ class Member extends AdminBase
         'username'  => 'require|unique:member',
         'password'  => 'require|confirm|length:6,20',
         'email'     => 'require|email|unique:member',
+        'nickname'  => 'require',
+        'mobile'    => 'unique:member',
     ];
     
     // 验证提示
@@ -32,18 +34,21 @@ class Member extends AdminBase
         
         'username.require'    => '用户名不能为空',
         'username.unique'     => '用户名已存在',
+        'nickname.require'    => '昵称不能为空',
         'password.require'    => '密码不能为空',
         'password.confirm'    => '两次密码不一致',
         'password.length'     => '密码长度为6-20字符',
         'email.require'       => '邮箱不能为空',
         'email.email'         => '邮箱格式不正确',
         'email.unique'        => '邮箱已存在',
+        'mobile.unique'       => '手机号已存在'
     ];
 
     // 应用场景
     protected $scene = [
         
-        'add'  =>  ['username','password','email'],
+        'add'   =>  ['username','password','email'],
+        'edit'  =>  ['username','nickname','email','mobile'],
     ];
     
     // 扩展验证规则 验证会员登录信息

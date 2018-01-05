@@ -3,7 +3,7 @@
     
     <ob_link><a class="btn" href="{:url('memberAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
     &nbsp;
-    <ob_link><a class="btn export" url="{:url('memberlist')}"><i class="fa fa-download"></i> 导 出</a></ob_link>
+    <ob_link><a class="btn export" url="{:url('exportMemberList')}"><i class="fa fa-download"></i> 导 出</a></ob_link>
     
     <div class="box-tools ">
         <div class="input-group input-group-sm search-form">
@@ -42,7 +42,9 @@
                   <td>{$vo.create_time}</td>
                   <td>{$vo.leader_nickname}</td>
                   <td>{$vo.status_text}</td>
-                  <td class="col-md-2 text-center">
+                  <td class="col-md-3 text-center">
+                      <ob_link><a href="{:url('memberEdit', array('id' => $vo['id']))}" class="btn"><i class="fa fa-edit"></i> 编 辑</a></ob_link>
+                      &nbsp;
                       <ob_link><a class="btn"  href="{:url('memberAuth', array('id' => $vo['id']))}"><i class="fa fa-user-plus"></i> 授 权</a></ob_link>
                       &nbsp;
                       <ob_link><a class="btn confirm ajax-get"  href="{:url('memberDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
@@ -63,12 +65,9 @@
 </div>
 
 <script>
-    
     //导出功能
     $(".export").click(function(){
         
-        $('.search-form').append("<input type='hidden' name='mark' value='export'/>");
-
-        window.location.href = searchFormUrl($("#search"));
+        window.location.href = searchFormUrl($(".export"));
     });
 </script>

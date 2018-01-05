@@ -99,11 +99,8 @@
           
         <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
         
-        <button  type="submit" class="btn  ladda-button ajax-post" data-style="slide-up" target-form="form_single">
-            <span class="ladda-label">确 定</span>
-        </button>
-         
-        <a class="btn " onclick="javascript:history.back(-1);return false;"> 返 回</a>
+        {include file="layout/edit_btn_group"/}
+        
       </div>
         
       </div>

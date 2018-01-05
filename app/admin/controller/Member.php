@@ -49,11 +49,20 @@ class Member extends AdminBase
         
         $where = $this->logicMember->getWhere($this->param);
         
-        !empty($this->param['mark']) && $this->logicMember->exportMemberList($where);
-        
         $this->assign('list', $this->logicMember->getMemberList($where));
         
         return $this->fetch('member_list');
+    }
+    
+    /**
+     * 会员导出
+     */
+    public function exportMemberList()
+    {
+        
+        $where = $this->logicMember->getWhere($this->param);
+        
+        $this->logicMember->exportMemberList($where);
     }
     
     /**
@@ -63,6 +72,21 @@ class Member extends AdminBase
     {
         
         IS_POST && $this->jump($this->logicMember->memberAdd($this->param));
+        
+        return $this->fetch('member_add');
+    }
+    
+    /**
+     * 会员编辑
+     */
+    public function memberEdit()
+    {
+        
+        IS_POST && $this->jump($this->logicMember->memberEdit($this->param));
+        
+        $info = $this->logicMember->getMemberInfo(['id' => $this->param['id']]);
+        
+        $this->assign('info', $info);
         
         return $this->fetch('member_edit');
     }
