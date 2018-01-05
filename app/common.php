@@ -747,12 +747,12 @@ function str_prefix($str, $prefix)
 /**
  * 插件对象注入
  */
-function addon_ioc($this, $name, $layer)
+function addon_ioc($this_class, $name, $layer)
 {
     
     !str_prefix($name, $layer) && exception('逻辑与模型层引用需前缀:' . $layer);
 
-    $class_arr = explode(SYS_DS_CONS, get_class($this));
+    $class_arr = explode(SYS_DS_CONS, get_class($this_class));
 
     $sr_name = sr($name, $layer);
 
