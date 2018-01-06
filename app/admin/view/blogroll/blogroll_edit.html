@@ -15,14 +15,9 @@
                 <label>友情链接图片</label>
                 <span class="">（请上传单张图片）</span>
                 <br/>
+                {assign name="img_id" value="$info.img_id|default='0'" /}
                 
-                {empty name="info"}
-                    {assign name="img_id_var" value="0" /}
-                {else /}
-                    {assign name="img_id_var" value="$info.img_id" /}
-                {/empty}
-                
-                {:hook('File', ['name' => 'img_id', 'value' => $img_id_var, 'type' => 'img'])}
+                {:hook('File', ['name' => 'img_id', 'value' => $img_id, 'type' => 'img'])}
             </div>
           </div>
             

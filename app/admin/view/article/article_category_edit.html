@@ -14,11 +14,9 @@
             <div class="form-group">
               <label>图标</label>
               <span>（文章分类图标）</span>
-              {notempty name="info['icon']"}
-                    {:hook('Icon', array('name' => 'icon', 'value' => $info['icon']))}
-                {else/}
-                    {:hook('Icon', array('name' => 'icon'))}
-              {/notempty}
+                {assign name="icon" value="$info.icon|default=''" /}
+                
+                {:hook('Icon', array('name' => 'icon', 'value' => $icon))}
             </div>
           </div>
             
