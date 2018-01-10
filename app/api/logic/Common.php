@@ -47,9 +47,7 @@ class Common extends ApiBase
         
         if (data_md5_key($data['password']) !== $member['password']) : return CommonError::$passwordError; endif;
         
-        $jwt_data = $this->tokenSign($member);
-        
-        return [$jwt_data];
+        return $this->tokenSign($member);
     }
     
     /**
@@ -117,8 +115,6 @@ class Common extends ApiBase
     public function getBlogrollList()
     {
         
-        $list = $this->modelBlogroll->getList([DATA_STATUS_NAME => DATA_NORMAL], true, 'sort desc,id asc', false);
-        
-        return [$list];
+        return $this->modelBlogroll->getList([DATA_STATUS_NAME => DATA_NORMAL], true, 'sort desc,id asc', false);
     }
 }

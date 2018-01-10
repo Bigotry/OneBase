@@ -23,10 +23,10 @@ class Combination extends ApiBase
     public function index()
     {
         
-        list($article_category_list) = $this->logicArticle->getArticleCategoryList();
-        list($article_list)          = $this->logicArticle->getArticleList($this->param);
+        $article_category_list = $this->logicArticle->getArticleCategoryList();
+        $article_list          = $this->logicArticle->getArticleList($this->param);
         
-        return $this->apiReturn([compact('article_category_list', 'article_list')]);
+        return $this->apiReturn(compact('article_category_list', 'article_list'));
     }
     
     /**
@@ -35,9 +35,9 @@ class Combination extends ApiBase
     public function details()
     {
         
-        list($article_category_list) = $this->logicArticle->getArticleCategoryList();
-        list($article_details)       = $this->logicArticle->getArticleInfo($this->param);
+        $article_category_list = $this->logicArticle->getArticleCategoryList();
+        $article_details       = $this->logicArticle->getArticleInfo($this->param);
         
-        return $this->apiReturn([compact('article_category_list', 'article_details')]);
+        return $this->apiReturn(compact('article_category_list', 'article_details'));
     }
 }

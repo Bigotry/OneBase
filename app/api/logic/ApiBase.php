@@ -26,8 +26,6 @@ class ApiBase extends LogicBase
     public function apiReturn($code_data = [], $return_data = [], $return_type = 'json')
     {
         
-        $result = null;
-        
         if (array_key_exists(API_CODE_NAME, $code_data)) {
             
             !empty($return_data) && $code_data['data'] = $return_data;
@@ -36,25 +34,10 @@ class ApiBase extends LogicBase
             
         } else {
             
-            $code_data_count    = count($code_data);
+            $result = CodeBase::$success;
             
-            if (2 == $code_data_count) {
-                
-                $code_data[DATA_DISABLE]['data'] = $code_data[DATA_SUCCESS];
-            }
-            
-            if (DATA_SUCCESS == $code_data_count) {
-                
-                $data = $code_data[DATA_DISABLE];
-                
-                $code_data[DATA_DISABLE]         = CodeBase::$success;
-                
-                !empty($data) && $code_data[DATA_DISABLE]['data'] = $data;
-            }
-            
-            $result = $code_data[DATA_DISABLE]; 
+            $result['data'] = $code_data;
         }
-        
         
         $return_result = $this->checkDataSign($result);
         
