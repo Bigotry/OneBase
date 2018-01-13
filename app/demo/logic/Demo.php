@@ -102,4 +102,47 @@ class Demo extends LogicBase
         
         return $this->serviceSms->driverAlidy->sendSms($parameter);
     }
+    
+    /**
+     * 数据导入
+     */
+    public function demoDataImport($test_url = 'F:\\test.xlsx')
+    {
+        
+        $data = get_excel_data($test_url);
+        
+        dump($data);
+        
+        // 此处已经将表格中的数据保存到$data数组中，后续根据自己的业务逻辑将数据写入某表
+    }
+    
+    /**
+     * 数据导出
+     */
+    public function demoDataExport()
+    {
+        
+        $list   = $this->modelMember->getList([], true, 'id', false);
+        
+        $titles = "昵称,用户名,邮箱,注册时间";
+        $keys   = "nickname,username,email,create_time";
+        
+        export_excel($titles, $keys, $list, '会员列表');
+    }
+    
+    /**
+     * 二维码 条形码
+     */
+    public function demoQrcodeBarcode()
+    {
+        
+        // 生成二维码
+        $qr_data  = create_qrcode('onebase.org');
+        
+        // 生成条形码
+        $bar_data = create_barcode('onebase.org', 'onebase');
+        
+        dump($qr_data);
+        dump($bar_data);
+    }
 }

@@ -44,4 +44,19 @@ class Demo extends ControllerBase
      */
     public function demoSendSms() { $this->logicDemo->demoSendSms(); }
     
+    /**
+     * 数据导入
+     */
+    public function demoDataImport() { $this->logicDemo->demoDataImport(); }
+    
+    /**
+     * 数据导出
+     */
+    public function demoDataExport() { $this->logicDemo->demoDataExport(); }
+    
+    /**
+     * 二维码 条形码
+     */
+    public function demoQrcodeBarcode() { $this->logicDemo->demoQrcodeBarcode(); }
+    
 }

@@ -77,6 +77,33 @@ function get_excel_obj($file_name = '导出文件')
 }
 
 /**
+ * 读取excel返回数据
+ */
+function get_excel_data($file_url = '', $start_row = 1, $start_col = 0)
+{
+
+    vendor('phpoffice/phpexcel/Classes/PHPExcel');
+
+    $objPHPExcel        = PHPExcel_IOFactory::load($file_url);
+    $objWorksheet       = $objPHPExcel->getActiveSheet();
+    $highestRow         = $objWorksheet->getHighestRow(); 
+    $highestColumn      = $objWorksheet->getHighestColumn(); 
+    $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); 
+    
+    $excel_data = [];
+    
+    for ($row = $start_row; $row <= $highestRow; $row++)
+    {
+        for ($col = $start_col; $col < $highestColumnIndex; $col++)
+        {
+            $excel_data[$row][] =(string)$objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+        }
+    }
+
+    return $excel_data;
+}
+
+/**
  * 数字转字母
  */
 function  string_from_column_index($pColumnIndex = 0)
