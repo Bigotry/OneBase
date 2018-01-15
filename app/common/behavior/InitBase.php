@@ -171,9 +171,9 @@ class InitBase
     {
 
         $model = model(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'Config');
-
-        $config_list = $model->all();
-
+        
+        $config_list = auto_cache('config_list', create_closure($model, 'all'));
+        
         foreach ($config_list as $info) : $config_array[$info['name']] = $info['value']; endforeach;
             
         config($config_array);

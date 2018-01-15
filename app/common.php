@@ -692,18 +692,28 @@ function get_date_from_range($startdate, $enddate)
 /**
  * 通过类创建逻辑闭包
  */
-function create_closure($class = null, $method_name = '', $parameter = [])
+function create_closure($object = null, $method_name = '', $parameter = [])
 {
     
-    $func = function() use($class, $method_name, $parameter)
-            {
-        
-                $object = get_sington_object($class, $class);
+    $func = function() use($object, $method_name, $parameter) {
         
                 return call_user_func_array([$object, $method_name], $parameter);
             };
             
     return $func;
+}
+
+/**
+ * 通过闭包控制缓存
+ */
+function auto_cache($key = '', $func = null, $time = 3)
+{
+    
+    $result = cache($key);
+    
+    if (empty($result)) : $result = $func(); !empty($result) && cache($key, $result, $time); endif;
+    
+    return $result;
 }
 
 /**
