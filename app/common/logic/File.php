@@ -106,9 +106,9 @@ class File extends LogicBase
         
         if (empty($storage_driver)) : return false; endif;
         
-        $this->serviceStorage->setDriver($storage_driver);
-
-        $storage_result = $this->serviceStorage->$method($result);
+        $driver = SYS_DRIVER_DIR_NAME . $storage_driver;
+        
+        $storage_result = $this->serviceStorage->$driver->$method($result);
         
         $method != 'uploadPicture' ? $this->modelFile->setFieldValue(['id' => $result], 'url', $storage_result) : $this->modelPicture->setFieldValue(['id' => $result], 'url', $storage_result);
     }
