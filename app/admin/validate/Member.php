@@ -63,8 +63,8 @@ class Member extends AdminBase
         $memberLogic = get_sington_object('memberLogic', LogicMember::class);
         
         $member = $memberLogic->getMemberInfo(['username' => $data['username']]);
-
-        if(empty($member))                                          : $this->error = '用户账号不存在';  return false; endif;
+        
+        if(empty($member['id']))                                    : $this->error = '用户账号不存在';  return false; endif;
         if(data_md5_key($data['password']) != $member['password'])  : $this->error = '密码输入错误';    return false; endif;
         
         return $member;
