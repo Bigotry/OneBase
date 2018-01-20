@@ -22,7 +22,8 @@
         "topthink/think-image": "^1.0",
         "firebase/php-jwt": "^5.0",
         "phpoffice/phpexcel": "^1.8",
-        "qiniu/php-sdk": "^7.1"
+        "qiniu/php-sdk": "^7.1",
+        "aliyuncs/oss-sdk-php": "^2.3"
     },
     "extra": {
         "think-path": "thinkphp"

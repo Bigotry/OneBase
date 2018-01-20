@@ -22,6 +22,10 @@ class ComposerStaticInit20593ddf6ddc60b753a4d38645524074
         array (
             'Qiniu\\' => 6,
         ),
+        'O' => 
+        array (
+            'OSS\\' => 4,
+        ),
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
@@ -45,6 +49,10 @@ class ComposerStaticInit20593ddf6ddc60b753a4d38645524074
         'Qiniu\\' => 
         array (
             0 => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu',
+        ),
+        'OSS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/aliyuncs/oss-sdk-php/src/OSS',
         ),
         'Firebase\\JWT\\' => 
         array (
