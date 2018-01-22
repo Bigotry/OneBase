@@ -135,11 +135,11 @@ class FileClean extends AdminBase
         foreach ($list as $info)
         {
             
-            unlink($info['file_path'] . SYS_DS_CONS . $info['file_name']);
+            unlink($info['file_path'] . DS . $info['file_name']);
             
-            $big_path       = $info['file_path'] . SYS_DS_CONS . 'thumb' . SYS_DS_CONS . 'big_'       . $info['file_name'];
-            $medium_path    = $info['file_path'] . SYS_DS_CONS . 'thumb' . SYS_DS_CONS . 'medium_'    . $info['file_name'];
-            $small_path     = $info['file_path'] . SYS_DS_CONS . 'thumb' . SYS_DS_CONS . 'small_'     . $info['file_name'];
+            $big_path       = $info['file_path'] . DS . 'thumb' . DS . 'big_'       . $info['file_name'];
+            $medium_path    = $info['file_path'] . DS . 'thumb' . DS . 'medium_'    . $info['file_name'];
+            $small_path     = $info['file_path'] . DS . 'thumb' . DS . 'small_'     . $info['file_name'];
             
             file_exists($big_path)      && unlink($big_path);
             file_exists($medium_path)   && unlink($medium_path);
