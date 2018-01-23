@@ -86,8 +86,8 @@ function get_excel_data($file_url = '', $start_row = 1, $start_col = 0)
 
     $objPHPExcel        = PHPExcel_IOFactory::load($file_url);
     $objWorksheet       = $objPHPExcel->getActiveSheet();
-    $highestRow         = $objWorksheet->getHighestRow(); 
-    $highestColumn      = $objWorksheet->getHighestColumn(); 
+    $highestRow         = $objWorksheet->getHighestDataRow(); 
+    $highestColumn      = $objWorksheet->getHighestDataColumn(); 
     $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); 
     
     $excel_data = [];
