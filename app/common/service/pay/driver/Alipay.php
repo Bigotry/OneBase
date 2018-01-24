@@ -26,7 +26,7 @@ class Alipay extends Pay implements Driver
     public function getDriverParam()
     {
         
-        return ['alipay_account' => '支付宝帐户', 'alipay_partner' => '合作身份者id', 'alipay_key' => '安全检验码',"appid"=>"支付宝appid","rsaPrivateKey"=>"商户私钥(可填写路径)","alipayrsaPublicKey"=>"支付宝公钥(可填写路径)"];
+        return ['alipay_account' => '支付宝帐户', 'alipay_partner' => '合作身份者id', 'alipay_key' => '安全检验码',"alipay_appid"=>"支付宝appid","alipay_rsaPrivateKey"=>"商户私钥(可填写路径)","alipay_alipayrsaPublicKey"=>"支付宝公钥(可填写路径)"];
     }
     
     /**

@@ -23,8 +23,10 @@
 
         function __construct($params=[]){
             $this->alipay_config['timestamp'] = date("Y-m-d H:i:s");
-            $this->alipay_config = array_merge($this->alipay_config,$params);
             $this->alipay_config['seller_id'] = $params['alipay_partner'];
+            $this->alipay_config['appid'] = $params['alipay_appid'];
+            $this->alipay_config['rsaPrivateKey'] = $params['alipay_rsaPrivateKey'];
+            $this->alipay_config['alipayrsaPublicKey'] = $params['alipay_alipayrsaPublicKey'];
         }
 
         //生成提交支付宝参数数组
