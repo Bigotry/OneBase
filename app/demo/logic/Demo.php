@@ -145,4 +145,15 @@ class Demo extends LogicBase
         dump($qr_data);
         dump($bar_data);
     }
+    
+    /**
+     * 邮件发送
+     */
+    public function demoSendEmail()
+    {
+        
+        $data = send_email('3162875@qq.com', '测试', '这是一封测试邮件');
+        
+        dump($data);
+    }
 }

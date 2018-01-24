@@ -59,4 +59,9 @@ class Demo extends ControllerBase
      */
     public function demoQrcodeBarcode() { $this->logicDemo->demoQrcodeBarcode(); }
     
+    /**
+     * 邮件发送
+     */
+    public function demoSendEmail() { $this->logicDemo->demoSendEmail(); }
+    
 }
