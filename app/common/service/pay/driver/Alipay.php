@@ -26,7 +26,7 @@ class Alipay extends Pay implements Driver
     public function getDriverParam()
     {
         
-        return ['alipay_account' => '支付宝帐户', 'alipay_partner' => '合作身份者id', 'alipay_key' => '安全检验码'];
+        return ['alipay_account' => '支付宝帐户', 'alipay_partner' => '合作身份者id', 'alipay_key' => '安全检验码',"appid"=>"支付宝appid","rsaPrivateKey"=>"商户私钥(可填写路径)","alipayrsaPublicKey"=>"支付宝公钥(可填写路径)"];
     }
     
     /**
@@ -41,10 +41,15 @@ class Alipay extends Pay implements Driver
     /**
      * 支付
      */
-    public function pay($order)
+    public function pay($order,$type='web')
     {
-        
-        return $this->getPayCode($order);
+        if($type == 'web') {
+            return $this->getPayCode($order);
+        }elseif ($type == 'app'){
+            return $this->createAppPara($order);
+        }else{
+            //补充...
+        }
     }
     
     /**
@@ -57,7 +62,7 @@ class Alipay extends Pay implements Driver
         $alipay_config['input_charset']	= strtolower('utf-8');
         $alipay_config['transport']    	= 'http';			//访问模式,根据自己的服务器是否支持ssl访问，若支持请选择https；若不支持请选择http
         $alipay_config['cacert']    	= 'alipay/cacert.pem';	//ca证书路径地址，用于curl中ssl校验//请保证cacert.pem文件在当前文件夹目录中
-        
+        $alipay_config['notify_url']    = Pay::NOTIFY_URL;
         $db_config = $this->driverConfig('Alipay');
         
         return array_merge($alipay_config, $db_config);
@@ -103,6 +108,26 @@ class Alipay extends Pay implements Driver
         
         return $alipaySubmit->buildRequestForm($parameter);
     }
+
+    /**
+     * APP支付
+     * @param $order
+     * @return string
+     */
+    public function createAppPara($order)
+    {
+        require_once "alipay/Alipay.php";
+        $alipay = new \Alipay($this->config());
+        if(empty($order)){
+            $order = [
+                'subject'=>"测试",
+                'out_trade_no'=>date("YmdHis").getRandom().time(),
+                'price'=>0.01
+            ];
+        }
+        return $alipay->createAppPara($order);
+    }
+
     
     /**
      * 获取订单号

@@ -11,6 +11,7 @@
 
 namespace app\common\service\pay\driver;
 
+use app\api\error\Common;
 use app\common\service\pay\Driver;
 use app\common\service\Pay;
 
@@ -41,10 +42,15 @@ class Wxpay extends Pay implements Driver
     /**
      * 支付
      */
-    public function pay($order)
+    public function pay($order=[],$type='web')
     {
-        
-        return $this->getPayCode($order);
+        if($type == 'app') {
+            return $this->getPrePay([]);
+        }elseif ($type == 'web'){
+            return $this->getPayCode($order);
+        }else{
+            return $this->getH5Pay([]);
+        }
     }
     
     /**
@@ -54,7 +60,7 @@ class Wxpay extends Pay implements Driver
     {
         
         $wxpay_config['curl_timeout']   = 30;
-        
+        $wxpay_config['notify_url'] = Pay::NOTIFY_URL;
         $db_config = $this->driverConfig('Wxpay');
         
         return array_merge($wxpay_config, $db_config);
@@ -94,7 +100,6 @@ class Wxpay extends Pay implements Driver
 
         //获取统一支付接口结果
         $unifiedOrderResult = $unifiedOrder->getResult();
-
         //商户根据实际情况设置相应的处理流程
         if ($unifiedOrderResult["return_code"] == "FAIL")
         {
@@ -126,6 +131,50 @@ class Wxpay extends Pay implements Driver
         ob_clean();
 
         return $info;
+    }
+
+    /**
+     * APP支付
+     * @param array $order
+     * @return array|bool|mixed
+     */
+    public function getPrePay($order=[])
+    {
+        require_once "wxpay/Wxpay.php";
+        $wx = new \Wxpay($this->config());
+        if(empty($order)) {
+            $order = [
+                "body"=>"测试",
+                "out_trade_no" => date("YmdHis") . getRandom() . time(),
+                "total_fee" => 0.01,
+                "spbill_create_ip" => $wx->get_client_ip()
+            ];
+        }
+        $result_data = $wx->getPrepay($order);
+        return $result_data;
+    }
+
+    /**
+     * H5支付
+     * @param array $order
+     * @return array|bool|mixed
+     */
+    public function getH5Pay($order=[])
+    {
+        require_once "wxpay/Wxpay.php";
+        $wx = new \Wxpay($this->config());
+        if(empty($order)) {
+            $order = [
+                "body"=>"测试",
+                "out_trade_no" => date("YmdHis") . getRandom() . time(),
+                "total_fee" => 0.01,
+                "spbill_create_ip" => $wx->get_client_ip(),
+                "trade_type"=>"MWEB",
+                "scene_info"=>"{\"h5_info\": {\"type\":\"Wap\",\"wap_url\": \"https://pay.qq.com\",\"wap_name\": \"腾讯充值\"}} "
+            ];
+        }
+        $result_data = $wx->getPrepay($order);
+        return $result_data;
     }
     
     //设置配置信息
@@ -265,7 +314,7 @@ class Wxpay extends Pay implements Driver
         //订单状态
         if( $notify->checkSign()==TRUE && $notify->data["return_code"]=="SUCCESS"){
             
-            return true;
+            return $notify->data;
         }
 
         return false;
