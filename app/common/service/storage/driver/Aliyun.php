@@ -68,7 +68,10 @@ class Aliyun extends Storage implements Driver
         
         $result = $oss->uploadFile($config['bucket_name'], $save_path, $file_path);
         
-        if (empty($result['info']['url'])) : return false; endif;
+        if (empty($result['info']['url'])) {
+            
+            return false;
+        }
         
         $thumb_file_path = PATH_PICTURE . $path_arr[0] . DS . 'thumb' . DS;
         
@@ -101,7 +104,10 @@ class Aliyun extends Storage implements Driver
         
         $result = $oss->uploadFile($config['bucket_name'], $save_path, $file_path);
         
-        if (empty($result['info']['url'])) : return false; endif;
+        if (empty($result['info']['url'])) {
+            
+            return false;
+        }
         
         return $result['info']['url'];
     }

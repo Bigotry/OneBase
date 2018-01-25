@@ -32,7 +32,7 @@ class File extends LogicBase
         
         $picture_info = $this->modelPicture->getInfo(['sha1' => $sha1], 'id,name,path,sha1');
         
-        if (!empty($picture_info)) : return $picture_info; endif;
+        if (!empty($picture_info)) { return $picture_info; }
         
         $object = $object_info->move(PATH_PICTURE);
         
@@ -58,7 +58,7 @@ class File extends LogicBase
         
         $this->checkStorage($result);
         
-        if ($result) : $data['id'] = $result; return $data; endif;
+        if ($result) { $data['id'] = $result; return $data; }
         
         return  false;
     }
@@ -75,7 +75,10 @@ class File extends LogicBase
         
         $file_info = $this->modelFile->getInfo(['sha1' => $sha1], 'id,name,path,sha1');
         
-        if (!empty($file_info)) : return $file_info; endif;
+        if (!empty($file_info)) {
+         
+            return $file_info;
+        }
         
         $object = $object_info->move(PATH_FILE);
         
@@ -91,7 +94,12 @@ class File extends LogicBase
         
         $this->checkStorage($result, 'uploadFile');
         
-        if ($result) : $data['id'] = $result; return $data; endif;
+        if ($result) {
+            
+            $data['id'] = $result;
+            
+            return $data;
+        }
         
         return  false;
     }
@@ -104,7 +112,10 @@ class File extends LogicBase
         
         $storage_driver = config('storage_driver');
         
-        if (empty($storage_driver)) : return false; endif;
+        if (empty($storage_driver)) {
+            
+            return false;
+        }
         
         $driver = SYS_DRIVER_DIR_NAME . $storage_driver;
         
@@ -121,9 +132,15 @@ class File extends LogicBase
         
         $info = $this->modelFile->where(['id' => $id])->field('path,url')->find();
 
-        if (!empty($info['url']))  : return config('static_domain') . SYS_DS_PROS . $info['url'];   endif;
+        if (!empty($info['url'])) {
+            
+            return config('static_domain') . SYS_DS_PROS . $info['url'];
+        }
 
-        if (!empty($info['path'])) : return '/upload/file/'.$info['path'];                          endif;
+        if (!empty($info['path'])) {
+            
+            return '/upload/file/'.$info['path'];
+        }
 
         return '暂无文件';
     }
@@ -136,9 +153,15 @@ class File extends LogicBase
         
         $info = $this->modelPicture->where(['id' => $id])->field('path,url')->find();
 
-        if (!empty($info['url']))  : return config('static_domain') . SYS_DS_PROS . $info['url'];   endif;
+        if (!empty($info['url'])) {
+            
+            return config('static_domain') . SYS_DS_PROS . $info['url'];
+        }
 
-        if (!empty($info['path'])) : return '/upload/picture/'.$info['path'];                       endif;
+        if (!empty($info['path'])) {
+            
+            return '/upload/picture/'.$info['path'];
+        }
 
         return '/static/admin/img/onimg.png';
     }

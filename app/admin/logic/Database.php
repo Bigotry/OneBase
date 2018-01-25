@@ -86,13 +86,13 @@ class Database extends AdminBase
         // 检查是否有正在执行的任务
         $lock = "{$config['path']}backup.lock";
         
-        if (is_file($lock)) : return [RESULT_ERROR, '检测到有一个备份任务正在执行，请稍后再试！']; endif;
+        if (is_file($lock)) { return [RESULT_ERROR, '检测到有一个备份任务正在执行，请稍后再试！']; }
         
         // 创建锁文件
         file_put_contents($lock, TIME_NOW);
         
         // 检查备份目录是否可写
-        if (!is_writeable($config['path'])) : return [RESULT_ERROR, '备份目录不存在或不可写，请检查后重试！']; endif;
+        if (!is_writeable($config['path'])) {  return [RESULT_ERROR, '备份目录不存在或不可写，请检查后重试！']; }
         
         // 生成备份文件信息
         $file = ['name' => date('Ymd-His', TIME_NOW), 'part' => DATA_NORMAL ];
@@ -101,7 +101,7 @@ class Database extends AdminBase
         
         $Database = new \ob\Database($file, $config);
         
-        if (false == $Database) : return [RESULT_ERROR, '备份初始化失败！']; endif;
+        if (false == $Database) { return [RESULT_ERROR, '备份初始化失败！']; }
         
         // 开始备份
         return $this->startBackup($Database, $this->getTableListIndex(), $lock);
@@ -120,14 +120,14 @@ class Database extends AdminBase
             
             $start  = $database->backup($v, 0);
             
-            if ($start === false) : $error_table = $v; break; endif;
+            if ($start === false) { $error_table = $v; break; }
         }
         
         unlink($lock);
         
         session('backup_file', null);
         
-        if (!empty($error_table)) : return [RESULT_ERROR, '备份出错，表名：' . $error_table]; endif;
+        if (!empty($error_table)) { return [RESULT_ERROR, '备份出错，表名：' . $error_table]; }
         
         action_log('备份', '数据库备份');
         
@@ -148,7 +148,7 @@ class Database extends AdminBase
 
         $text = $mark ? '优化' :  '修复';
         
-        if (!$list) : return [RESULT_ERROR, $text . '出错']; endif;
+        if (!$list) { return [RESULT_ERROR, $text . '出错']; }
         
         $mark ? action_log('优化', '数据库优化') : action_log('修复', '数据库修复');
         
@@ -181,7 +181,7 @@ class Database extends AdminBase
         foreach ($glob as $name => $file)
         {
             
-            if(!preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql(?:\.gz)?$/', $name)) : continue; endif;
+            if(!preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql(?:\.gz)?$/', $name)) { continue; }
                 
             $name = sscanf($name, '%4s%2s%2s-%2s%2s%2s-%d');
 
@@ -223,7 +223,7 @@ class Database extends AdminBase
         
         array_map("unlink", glob($path));
         
-        if (count(glob($path))) : return [RESULT_ERROR, '备份文件删除失败，请检查权限！']; endif;
+        if (count(glob($path))) { return [RESULT_ERROR, '备份文件删除失败，请检查权限！']; }
         
         action_log('删除', '数据库备份文件删除，path：'. $path);
         
@@ -255,7 +255,7 @@ class Database extends AdminBase
         // 检测文件正确性
         $last = end($list);
         
-        if(!(count($list) === $last[0])) : return [RESULT_ERROR, '备份文件可能已经损坏，请检查！']; endif;
+        if(!(count($list) === $last[0])) { return [RESULT_ERROR, '备份文件可能已经损坏，请检查！']; }
         
         // 开始还原
         return $this->startRestore($list);
@@ -284,10 +284,10 @@ class Database extends AdminBase
 
             $start = $database->import(DATA_DISABLE);
 
-            if (false === $start) : $error = '还原数据出错'; break; endif;
+            if (false === $start) { $error = '还原数据出错'; break; }
         }
 
-        if (!empty($error)) : return [RESULT_ERROR, $error]; endif;
+        if (!empty($error)) { return [RESULT_ERROR, $error]; }
         
         action_log('还原', '数据库还原');
         

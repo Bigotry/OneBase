@@ -218,7 +218,10 @@ class Menu extends AdminBase
         
         $validate_result = $this->validateMenu->scene('add')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateMenu->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateMenu->getError()];
+        }
         
         $result = $this->modelMenu->setInfo($data);
         
@@ -237,7 +240,10 @@ class Menu extends AdminBase
         
         $validate_result = $this->validateMenu->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateMenu->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateMenu->getError()];
+        }
         
         $url = url('menuList', ['pid' => $data['pid'] ? $data['pid'] : 0]);
         

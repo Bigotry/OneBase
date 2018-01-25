@@ -170,7 +170,10 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = 0, $join = [], $group = '', $limit = null, $data = null)
     {
         
-        if(is_string($where)) : return $this->query($where); endif;
+        if(is_string($where)) {
+            
+            return $this->query($where);
+        }
         
         empty($join) && !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
         
@@ -182,7 +185,10 @@ class ModelBase extends Model
     
         !empty($limit) && self::$ob_query = self::$ob_query->limit($limit);
         
-        if (DATA_DISABLE === $paginate) : $paginate = DB_LIST_ROWS; endif;
+        if (DATA_DISABLE === $paginate) {
+            
+            $paginate = DB_LIST_ROWS;
+        }
         
         return $this->getResultData($paginate, $data);
     }
@@ -243,7 +249,10 @@ class ModelBase extends Model
         
         $layer = $this->getLayerPrefix($name);
         
-        if(false === $layer) : return parent::__get($name); endif;
+        if(false === $layer) {
+            
+            return parent::__get($name);
+        }
         
         $model = sr($name, $layer);
         
@@ -262,7 +271,12 @@ class ModelBase extends Model
         
         foreach ($layer_array as $v)
         {
-            if(str_prefix($name, $v)) : $layer = $v; break; endif;
+            if(str_prefix($name, $v)) {
+                
+                $layer = $v;
+                
+                break;
+            }
         }
         
         return $layer;

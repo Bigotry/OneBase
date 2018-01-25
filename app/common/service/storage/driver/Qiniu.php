@@ -76,7 +76,10 @@ class Qiniu extends Storage implements Driver
         $uploadMgr->putFile($token, $thumb_save_path . 'medium_'  . $path_arr[1]   , $thumb_file_path . 'medium_'  . $path_arr[1]);
         $uploadMgr->putFile($token, $thumb_save_path . 'big_'     . $path_arr[1]   , $thumb_file_path . 'big_'     . $path_arr[1]);
         
-        if ($result[1] !== null) : return false; endif;
+        if ($result[1] !== null) {
+            
+            return false;
+        }
         
         return $result[0]['key'];
     }
@@ -117,7 +120,10 @@ class Qiniu extends Storage implements Driver
         
         $result = $uploadMgr->putFile($token, $save_path, $file_path);
         
-        if ($result[1] !== null) : return false; endif;
+        if ($result[1] !== null) {
+            
+            return false;
+        }
         
         return $result[0]['key'];
     }

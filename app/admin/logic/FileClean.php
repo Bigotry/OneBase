@@ -45,7 +45,10 @@ class FileClean extends AdminBase
         foreach ($dirs as $dir)
         {
             
-            if(!$dir->isDir()) : continue; endif;
+            if(!$dir->isDir()) {
+                
+                continue;
+            }
 
             $files = new \FilesystemIterator($path . $dir->getFilename());
             

@@ -82,8 +82,19 @@ class ApiBase extends LogicBase
         
         $info['is_user_token'] && empty($param['user_token']) && $this->apiError(CodeBase::$userTokenError);
         
-        if(!empty($param['access_token']))  : unset($param['access_token']); endif;
-        if(!empty($param['user_token']))    : unset($param['user_token']);   endif;
-        if($info['is_request_sign'])        : (empty($param['data_sign']) || data_auth_sign($param) != $param['data_sign']) && $this->apiError(CodeBase::$dataSignError); endif;
+        if(!empty($param['access_token']))  {
+            
+            unset($param['access_token']);
+        }
+        
+        if(!empty($param['user_token'])) {
+            
+            unset($param['user_token']);
+        }
+        
+        if($info['is_request_sign']) {
+            
+            (empty($param['data_sign']) || data_auth_sign($param) != $param['data_sign']) && $this->apiError(CodeBase::$dataSignError);
+        }
     }
 }

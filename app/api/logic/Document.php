@@ -105,7 +105,10 @@ class Document extends ApiBase
         {
             $page_attach_field = config('page_attach_field');
             
-            foreach ($page_attach_field as $field) : array_unshift($info_array['request_data'], $field); endforeach;
+            foreach ($page_attach_field as $field) {
+                
+                array_unshift($info_array['request_data'], $field);
+            }
         }
         
         $info_array['is_user_token'] && array_unshift($info_array['request_data'], config('user_token_attach_field'));

@@ -29,7 +29,10 @@ class Common extends ApiBase
       
         $validate_result = $this->validateMember->scene('login')->check($data);
         
-        if (!$validate_result) : return CommonError::$usernameOrPasswordEmpty; endif;
+        if (!$validate_result) {
+            
+            return CommonError::$usernameOrPasswordEmpty;
+        }
         
         begin:
         
@@ -40,12 +43,18 @@ class Common extends ApiBase
         {
             $register_result = $this->register($data);
             
-            if (!$register_result) : return CommonError::$registerFail; endif;
+            if (!$register_result) {
+                
+                return CommonError::$registerFail;
+            }
             
             goto begin;
         }
         
-        if (data_md5_key($data['password']) !== $member['password']) : return CommonError::$passwordError; endif;
+        if (data_md5_key($data['password']) !== $member['password']) {
+            
+            return CommonError::$passwordError;
+        }
         
         return $this->tokenSign($member);
     }
@@ -98,9 +107,15 @@ class Common extends ApiBase
         
         $member_info = $this->logicMember->getMemberInfo(['id' => $member->member_id]);
         
-        if (empty($data['old_password']) || empty($data['new_password'])) : return CommonError::$oldOrNewPassword; endif;
+        if (empty($data['old_password']) || empty($data['new_password'])) {
+            
+            return CommonError::$oldOrNewPassword;
+        }
         
-        if (data_md5_key($data['old_password']) !== $member_info['password']) : return CommonError::$passwordError; endif;
+        if (data_md5_key($data['old_password']) !== $member_info['password']) {
+            
+            return CommonError::$passwordError;
+        }
 
         $member_info['password'] = $data['new_password'];
         

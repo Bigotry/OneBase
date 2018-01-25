@@ -31,7 +31,10 @@ class AdminBase extends LogicBase
         
         $allow_url_list  = parse_config_attr($allow_url);
         
-        if (IS_ROOT) : return $pass_data; endif;
+        if (IS_ROOT) {
+            
+            return $pass_data;
+        }
         
         $s_url = strtolower($url);
         
@@ -39,7 +42,10 @@ class AdminBase extends LogicBase
             
             foreach ($allow_url_list as $v) {
                 
-                if (strpos($s_url, strtolower($v)) !== false) : return $pass_data; endif;
+                if (strpos($s_url, strtolower($v)) !== false) {
+                    
+                    return $pass_data;
+                }
             }
         }
         
@@ -62,7 +68,10 @@ class AdminBase extends LogicBase
             
             [$message];
             
-            if ((!IS_ROOT && RESULT_ERROR == $status) || !empty($menu_info['is_hide'])) : unset($menu_list[$key]); endif;
+            if ((!IS_ROOT && RESULT_ERROR == $status) || !empty($menu_info['is_hide'])) {
+                
+                unset($menu_list[$key]);
+            }
         }
         
         return $this->getListTree($menu_list);
@@ -74,7 +83,10 @@ class AdminBase extends LogicBase
     public function getListTree($list = [])
     {
         
-        if (is_object($list)) :  $list = $list->toArray(); endif;
+        if (is_object($list)) {
+           
+            $list = $list->toArray();
+        }
         
         return list_to_tree(array_values($list), 'id', 'pid', 'child');
     }
@@ -102,7 +114,11 @@ class AdminBase extends LogicBase
             
             foreach ($url_array_tmp as $k => $u)
             {
-                if (strpos($u, EXT) != false) : unset($url_array_tmp[$k]);  break; endif;
+                if (strpos($u, EXT) != false) {
+                    
+                    unset($url_array_tmp[$k]);
+                    break;
+                }
             }
             
             $url_array = array_values($url_array_tmp);

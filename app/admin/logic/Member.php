@@ -124,12 +124,12 @@ class Member extends AdminBase
         foreach ($member_list as $v)
         {
             
-            if (!empty($v['id'])) :
+            if (!empty($v['id'])) {
                 
                 $data[] = $v['id'];
             
                 $data = array_unique(array_merge($data, $this->getSubMemberIds($v['id'], $data)));
-            endif;
+            }
             
             continue;
         }
@@ -145,13 +145,19 @@ class Member extends AdminBase
         
         $url = url('memberList');
         
-        if (SYS_ADMINISTRATOR_ID == $data['id']) : return [RESULT_ERROR, '天神不能授权哦~', $url]; endif;
+        if (SYS_ADMINISTRATOR_ID == $data['id']) {
+            
+            return [RESULT_ERROR, '天神不能授权哦~', $url];
+        }
         
         $where = ['member_id' => ['in', $data['id']]];
         
         $this->modelAuthGroupAccess->deleteInfo($where, true);
         
-        if (empty($data['group_id'])) : return [RESULT_SUCCESS, '会员授权成功', $url]; endif;
+        if (empty($data['group_id'])) {
+            
+            return [RESULT_SUCCESS, '会员授权成功', $url];
+        }
         
         $add_data = [];
         
@@ -183,7 +189,10 @@ class Member extends AdminBase
         
         $validate_result = $this->validateMember->scene('add')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateMember->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateMember->getError()];
+        }
         
         $url = url('memberList');
         
@@ -206,7 +215,10 @@ class Member extends AdminBase
         
         $validate_result = $this->validateMember->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateMember->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateMember->getError()];
+        }
         
         $url = url('memberList');
         
@@ -234,7 +246,10 @@ class Member extends AdminBase
         
         $url = url('memberList');
         
-        if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) : return [RESULT_ERROR, '天神和自己不能删除哦~', $url]; endif;
+        if (SYS_ADMINISTRATOR_ID == $where['id'] || MEMBER_ID == $where['id']) {
+            
+            return [RESULT_ERROR, '天神和自己不能删除哦~', $url];
+        }
         
         $result = $this->modelMember->deleteInfo($where);
                 

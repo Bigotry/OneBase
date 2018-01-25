@@ -34,7 +34,10 @@ class Blogroll extends AdminBase
         
         $validate_result = $this->validateBlogroll->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateBlogroll->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateBlogroll->getError()];
+        }
         
         $url = url('blogrollList');
         

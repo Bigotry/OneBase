@@ -30,12 +30,11 @@ $data = [
 ];
 
 // 若不为安装流程则初始化系统行为
-if(BIND_MODULE != 'install') :
+if(BIND_MODULE != 'install') {
     
     $data['app_init']   = [BEHAVIOR_PATH . 'InitBase', BEHAVIOR_PATH . 'InitHook'];
     $data['app_begin']  = [BEHAVIOR_PATH . 'AppBegin'];
     $data['app_end']    = [BEHAVIOR_PATH . 'AppEnd'];
-    
-endif;
+}
 
 return $data;

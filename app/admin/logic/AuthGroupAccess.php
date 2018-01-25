@@ -25,7 +25,10 @@ class AuthGroupAccess extends AdminBase
         
         $sort = 'sort desc,id asc';
         
-        if (IS_ROOT) : return $this->logicMenu->getMenuList([], true, $sort); endif;
+        if (IS_ROOT) {
+            
+            return $this->logicMenu->getMenuList([], true, $sort);
+        }
         
         // 获取用户组列表
         $group_list = $this->getMemberGroupInfo($member_id);
@@ -39,7 +42,10 @@ class AuthGroupAccess extends AdminBase
         }
         
         // 若没有权限节点则返回
-        if (empty($menu_ids)) : return $menu_ids; endif;
+        if (empty($menu_ids)) {
+            
+            return $menu_ids;
+        }
         
         // 查询条件
         $where = ['id' => ['in', $menu_ids]];

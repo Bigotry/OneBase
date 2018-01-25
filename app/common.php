@@ -71,7 +71,10 @@ function data_auth_sign($data)
 {
     
     // 数据类型检测
-    if (!is_array($data)) : $data = (array)$data; endif;
+    if (!is_array($data)) {
+        
+        $data = (array)$data;
+    }
     
     // 排序
     ksort($data);
@@ -221,7 +224,7 @@ function throw_response_exception($data = [], $type = 'json')
 function write_exe_log($begin = 'app_begin', $end = 'app_end', $type = 0)
 {
     
-    if(empty(config('is_write_exe_log'))) : return false; endif;
+    if(empty(config('is_write_exe_log'))) { return false; }
     
     $source_url = empty($_SERVER["HTTP_REFERER"]) ? '未知来源' : $_SERVER["HTTP_REFERER"];
     
@@ -296,7 +299,10 @@ function format_bytes($size, $delimiter = '')
     
     $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
     
-    for ($i = 0; $size >= 1024 && $i < 5; $i++) : $size /= 1024; endfor;
+    for ($i = 0; $size >= 1024 && $i < 5; $i++) {
+        
+        $size /= 1024;
+    }
     
     return round($size, 2) . $delimiter . $units[$i];
 }
@@ -319,7 +325,10 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
     // 创建Tree
     $tree = [];
     
-    if (!is_array($list)): return false; endif;
+    if (!is_array($list)) {
+        
+        return false;
+    }
     
     // 创建基于主键的数组引用
     $refer = [];
@@ -553,7 +562,10 @@ function file_list($path = '')
     
     foreach ($file as $k => $v) {
         
-        if (is_dir($path . SYS_DS_PROS . $v)) : unset($file[$k]); endif;
+        if (is_dir($path . SYS_DS_PROS . $v)) {
+            
+            unset($file[$k]);
+        }
     }
     
     return array_values($file);
@@ -625,20 +637,32 @@ function get_file_url($id = 0)
 function rm_empty_dir($path)
 {
     
-    if (!(is_dir($path) && ($handle = opendir($path))!==false)) : return false; endif;
+    if (!(is_dir($path) && ($handle = opendir($path))!==false)) {
+        
+        return false;
+    }
       
     while(($file = readdir($handle))!==false)
     {
 
-        if(!($file != '.' && $file != '..')) : continue; endif;
+        if(!($file != '.' && $file != '..')) {
+            
+           continue;
+        }
         
         $curfile = $path . SYS_DS_PROS . $file;// 当前目录
 
-        if(!is_dir($curfile)) : continue; endif;
+        if(!is_dir($curfile)) {
+            
+           continue;  
+        }
 
         rm_empty_dir($curfile);
 
-        if(count(scandir($curfile)) == 2) : rmdir($curfile); endif;
+        if(count(scandir($curfile)) == 2) {
+            
+            rmdir($curfile);
+        }
     }
 
     closedir($handle); 
@@ -657,7 +681,10 @@ function rm_empty_dir($path)
 function format_time($time = null, $format='Y-m-d H:i:s')
 {
     
-    if (null === $time) : $time = TIME_NOW; endif;
+    if (null === $time) {
+        
+        $time = TIME_NOW;
+    }
     
     return date($format, intval($time));
 }
@@ -680,7 +707,10 @@ function get_date_from_range($startdate, $enddate)
   // 保存每天日期
   $date = [];
   
-  for($i=0; $i<$days; $i++) : $date[] = date('Y-m-d', $stimestamp+(86400*$i)); endfor;
+  for($i=0; $i<$days; $i++) {
+      
+      $date[] = date('Y-m-d', $stimestamp+(86400*$i));
+  }
   
   return $date;
 }
@@ -711,7 +741,12 @@ function auto_cache($key = '', $func = null, $time = 3)
     
     $result = cache($key);
     
-    if (empty($result)) : $result = $func(); !empty($result) && cache($key, $result, $time); endif;
+    if (empty($result)) {
+        
+        $result = $func();
+        
+        !empty($result) && cache($key, $result, $time);
+    }
     
     return $result;
 }
@@ -726,7 +761,10 @@ function closure_list_exe($list = [])
     
     try {
         
-        foreach ($list as $closure) : $closure(); endforeach;
+        foreach ($list as $closure) {
+            
+            $closure();
+        }
         
         Db::commit();
         
@@ -776,27 +814,32 @@ function get_page_html($current_page = 0, $last_page = 0, $offset = 3, $page_num
     
     $data = get_page_number_scope($current_page, $last_page, $offset, $page_number);
 
-    $spans  = '';
+    $spans = $next = $prev = '';
 
-    for($i = $data['init']; $i <= $data['max']; $i++) :  $spans .= $i == $current_page ? "<span class='current'>".$i."</span>" : "<a href='?page=$i'><span>$i</span></a>"; endfor;
-
-    $next   = '';
+    for($i = $data['init']; $i <= $data['max']; $i++) {
+        
+        $spans .= $i == $current_page ? "<span class='current'>".$i."</span>" : "<a href='?page=$i'><span>$i</span></a>";
+    }
+    
     $current_page_next = $current_page + DATA_SUCCESS;
 
-    if ($current_page < $last_page) : $next =  "<a class='next' href='?page=$current_page_next'>下一页</a>"; endif;
-
-    $prev = '';
+    if ($current_page < $last_page) {
+        
+        $next =  "<a class='next' href='?page=$current_page_next'>下一页</a>";
+    }
+    
     $current_page_prev = $current_page - DATA_SUCCESS;
     
-    if ($current_page > DATA_SUCCESS) : $prev =  "<a class='prev' href='?page=$current_page_prev'>上一页</a>"; endif;
+    if ($current_page > DATA_SUCCESS) {
+        
+        $prev =  "<a class='prev' href='?page=$current_page_prev'>上一页</a>";
+    }
 
-    $tmpl = "<div class='onebase pagination pagination-right pagination-large'>
-                <div>
+    $tmpl = "<div class='onebase pagination pagination-right pagination-large'><div>
                     $prev
                     $spans
                     $next
-                </div>
-            </div>";
+                </div></div>";
     
     return $tmpl;
 }

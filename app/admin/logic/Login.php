@@ -23,10 +23,25 @@ class Login extends AdminBase
     public function loginHandle($username = '', $password = '', $verify = '')
     {
         
-        $member = $this->validateMember->checkLoginData(compact('username','password','verify'));
+        $validate_result = $this->validateLogin->scene('admin')->check(compact('username','password','verify'));
         
-        if (false === $member) : return [RESULT_ERROR, $this->validateMember->getError()]; endif;
+        if (!$validate_result) {
             
+            return [RESULT_ERROR, $this->validateLogin->getError()];
+        }
+        
+        $member = $this->logicMember->getMemberInfo(['username' => $username]);
+        
+        if(empty($member['id'])) {
+            
+            return [RESULT_ERROR, '用户账号不存在'];
+        }
+        
+        if(data_md5_key($password) != $member['password']) {
+            
+            return [RESULT_ERROR, '密码输入错误'];
+        }
+        
         $this->logicMember->setMemberValue(['id' => $member['id']], TIME_UT_NAME, TIME_NOW);
 
         $auth = ['member_id' => $member['id'], TIME_UT_NAME => TIME_NOW];

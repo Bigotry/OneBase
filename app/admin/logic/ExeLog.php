@@ -36,7 +36,10 @@ class ExeLog extends AdminBase
         
         $exe_log_array = require $exe_log_path;
         
-        if (empty($exe_log_array) || DATA_NORMAL == $exe_log_array) : return [RESULT_ERROR, '日志文件为空']; endif;
+        if (empty($exe_log_array) || DATA_NORMAL == $exe_log_array) {
+            
+            return [RESULT_ERROR, '日志文件为空'];
+        }
         
         $this->modelExeLog->setList($exe_log_array) && file_put_contents($exe_log_path, '');
         

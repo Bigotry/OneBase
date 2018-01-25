@@ -25,7 +25,10 @@ class Statistic extends AdminBase
         
         $cache_data = cache('cache_member_growth_data');
         
-        if (!empty($cache_data)) : return $cache_data; endif;
+        if (!empty($cache_data)) {
+            
+            return $cache_data;
+        }
         
         $data = $this->getMemberGrowthStruct();
 
@@ -45,9 +48,9 @@ class Statistic extends AdminBase
     public function formatMemberGrowthData($data, $list)
     {
         
-        foreach ($list as $v) :
+        foreach ($list as $v) {
             
-            switch (date("Y-m-d",strtotime($v[TIME_CT_NAME]))) :
+            switch (date("Y-m-d",strtotime($v[TIME_CT_NAME]))) {
                 case $data[0][0]    : $data[0][1]++;  break;
                 case $data[1][0]    : $data[1][1]++;  break;
                 case $data[2][0]    : $data[2][1]++;  break;
@@ -63,9 +66,8 @@ class Statistic extends AdminBase
                 case $data[12][0]   : $data[12][1]++; break;
                 case $data[13][0]   : $data[13][1]++; break;
                 case $data[14][0]   : $data[14][1]++; break;
-            endswitch;
-            
-        endforeach;
+            }
+        }
         
         return $data;
     }
@@ -101,7 +103,10 @@ class Statistic extends AdminBase
         
         $data_struct = [];
         
-        foreach ($date_array as $v) : $data_struct[] = [$v, DATA_DISABLE]; endforeach;
+        foreach ($date_array as $v) {
+            
+            $data_struct[] = [$v, DATA_DISABLE];
+        }
         
         return $data_struct;
     }
@@ -114,7 +119,7 @@ class Statistic extends AdminBase
         
         $cache_data = cache('cache_exe_speed_data');
         
-        if (!empty($cache_data)) : return $cache_data; endif;
+        if (!empty($cache_data)) { return $cache_data; }
         
         // 取最近的1万条执行记录进行速度分析
         $list = $this->modelExeLog->getList(['status' => DATA_NORMAL], 'id,exe_time', 'id desc', false, [], '', 10000);
@@ -150,7 +155,10 @@ class Statistic extends AdminBase
         
         $cache_data = cache('cache_performer_facility_data');
         
-        if (!empty($cache_data)) : return $cache_data; endif;
+        if (!empty($cache_data)) {
+            
+            return $cache_data;
+        }
         
         $browser_list = $this->modelExeLog->getList(['status' => DATA_NORMAL], 'browser as name,count(id) as value', '', false, [], 'browser');
         
@@ -176,7 +184,10 @@ class Statistic extends AdminBase
         
         $cache_data = cache('cache_member_tree_data');
         
-        if (!empty($cache_data)) : return $cache_data; endif;
+        if (!empty($cache_data)) {
+            
+            return $cache_data;
+        }
         
         $list = $this->modelMember->getList(['status' => DATA_NORMAL, 'is_inside' => DATA_NORMAL], 'id,username,status,leader_id,is_inside', '', false);
         

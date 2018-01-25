@@ -39,7 +39,10 @@ class Api extends AdminBase
     public function checkFieldData($data)
     {
         
-        if ($data['group_id'] == DATA_DISABLE) : $this->error = '请选择接口分组';  return false; endif;
+        if ($data['group_id'] == DATA_DISABLE) {
+            
+            $this->error = '请选择接口分组'; return false;
+        }
         
         $data_empty = false;
         
@@ -47,7 +50,7 @@ class Api extends AdminBase
         {
             foreach ($data['request_data']['field_name'] as $v)
             {
-                if (empty($v)) : $data_empty = true; break; endif;
+                if (empty($v)) { $data_empty = true; break; }
             }
         }
         
@@ -55,7 +58,7 @@ class Api extends AdminBase
         {
             foreach ($data['response_data']['field_name'] as $v)
             {
-                if (empty($v)) : $data_empty = true; break; endif;
+                if (empty($v)) { $data_empty = true; break; }
             }
         }
         

@@ -58,7 +58,10 @@ class Addon extends LogicBase
             
             $class = SYS_DS_CONS . SYS_ADDON_DIR_NAME . SYS_DS_CONS . $v . SYS_DS_CONS .ucfirst($v);
             
-            if (!isset(self::$instance[$class])) : self::$instance[$class] = new $class(); endif;
+            if (!isset(self::$instance[$class])) {
+                
+                self::$instance[$class] = new $class();
+            }
         }
         
         return self::$instance;

@@ -34,9 +34,15 @@ class Api extends LogicBase
         
         $validate_result = $this->validateApi->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateApi->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateApi->getError()];
+        }
         
-        if (!$this->validateApi->checkFieldData($data)) : return [RESULT_ERROR, $this->validateApi->getError()]; endif;
+        if (!$this->validateApi->checkFieldData($data)) {
+            
+            return [RESULT_ERROR, $this->validateApi->getError()];
+        }
             
         !empty($data['is_request_data'])  ? $data['request_data']  = transform_array_to_json($data['request_data'])  : $data['request_data']  = '';
         !empty($data['is_response_data']) ? $data['response_data'] = transform_array_to_json($data['response_data']) : $data['response_data'] = '';
@@ -72,7 +78,10 @@ class Api extends LogicBase
         
         $validate_result = $this->validateApiGroup->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateApiGroup->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateApiGroup->getError()];
+        }
         
         $url = url('apiGroupList');
         

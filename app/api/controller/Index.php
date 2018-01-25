@@ -57,7 +57,10 @@ class Index extends ControllerBase
         
         $content = $this->fetch('content_template');
         
-        if (IS_AJAX) : return throw_response_exception(['content' => $content]); endif;
+        if (IS_AJAX) {
+            
+            return throw_response_exception(['content' => $content]);
+        }
         
         $this->assign('content', $content);
         

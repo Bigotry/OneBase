@@ -174,7 +174,10 @@ class InitBase
         
         $config_list = auto_cache('config_list', create_closure($model, 'all'));
         
-        foreach ($config_list as $info) : $config_array[$info['name']] = $info['value']; endforeach;
+        foreach ($config_list as $info) {
+            
+            $config_array[$info['name']] = $info['value'];
+        }
             
         config($config_array);
         

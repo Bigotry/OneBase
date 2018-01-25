@@ -34,7 +34,10 @@ class AuthGroup extends AdminBase
         
         $validate_result = $this->validateAuthGroup->scene('add')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateAuthGroup->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateAuthGroup->getError()];
+        }
         
         $url = url('groupList');
         
@@ -55,7 +58,10 @@ class AuthGroup extends AdminBase
         
         $validate_result = $this->validateAuthGroup->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateAuthGroup->getError()]; endif;
+        if (!$validate_result) {
+         
+            return [RESULT_ERROR, $this->validateAuthGroup->getError()];
+        }
         
         $url = url('groupList');
         
@@ -145,7 +151,10 @@ class AuthGroup extends AdminBase
         
         $rules_array = [];
         
-        foreach ($rules_array_list as $v) : $rules_array = array_merge($rules_array, $v); endforeach;
+        foreach ($rules_array_list as $v) {
+            
+            $rules_array = array_merge($rules_array, $v);
+        }
         
         // 当前授权会员的所有权限节点数组
         $rules_unique_array = array_unique($rules_array);
@@ -172,7 +181,10 @@ class AuthGroup extends AdminBase
         
         $member_arr_ids = array_unique(array_extract($group_list, 'member_id'));
         
-        foreach ($member_arr_ids as $id) : $this->updateSubAuthByMember($id); endforeach;
+        foreach ($member_arr_ids as $id) {
+            
+            $this->updateSubAuthByMember($id);
+        }
     }
     
     /**
@@ -190,7 +202,10 @@ class AuthGroup extends AdminBase
             
             foreach ($rules_arr as $kk => $vv)
             {
-                if (!in_array($vv, $standard_rules_array)) : unset($rules_arr[$kk]); endif;
+                if (!in_array($vv, $standard_rules_array)) {
+                    
+                    unset($rules_arr[$kk]);
+                }
             }
             
             $v['rules'] = arr2str(array_values($rules_arr));

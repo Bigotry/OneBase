@@ -30,7 +30,10 @@ function export_excel($titles = '', $keys = '', $data = [], $file_name = '导出
 
     $titles_arr = str2arr($titles);
 
-    foreach ($titles_arr as $k => $v) : $objPHPExcel->setActiveSheetIndex($s)->setCellValue(string_from_column_index($k). $y, $v); endforeach;
+    foreach ($titles_arr as $k => $v) {
+        
+        $objPHPExcel->setActiveSheetIndex($s)->setCellValue(string_from_column_index($k). $y, $v);
+    }
 
     $keys_arr = str2arr($keys);
 
@@ -151,7 +154,7 @@ function send_email($address, $title, $message)
     $mail->Body  = $message;
     $mail->AltBody = 'OneBase';
     
-    if (!$mail->send()) : return $mail->ErrorInfo; endif;
+    if (!$mail->send()) { return $mail->ErrorInfo; }
     
     return true;
 }
@@ -224,21 +227,21 @@ function create_qrcode($data = '', $path = '', $ecc = 'H', $size = 10)
     
     include_once EXTEND_PATH . 'qrcode' . DS . 'qrlib.php';
     
-    if (!file_exists($save_path)) : mkdir($save_path); endif;
+    if (!file_exists($save_path)) { mkdir($save_path); }
     
     $filename = $save_path.'.png';
     
     $errorCorrectionLevel = 'L';
     
-    if (isset($ecc) && in_array($ecc, array('L','M','Q','H'))) : $errorCorrectionLevel = $ecc; endif; 
+    if (isset($ecc) && in_array($ecc, array('L','M','Q','H'))) { $errorCorrectionLevel = $ecc; } 
     
     $matrixPointSize = 4;
     
-    if (isset($size)) : $matrixPointSize = min(max((int)$size, 1), 10); endif;
+    if (isset($size)) { $matrixPointSize = min(max((int)$size, 1), 10); }
     
     if (isset($data)) {
         
-        if (trim($data) == '') : exception("qrcode data cannot be empty"); endif;
+        if (trim($data) == '') {  exception("qrcode data cannot be empty"); }
         
         $filename = $save_path.md5($data.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
         

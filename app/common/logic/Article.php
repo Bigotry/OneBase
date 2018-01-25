@@ -25,7 +25,10 @@ class Article extends LogicBase
         
         $validate_result = $this->validateArticleCategory->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateArticleCategory->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateArticleCategory->getError()];
+        }
         
         $url = url('articleCategoryList');
         
@@ -77,7 +80,10 @@ class Article extends LogicBase
         
         $validate_result = $this->validateArticle->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateArticle->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateArticle->getError()];
+        }
         
         $url = url('articleList');
         

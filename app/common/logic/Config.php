@@ -62,7 +62,10 @@ class Config extends LogicBase
         
         $validate_result = $this->validateConfig->scene('add')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateConfig->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateConfig->getError()];
+        }
         
         $url = url('configList', array('group' => $data['group'] ? $data['group'] : 0));
         
@@ -81,7 +84,10 @@ class Config extends LogicBase
         
         $validate_result = $this->validateConfig->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateConfig->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateConfig->getError()];
+        }
         
         $url = url('configList', array('group' => $data['group'] ? $data['group'] : 0));
         

@@ -32,13 +32,13 @@ class Index extends IndexBase
         $this->assign('category_name', '-'.$category_name);
         
         //文章变量
-        if (!empty($this->param['id'])) :
+        if (!empty($this->param['id'])) {
             
             $article_info = $this->logicArticle->getArticleInfo(['a.id' => $this->param['id']]);
 
             $this->assign('article_title',      '-'.$article_info['name']);
             $this->assign('article_describe',   '-'.$article_info['describe']);
-        endif;
+        }
         
         return empty($this->param['act']) ? $this->fetch('index') : $this->fetch('details');
     }

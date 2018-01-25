@@ -34,7 +34,10 @@ class Seo extends LogicBase
         
         $validate_result = $this->validateSeo->scene('edit')->check($data);
         
-        if (!$validate_result) : return [RESULT_ERROR, $this->validateSeo->getError()]; endif;
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateSeo->getError()];
+        }
         
         $url = url('seoList');
         

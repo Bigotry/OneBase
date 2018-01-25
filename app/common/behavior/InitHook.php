@@ -29,7 +29,10 @@ class InitHook
 
         $list = auto_cache('hook_list', create_closure($hook, 'column', ['id,name,addon_list']));
         
-        foreach ($list as $v) : $addon_list[$v['name']] = get_addon_class($v['addon_list']); endforeach;
+        foreach ($list as $v) {
+            
+          $addon_list[$v['name']] = get_addon_class($v['addon_list']);  
+        }
         
         Hook::import($addon_list);
     }
