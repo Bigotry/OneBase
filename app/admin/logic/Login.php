@@ -32,27 +32,26 @@ class Login extends AdminBase
         
         $member = $this->logicMember->getMemberInfo(['username' => $username]);
         
-        if (empty($member['id'])) {
+        if (!empty($member['password']) && data_md5_key($password) == $member['password']) {
             
-            return [RESULT_ERROR, '用户账号不存在'];
-        }
-        
-        if (data_md5_key($password) != $member['password']) {
+            $this->logicMember->setMemberValue(['id' => $member['id']], TIME_UT_NAME, TIME_NOW);
+
+            $auth = ['member_id' => $member['id'], TIME_UT_NAME => TIME_NOW];
+
+            session('member_info', $member);
+            session('member_auth', $auth);
+            session('member_auth_sign', data_auth_sign($auth));
+
+            action_log('登录', '登录操作，username：'. $username);
+
+            return [RESULT_SUCCESS, '登录成功', url('index/index')];
             
-            return [RESULT_ERROR, '密码输入错误'];
+        } else {
+            
+            $error = empty($member['id']) ? '用户账号不存在' : '密码输入错误';
+            
+            return [RESULT_ERROR, $error];
         }
-        
-        $this->logicMember->setMemberValue(['id' => $member['id']], TIME_UT_NAME, TIME_NOW);
-
-        $auth = ['member_id' => $member['id'], TIME_UT_NAME => TIME_NOW];
-
-        session('member_info', $member);
-        session('member_auth', $auth);
-        session('member_auth_sign', data_auth_sign($auth));
-
-        action_log('登录', '登录操作，username：'. $username);
-
-        return [RESULT_SUCCESS, '登录成功', url('index/index')];
     }
     
     /**
