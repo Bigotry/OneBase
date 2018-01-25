@@ -31,7 +31,7 @@ class Index extends Addon
         {
             $data .= "<option ";
             
-            if ($id == $vo['id']) : $data .= " selected "; endif;
+            !($id == $vo['id']) ?: $data .= " selected ";
             
             $data .= " value ='" . $vo['id'] . "'>" . $vo['name'] . "</option>";
         }
@@ -49,7 +49,10 @@ class Index extends Addon
         
         $cache_list = cache($cache_key);
         
-        if (!empty($cache_list)) : return $cache_list; endif;
+        if (!empty($cache_list)) {
+            
+            return $cache_list;
+        }
         
         $list = $this->modelRegion->getList($where, true, 'id', false);
         

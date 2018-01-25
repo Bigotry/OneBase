@@ -28,10 +28,6 @@ class Upload extends Addon
         
         $result = get_sington_object('fileLogic', LogicFile::class)->pictureUpload('imgFile');
         
-        if (false === $result) : return [RESULT_ERROR => DATA_NORMAL, RESULT_MESSAGE => '文件上传失败']; endif;
-        
-        $url = get_picture_url($result['id']);
-        
-        return [RESULT_ERROR => DATA_DISABLE, RESULT_URL => $url];
+        return false === $result ? [RESULT_ERROR => DATA_NORMAL, RESULT_MESSAGE => '文件上传失败'] : [RESULT_ERROR => DATA_DISABLE, RESULT_URL => get_picture_url($result['id'])];
     }
 }
