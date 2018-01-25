@@ -170,7 +170,7 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = 0, $join = [], $group = '', $limit = null, $data = null)
     {
         
-        if(is_string($where)) {
+        if (is_string($where)) {
             
             return $this->query($where);
         }
@@ -207,7 +207,7 @@ class ModelBase extends Model
 
         $function = $backtrace[0]['function'];
 
-        if($function == 'getList') {
+        if ($function == 'getList') {
 
             $paginate != false && IS_POST && $paginate = input('list_rows', DB_LIST_ROWS);
 
@@ -249,7 +249,7 @@ class ModelBase extends Model
         
         $layer = $this->getLayerPrefix($name);
         
-        if(false === $layer) {
+        if (false === $layer) {
             
             return parent::__get($name);
         }
@@ -271,7 +271,7 @@ class ModelBase extends Model
         
         foreach ($layer_array as $v)
         {
-            if(str_prefix($name, $v)) {
+            if (str_prefix($name, $v)) {
                 
                 $layer = $v;
                 

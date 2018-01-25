@@ -101,19 +101,14 @@ class Wxpay extends Pay implements Driver
         //获取统一支付接口结果
         $unifiedOrderResult = $unifiedOrder->getResult();
         //商户根据实际情况设置相应的处理流程
-        if ($unifiedOrderResult["return_code"] == "FAIL")
-        {
+        if ($unifiedOrderResult["return_code"] == "FAIL") {
                 //商户自行增加处理流程
                 echo "通信出错：".$unifiedOrderResult['return_msg']."<br>";
-        }
-        elseif($unifiedOrderResult["result_code"] == "FAIL")
-        {
+        } elseif ($unifiedOrderResult["result_code"] == "FAIL") {
                 //商户自行增加处理流程
                 echo "错误代码：".$unifiedOrderResult['err_code']."<br>";
                 echo "错误代码描述：".$unifiedOrderResult['err_code_des']."<br>";
-        }
-        elseif($unifiedOrderResult["code_url"] != NULL)
-        {
+        } elseif ($unifiedOrderResult["code_url"] != NULL) {
                 //从统一支付接口获取到code_url
                 $code_url = $unifiedOrderResult["code_url"];
                 //商户自行增加处理流程
@@ -220,7 +215,7 @@ class Wxpay extends Pay implements Driver
         
         $orderQueryResult = $this->order_query($out_trade_no);
         
-        if($orderQueryResult['trade_state']=='SUCCESS'){
+        if ($orderQueryResult['trade_state'] == 'SUCCESS') {
 
             return 1;
         }
@@ -237,12 +232,10 @@ class Wxpay extends Pay implements Driver
         //商户根据实际情况设置相应的处理流程,此处仅作举例
         if ($orderQueryResult["return_code"] == "FAIL") {
                 echo "通信出错：".$orderQueryResult['return_msg']."<br>";
-        }
-        elseif($orderQueryResult["result_code"] == "FAIL"){
+        } elseif ($orderQueryResult["result_code"] == "FAIL") {
                 echo "错误代码：".$orderQueryResult['err_code']."<br>";
                 echo "错误代码描述：".$orderQueryResult['err_code_des']."<br>";
-        }
-        else{
+        } else {
                 echo "交易状态：".$orderQueryResult['trade_state']."<br>";
                 echo "设备号：".$orderQueryResult['device_info']."<br>";
                 echo "用户标识：".$orderQueryResult['openid']."<br>";
@@ -304,15 +297,15 @@ class Wxpay extends Pay implements Driver
         //对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
         //微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
         //尽可能提高通知的成功率，但微信不保证通知最终能成功。
-        if($notify->checkSign() == FALSE){
+        if ($notify->checkSign() == FALSE) {
                 $notify->setReturnParameter("return_code","FAIL");//返回状态码
                 $notify->setReturnParameter("return_msg","签名失败");//返回信息
-        }else{
+        } else {
                 $notify->setReturnParameter("return_code","SUCCESS");//设置返回码
         }
 
         //订单状态
-        if( $notify->checkSign()==TRUE && $notify->data["return_code"]=="SUCCESS"){
+        if ($notify->checkSign()==TRUE && $notify->data["return_code"] == "SUCCESS") {
             
             return $notify->data;
         }

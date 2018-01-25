@@ -167,13 +167,12 @@ class Yeepay extends Pay implements Driver
             $data['safeLocal']  = $safeLocal;
             
             // 验签
-            if($data['hmac'] != $hmacLocal || $data['hmac_safe'] != $safeLocal)
-            {
+            if ($data['hmac'] != $hmacLocal || $data['hmac_safe'] != $safeLocal) {
 
                return false;
             }
 
-            if ($data['r1_Code'] =="1"){
+            if ($data['r1_Code'] =="1") {
 
                return true;
             }

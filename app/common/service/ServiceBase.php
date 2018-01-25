@@ -61,7 +61,7 @@ class ServiceBase extends ModelBase
     public function __get($name)
     {
         
-        if(!str_prefix($name, SYS_DRIVER_DIR_NAME)) {
+        if (!str_prefix($name, SYS_DRIVER_DIR_NAME)) {
             
             return parent::__get($name);
         }

@@ -33,7 +33,7 @@ class Index extends InstallBase
         if (!$step) {
             
             $this->redirect('index');
-        } elseif($step != 3) {
+        } elseif ($step != 3) {
             
             $this->redirect("Install/step{$step}");
         }

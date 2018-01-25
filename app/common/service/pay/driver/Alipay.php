@@ -166,7 +166,7 @@ class Alipay extends Pay implements Driver
 
         $successArr = array('TRADE_FINISHED','TRADE_SUCCESS','success');
         
-        if($verify_result && in_array($_POST['trade_status'], $successArr)){
+        if ($verify_result && in_array($_POST['trade_status'], $successArr)){
 
             return true;
         }

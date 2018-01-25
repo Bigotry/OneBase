@@ -113,16 +113,15 @@ function  string_from_column_index($pColumnIndex = 0)
 {
     static $_indexCache = [];
     
-    if(!isset($_indexCache[$pColumnIndex]))
-    {
+    if (!isset($_indexCache[$pColumnIndex])) {
         
-        if($pColumnIndex < 26){
+        if ($pColumnIndex < 26) {
             
             $_indexCache[$pColumnIndex] = chr(65 + $pColumnIndex);
-        }elseif($pColumnIndex < 702){
+        } elseif ($pColumnIndex < 702) {
             
             $_indexCache[$pColumnIndex] = chr(64 + ($pColumnIndex / 26)).chr(65 + $pColumnIndex % 26);
-        }else{
+        } else {
             
             $_indexCache[$pColumnIndex] = chr(64 + (($pColumnIndex - 26) / 676 )).chr(65 + ((($pColumnIndex - 26) % 676) / 26 )).  chr( 65 + $pColumnIndex % 26);
         }

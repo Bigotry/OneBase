@@ -105,7 +105,7 @@ class Install extends InstallBase
 
             $step = session('step');
             
-            if($step != 1 && $step != 2) {
+            if ($step != 1 && $step != 2) {
 
                 $this->redirect('step1'); 
             }

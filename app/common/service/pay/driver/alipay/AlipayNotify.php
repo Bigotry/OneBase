@@ -43,11 +43,10 @@ class AlipayNotify {
      * @return 验证结果
      */
 	function verifyNotify(){
-		if(empty($_POST)) {//判断POST来的数组是否为空
+		if (empty($_POST)) {//判断POST来的数组是否为空
                     
                     return false;
-		}
-		else {
+		} else {
                     
 			//生成签名结果
 			$isSign = $this->getSignVeryfy($_POST, $_POST["sign"]);
@@ -55,7 +54,7 @@ class AlipayNotify {
 			//获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
 			$responseTxt = 'true';
                         
-			if (! empty($_POST["notify_id"])) {$responseTxt = $this->getResponse($_POST["notify_id"]);}
+			if (!empty($_POST["notify_id"])) {$responseTxt = $this->getResponse($_POST["notify_id"]);}
 			
 			//验证
 			//$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
@@ -74,10 +73,9 @@ class AlipayNotify {
      * @return 验证结果
      */
 	function verifyReturn(){
-		if(empty($_GET)) {//判断POST来的数组是否为空
+		if (empty($_GET)) {//判断POST来的数组是否为空
 			return false;
-		}
-		else {
+		} else {
 			//生成签名结果
 			$isSign = $this->getSignVeryfy($_GET, $_GET["sign"]);
 			//vd($isSign);
@@ -159,10 +157,9 @@ class AlipayNotify {
 		
                 
 		$veryfy_url = '';
-		if($transport == 'https') {
+		if ($transport == 'https') {
 			$veryfy_url = $this->https_verify_url;
-		}
-		else {
+		} else {
 			$veryfy_url = $this->http_verify_url;
 		}
 		

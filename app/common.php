@@ -224,7 +224,7 @@ function throw_response_exception($data = [], $type = 'json')
 function write_exe_log($begin = 'app_begin', $end = 'app_end', $type = 0)
 {
     
-    if(empty(config('is_write_exe_log'))) { return false; }
+    if (empty(config('is_write_exe_log'))) { return false; }
     
     $source_url = empty($_SERVER["HTTP_REFERER"]) ? '未知来源' : $_SERVER["HTTP_REFERER"];
     
@@ -347,7 +347,7 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
 
             $tree[] =& $list[$key];
 
-        } else if(isset($refer[$parentId])){
+        } else if (isset($refer[$parentId])){
 
             is_object($refer[$parentId]) && $refer[$parentId] = $refer[$parentId]->toArray();
             
@@ -645,21 +645,21 @@ function rm_empty_dir($path)
     while(($file = readdir($handle))!==false)
     {
 
-        if(!($file != '.' && $file != '..')) {
+        if (!($file != '.' && $file != '..')) {
             
            continue;
         }
         
         $curfile = $path . SYS_DS_PROS . $file;// 当前目录
 
-        if(!is_dir($curfile)) {
+        if (!is_dir($curfile)) {
             
            continue;  
         }
 
         rm_empty_dir($curfile);
 
-        if(count(scandir($curfile)) == 2) {
+        if (count(scandir($curfile)) == 2) {
             
             rmdir($curfile);
         }
@@ -787,12 +787,11 @@ function get_page_number_scope($current_page = 0, $last_page = 0, $offset = 3, $
 
     $max = $last_page;
 
-    if($last_page > $page_number)
-    {
-        if($current_page <= $offset){
+    if ($last_page > $page_number) {
+        if ($current_page <= $offset) {
 
             $max    = $page_number;
-        }else if($current_page + $offset >= $last_page){
+        }else if ($current_page + $offset >= $last_page) {
 
             $init   = $last_page - $page_number + $init;
             $max    = $last_page;

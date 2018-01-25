@@ -96,16 +96,14 @@ class Common_util_pub
 		ksort($paraMap);
 		foreach ($paraMap as $k => $v)
 		{
-		    if($urlencode)
-		    {
+		    if ($urlencode) {
 			   $v = urlencode($v);
-			}
+                    }
 			//$buff .= strtolower($k) . "=" . $v . "&";
 			$buff .= $k . "=" . $v . "&";
 		}
 		$reqPar;
-		if (strlen($buff) > 0) 
-		{
+		if (strlen($buff) > 0) {
 			$reqPar = substr($buff, 0, strlen($buff)-1);
 		}
 		return $reqPar;
@@ -192,7 +190,7 @@ class Common_util_pub
         $data = curl_exec($ch);
 //		curl_close($ch);
 		//返回结果
-		if($data)
+		if ($data)
 		{
 			curl_close($ch);
 			return $data;
@@ -238,7 +236,7 @@ class Common_util_pub
 		curl_setopt($ch,CURLOPT_POSTFIELDS,$xml);
 		$data = curl_exec($ch);
 		//返回结果
-		if($data){
+		if ($data){
 			curl_close($ch);
 			return $data;
 		}
@@ -350,17 +348,17 @@ class UnifiedOrder_pub extends Wxpay_client_pub
 		try
 		{
 			//检测必填参数
-			if($this->parameters["out_trade_no"] == null){
+			if ($this->parameters["out_trade_no"] == null) {
 				throw new SDKRuntimeException("缺少统一支付接口必填参数out_trade_no！"."<br>");
-			}elseif($this->parameters["body"] == null){
+			} elseif ($this->parameters["body"] == null){
 				throw new SDKRuntimeException("缺少统一支付接口必填参数body！"."<br>");
-			}elseif ($this->parameters["total_fee"] == null ) {
+			} elseif ($this->parameters["total_fee"] == null ) {
 				throw new SDKRuntimeException("缺少统一支付接口必填参数total_fee！"."<br>");
-			}elseif ($this->parameters["notify_url"] == null) {
+			} elseif ($this->parameters["notify_url"] == null) {
 				throw new SDKRuntimeException("缺少统一支付接口必填参数notify_url！"."<br>");
-			}elseif ($this->parameters["trade_type"] == null) {
+			} elseif ($this->parameters["trade_type"] == null) {
 				throw new SDKRuntimeException("缺少统一支付接口必填参数trade_type！"."<br>");
-			}elseif ($this->parameters["trade_type"] == "JSAPI" &&
+			} elseif ($this->parameters["trade_type"] == "JSAPI" &&
 				$this->parameters["openid"] == NULL){
 				throw new SDKRuntimeException("统一支付接口中，缺少必填参数openid！trade_type为JSAPI时，openid为必填参数！"."<br>");
 			}

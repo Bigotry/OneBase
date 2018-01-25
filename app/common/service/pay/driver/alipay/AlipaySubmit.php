@@ -103,7 +103,7 @@ class AlipaySubmit {
 		$method  		= 'post';
 		$button_name	= 'OK';
 		
-		if( empty($jump_url) ){ $jump_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:''; }
+		if (empty($jump_url)) { $jump_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:''; }
 		
 		//待请求参数数组
 		$para = $this->buildRequestPara($para_temp);
@@ -183,9 +183,9 @@ class AlipaySubmit {
 			$para_text[$key] = $value;
 		}
 	
-		if( ! empty ($para_text['res_data'])) {
+		if (!empty($para_text['res_data'])) {
 			//解析加密部分字符串
-			if($this->alipay_config['sign_type'] == '0001') {
+			if ($this->alipay_config['sign_type'] == '0001') {
 				$para_text['res_data'] = rsaDecrypt($para_text['res_data'], $this->alipay_config['private_key_path']);
 			}
 				
