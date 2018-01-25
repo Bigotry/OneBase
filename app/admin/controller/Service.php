@@ -46,13 +46,11 @@ class Service extends AdminBase
         
         $model->setDriver($this->param['driver_class']);
 
-        $param = $model->driverParam();
-        
         $info = $this->logicService->getDriverInfo(['service_name' => $this->param['service_class'], 'driver_name' => $this->param['driver_class']]);
         
         $info['config'] = unserialize($info['config']);
         
-        $this->assign('param', $param);
+        $this->assign('param', $model->driverParam());
         
         $this->assign('info',  $info);
         
