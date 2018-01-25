@@ -181,7 +181,7 @@ class Database extends AdminBase
         foreach ($glob as $name => $file)
         {
             
-            if(!preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql(?:\.gz)?$/', $name)) { continue; }
+            if (!preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql(?:\.gz)?$/', $name)) { continue; }
                 
             $name = sscanf($name, '%4s%2s%2s-%2s%2s%2s-%d');
 
@@ -255,7 +255,7 @@ class Database extends AdminBase
         // 检测文件正确性
         $last = end($list);
         
-        if(!(count($list) === $last[0])) { return [RESULT_ERROR, '备份文件可能已经损坏，请检查！']; }
+        if (!(count($list) === $last[0])) { return [RESULT_ERROR, '备份文件可能已经损坏，请检查！']; }
         
         // 开始还原
         return $this->startRestore($list);

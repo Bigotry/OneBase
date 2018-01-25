@@ -45,7 +45,7 @@ class FileClean extends AdminBase
         foreach ($dirs as $dir)
         {
             
-            if(!$dir->isDir()) {
+            if (!$dir->isDir()) {
                 
                 continue;
             }

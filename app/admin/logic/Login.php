@@ -32,12 +32,12 @@ class Login extends AdminBase
         
         $member = $this->logicMember->getMemberInfo(['username' => $username]);
         
-        if(empty($member['id'])) {
+        if (empty($member['id'])) {
             
             return [RESULT_ERROR, '用户账号不存在'];
         }
         
-        if(data_md5_key($password) != $member['password']) {
+        if (data_md5_key($password) != $member['password']) {
             
             return [RESULT_ERROR, '密码输入错误'];
         }
