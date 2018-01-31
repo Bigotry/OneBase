@@ -37,6 +37,7 @@ function sign_field_filter($data = [])
     
     foreach ($data_sign_filter_field_array as $v)
     {
+        
         if (array_key_exists($v, $data)) {
             
             unset($data[$v]);

@@ -57,6 +57,6 @@ return [
     ],
     
     /* 数据签名时需要过滤的字段 */
-    'data_sign_filter_field' => ['page', 'list_rows', 'user_token', 'access_token', 'data_sign'],
+    'data_sign_filter_field' => ['page', 'list_rows', 'user_token', 'access_token', 'data_sign']
     
 ];
