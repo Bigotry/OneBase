@@ -45,18 +45,14 @@ class FileClean extends AdminBase
         foreach ($dirs as $dir)
         {
             
-            if (!$dir->isDir()) {
-                
-                continue;
-            }
+            if (!$dir->isDir()) { continue; }
 
             $files = new \FilesystemIterator($path . $dir->getFilename());
             
             foreach ($files as $file)
             {
 
-                if ($file->isFile())
-                {
+                if ($file->isFile()) {
                     
                     $data['file_name']  = $file->getFilename();
                     $data['file_size']  = format_bytes($file->getSize());

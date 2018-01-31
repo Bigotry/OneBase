@@ -52,6 +52,11 @@ return [
     'data_sign_attach_field' => [
         'field_name'        => 'data_sign',
         'data_type'         => '字符',
+        'is_require'        => '是',
         'field_describe'    => "数据签名【数据验证附加字段】",
     ],
+    
+    /* 数据签名时需要过滤的字段 */
+    'data_sign_filter_field' => ['page', 'list_rows', 'user_token', 'access_token', 'data_sign'],
+    
 ];

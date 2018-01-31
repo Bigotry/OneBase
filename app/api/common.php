@@ -28,3 +28,20 @@ function get_member_by_token($token = '')
 
     return $result['data'];
 }
+
+// 数据验签时数据字段过滤
+function sign_field_filter($data = [])
+{
+    
+    $data_sign_filter_field_array = config('data_sign_filter_field');
+    
+    foreach ($data_sign_filter_field_array as $v)
+    {
+        if (array_key_exists($v, $data)) {
+            
+            unset($data[$v]);
+        }
+    }
+    
+    return $data;
+}
