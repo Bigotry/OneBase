@@ -59,7 +59,18 @@ function data_md5($str, $key = 'OneBase')
 function data_md5_key($str, $key = '')
 {
     
-    return empty($key) ? data_md5($str, SYS_ENCRYPT_KEY) : data_md5($str, $key);
+    if (is_array($str)) {
+        
+        ksort($str);
+
+        $data = http_build_query($str);
+        
+    } else {
+        
+        $data = (string) $str;
+    }
+    
+    return empty($key) ? data_md5($data, SYS_ENCRYPT_KEY) : data_md5($data, $key);
 }
 
 /**

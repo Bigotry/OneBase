@@ -47,14 +47,14 @@ class ApiBase extends LogicBase
     }
 
     /**
-     * 检查是否需要数据签名
+     * 检查是否需要响应数据签名
      */
     public function checkDataSign($data)
     {
         
         $info = $this->modelApi->getInfo(['api_url' => URL]);
         
-        $info['is_response_sign'] && !empty($data['data']) && $data['data']['data_sign'] = data_auth_sign(sign_field_filter($data['data']));
+        $info['is_response_sign'] && !empty($data['data']) && $data['data']['data_sign'] = create_sign_filter($data['data']);
         
         return $data;
     }
@@ -81,7 +81,7 @@ class ApiBase extends LogicBase
         (empty($param['access_token']) || $param['access_token'] != get_access_token()) && $this->apiError(CodeBase::$accessTokenError);
         
         $info['is_user_token']      && empty($param['user_token']) && $this->apiError(CodeBase::$userTokenError);
-            
-        $info['is_request_sign']    && (empty($param['data_sign']) || data_auth_sign(sign_field_filter($param)) != $param['data_sign']) && $this->apiError(CodeBase::$dataSignError);
+        
+        $info['is_request_sign']    && (empty($param['data_sign']) || create_sign_filter($param) != $param['data_sign']) && $this->apiError(CodeBase::$dataSignError);
     }
 }

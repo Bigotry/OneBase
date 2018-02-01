@@ -46,3 +46,12 @@ function sign_field_filter($data = [])
     
     return $data;
 }
+
+// 过滤后的数据生成数据签名
+function create_sign_filter($data = [], $key = '')
+{
+    
+    $filter_data = sign_field_filter($data);
+    
+    return empty($key) ? data_md5_key($filter_data, API_KEY) : data_md5_key($filter_data, $key);
+}
