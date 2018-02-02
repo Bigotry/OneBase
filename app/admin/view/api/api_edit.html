@@ -30,10 +30,10 @@
           <div class="col-md-6">
             <div class="form-group">
               <label>请求类型</label>
-              <span>（POST）</span>
+              <span>（POST | GET）</span>
                 <select name="request_type" class="form-control">
                     <option value="0">POST</option>
-                    <!--<option value="1">GET</option>-->
+                    <option value="1">GET</option>
                 </select>
             </div>
           </div>
@@ -214,6 +214,7 @@
     ob.setValue("is_request_sign", {$info['is_request_sign']|default=0});
     ob.setValue("group_id", {$info['group_id']|default=0});
     ob.setValue("api_status", {$info['api_status']|default=0});
+    ob.setValue("request_type", {$info['request_type']|default=0});
 
     showOrHideFieldData({$info['is_request_data']|default=0}, 'request_data_table'); 
     showOrHideFieldData({$info['is_response_data']|default=0}, 'response_data_table'); 
