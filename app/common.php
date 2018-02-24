@@ -629,9 +629,7 @@ function get_dir($dir_name)
 function get_picture_url($id = 0)
 {
     
-    $obj = get_sington_object('commonFileLogic', app\common\logic\File::class);
-    
-    return $obj->getPictureUrl($id);
+    return action(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'FileBase' . SYS_DS_PROS . 'getPictureUrl', ['id' => $id]);
 }
 
 /**
@@ -640,9 +638,7 @@ function get_picture_url($id = 0)
 function get_file_url($id = 0)
 {
     
-    $obj = get_sington_object('commonFileLogic', app\common\logic\File::class);
-    
-    return $obj->getFileUrl($id);
+    return action(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'FileBase' . SYS_DS_PROS . 'getFileUrl', ['id' => $id]);
 }
 
 /**
