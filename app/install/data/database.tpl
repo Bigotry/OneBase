@@ -2,17 +2,17 @@
 
 return [
     // 数据库类型
-    'type'            => '[DB_TYPE]',
+    'type'            => '[type]',
     // 服务器地址
-    'hostname'        => '[DB_HOST]',
+    'hostname'        => '[hostname]',
     // 数据库名
-    'database'        => '[DB_NAME]',
+    'database'        => '[database]',
     // 用户名
-    'username'        => '[DB_USER]',
+    'username'        => '[username]',
     // 密码
-    'password'        => '[DB_PWD]',
+    'password'        => '[password]',
     // 端口
-    'hostport'        => '[DB_PORT]',
+    'hostport'        => '[hostport]',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
@@ -20,7 +20,7 @@ return [
     // 数据库编码默认采用utf8
     'charset'         => 'utf8',
     // 数据库表前缀
-    'prefix'          => '[DB_PREFIX]',
+    'prefix'          => '[prefix]',
     // 数据库调试模式
     'debug'           => true,
     // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
@@ -42,5 +42,5 @@ return [
     // 是否需要进行SQL性能分析
     'sql_explain'     => true,
     // 系统数据加密key
-    'sys_data_key'    => '[SYS_DATA_KEY]'
+    'sys_data_key'    => '[sys_data_key]'
 ];

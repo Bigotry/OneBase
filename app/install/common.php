@@ -227,7 +227,7 @@ function write_config($config, $auth)
             $conf = str_replace("[{$name}]", $value, $conf);
         }
 
-        if (!file_put_contents('../app/database.php', str_replace('[SYS_DATA_KEY]', $auth, $conf))) {
+        if (!file_put_contents('../app/database.php', str_replace('[sys_data_key]', $auth, $conf))) {
             
             session('error', true);
         }

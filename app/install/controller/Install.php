@@ -80,16 +80,16 @@ class Install extends InstallBase
                 
                 $db_config = array();
                 
-                list($db_config['DB_TYPE'], $db_config['DB_HOST'], $db_config['DB_NAME'], $db_config['DB_USER'], $db_config['DB_PWD'],
-                     $db_config['DB_PORT'], $db_config['DB_PREFIX']) = $db;
+                list($db_config['type'], $db_config['hostname'], $db_config['database'], $db_config['username'], $db_config['password'],
+                     $db_config['hostport'], $db_config['prefix']) = $db;
                 
                 //缓存数据库配置
                 session('db_config', $db_config);
                 
                 //创建数据库
-                $dbname = $db_config['DB_NAME'];
+                $dbname = $db_config['database'];
                 
-                $db_object = Db::connect($db_config['DB_TYPE'].'://'.$db_config['DB_USER'].':'.$db_config['DB_PWD'].'@'.$db_config['DB_HOST'].':'.$db_config['DB_PORT']);
+                $db_object = Db::connect($db_config);
                 
                 $sql = "CREATE DATABASE IF NOT EXISTS `{$dbname}` DEFAULT CHARACTER SET utf8";
                 
@@ -130,16 +130,16 @@ class Install extends InstallBase
         //连接数据库
         $db_config = session('db_config');
         
-        $db_object = Db::connect($db_config['DB_TYPE'].'://'.$db_config['DB_USER'].':'.$db_config['DB_PWD'].'@'.$db_config['DB_HOST'].':'.$db_config['DB_PORT'].'/'.$db_config['DB_NAME'].'#utf8');
+        $db_object = Db::connect($db_config['type'].'://'.$db_config['username'].':'.$db_config['password'].'@'.$db_config['hostname'].':'.$db_config['hostport'].'/'.$db_config['database'].'#utf8');
         
         //创建数据表
-        create_tables($db_object, $db_config['DB_PREFIX']);
+        create_tables($db_object, $db_config['prefix']);
         
         //注册创始人帐号
         $auth  = build_auth_key();
         $admin = session('admin_info');
         
-        register_administrator($db_object, $db_config['DB_PREFIX'], $admin, $auth);
+        register_administrator($db_object, $db_config['prefix'], $admin, $auth);
 
         //创建配置文件
         $conf = write_config($db_config, $auth);
