@@ -83,11 +83,13 @@ class Install extends InstallBase
                 list($db_config['type'], $db_config['hostname'], $db_config['database'], $db_config['username'], $db_config['password'],
                      $db_config['hostport'], $db_config['prefix']) = $db;
                 
+                //创建数据库
+                $dbname = $db_config['database'];
+                
                 //缓存数据库配置
                 session('db_config', $db_config);
                 
-                //创建数据库
-                $dbname = $db_config['database'];
+                unset($db_config['database']);
                 
                 $db_object = Db::connect($db_config);
                 
