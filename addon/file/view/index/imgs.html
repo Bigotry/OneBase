@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="__STATIC__/Huploadify.css">
+<link rel="stylesheet" href="__STATIC__/addon/file/Huploadify.css">
 
 <div id="upload_pictures_{$addons_data['name']}"></div>
 
@@ -11,7 +11,7 @@
     
         {volist name="img_ids_list" id='vo'}
             <div class="upload-pre-item" style="float:left; margin: 10px;">
-                <div style="cursor:pointer;" class="pic_del"  onclick="picDel{$addons_data.name}(this, {$vo})" ><img src="__STATIC__/uploadify-cancel.png" /></div> 
+                <div style="cursor:pointer;" class="pic_del"  onclick="picDel{$addons_data.name}(this, {$vo})" ><img src="__STATIC__/addon/file/uploadify-cancel.png" /></div> 
                 <a target="_blank" href="{$vo|default='0'|get_picture_url}">
                     <img style="max-width: {$addons_config['maxwidth']};" src="{$vo|default='0'|get_picture_url}"/>
                 </a>
@@ -51,9 +51,9 @@
         
         $("#" + addons_name).val(add_id);
         
-        var src = '/upload/picture/' + data.path;
+        var src = "__ROOT__/upload/picture/" + data.path;
         
-        $(".upload-img-box" + addons_name).append('<div class="upload-pre-item" style="float:left; margin: 10px;"> <div style="cursor:pointer; " class="pic_del"  onclick="picDel{$addons_data.name}(this,'+data.id+')" ><img src="__STATIC__/uploadify-cancel.png" /></div> <a target="_blank" href="' + src + '"> <img style="max-width: ' + maxwidth + ';" src="' + src + '"/></a></div>');
+        $(".upload-img-box" + addons_name).append('<div class="upload-pre-item" style="float:left; margin: 10px;"> <div style="cursor:pointer; " class="pic_del"  onclick="picDel{$addons_data.name}(this,'+data.id+')" ><img src="__STATIC__/addon/file/uploadify-cancel.png" /></div> <a target="_blank" href="' + src + '"> <img style="max-width: ' + maxwidth + ';" src="' + src + '"/></a></div>');
     }
     
     function picDel{$addons_data.name}(obj, pic_id)

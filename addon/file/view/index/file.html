@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="__STATIC__/Huploadify.css">
+<link rel="stylesheet" href="__STATIC__/addon/file/Huploadify.css">
 
 <div id="upload_file_{$addons_data['name']}"></div>
 
@@ -7,7 +7,7 @@
 <div class="upload-img-box{$addons_data['name']}">
     {notempty name="$info[$addons_data['name']]"}
     <div class="upload-pre-file">
-        <div style="cursor:pointer;" class="file_del"  onclick="fileDel{$addons_data.name}(this)" ><img src="__STATIC__/uploadify-cancel.png" /></div> 
+        <div style="cursor:pointer;" class="file_del"  onclick="fileDel{$addons_data.name}(this)" ><img src="__STATIC__/addon/file/uploadify-cancel.png" /></div> 
         <span class="upload_icon_all"></span><a target="_blank" href="{$info[$addons_data['name']]|default=''|get_file_url}">{$info[$addons_data['name']]|default=''|get_file_url}</a></div>
     {/notempty}
 </div>
@@ -33,9 +33,9 @@
         
         $("#{$addons_data['name']}").val(data.id);
         
-        var src = '/upload/file/' + data.path;
+        var src = "__ROOT__/upload/file/" + data.path;
         
-        $(".upload-img-box{$addons_data['name']}").html('<div class="upload-pre-file">    <div style="cursor:pointer;" class="file_del"  onclick="fileDel{$addons_data.name}(this)" ><img src="__STATIC__/uploadify-cancel.png" /></div>      <span class="upload_icon_all"></span><a target="_blank" href="'+src+'"> ' + src + ' <a></div>');
+        $(".upload-img-box{$addons_data['name']}").html('<div class="upload-pre-file">    <div style="cursor:pointer;" class="file_del"  onclick="fileDel{$addons_data.name}(this)" ><img src="__STATIC__/addon/file/uploadify-cancel.png" /></div>      <span class="upload_icon_all"></span><a target="_blank" href="'+src+'"> ' + src + ' <a></div>');
     }
     
     function fileDel{$addons_data.name}(obj)
