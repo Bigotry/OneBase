@@ -15,9 +15,7 @@ $frontend_theme = config('frontend_theme');
 
 $module         = request()->module();
 
-$static_domain = config('static_domain');
-
-empty($static_domain) ? $static = [] :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
+empty(STATIC_DOMAIN) ? $static = [] :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
 
 $view_path = ROOT_PATH . SYS_APP_NAMESPACE . SYS_DS_PROS . $module. SYS_DS_PROS . LAYER_VIEW_NAME . SYS_DS_PROS . $frontend_theme . SYS_DS_PROS;
 

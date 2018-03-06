@@ -192,11 +192,12 @@ class InitBase
         
         $list_rows                  = config('list_rows');
         $api_key                    = config('api_key');
-        $jwt_key                    = config('jwt_key');
+        $static_domain              = config('static_domain');
 
         define('DB_LIST_ROWS'       , empty($list_rows)                 ? 10        : $list_rows);
         define('API_KEY'            , empty($api_key)                   ? 'OneBase' : $api_key);
         define('JWT_KEY'            , empty($jwt_key)                   ? 'OneBase' : $jwt_key);
+        define('STATIC_DOMAIN'      , empty($static_domain)             ? null      : $static_domain);
     }
     
     /**

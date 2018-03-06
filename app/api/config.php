@@ -11,9 +11,7 @@
 
 //配置文件
 
-$static_domain = config('static_domain');
-
-empty($static_domain) ? $static = [] :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
+empty(STATIC_DOMAIN) ? $static = [] :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
 
 return [
     
