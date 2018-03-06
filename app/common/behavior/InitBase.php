@@ -153,7 +153,7 @@ class InitBase
         define('SYS_DRIVER_DIR_NAME'    , 'driver');
         define('SYS_COMMON_DIR_NAME'    , 'common');
         define('SYS_STATIC_DIR_NAME'    , 'static');
-        define('SYS_VERSION'            , '1.0.0');
+        define('SYS_VERSION'            , '1.3.0');
         define('SYS_ADMINISTRATOR_ID'   , 1);
         define('SYS_DS_PROS'            , '/');
         define('SYS_DS_CONS'            , '\\');
