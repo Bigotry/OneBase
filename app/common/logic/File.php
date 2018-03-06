@@ -139,7 +139,7 @@ class File extends LogicBase
 
         if (!empty($info['path'])) {
             
-            return '/upload/file/'.$info['path'];
+            return URL_ROOT . '/upload/file/'.$info['path'];
         }
 
         return '暂无文件';
@@ -160,9 +160,9 @@ class File extends LogicBase
 
         if (!empty($info['path'])) {
             
-            return '/upload/picture/'.$info['path'];
+            return URL_ROOT . '/upload/picture/'.$info['path'];
         }
 
-        return '/static/admin/img/onimg.png';
+        return URL_ROOT . '/static/admin/img/onimg.png';
     }
 }

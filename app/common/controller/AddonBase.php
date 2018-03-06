@@ -35,13 +35,9 @@ class AddonBase extends ControllerBase
         
         $view_path = PATH_ADDON . $addon_name . DS . LAYER_VIEW_NAME . DS;
         
-        $static_path = SYS_DS_PROS . SYS_STATIC_DIR_NAME . SYS_DS_PROS . SYS_ADDON_DIR_NAME . SYS_DS_PROS . $addon_name;
-        
-        $replace_default['__STATIC__'] = $static_path; 
-        
         $this->view->engine(['view_path' => $view_path]);
         
-        echo $this->view->fetch($template, $vars, array_merge($replace_default, $replace), $config);
+        echo $this->view->fetch($template, $vars, $replace, $config);
     }
     
     /**

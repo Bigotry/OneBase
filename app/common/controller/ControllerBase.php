@@ -56,6 +56,7 @@ class ControllerBase extends Controller
         defined('URL_MODULE')       or define('URL_MODULE',      MODULE_NAME . SYS_DS_PROS . URL);
         defined('URL_TRUE')         or define('URL_TRUE',        $this->request->url(true));
         defined('DOMAIN')           or define('DOMAIN',          $this->request->domain());
+        defined('URL_ROOT')         or define('URL_ROOT',        $this->request->root());
         
         $this->param = $this->request->param();
     }

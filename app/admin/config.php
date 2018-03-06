@@ -9,15 +9,14 @@
 // | Repository | https://gitee.com/Bigotry/OneBase                      |
 // +---------------------------------------------------------------------+
 
-//配置文件
-
 $static_domain = config('static_domain');
 
-empty($static_domain) ? $static['__STATIC__'] = SYS_DS_PROS . SYS_STATIC_DIR_NAME :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
+empty($static_domain) ? $static = [] :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
 
+//配置文件
 return [
     
-    /* 模板常量替换配置 */
+    // 视图输出字符串内容替换
     'view_replace_str' => $static,
     
     /* 存储驱动,若无需使用云存储则为空 */

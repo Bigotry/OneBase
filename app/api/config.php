@@ -11,10 +11,14 @@
 
 //配置文件
 
+$static_domain = config('static_domain');
+
+empty($static_domain) ? $static = [] :  $static['__STATIC__'] = $static_domain . SYS_DS_PROS . SYS_STATIC_DIR_NAME;
+
 return [
     
-    /* 模板常量替换配置 */
-    'view_replace_str' => ['__STATIC__' => '/static'],
+    // 视图输出字符串内容替换
+    'view_replace_str' => $static,
     
     /* 带分页接口附加字段 */
     'page_attach_field' => [
@@ -58,5 +62,4 @@ return [
     
     /* 数据签名时需要过滤的字段 */
     'data_sign_filter_field' => ['page', 'list_rows', 'user_token', 'access_token', 'data_sign']
-    
 ];

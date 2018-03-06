@@ -29,9 +29,5 @@ class IndexBase extends ControllerBase
         parent::__construct();
         
         $this->assign('seo_info', $this->logicSeo->getSeoInfo());
-        
-        $this->assign('api_domain', config('api_domain'));
-        
-        $this->assign('access_token', get_access_token());
     }
 }

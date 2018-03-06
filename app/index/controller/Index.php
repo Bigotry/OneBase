@@ -11,49 +11,43 @@
 
 namespace app\index\controller;
 
+/**
+ * 前端首页控制器
+ */
 class Index extends IndexBase
 {
     
     // 首页
-    public function index()
+    public function index($cid = 0)
     {
         
-        empty(session('cid')) && session('cid', 0);
+        $where = [];
         
-        !empty($this->param['cid']) && session('cid', $this->param['cid']);
+        !empty((int)$cid) && $where['a.category_id'] = $cid;
         
-        $this->assign('cid', session('cid'));
+        $this->assign('article_list', $this->logicArticle->getArticleList($where, 'a.*,m.nickname,c.name as category_name', 'a.create_time desc'));
         
-        // 分类变量
-        $category_info = $this->logicArticle->getArticleCategoryInfo(['id' => session('cid')]);
+        $this->assign('category_list', $this->logicArticle->getArticleCategoryList([], true, 'create_time asc', false));
         
-        $category_name = empty($category_info['name']) ? '所有分类' : $category_info['name'];
-        
-        $this->assign('category_name', '-'.$category_name);
-        
-        //文章变量
-        if (!empty($this->param['id'])) {
-            
-            $article_info = $this->logicArticle->getArticleInfo(['a.id' => $this->param['id']]);
-
-            $this->assign('article_title',      '-'.$article_info['name']);
-            $this->assign('article_describe',   '-'.$article_info['describe']);
-        }
-        
-        return empty($this->param['act']) ? $this->fetch('index') : $this->fetch('details');
+        return $this->fetch('index');
     }
     
-    // 登录
-    public function login()
+    // 详情
+    public function details($id = 0)
     {
         
-        return $this->fetch();
-    }
-    
-    // 修改密码
-    public function changePassword()
-    {
+        $where = [];
         
-        return $this->fetch('change_password');
+        !empty((int)$id) && $where['a.id'] = $id;
+        
+        $data = $this->logicArticle->getArticleInfo($where);
+        
+        $data['content'] = html_entity_decode($data['content']);
+        
+        $this->assign('article_info', $data);
+        
+        $this->assign('category_list', $this->logicArticle->getArticleCategoryList([], true, 'create_time asc', false));
+        
+        return $this->fetch('details');
     }
 }
