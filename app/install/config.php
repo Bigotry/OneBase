@@ -11,3 +11,10 @@
 
 // 安装模块配置文件
 define('INSTALL_APP_PATH', realpath('./') . '/');
+
+$static['__STATIC__'] =   '/static/';
+
+return [
+    /* 模板常量替换配置 */
+    'view_replace_str' => $static,
+];
