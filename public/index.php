@@ -9,11 +9,17 @@
 // | Repository | https://gitee.com/Bigotry/OneBase                      |
 // +---------------------------------------------------------------------+
 
-// 初始化系统
-require  './init.php';
+// PHP版本验证需要大于5.6.0
+if (version_compare(PHP_VERSION, '5.6.0', '<')) {
+    
+    die('OneBase Require PHP > 5.6.0 !');
+}
+
+// 定义应用目录
+define('APP_PATH', __DIR__ . '/../app/');
 
 // 检测是否安装
-file_exists(APP_PATH . 'database.php') ?  define('BIND_MODULE', 'index') : define('BIND_MODULE', 'install');
+file_exists(APP_PATH . 'database.php') ? define('BIND_MODULE', null) : define('BIND_MODULE', 'install');
 
 // 加载框架引导文件
-require FRAMEWORK_START_PATH;
+require __DIR__ . '/../thinkphp/start.php';
