@@ -181,4 +181,29 @@ class AdminBase extends LogicBase
         return $data;
     }
     
+    /**
+     * 数据状态设置
+     */
+    public function setStatus($model = null, $param = null)
+    {
+        
+        if (empty($model) || empty($param)) {
+           
+            return [RESULT_ERROR, '非法操作'];
+        }
+        
+        $status = (int)$param[DATA_STATUS_NAME];
+        
+        $model_str = LAYER_MODEL_NAME . $model;
+        
+        $obj = $this->$model_str;
+        
+        is_array($param['ids']) ? $ids = array_extract((array)$param['ids'], 'value') : $ids[] = (int)$param['ids'];
+        
+        $result = $obj->setFieldValue(['id' => ['in', $ids]], DATA_STATUS_NAME, $status);
+        
+        $result && action_log('数据状态', '数据状态调整' . '，model：' . $model . '，ids：' . arr2str($ids) . '，status：' . $status);
+        
+        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $obj->getError()];
+    }
 }

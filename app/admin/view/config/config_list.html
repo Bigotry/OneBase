@@ -26,11 +26,15 @@
     <table  class="table table-bordered table-hover">
       <thead>
       <tr>
+          <th class="checkbox-select-all">
+              <input type="checkbox">
+          </th>
           <th>名称</th>
           <th>标题</th>
           <th>分组</th>
           <th>类型</th>
           <th>排序</th>
+          <th>状态</th>
           <th>操作</th>
       </tr>
       </thead>
@@ -39,6 +43,7 @@
         <tbody>
             {volist name='list' id='vo'}
                 <tr>
+                  <td><input type="checkbox" name="ids" value="{$vo.id}"></td>
                   <td>{$vo.name}</td>
                   <td>{$vo.title}</td>
                   <td>
@@ -50,6 +55,7 @@
                   </td>
                   <td>{$config_type_list[$vo.type]}</td>
                   <td>{$vo.sort}</td>
+                  <td>{$vo.status_text}</td>
                   <td class="col-md-2 text-center">
                       <ob_link><a href="{:url('configEdit', array('id' => $vo['id']))}" class="btn"><i class="fa fa-edit"></i> 编 辑</a></ob_link>
                       &nbsp;
@@ -62,8 +68,11 @@
         <tbody><tr class="odd"><td colspan="6" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
       {/notempty}
     </table>
+    
+    {include file="layout/batch_btn_group"/}
+      
   </div>
-
+    
   <div class="box-footer clearfix text-center">
       {$list->render()}
   </div>

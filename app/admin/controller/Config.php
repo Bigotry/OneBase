@@ -108,4 +108,13 @@ class Config extends AdminBase
         
         $this->jump($this->logicConfig->configDel(['id' => $id]));
     }
+    
+    /**
+     * 数据状态设置
+     */
+    public function setStatus()
+    {
+        
+        $this->jump($this->logicAdminBase->setStatus('Config', $this->param));
+    }
 }
