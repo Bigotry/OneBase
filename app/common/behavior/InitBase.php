@@ -192,6 +192,7 @@ class InitBase
         
         $list_rows                  = config('list_rows');
         $api_key                    = config('api_key');
+        $jwt_key                    = config('jwt_key');
         $static_domain              = config('static_domain');
 
         define('DB_LIST_ROWS'       , empty($list_rows)                 ? 10        : $list_rows);

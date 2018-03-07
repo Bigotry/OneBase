@@ -23,7 +23,7 @@ class Log extends AdminBase
     public function logList()
     {
         
-        $this->assign('list', $this->logicLog->getLogList([], true, TIME_CT_NAME . ' desc'));
+        $this->assign('list', $this->logicLog->getLogList());
         
         return $this->fetch('log_list');
     }

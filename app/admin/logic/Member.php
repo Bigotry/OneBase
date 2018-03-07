@@ -166,9 +166,7 @@ class Member extends AdminBase
             $add_data[] = ['member_id' => $data['id'], 'group_id' => $group_id];
         }
         
-        $result = $this->modelAuthGroupAccess->setList($add_data);
-        
-        if ($result) {
+        if ($this->modelAuthGroupAccess->setList($add_data)) {
             
             action_log('授权', '会员授权，id：' . $data['id']);
         

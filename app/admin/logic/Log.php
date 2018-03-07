@@ -20,10 +20,18 @@ class Log extends AdminBase
     /**
      * 获取日志列表
      */
-    public function getLogList($where = [], $field = true, $order = '')
+    public function getLogList()
     {
         
-        return $this->modelActionLog->getList($where, $field, $order);
+        $sub_member_ids = $this->logicMember->getSubMemberIds(MEMBER_ID);
+        
+        $where = [];
+        
+        $sub_member_ids[] = MEMBER_ID;
+        
+        !IS_ROOT && $where['member_id'] = ['in', $sub_member_ids];
+        
+        return $this->modelActionLog->getList($where, true, 'create_time desc');
     }
   
     /**

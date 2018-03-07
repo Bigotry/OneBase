@@ -92,6 +92,26 @@ class AdminBase extends LogicBase
     }
     
     /**
+     * 通过完整URL获取检查标准URL
+     */
+    public function getCheckUrl($full_url = '')
+    {
+        
+        $temp_url = sr($full_url, URL_ROOT);
+
+        $url_array_tmp = explode(SYS_DS_PROS, $temp_url); 
+
+        if(strpos($url_array_tmp[3], '.')){
+
+            $action_arr = explode('.', $url_array_tmp[3]); 
+
+            $url_array_tmp[3] = $action_arr[0];
+        }
+
+        return $url_array_tmp[1] . SYS_DS_PROS . $url_array_tmp[2] . SYS_DS_PROS . $url_array_tmp[3];
+    }
+    
+    /**
      * 过滤页面内容
      */
     public function filter($content = '', $url_list = [])
@@ -104,32 +124,29 @@ class AdminBase extends LogicBase
         foreach ($results[0] as $a)
         {
             
-            $href_results = []; 
+            $match_results = []; 
             
-            preg_match_all('/href=\"([^(\}>)]+)\"/', $a, $href_results);
+            preg_match_all('/href="(.+?)"|url="(.+?)"/', $a, $match_results);
             
-            empty($href_results[0]) && empty($href_results[1]) && preg_match_all('/url=\"([^(\}>)]+)\"/', $a, $href_results);
+            $full_url = '';
             
-            $url_array_tmp = explode(SYS_DS_PROS, $href_results[1][0]); 
-            
-            foreach ($url_array_tmp as $k => $u)
-            {
-                if (strpos($u, EXT) != false) {
-                    
-                    unset($url_array_tmp[$k]);
-                    break;
-                }
+            if (empty($match_results[1][0]) && empty($match_results[2][0])) {
+                
+                continue;
+            } elseif (!empty($match_results[1][0])) {
+                
+                $full_url = $match_results[1][0];
+            } else {
+                
+                $full_url = $match_results[2][0];
             }
             
-            $url_array = array_values($url_array_tmp);
-            
-            $url_array_html = strpos($url_array[1], EXT) === false ? explode('.', $url_array[2]) : explode('.', $url_array[1]);
-            
-            $check_url = MODULE_NAME . SYS_DS_PROS . $url_array[1] . SYS_DS_PROS . $url_array_html[0];
-            
-            $result = $this->authCheck($check_url, $url_list);
-            
-            $result[0] != RESULT_SUCCESS && $content = sr($content, $a);
+            if (!empty($full_url)) {
+               
+                $result = $this->authCheck($this->getCheckUrl($full_url), $url_list);
+
+                $result[0] != RESULT_SUCCESS && $content = sr($content, $a);
+            }
         }
         
         return $content;
