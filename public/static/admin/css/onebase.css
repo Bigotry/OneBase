@@ -148,3 +148,7 @@
     right: 10px;
     border-radius: 2px;
 }
+
+.checkbox-select-all{
+    width: 30px;
+}

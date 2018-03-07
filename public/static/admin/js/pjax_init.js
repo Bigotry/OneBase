@@ -112,6 +112,44 @@ $(document).on('pjax:complete', function() {
         return false;
     });
     
+    //全选|全不选
+    $(".checkbox-select-all").click(function(){
+        
+        var select_status = $(this).find("input").is(":checked");
+
+        var table_input = $(".table").find("input");
+
+        if (select_status) {
+            
+            table_input.prop("checked", true);
+            
+        } else {
+            table_input.prop("checked", false);
+        }
+
+    });
+    
+    //批量处理
+    $('.batch_btn').click(function(){
+        
+            var $checked = $('.table input[type="checkbox"]:checked');
+            
+            if($checked.length != 0){
+                    if(confirm('您确认批量操作吗？')){
+                        
+                        $.post($(this).attr("href"),{ids:$checked.serializeArray(), status:$(this).attr("value")}, function(data){
+
+                            obalertp(data);
+
+                        },"json");
+                    }
+            } else {
+                
+                toast.warning('请选择批量操作数据');
+            }
+            return false;
+    });
+    
     //搜索功能
     $("#search").click(function(){
         
