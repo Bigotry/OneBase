@@ -25,7 +25,7 @@ class Menu extends AdminBase
         
         $where = empty($this->param['pid']) ? ['pid' => 0] : ['pid' => $this->param['pid']];
         
-        $this->assign('list', $this->logicMenu->getMenuList($where, true, 'sort desc,id asc', DB_LIST_ROWS));
+        $this->assign('list', $this->logicMenu->getMenuList($where, true, 'sort', DB_LIST_ROWS));
         
         $this->assign('pid', $where['pid']);
         
@@ -80,11 +80,20 @@ class Menu extends AdminBase
     }
     
     /**
-     * 菜单删除
+     * 数据状态设置
      */
-    public function menuDel($id = 0)
+    public function setStatus()
     {
         
-        $this->jump($this->logicMenu->menuDel(['id' => $id]));
+        $this->jump($this->logicAdminBase->setStatus('Menu', $this->param));
+    }
+    
+    /**
+     * 排序
+     */
+    public function setSort()
+    {
+        
+        $this->jump($this->logicAdminBase->setSort('Menu', $this->param));
     }
 }

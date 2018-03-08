@@ -29,7 +29,7 @@ class ModelBase extends Model
     public function getStatusTextAttr()
     {
         
-        $status = [DATA_DELETE => '删除', DATA_DISABLE => "<span class='c-red'>禁用<span>", DATA_NORMAL => "<span class='c-green'>启用<span>"];
+        $status = [DATA_DELETE => '删除', DATA_DISABLE => "<span class='badge bg-red'>禁用</span>", DATA_NORMAL => "<span class='badge bg-green'>启用</span>"];
         
         return $status[$this->data[DATA_STATUS_NAME]];
     }

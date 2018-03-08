@@ -25,7 +25,7 @@ class Index extends ControllerBase
     public function index()
     {
         
-        $list = $this->logicDocument->getApiList();
+        $list = $this->logicDocument->getApiList([], true, 'sort');
         
         $code_list = $this->logicDocument->apiErrorCodeData();
         
@@ -46,7 +46,7 @@ class Index extends ControllerBase
     public function details($id = 0)
     {
 
-        $list = $this->logicDocument->getApiList();
+        $list = $this->logicDocument->getApiList([], true, 'sort');
         
         $info = $this->logicDocument->getApiInfo(['id' => $id]);
         

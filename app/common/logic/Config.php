@@ -27,6 +27,35 @@ class Config extends LogicBase
     }
     
     /**
+     * 获取配置列表过滤
+     */
+    public function getConfigListFilter($param = [])
+    {
+        
+        $where = [];
+        
+        $group = empty($param['group']) ? DATA_DISABLE : (int)$param['group'];
+        
+        !empty($group) && $where['group'] = $group;
+        
+        !empty($param['search_data']) && $where['name|title'] = ['like', '%'.(string)$param['search_data'].'%'];
+        
+        $sort = 'sort asc, create_time desc';
+        
+        if (!empty($param['order_field'])) {
+            
+            
+            $sort = empty($param['order_val']) ? $param['order_field'] . ' asc' : $param['order_field'] . ' desc';
+        }
+        
+        $data['list'] = $this->getConfigList($where, true, $sort);
+        
+        $data['group'] = $group;
+        
+        return $data;
+    }
+    
+    /**
      * 获取配置信息
      */
     public function getConfigInfo($where = [], $field = true)

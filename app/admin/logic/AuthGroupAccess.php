@@ -23,7 +23,7 @@ class AuthGroupAccess extends AdminBase
     public function getAuthMenuList($member_id = 0)
     {
         
-        $sort = 'sort desc,id asc';
+        $sort = 'sort';
         
         if (IS_ROOT) {
             

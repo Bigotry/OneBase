@@ -113,19 +113,6 @@ class Api extends LogicBase
     }
     
     /**
-     * API删除
-     */
-    public function apiDel($where = [])
-    {
-        
-        $result = $this->modelApi->deleteInfo($where);
-        
-        $result && action_log('删除', 'API删除' . '，where：' . http_build_query($where));
-        
-        return $result ? [RESULT_SUCCESS, '删除成功'] : [RESULT_ERROR, $this->modelApi->getError()];
-    }
-    
-    /**
      * API分组删除
      */
     public function apiGroupDel($where = [])

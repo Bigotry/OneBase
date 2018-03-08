@@ -107,20 +107,20 @@ class Article extends AdminBase
     }
     
     /**
-     * 文章删除
-     */
-    public function articleDel($id = 0)
-    {
-        
-        $this->jump($this->logicArticle->articleDel(['id' => $id]));
-    }
-    
-    /**
      * 文章分类删除
      */
     public function articleCategoryDel($id = 0)
     {
         
         $this->jump($this->logicArticle->articleCategoryDel(['id' => $id]));
+    }
+    
+    /**
+     * 数据状态设置
+     */
+    public function setStatus()
+    {
+        
+        $this->jump($this->logicAdminBase->setStatus('Article', $this->param));
     }
 }

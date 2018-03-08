@@ -23,7 +23,11 @@ class Api extends AdminBase
     public function apiList()
     {
         
-        $this->assign('list', $this->logicApi->getApiList([], true, 'sort desc, id desc'));
+        $where = [];
+        
+        !empty($this->param['search_data']) && $where['name'] = ['like', '%'.(string)$this->param['search_data'].'%'];
+        
+        $this->assign('list', $this->logicApi->getApiList($where, true, 'sort'));
         
         return $this->fetch('api_list');
     }
@@ -87,15 +91,6 @@ class Api extends AdminBase
     }
     
     /**
-     * API删除
-     */
-    public function apiDel($id = 0)
-    {
-        
-        $this->jump($this->logicApi->apiDel(['id' => $id]));
-    }
-    
-    /**
      * API分组列表
      */
     public function apiGroupList()
@@ -139,5 +134,23 @@ class Api extends AdminBase
     {
         
         $this->jump($this->logicApi->apiGroupDel(['id' => $id]));
+    }
+    
+    /**
+     * 数据状态设置
+     */
+    public function setStatus()
+    {
+        
+        $this->jump($this->logicAdminBase->setStatus('Api', $this->param));
+    }
+    
+    /**
+     * 排序
+     */
+    public function setSort()
+    {
+        
+        $this->jump($this->logicAdminBase->setSort('Api', $this->param));
     }
 }

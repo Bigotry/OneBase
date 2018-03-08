@@ -42,13 +42,13 @@ class Config extends AdminBase
     public function configList()
     {
         
-        $where = empty($this->param['group']) ? [] : ['group' => $this->param['group']];
-        
         $this->getConfigCommonData();
         
-        $this->assign('list', $this->logicConfig->getConfigList($where, true, 'sort asc, create_time desc'));
+        $data = $this->logicConfig->getConfigListFilter($this->param);
         
-        $this->assign('group', $where ? $this->param['group'] : 0);
+        $this->assign('list', $data['list']);
+        
+        $this->assign('group', $data['group']);
         
         return $this->fetch('config_list');
     }

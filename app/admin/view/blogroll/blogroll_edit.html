@@ -12,14 +12,10 @@
             
           <div class="col-md-6">
             <div class="form-group">
-                <label>友情链接图片</label>
-                <span class="">（请上传单张图片）</span>
-                <br/>
-                {assign name="img_id" value="$info.img_id|default='0'" /}
-                {:hook('File', ['name' => 'img_id', 'value' => $img_id, 'type' => 'img'])}
+              <label>排序</label>
+              <input class="form-control" name="sort" placeholder="请输入排序值" value="{$info['sort']|default='0'}" type="text">
             </div>
-          </div>
-            
+          </div> 
             
           <div class="col-md-6">
             <div class="form-group">
@@ -38,10 +34,14 @@
             </div>
           </div>
             
+            
           <div class="col-md-6">
             <div class="form-group">
-              <label>排序</label>
-              <input class="form-control" name="sort" placeholder="请输入排序值" value="{$info['sort']|default='0'}" type="text">
+                <label>友情链接图片</label>
+                <span class="">（请上传单张图片）</span>
+                <br/>
+                {assign name="img_id" value="$info.img_id|default='0'" /}
+                {:hook('File', ['name' => 'img_id', 'value' => $img_id, 'type' => 'img'])}
             </div>
           </div>
             
