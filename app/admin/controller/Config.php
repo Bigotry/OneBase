@@ -46,7 +46,7 @@ class Config extends AdminBase
         
         $this->getConfigCommonData();
         
-        $this->assign('list', $this->logicConfig->getConfigList($where));
+        $this->assign('list', $this->logicConfig->getConfigList($where, true, 'sort asc, create_time desc'));
         
         $this->assign('group', $where ? $this->param['group'] : 0);
         
@@ -101,20 +101,20 @@ class Config extends AdminBase
     }
     
     /**
-     * 配置删除
-     */
-    public function configDel($id = 0)
-    {
-        
-        $this->jump($this->logicConfig->configDel(['id' => $id]));
-    }
-    
-    /**
      * 数据状态设置
      */
     public function setStatus()
     {
         
         $this->jump($this->logicAdminBase->setStatus('Config', $this->param));
+    }
+    
+    /**
+     * 排序
+     */
+    public function setSort()
+    {
+        
+        $this->jump($this->logicAdminBase->setSort('Config', $this->param));
     }
 }

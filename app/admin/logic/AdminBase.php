@@ -206,4 +206,21 @@ class AdminBase extends LogicBase
         
         return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $obj->getError()];
     }
+    
+    /**
+     * 数据排序设置
+     */
+    public function setSort($model = null, $param = null)
+    {
+        
+        $model_str = LAYER_MODEL_NAME . $model;
+        
+        $obj = $this->$model_str;
+        
+        $result = $obj->setFieldValue(['id' => (int)$param['id']], 'sort', (int)$param['value']);
+        
+        $result && action_log('数据排序', '数据排序调整' . '，model：' . $model . '，id：' . $param['id'] . '，value：' . $param['value']);
+        
+        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $obj->getError()];
+    }
 }
