@@ -13,11 +13,16 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: #000;
   opacity: 0.6;
   position: absolute;
   top: 0;
   left: 0;
+  
+  filter:alpha(opacity=50);  
+     -moz-opacity:0.5;  
+     -khtml-opacity: 0.5;  
+     opacity: 0.5; 
   
   -webkit-animation: bounce 2.0s infinite ease-in-out;
   animation: bounce 2.0s infinite ease-in-out;
@@ -53,8 +58,13 @@
 .container1 > div, .container2 > div, .container3 > div {
   width: 6px;
   height: 6px;
-  background-color: #fff;
+  background-color: #333;
 
+  filter:alpha(opacity=50);  
+     -moz-opacity:0.5;  
+     -khtml-opacity: 0.5;  
+     opacity: 0.5; 
+  
   border-radius: 100%;
   position: absolute;
   -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
@@ -169,8 +179,13 @@
   display: inline-block;
   position: absolute;
   top: 0;
-  background-color: #fff;
+  background-color: #000;
   border-radius: 100%;
+  
+  filter:alpha(opacity=50);  
+     -moz-opacity:0.5;  
+     -khtml-opacity: 0.5;  
+     opacity: 0.5; 
   
   -webkit-animation: bounce 2.0s infinite ease-in-out;
   animation: bounce 2.0s infinite ease-in-out;
@@ -204,7 +219,11 @@
 .spinner4 {
   width: 30px;
   height: 30px;
-  background-color: #fff;
+  background-color: #000;
+  filter:alpha(opacity=50);  
+     -moz-opacity:0.5;  
+     -khtml-opacity: 0.5;  
+     opacity: 0.5; 
   -webkit-animation: rotateplane 1.2s infinite ease-in-out;
   animation: rotateplane 1.2s infinite ease-in-out;
 }
@@ -235,12 +254,17 @@
 }
 
 .cube1, .cube2 {
-  background-color: #fff;
+  background-color: #000;
   width: 10px;
   height: 10px;
   position: absolute;
   top: 0;
   left: 0;
+  
+  filter:alpha(opacity=50);  
+     -moz-opacity:0.5;  
+     -khtml-opacity: 0.5;  
+     opacity: 0.5; 
   
   -webkit-animation: cubemove 1.8s infinite ease-in-out;
   animation: cubemove 1.8s infinite ease-in-out;
@@ -284,11 +308,16 @@
 }
 
 .spinner6 > div {
-  background-color: #fff;
+  background-color: #000;
   height: 100%;
   width: 6px;
   margin-left:2px;
   display: inline-block;
+  
+  filter:alpha(opacity=50);  
+     -moz-opacity:0.5;  
+     -khtml-opacity: 0.5;  
+     opacity: 0.5; 
   
   -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
   animation: stretchdelay 1.2s infinite ease-in-out;
@@ -335,12 +364,17 @@
     }
 
     .spinner7 > div {
-      background-color: #fff;
+      background-color: #000;
       height: 15px;
       width: 15px;
       margin-left:3px;
       border-radius: 50%;
       display: inline-block;
+      
+      filter:alpha(opacity=50);  
+        -moz-opacity:0.5;  
+        -khtml-opacity: 0.5;  
+        opacity: 0.5; 
       
       -webkit-animation: stretchdelay 0.7s infinite ease-in-out;
       animation: stretchdelay 0.7s infinite ease-in-out;

@@ -47,6 +47,25 @@
             }
     });
     
+    //排序
+    $(".sort-text").change(function(){
+        
+        var val = $(this).val();
+
+        if(!((/^(\+|-)?\d+$/.test(val)) && val >= 0)){
+            
+            toast.warning('请输入正整数');
+            return false;
+        }
+
+        $.post($(this).attr("href"),{id:$(this).attr('id'), value:val}, function(data){
+
+            obalert(data);
+
+            },"json");
+
+    });
+    
     //全选|全不选
     $(".checkbox-select-all").click(function(){
         
