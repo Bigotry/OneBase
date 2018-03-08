@@ -1,5 +1,35 @@
   $(function () {
 
+    var $checkboxAll = $(".js-checkbox-all"),
+        $checkbox = $("tbody").find("[type='checkbox']").not("[disabled]"),
+        length = $checkbox.length,
+        i=0;
+
+        //启动icheck
+        $((".table [type='checkbox']")).iCheck({
+          checkboxClass: 'icheckbox_flat-grey',
+        });
+        
+        //全选checkbox
+        $checkboxAll.on("ifClicked",function(event){
+          if(event.target.checked){
+            $checkbox.iCheck('uncheck');
+            i=0;
+          }else{
+            $checkbox.iCheck('check');
+            i=length;
+          }
+        });
+
+        $checkbox.on('ifClicked',function(event){
+          event.target.checked ? i-- : i++;
+          if(i==length){
+            $checkboxAll.iCheck('check');
+          }else{
+            $checkboxAll.iCheck('uncheck');
+          }
+        });
+
     //刷新验证码
     $(".captcha_change").click(function(){
 
@@ -133,7 +163,16 @@
         
         if ( (target = $(this).attr('href')) || (target = $(this).attr('url')) ) {
             
-            $.get(target).success(function(data){  obalert(data);  });
+            if ($(this).attr('is-jump') == 'true') {
+                
+                location.href = target;
+                
+            } else {
+                $.get(target).success(function(data){
+                    
+                    obalert(data);
+                });
+            }
         }
         
         return false;

@@ -12,6 +12,38 @@ $(document).on('pjax:complete', function() {
 
     $('.fakeloader').hide();
 
+
+    var $checkboxAll = $(".js-checkbox-all"),
+        $checkbox = $("tbody").find("[type='checkbox']").not("[disabled]"),
+        length = $checkbox.length,
+        i=0;
+
+        //启动icheck
+        $((".table [type='checkbox']")).iCheck({
+          checkboxClass: 'icheckbox_flat-grey',
+        });
+        
+        //全选checkbox
+        $checkboxAll.on("ifClicked",function(event){
+          if(event.target.checked){
+            $checkbox.iCheck('uncheck');
+            i=0;
+          }else{
+            $checkbox.iCheck('check');
+            i=length;
+          }
+        });
+
+        $checkbox.on('ifClicked',function(event){
+          event.target.checked ? i-- : i++;
+          if(i==length){
+            $checkboxAll.iCheck('check');
+          }else{
+            $checkboxAll.iCheck('uncheck');
+          }
+        });
+
+
     /**
      * PJAX模式重写get请求提交处理
      */
@@ -29,7 +61,16 @@ $(document).on('pjax:complete', function() {
 
         if ( (target = $(this).attr('href')) || (target = $(this).attr('url')) ) {
 
-            $.get(target).success(function(data){  obalertp(data);  });
+            if ($(this).attr('is-jump') == 'true') {
+                
+                $.pjax({url: target,container: '.content'});
+                
+            } else {
+                $.get(target).success(function(data){
+                    
+                    obalertp(data);
+                });
+            }
         }
 
         return false;
