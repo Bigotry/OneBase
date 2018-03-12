@@ -12,6 +12,7 @@
 namespace app\common\controller;
 
 use think\Controller;
+use think\Hook;
 
 /**
  * 系统通用控制器基类
@@ -36,6 +37,9 @@ class ControllerBase extends Controller
         
         // 初始化响应类型
         $this->initResponseType();
+        
+        // 通用控制器钩子
+        Hook::listen('hook_controller_common_base', $this->request);
     }
     
     /**

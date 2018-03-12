@@ -12,6 +12,7 @@
 namespace app\index\controller;
 
 use app\common\controller\ControllerBase;
+use think\Hook;
 
 /**
  * 前端模块基类控制器
@@ -27,6 +28,9 @@ class IndexBase extends ControllerBase
         
         // 执行父类构造方法
         parent::__construct();
+        
+        // Index模块控制器钩子
+        Hook::listen('hook_controller_index_base', $this->request);
         
         $this->assign('seo_info', $this->logicSeo->getSeoInfo());
     }

@@ -12,6 +12,7 @@
 namespace app\api\controller;
 
 use app\common\controller\ControllerBase;
+use think\Hook;
 
 /**
  * 接口基类控制器
@@ -28,6 +29,9 @@ class ApiBase extends ControllerBase
         parent::__construct();
         
         $this->logicApiBase->checkParam($this->param);
+        
+        // 接口控制器钩子
+        Hook::listen('hook_controller_api_base', $this->request);
         
         debug('api_begin');
     }

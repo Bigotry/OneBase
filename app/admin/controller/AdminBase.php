@@ -12,6 +12,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\ControllerBase;
+use think\Hook;
 
 /**
  * 后台基类控制器
@@ -51,6 +52,9 @@ class AdminBase extends ControllerBase
         
         // 初始化后台模块信息
         $this->initAdminInfo();
+        
+        // 后台控制器钩子
+        Hook::listen('hook_controller_admin_base', $this->request);
     }
     
     /**
