@@ -11,7 +11,7 @@
 {block name="body"}
 
     <h1>数据库信息</h1>
-    <form action="{:url()}" method="post" target="_self">
+    <form action="{:url('step2')}" method="post" target="_self">
         <div class="create-database">
             <div>
                 <select name="db[]">
@@ -70,6 +70,6 @@
 {/block}
 
 {block name="footer"}
-    <a class="btn btn-success btn-large" href="{:url('Install/step1')}">上一步</a>
+    <a class="btn btn-success btn-large" href="{:url('step1')}">上一步</a>
     <button id="submit" type="button" class="btn btn-primary btn-large" onclick="$('form').submit();return false;">下一步</button>
 {/block}

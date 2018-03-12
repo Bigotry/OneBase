@@ -26,7 +26,6 @@ function check_env()
     //PHP环境检测
     if ($items['php'][3] < $items['php'][1]) {
         $items['php'][4] = 'error';
-        session('error', true);
     }
 
     //附件上传检测
@@ -39,7 +38,6 @@ function check_env()
     if (empty($tmp['GD Version'])) {
         $items['gd'][3] = '未安装';
         $items['gd'][4] = 'error';
-        session('error', true);
     } else {
         $items['gd'][3] = $tmp['GD Version'];
     }
@@ -76,11 +74,9 @@ function check_dirfile()
                 if (is_dir($item)) {
                     $val[1] = '可读';
                     $val[2] = 'error';
-                    session('error', true);
                 } else {
                     $val[1] = '不存在';
                     $val[2] = 'error';
-                    session('error', true);
                 }
             }
         } else {
@@ -88,13 +84,11 @@ function check_dirfile()
                 if (!is_writable($item)) {
                     $val[1] = '不可写';
                     $val[2] = 'error';
-                    session('error', true);
                 }
             } else {
                 if (!is_writable(dirname($item))) {
                     $val[1] = '不存在';
                     $val[2] = 'error';
-                    session('error', true);
                 }
             }
         }
@@ -122,7 +116,6 @@ function check_func()
             !extension_loaded($val[0])) || ('函数'==$val[3] && !function_exists($val[0]))) {
             $val[1] = '不支持';
             $val[2] = 'error';
-            session('error', true);
         }
     }
 
@@ -136,6 +129,9 @@ function check_func()
  */
 function create_tables($db_object, $prefix = '')
 {
+    
+    $result = true;
+    
     //读取SQL文件
     $sql = file_get_contents('../app/install/data/install.sql');
     $sql = str_replace("\r", "\n", $sql);
@@ -151,20 +147,15 @@ function create_tables($db_object, $prefix = '')
 
         $value = trim($value);
 
-        if (empty($value)) {
-            continue;
+        if (empty($value)) {  continue; }
+        
+        if (false === $db_object->execute($value)) {
+
+            $result = false;
         }
-        if (substr($value, 0, 12) == 'CREATE TABLE') {
-
-            if (!(false !== $db_object->execute($value))) {
-                session('error', true);
-            }
-
-        } else {
-            $db_object->execute($value);
-        }
-
     }
+    
+    return $result;
 }
 
 
@@ -195,7 +186,7 @@ function register_administrator($db_object, $prefix, $admin, $auth)
         $sql);
 
     //执行sql
-    $db_object->execute($sql);
+    return $db_object->execute($sql);
 }
 
 
@@ -209,29 +200,26 @@ function user_md5($str, $key = '')
    return '' === $str ? '' : md5(sha1($str) . $key);
 }
 
-
-
 /**
  * 写入配置文件
  * @param  array $config 配置信息
  */
 function write_config($config, $auth)
 {
-    if (is_array($config)) {
 
-        //读取配置内容
-        $conf = file_get_contents('../app/install/data/database.tpl');
+    //读取配置内容
+    $conf = file_get_contents('../app/install/data/database.tpl');
 
-        //替换配置项
-        foreach ($config as $name => $value) {
-            $conf = str_replace("[{$name}]", $value, $conf);
-        }
+    //替换配置项
+    foreach ($config as $name => $value) {
 
-        if (!file_put_contents('../app/database.php', str_replace('[sys_data_key]', $auth, $conf))) {
-            
-            session('error', true);
-        }
-        
-        return '';
+        $conf = str_replace("[{$name}]", $value, $conf);
     }
+
+    if (file_put_contents('../app/database.php', str_replace('[sys_data_key]', $auth, $conf))) {
+
+        return true;
+    }
+
+    return false;
 }
