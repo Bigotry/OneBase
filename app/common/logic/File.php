@@ -163,6 +163,6 @@ class File extends LogicBase
             return URL_ROOT . '/upload/picture/'.$info['path'];
         }
 
-        return URL_ROOT . '/static/admin/img/onimg.png';
+        return URL_ROOT . '/static/module/admin/img/onimg.png';
     }
 }
