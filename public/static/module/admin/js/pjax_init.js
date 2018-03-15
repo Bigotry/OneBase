@@ -12,6 +12,12 @@ $(document).on('pjax:complete', function() {
 
     $('.fakeloader').hide();
 
+    var ob_title_hidden = $("#ob_title_hidden").val();
+
+    if (ob_title_hidden != null && ob_title_hidden != '') {
+        
+         document.title =  'OneBase | ' + ob_title_hidden;
+    }
 
     var $checkboxAll = $(".js-checkbox-all"),
         $checkbox = $("tbody").find("[type='checkbox']").not("[disabled]"),

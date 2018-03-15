@@ -151,7 +151,7 @@ class AdminBase extends ControllerBase
         
         $describe_html   = empty($describe)    ? '' : '<small>' . $describe . '</small>';
         
-        return "<section class='content-header'><h1>$title $describe_html</h1>$this->crumbsView</section>";
+        return "<section class='content-header'><input type='hidden' name='ob_title_hidden' id='ob_title_hidden' value='".$title."'/><h1>$title $describe_html</h1>$this->crumbsView</section>";
     }
     
     /**
