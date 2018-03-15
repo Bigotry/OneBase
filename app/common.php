@@ -629,7 +629,19 @@ function get_dir($dir_name)
 function get_picture_url($id = 0)
 {
     
-    return action(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'FileBase' . SYS_DS_PROS . 'getPictureUrl', ['id' => $id]);
+    $info = Db::name('picture')->where(['id' => $id])->field('path,url')->find();
+
+    if (!empty($info['url'])) {
+
+        return config('static_domain') . SYS_DS_PROS . $info['url'];
+    }
+
+    if (!empty($info['path'])) {
+
+        return URL_ROOT . '/upload/picture/'.$info['path'];
+    }
+
+    return URL_ROOT . '/static/module/admin/img/onimg.png';
 }
 
 /**
@@ -638,7 +650,19 @@ function get_picture_url($id = 0)
 function get_file_url($id = 0)
 {
     
-    return action(SYS_COMMON_DIR_NAME . SYS_DS_PROS . 'FileBase' . SYS_DS_PROS . 'getFileUrl', ['id' => $id]);
+    $info = Db::name('file')->where(['id' => $id])->field('path,url')->find();
+
+    if (!empty($info['url'])) {
+
+        return config('static_domain') . SYS_DS_PROS . $info['url'];
+    }
+
+    if (!empty($info['path'])) {
+
+        return URL_ROOT . '/upload/file/'.$info['path'];
+    }
+
+    return '暂无文件';
 }
 
 /**
