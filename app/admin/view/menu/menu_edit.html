@@ -55,7 +55,7 @@
               <label>图标</label>
               <span>（菜单小图标，为空则显示系统默认图标）</span>
                     {assign name="icon" value="$info.icon|default=''" /}
-                    {:hook('Icon', array('name' => 'icon', 'value' => $icon))}
+                    {:widget('icon/index', ['name' => 'icon', 'value' => $icon])}
             </div>
           </div>
         </div>

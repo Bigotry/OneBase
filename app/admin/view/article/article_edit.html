@@ -30,15 +30,13 @@
             </div>
           </div>
             
-            
-            
           <div class="col-md-6">
             <div class="form-group">
                 <label>封面图片</label>
                 <span class="">（请上传单张封面图片）</span>
                 <br/>
                 {assign name="cover_id" value="$info.cover_id|default='0'" /}
-                {:hook('File', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}
+                {:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}
             </div>
           </div>
             
@@ -49,8 +47,8 @@
                 <br/>
                 
                 {assign name="img_ids" value="$info.img_ids|default=''" /}
+                {:widget('file/index', ['name' => 'img_ids', 'value' => $img_ids, 'type' => 'imgs'])}
                 
-                {:hook('File', ['name' => 'img_ids', 'value' => $img_ids, 'type' => 'imgs'])}
             </div>
           </div>
             
@@ -61,7 +59,7 @@
                 <span class="">（文章可下载附件）</span>
                 <br/>
                 {assign name="file_id" value="$info.file_id|default='0'" /}
-                {:hook('File', ['name' => 'file_id', 'value' => $file_id, 'type' => 'file'])}
+                {:widget('file/index', ['name' => 'file_id', 'value' => $file_id, 'type' => 'file'])}
             </div>
           </div>
             
@@ -73,7 +71,7 @@
             <div class="form-group">
                 <label>文章内容</label>
                 <textarea class="form-control textarea_editor" name="content" placeholder="请输入文章内容">{$info['content']|default=''}</textarea>
-                {:hook('ArticleEditor', array('name'=> 'content','value'=> ''))}
+                {:widget('editor/index', array('name'=> 'content','value'=> ''))}
             </div>
           </div>
             

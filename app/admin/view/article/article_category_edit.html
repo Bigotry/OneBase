@@ -15,7 +15,7 @@
               <label>图标</label>
               <span>（文章分类图标）</span>
                 {assign name="icon" value="$info.icon|default=''" /}
-                {:hook('Icon', array('name' => 'icon', 'value' => $icon))}
+                {:widget('icon/index', ['name' => 'icon', 'value' => $icon])}
             </div>
           </div>
             
