@@ -41,7 +41,7 @@
                 <span class="">（请上传单张图片）</span>
                 <br/>
                 {assign name="img_id" value="$info.img_id|default='0'" /}
-                {:hook('File', ['name' => 'img_id', 'value' => $img_id, 'type' => 'img'])}
+                {:widget('file/index', ['name' => 'img_id', 'value' => $img_id, 'type' => 'img'])}
             </div>
           </div>
             

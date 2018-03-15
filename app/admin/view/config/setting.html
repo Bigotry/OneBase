@@ -88,7 +88,7 @@ case value
                                             
                                             {assign name="case_img_var" value="$vo.value|default='0'" /}
 
-                                            {:hook('File', ['name' => $vo['name'], 'value' => $case_img_var, 'type' => 'img'])}
+                                            {:widget('file/index', ['name' => $vo['name'], 'value' => $case_img_var, 'type' => 'img'])}
                                             
                                             {notempty name="case_img_var"}
                                                 <div class="upload-pre-item">
@@ -104,7 +104,7 @@ case value
                                             
                                             {assign name="case_file_var" value="$vo.value|default='0'" /}
 
-                                            {:hook('File', ['name' => $vo['name'], 'value' => $case_file_var, 'type' => 'file'])}
+                                            {:widget('file/index', ['name' => $vo['name'], 'value' => $case_file_var, 'type' => 'file'])}
                                             
                                             {notempty name="case_file_var"}
                                                 <div class="upload-pre-file">
@@ -121,7 +121,7 @@ case value
                                             
                                             <textarea class="form-control textarea_editor" name="{$vo.name}" placeholder="请输入富文本内容">{$vo.value|default=''|html_entity_decode}</textarea>
                                             
-                                            {:hook('ArticleEditor', array('name'=> $vo.name,'value'=> ''))}
+                                            {:widget('editor/index', array('name'=> $vo.name,'value'=> ''))}
                                             
                                         {/case}
                                         
