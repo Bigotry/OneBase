@@ -11,12 +11,10 @@
 
 namespace app\admin\controller;
 
-use app\common\controller\FileBase;
-
 /**
  * 文件控制器
  */
-class File extends FileBase
+class File extends AdminBase
 {
     
     /**
