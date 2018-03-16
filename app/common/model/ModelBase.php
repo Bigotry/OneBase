@@ -46,7 +46,7 @@ class ModelBase extends Model
         
         if (empty($data[$pk])) {
             
-            $return_data = $this->allowField(true)->save($data, $where, $sequence);
+            $return_data = $this->save($data, $where, $sequence);
             
         } else {
             
@@ -83,7 +83,7 @@ class ModelBase extends Model
         
         $data[TIME_UT_NAME] = TIME_NOW;
         
-        $return_data = $this->allowField(true)->where($where)->update($data);
+        $return_data = $this->where($where)->update($data);
         
         return $return_data;
     }
