@@ -46,7 +46,7 @@ class ModelBase extends Model
         
         if (empty($data[$pk])) {
             
-            $return_data = $this->save($data, $where, $sequence);
+            $return_data = $this->allowField(true)->save($data, $where, $sequence);
             
         } else {
             
