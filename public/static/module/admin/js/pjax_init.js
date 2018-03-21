@@ -239,8 +239,24 @@ $(document).on('pjax:complete', function() {
  */
 var obalertp = function (data) {
 
-    data.code ? toast.success(data.msg) : toast.error(data.msg);
-
+    if (data.code) {
+        
+        toast.success(data.msg);
+    } else {
+        
+        if(typeof data.msg == "string"){
+            
+             toast.error(data.msg);
+        }else{
+            
+            var err_msg = '';
+            
+            for(var item in data.msg){ err_msg += "Θ " + data.msg[item] + "<br/>"; }
+            
+            toast.error(err_msg);
+        }
+    }
+    
     data.url && $.pjax({url: data.url,container: '.content'});
 };
 
