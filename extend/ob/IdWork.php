@@ -28,13 +28,14 @@ class IdWork
     function __construct($workId=0, $datacenterId=0){
         //机器ID范围判断
         $maxWorkerId = -1 ^ (-1 << self::workerIdBits);
+        
         if($workId > $maxWorkerId || $workId< 0){
-            throw new Exception("workerId can't be greater than ".$this->maxWorkerId." or less than 0");
+            throw new \Exception("workerId can't be greater than ".$this->maxWorkerId." or less than 0");
         }
         //数据中心ID范围判断
         $maxDatacenterId = -1 ^ (-1 << self::datacenterIdBits);
         if ($datacenterId > $maxDatacenterId || $datacenterId < 0) {
-            throw new Exception("datacenter Id can't be greater than ".$maxDatacenterId." or less than 0");
+            throw new \Exception("datacenter Id can't be greater than ".$maxDatacenterId." or less than 0");
         }
         //赋值
         $this->workId = $workId;
@@ -46,7 +47,7 @@ class IdWork
         $lastTimestamp = self::$lastTimestamp;
         //判断时钟是否正常
         if ($timestamp < $lastTimestamp) {
-            throw new Exception("Clock moved backwards.  Refusing to generate id for %d milliseconds", ($lastTimestamp - $timestamp));
+            throw new \Exception("Clock moved backwards.  Refusing to generate id for %d milliseconds", ($lastTimestamp - $timestamp));
         }
         //生成唯一序列
         if ($lastTimestamp == $timestamp) {
@@ -58,8 +59,9 @@ class IdWork
         } else {
             self::$sequence = 0;
         }
+        
         self::$lastTimestamp = $timestamp;
-        //
+        
         //时间毫秒/数据中心ID/机器ID,要左移的位数
         $timestampLeftShift = self::sequenceBits + self::workerIdBits + self::datacenterIdBits;
         $datacenterIdShift = self::sequenceBits + self::workerIdBits;
@@ -68,7 +70,10 @@ class IdWork
         $nextId = (($timestamp - self::twepoch) << $timestampLeftShift) |
             ($this->datacenterId << $datacenterIdShift) |
             ($this->workId << $workerIdShift) | self::$sequence;
-        return $nextId;
+        
+        $id = str_pad(abs($nextId),10,0,STR_PAD_LEFT);
+        
+        return time() . $id;
     }
     //取当前时间毫秒
     protected function timeGen(){
