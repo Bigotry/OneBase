@@ -583,19 +583,6 @@ function file_list($path = '')
 }
 
 /**
- * 将数据保存为PHP文件，用于调试，默认将调试数据输出到log目录下
- */
-function sf($arr = [], $fpath = 'debug')
-{
-    
-    $data = "<?php\nreturn ".var_export($arr, true).";\n?>";
-    
-    $obj = get_sington_object('obIdWork', \ob\IdWork::class);
-    
-    file_put_contents('../log/' . $fpath . '_' . $obj->nextId() . EXT, $data);
-}
-
-/**
  * 获取目录列表
  */
 function get_dir($dir_name)
@@ -749,6 +736,40 @@ function get_date_from_range($startdate, $enddate)
   
   return $date;
 }
+
+// +---------------------------------------------------------------------+
+// | 调试函数
+// +---------------------------------------------------------------------+
+
+/**
+ * 将数据保存为PHP文件，用于调试，默认将调试数据输出到log目录下
+ */
+function sf($arr = [], $fpath = 'debug')
+{
+    
+    $data = "<?php\nreturn ".var_export($arr, true).";\n?>";
+    
+    $obj = get_sington_object('obIdWork', \ob\IdWork::class);
+    
+    file_put_contents('../log/' . $fpath . '_' . $obj->nextId() . EXT, $data);
+}
+
+/**
+ * dump函数缩写
+ */
+function d($arr = [])
+{
+    dump($arr);
+}
+
+/**
+ * dump与die组合函数缩写
+ */
+function dd($arr = [])
+{
+    dump($arr);die;
+}
+
 
 // +---------------------------------------------------------------------+
 // | 其他函数
