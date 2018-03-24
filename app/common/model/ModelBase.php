@@ -83,7 +83,7 @@ class ModelBase extends Model
         
         $data[TIME_UT_NAME] = TIME_NOW;
         
-        $return_data = $this->where($where)->update($data);
+        $return_data = $this->allowField(true)->isUpdate(true)->save($data);
         
         return $return_data;
     }
