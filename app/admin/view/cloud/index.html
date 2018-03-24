@@ -9,10 +9,15 @@ html,body{
 <script>
     $('.fakeloader').hide();
 </script>
-<div id="iframe" style="width: 100%;  border-radius: 15px;">
+
+<script src="__STATIC__/module/admin/ext/adminlte/dist/js/app.min.js"></script>
+<script src="__STATIC__/module/admin/ext/adminlte/dist/js/init.js"></script>
+
+<div id="iframe" style="width: 100%;">
     <script>
         $('#iframe').height($(document).height());
         $('.breadcrumb').remove();
+        document.title =  'OneBase | 云市场';
     </script>
     <iframe height="100%" width="100%" frameborder="0" src="http://store.onebase.org">
 </div>

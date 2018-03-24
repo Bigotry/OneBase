@@ -23,8 +23,6 @@ class Cloud extends AdminBase
     public function index()
     {
         
-        $this->setTitle('云市场');
-        
         return $this->fetch('index');
     }
 }
