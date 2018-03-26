@@ -114,10 +114,12 @@ class Document extends ApiBase
         $info_array['is_request_sign']      && array_unshift($info_array['request_data'],   config('data_sign_attach_field'));
         
         $info_array['is_user_token']        && array_unshift($info_array['request_data'],   config('user_token_attach_field'));
-
+        
         empty($info_array['request_data'])  && $info_array['request_data'] = [];
         
         array_unshift($info_array['request_data'], config('access_token_attach_field'));
+        
+        empty($info_array['response_data']) && $info_array['response_data'] = [];
         
         $info_array['is_response_sign']     && array_unshift($info_array['response_data'],  config('data_sign_attach_field'));
         
