@@ -44,7 +44,7 @@ OneBase是一个基于ThinkPHP5的免费开源，快速简单，面向对象的�
 
 前端演示：https://demo.onebase.org
 
-视频演示：https://onebase.org/OneBase.mp4
+视频演示：http://static.onebase.org/OneBase.mp4
 
 源码下载：https://gitee.com/Bigotry/OneBase
 
