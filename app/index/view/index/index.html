@@ -32,7 +32,7 @@
                                     <p class="lead">{$vo.describe}</p>
                                 </div>
                                 <div>
-                                    <span><a href="">查看全文</a></span>
+                                    <span><a href="{:url('index/details',array('id' => $vo['id'], 'cid' => $vo['category_id']))}">查看全文</a></span>
                                     <span class="pull-right">
                                     <span>发布时间：{$vo.create_time}</span>
                                     </span>
