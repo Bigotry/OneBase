@@ -185,7 +185,32 @@ class FileClean extends AdminBase
         $allow_ids = array_values(array_unique($file_ids));
         
         $model = $type == 'picture' ? $this->modelPicture : $this->modelFile;
+
+        $fn = $type == 'picture' ? "deletePicture" : "deleteFile";
+
+        $this->deleteYunFile($model,$fn,$allow_ids);
         
         $model->deleteInfo(['id' => ['not in', $allow_ids]], true);
+    }
+
+    public function deleteYunFile($model = null,$fn = "",$allow_ids = [])
+    {
+        $storage_driver = config('storage_driver');
+
+        if (empty($storage_driver)) {
+
+            return false;
+        }
+
+        $driver = SYS_DRIVER_DIR_NAME . $storage_driver;
+
+        $list = $model->where(['id' => ['not in', $allow_ids]])->select();
+        foreach ($list as $v)
+        {
+            if(!empty($v['url']))
+            {
+                $this->serviceStorage->$driver->$fn($v['id']);
+            }
+        }
     }
 }

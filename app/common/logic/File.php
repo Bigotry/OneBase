@@ -55,10 +55,12 @@ class File extends LogicBase
         $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
         
         $result = $this->modelPicture->addInfo($data);
+
+        unset($object);
+
+        $url = $this->checkStorage($result);
         
-        $this->checkStorage($result);
-        
-        if ($result) { $data['id'] = $result; return $data; }
+        if ($result) { $data['id'] = $result; $url && $data['url'] = $url; return $data; }
         
         return  false;
     }
@@ -91,12 +93,16 @@ class File extends LogicBase
         $data = ['name' => $filename, 'path' => $file_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
         
         $result = $this->modelFile->addInfo($data);
+
+        unset($object);
         
-        $this->checkStorage($result, 'uploadFile');
+        $url = $this->checkStorage($result, 'uploadFile');
         
         if ($result) {
             
             $data['id'] = $result;
+
+            $url && $data['url'] = $url;
             
             return $data;
         }
@@ -122,5 +128,7 @@ class File extends LogicBase
         $storage_result = $this->serviceStorage->$driver->$method($result);
         
         $method != 'uploadPicture' ? $this->modelFile->setFieldValue(['id' => $result], 'url', $storage_result) : $this->modelPicture->setFieldValue(['id' => $result], 'url', $storage_result);
+
+        return $storage_result;
     }
 }

@@ -80,6 +80,8 @@ class Qiniu extends Storage implements Driver
             
             return false;
         }
+
+        $this->pictureDel($info['path']);
         
         return $result[0]['key'];
     }
@@ -124,7 +126,76 @@ class Qiniu extends Storage implements Driver
             
             return false;
         }
+
+        $this->fileDel($info['path']);
         
         return $result[0]['key'];
+    }
+
+    public function deletePicture($file_id = 0)
+    {
+        $config = $this->config();
+
+        $auth = new Auth($config['access_key'], $config['secret_key']);
+
+        $_config = new \Qiniu\Config();
+        $bucketManager = new \Qiniu\Storage\BucketManager($auth, $_config);
+
+        $info = $this->modelPicture->getInfo(['id' => $file_id]);
+
+        $path_arr = explode(SYS_DS_PROS, $info['path']);
+
+        $save_path = 'upload' . SYS_DS_PROS . 'picture' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . $path_arr[1];
+
+        $err = $bucketManager->delete($config['bucket_name'], $save_path);
+
+        if ($err) {
+            return $err;
+        }
+        return false;
+    }
+
+    public function deleteFile($file_id = 0)
+    {
+        $config = $this->config();
+
+        $auth = new Auth($config['access_key'], $config['secret_key']);
+
+        $_config = new \Qiniu\Config();
+        $bucketManager = new \Qiniu\Storage\BucketManager($auth, $_config);
+
+        $info = $this->modelFile->getInfo(['id' => $file_id]);
+
+        $path_arr = explode(SYS_DS_PROS, $info['path']);
+
+        $save_path = 'upload' . SYS_DS_PROS . 'file' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . $path_arr[1];
+
+        $err = $bucketManager->delete($config['bucket_name'], $save_path);
+
+        if ($err) {
+            return $err;
+        }
+        return false;
+    }
+
+    protected function pictureDel($path)
+    {
+        $info = explode(SYS_DS_PROS,$path);
+        $file_url = PATH_PICTURE . $path;
+        unlink(str_replace('\\','/',$file_url));
+
+        $big_path       = $info[0] . DS . 'thumb' . DS . 'big_'       . $info[1];
+        $medium_path    = $info[0] . DS . 'thumb' . DS . 'medium_'    . $info[1];
+        $small_path     = $info[0] . DS . 'thumb' . DS . 'small_'     . $info[1];
+
+        file_exists($big_path)      && unlink($big_path);
+        file_exists($medium_path)   && unlink($medium_path);
+        file_exists($small_path)    && unlink($small_path);
+    }
+
+    protected function fileDel($path)
+    {
+        $file_url = PATH_FILE . $path;
+        unlink(str_replace('\\','/',$file_url));
     }
 }
