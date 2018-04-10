@@ -195,12 +195,21 @@ class FileClean extends AdminBase
 
     public function deleteYunFile($model = null,$fn = "",$allow_ids = [])
     {
+        $storage_driver = config('storage_driver');
+
+        if (empty($storage_driver)) {
+
+            return false;
+        }
+
+        $driver = SYS_DRIVER_DIR_NAME . $storage_driver;
+
         $list = $model->where(['id' => ['not in', $allow_ids]])->select();
         foreach ($list as $v)
         {
             if(!empty($v['url']))
             {
-                $this->serviceStorage->driverAliyun->$fn($v['id']);
+                $this->serviceStorage->$driver->$fn($v['id']);
             }
         }
     }
