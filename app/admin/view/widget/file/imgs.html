@@ -50,8 +50,8 @@
         if(img_ids){ var lastChar = img_ids.charAt(img_ids.length - 1);  if(lastChar != ','){  add_id = img_ids + ',' + add_id; } }
         
         $("#" + widget_name).val(add_id);
-        
-        var src = "__ROOT__/upload/picture/" + data.path;
+
+        var src = !data['url'] ? "__ROOT__/upload/picture/" + data.path : data.url;
         
         $(".upload-img-box" + widget_name).append('<div class="upload-pre-item" style="float:left; margin: 10px;"> <div style="cursor:pointer; " class="pic_del"  onclick="picDel{$widget_data.name}(this,'+data.id+')" ><img src="__STATIC__/widget/admin/file/uploadify-cancel.png" /></div> <a target="_blank" href="' + src + '"> <img style="max-width: ' + maxwidth + ';" src="' + src + '"/></a></div>');
     }

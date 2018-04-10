@@ -13,6 +13,7 @@ namespace app\common\service\storage\driver;
 
 use app\common\service\storage\Driver;
 use app\common\service\Storage;
+use OSS\Core\OssException;
 use OSS\OssClient;
 
 /**
@@ -80,7 +81,9 @@ class Aliyun extends Storage implements Driver
         $oss->uploadFile($config['bucket_name'], $thumb_save_path . 'small_'    . $path_arr[1], $thumb_file_path . 'small_'     . $path_arr[1]);
         $oss->uploadFile($config['bucket_name'], $thumb_save_path . 'medium_'   . $path_arr[1], $thumb_file_path . 'medium_'    . $path_arr[1]);
         $oss->uploadFile($config['bucket_name'], $thumb_save_path . 'big_'      . $path_arr[1], $thumb_file_path . 'big_'       . $path_arr[1]);
-        
+
+        $this->pictureDel($info['path']);
+
         return $result['info']['url'];
     }
     
@@ -108,7 +111,72 @@ class Aliyun extends Storage implements Driver
             
             return false;
         }
-        
+
+        $this->fileDel($info['path']);
+
         return $result['info']['url'];
+    }
+
+    public function deletePicture($file_id = 0)
+    {
+        $config = $this->config();
+
+        $oss = new OssClient($config['ak_id'], $config['ak_secret'], $config['endpoint']);
+
+        $info = $this->modelPicture->getInfo(['id' => $file_id]);
+
+        $path_arr = explode(SYS_DS_PROS, $info['path']);
+
+        $save_path = 'upload' . SYS_DS_PROS . 'picture' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . $path_arr[1];
+
+        try {
+            $oss->deleteObject($config['bucket_name'], $save_path);
+            return true;
+        }catch (OssException $e)
+        {
+            return false;
+        }
+    }
+
+    public function deleteFile($file_id = 0)
+    {
+        $config = $this->config();
+
+        $oss = new OssClient($config['ak_id'], $config['ak_secret'], $config['endpoint']);
+
+        $info = $this->modelFile->getInfo(['id' => $file_id]);
+
+        $path_arr = explode(SYS_DS_PROS, $info['path']);
+
+        $save_path = 'upload' . SYS_DS_PROS . 'file' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . $path_arr[1];
+
+        try {
+            $oss->deleteObject($config['bucket_name'], $save_path);
+            return true;
+        }catch (OssException $e)
+        {
+            return false;
+        }
+    }
+
+    protected function pictureDel($path)
+    {
+        $info = explode(SYS_DS_PROS,$path);
+        $file_url = PATH_PICTURE . $path;
+        unlink(str_replace('\\','/',$file_url));
+
+        $big_path       = $info[0] . DS . 'thumb' . DS . 'big_'       . $info[1];
+        $medium_path    = $info[0] . DS . 'thumb' . DS . 'medium_'    . $info[1];
+        $small_path     = $info[0] . DS . 'thumb' . DS . 'small_'     . $info[1];
+
+        file_exists($big_path)      && unlink($big_path);
+        file_exists($medium_path)   && unlink($medium_path);
+        file_exists($small_path)    && unlink($small_path);
+    }
+
+    protected function fileDel($path)
+    {
+        $file_url = PATH_FILE . $path;
+        unlink(str_replace('\\','/',$file_url));
     }
 }
