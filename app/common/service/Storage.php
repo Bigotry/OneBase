@@ -36,9 +36,13 @@ class Storage extends ServiceBase implements BaseInterface
         $medium_path    = PATH_PICTURE . $info[0] . DS . 'thumb' . DS . 'medium_'    . $info[1];
         $small_path     = PATH_PICTURE . $info[0] . DS . 'thumb' . DS . 'small_'     . $info[1];
 
-        file_exists($big_path)      && unlink(str_replace('\\','/',$big_path));
-        file_exists($medium_path)   && unlink(str_replace('\\','/',$medium_path));
-        file_exists($small_path)    && unlink(str_replace('\\','/',$small_path));
+        $big_path = str_replace('\\','/',$big_path);
+        $medium_path = str_replace('\\','/',$medium_path);
+        $small_path = str_replace('\\','/',$small_path);
+
+        file_exists($big_path)      && unlink($big_path);
+        file_exists($medium_path)   && unlink($medium_path);
+        file_exists($small_path)    && unlink($small_path);
     }
 
     protected function fileDel($path)
