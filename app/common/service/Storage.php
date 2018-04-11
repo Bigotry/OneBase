@@ -26,4 +26,25 @@ class Storage extends ServiceBase implements BaseInterface
         return ['service_name' => '云存储服务', 'service_class' => 'Storage', 'service_describe' => '系统云存储服务，用于整合多个云储存平台', 'author' => 'Bigotry', 'version' => '1.0'];
     }
 
+    protected function pictureDel($path)
+    {
+        $info = explode(SYS_DS_PROS,$path);
+        $file_url = PATH_PICTURE . $path;
+        unlink(str_replace('\\','/',$file_url));
+
+        $big_path       = PATH_PICTURE . $info[0] . DS . 'thumb' . DS . 'big_'       . $info[1];
+        $medium_path    = PATH_PICTURE . $info[0] . DS . 'thumb' . DS . 'medium_'    . $info[1];
+        $small_path     = PATH_PICTURE . $info[0] . DS . 'thumb' . DS . 'small_'     . $info[1];
+
+        file_exists($big_path)      && unlink(str_replace('\\','/',$big_path));
+        file_exists($medium_path)   && unlink(str_replace('\\','/',$medium_path));
+        file_exists($small_path)    && unlink(str_replace('\\','/',$small_path));
+    }
+
+    protected function fileDel($path)
+    {
+        $file_url = PATH_FILE . $path;
+        unlink(str_replace('\\','/',$file_url));
+    }
+
 }
