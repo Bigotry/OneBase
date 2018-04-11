@@ -129,8 +129,13 @@ class Aliyun extends Storage implements Driver
 
         $save_path = 'upload' . SYS_DS_PROS . 'picture' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . $path_arr[1];
 
+        $thumb_save_path = 'upload' . SYS_DS_PROS . 'picture' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . 'thumb' . SYS_DS_PROS;
+
         try {
             $oss->deleteObject($config['bucket_name'], $save_path);
+            $oss->deleteObject($config['bucket_name'], $thumb_save_path . 'small_'    . $path_arr[1]);
+            $oss->deleteObject($config['bucket_name'], $thumb_save_path . 'medium_'   . $path_arr[1]);
+            $oss->deleteObject($config['bucket_name'], $thumb_save_path . 'big_'      . $path_arr[1]);
             return true;
         }catch (OssException $e)
         {

@@ -170,7 +170,12 @@ class Qiniu extends Storage implements Driver
 
         $save_path = 'upload' . SYS_DS_PROS . 'file' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . $path_arr[1];
 
+        $thumb_save_path = 'upload' . SYS_DS_PROS . 'picture' . SYS_DS_PROS . $path_arr[0] . SYS_DS_PROS . 'thumb' . SYS_DS_PROS;
+
         $err = $bucketManager->delete($config['bucket_name'], $save_path);
+        $bucketManager->delete($config['bucket_name'], $thumb_save_path . 'small_'    . $path_arr[1]);
+        $bucketManager->delete($config['bucket_name'], $thumb_save_path . 'medium_'    . $path_arr[1]);
+        $bucketManager->delete($config['bucket_name'], $thumb_save_path . 'big_'    . $path_arr[1]);
 
         if ($err) {
             return $err;
