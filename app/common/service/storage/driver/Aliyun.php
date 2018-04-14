@@ -15,6 +15,7 @@ use app\common\service\storage\Driver;
 use app\common\service\Storage;
 use OSS\Core\OssException;
 use OSS\OssClient;
+use think\Cache;
 
 /**
  * 阿里云OSS
@@ -161,6 +162,41 @@ class Aliyun extends Storage implements Driver
         }catch (OssException $e)
         {
             return false;
+        }
+    }
+
+    /**
+     * 上传资源文件到oss
+     * @param null $files
+     */
+    public function uploadStaticFile($files = null)
+    {
+        $config = $this->config();
+
+        $oss = new OssClient($config['ak_id'], $config['ak_secret'], $config['endpoint']);
+
+        if(is_array($files))
+        {
+            $errors = [];
+            foreach ($files as $v)
+            {
+                $file_path = PATH_PUBLIC . $v;
+                try{
+                    $oss->uploadFile($config['bucket_name'],$v,$file_path);
+                }catch (OssException $e){
+                    $errors[] = $v;
+                }
+            }
+            if(!empty($errors)) {
+                Cache::set("upload_error", json_encode($errors));
+            }
+        }else{
+            $file_path = PATH_PUBLIC . $files;
+            try{
+                $oss->uploadFile($config['bucket_name'],$files,$file_path);
+            }catch (OssException $e){
+                Cache::set("upload_error", $files);
+            }
         }
     }
 }

@@ -131,4 +131,26 @@ class File extends LogicBase
 
         return $storage_result;
     }
+
+    /**
+     * 获取指定目录下的所有文件
+     * @param null $path
+     * @return array
+     */
+    public function getFileByPath($path = null)
+    {
+        $dirs = new \FilesystemIterator($path);
+        $arr = [];
+        foreach ($dirs as $v)
+        {
+            if($v->isdir())
+            {
+                $_arr = $this->getFileByPath($path ."/". $v->getFilename());
+                $arr = array_merge($arr,$_arr);
+            }else{
+                $arr[] = $path . "/" . $v->getFilename();
+            }
+        }
+        return $arr;
+    }
 }
