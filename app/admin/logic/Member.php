@@ -255,4 +255,30 @@ class Member extends AdminBase
         
         return $result ? [RESULT_SUCCESS, '会员删除成功', $url] : [RESULT_ERROR, $this->modelMember->getError(), $url];
     }
+
+    
+    /**
+     * 修改用户密码
+     *
+     * @param array $data post的数据
+     *
+     * @return void
+     * @author 
+     **/
+    public function modifyPassword($data = [])
+    {
+        $validate_result = $this->validateMember->scene('password')->check($data);
+        
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateMember->getError()];
+        }
+
+        $url = url('index/index');
+        $rtn = $this->modelMember->setInfo($data);
+        
+        $rtn && action_log('密码修改', '编辑会员，id：' . $data['id']);
+        
+        return $rtn ? [RESULT_SUCCESS, '密码修改成功', $url] : [RESULT_ERROR, $this->modelMember->getError()];
+    }
 }
