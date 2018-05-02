@@ -40,6 +40,10 @@ class FileClean extends AdminBase
         
         rm_empty_dir($path);
         
+        if (!is_dir($path)) {
+            return $data_list;
+        }
+
         $dirs = new \FilesystemIterator($path);
         
         foreach ($dirs as $dir)
