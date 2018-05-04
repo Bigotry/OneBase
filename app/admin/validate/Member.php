@@ -47,6 +47,5 @@ class Member extends AdminBase
         
         'add'   =>  ['username','password','email'],
         'edit'  =>  ['username','nickname','email','mobile'],
-        'password' => ['password'],
     ];
 }

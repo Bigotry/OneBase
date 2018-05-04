@@ -99,22 +99,4 @@ class Member extends AdminBase
         
         return $this->jump($this->logicMember->memberDel(['id' => $id]));
     }
-
-    
-    /**
-     * 修改密码
-     *
-     * @return void
-     * @author 
-     **/
-    public function modifyPassword($id = 0)
-    {
-        
-        IS_POST && $this->jump($this->logicMember->modifyPassword($this->param));
-        $info = $this->logicMember->getMemberInfo(['id' => $this->param['id']]);
-        $this->assign('info', $info);
-        
-        return $this->fetch('modify_password');
-
-    }
 }
