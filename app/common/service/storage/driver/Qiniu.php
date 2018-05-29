@@ -81,7 +81,7 @@ class Qiniu extends Storage implements Driver
             return false;
         }
 
-        $this->pictureDel($info['path']);
+        //$this->pictureDel($info['path']);
         
         return $result[0]['key'];
     }
@@ -127,7 +127,7 @@ class Qiniu extends Storage implements Driver
             return false;
         }
 
-        $this->fileDel($info['path']);
+        //$this->fileDel($info['path']);
         
         return $result[0]['key'];
     }
