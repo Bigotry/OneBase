@@ -430,7 +430,7 @@ var toast = {
 var searchFormUrl = function (obj) {
 
     var url = $(obj).attr('url');
-    var query  = $('.search-form').find('input').serialize();
+    var query  = $('.search-form').find('input,select').serialize();
     query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
     query = query.replace(/^&/g,'');
     if( url.indexOf('?')>0 ){
