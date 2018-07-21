@@ -11,29 +11,11 @@
 
 namespace app\index\controller;
 
-use think\Db;
-
 /**
  * 前端首页控制器
  */
 class Index extends IndexBase
 {
-    
-    // 首页
-    public function wxh()
-    {
-        
-        $list = Db::name('weixin')->where(['status' => 1])->select();
-        
-        foreach ($list as &$v)
-        {
-            $v['img_url'] = get_picture_url($v['img_id']);
-        }
-        
-        return json($list);
-    }
-    
-    
     
     // 首页
     public function index($cid = 0)
