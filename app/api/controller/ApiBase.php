@@ -28,6 +28,10 @@ class ApiBase extends ControllerBase
         
         parent::__construct();
         
+        // 设置跨域Header头
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
+        
         $this->logicApiBase->checkParam($this->param);
         
         // 接口控制器钩子
