@@ -15,9 +15,16 @@ use \Firebase\JWT\JWT;
 function decoded_user_token($token = '')
 {
     
-    $decoded = JWT::decode($token, API_KEY . JWT_KEY, array('HS256'));
+    try {
+        
+        $decoded = JWT::decode($token, API_KEY . JWT_KEY, array('HS256'));
 
-    return (array) $decoded;
+        return (array) $decoded;
+        
+    } catch (Exception $ex) {
+        
+        return $ex->getMessage();
+    }
 }
 
 // 获取解密信息中的data
