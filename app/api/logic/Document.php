@@ -107,7 +107,7 @@ class Document extends ApiBase
             
             foreach ($page_attach_field as $field) {
                 
-                array_unshift($info_array['request_data'], $field);
+                !empty($info_array['request_data']) && array_unshift($info_array['request_data'], $field);
             }
         }
         
