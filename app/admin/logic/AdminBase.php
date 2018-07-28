@@ -36,7 +36,7 @@ class AdminBase extends LogicBase
             return $pass_data;
         }
         
-        $s_url = strtolower($url);
+        $s_url = sr(strtolower($url), '_');
         
         if (!empty($allow_url_list)) {
             
