@@ -100,6 +100,7 @@ class Document extends ApiBase
      */
     public function apiAttachField($info_array)
     {
+        empty($info_array['request_data']) && $info_array['request_data'] = [];
         
         if ($info_array['is_page'])
         {
