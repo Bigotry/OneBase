@@ -207,7 +207,7 @@ class ModelBase extends Model
 
         if ($function == 'getList') {
 
-            $paginate != false && IS_POST && $paginate = input('list_rows', DB_LIST_ROWS);
+            $paginate != false && $paginate = input('list_rows', DB_LIST_ROWS);
 
             $result_data = false !== $paginate ? self::$ob_query->paginate($paginate, false, ['query' => request()->param()]) : self::$ob_query->select($data);
 
