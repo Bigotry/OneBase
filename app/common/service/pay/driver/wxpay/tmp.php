@@ -1,5 +1,5 @@
-<script src="__STATIC__/module/common/pay/wxpay/jquery-2.0.3.min.js"></script>
-<script src="__STATIC__/module/common/pay/wxpay/qrcode.js"></script>
+<script src="/static/module/common/pay/wxpay/jquery-2.0.3.min.js"></script>
+<script src="/static/module/common/pay/wxpay/qrcode.js"></script>
 
 <div id="wx_pay_qrcode" style="height: 180px; width: 180px; margin:200 auto; text-align: center;"></div>
 
