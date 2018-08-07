@@ -44,12 +44,23 @@ class Wxpay extends Pay implements Driver
      */
     public function pay($order=[],$type='web')
     {
-        if($type == 'app') {
-            return $this->getPrePay([]);
-        }elseif ($type == 'web'){
-            return $this->getPayCode($order);
-        }else{
-            return $this->getH5Pay([]);
+        switch ($type)
+        {
+            case 'app' :
+                return $this->getPrePay($order);
+                break;
+            case 'web':
+                return $this->getPayCode($order);
+                break;
+            case 'h5':
+                return $this->getH5Pay($order);
+                break;
+            case 'JSAPI':
+                return $this->getJsApi($order);
+                break;
+            default:
+                //补充...
+                break;
         }
     }
     
@@ -140,7 +151,7 @@ class Wxpay extends Pay implements Driver
         if(empty($order)) {
             $order = [
                 "body"=>"测试",
-                "out_trade_no" => date("YmdHis") . getRandom() . time(),
+                "out_trade_no" => date("YmdHis") . mt_rand(1000,9999) . time(),
                 "total_fee" => 0.01,
                 "spbill_create_ip" => $wx->get_client_ip()
             ];
@@ -161,7 +172,7 @@ class Wxpay extends Pay implements Driver
         if(empty($order)) {
             $order = [
                 "body"=>"测试",
-                "out_trade_no" => date("YmdHis") . getRandom() . time(),
+                "out_trade_no" => date("YmdHis") . mt_rand(1000,9999) . time(),
                 "total_fee" => 0.01,
                 "spbill_create_ip" => $wx->get_client_ip(),
                 "trade_type"=>"MWEB",
@@ -170,6 +181,13 @@ class Wxpay extends Pay implements Driver
         }
         $result_data = $wx->getPrepay($order);
         return $result_data;
+    }
+
+    public function getJsApi($order = [])
+    {
+        require_once "wxpay/Wxpay.php";
+        $wx = new \Wxpay($this->config());
+        return $wx->getPrepay($order);
     }
     
     //设置配置信息
