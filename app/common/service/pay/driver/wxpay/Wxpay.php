@@ -39,9 +39,9 @@
                 "out_trade_no" => $arr['out_trade_no'],
                 "spbill_create_ip" => $arr['spbill_create_ip'],
                 "total_fee" => intval($arr['total_fee'] * 100),//注意：前方有坑！！！最小单位是分，跟支付宝不一样。1表示1分钱。只能是整形。
-                "trade_type" => $this->trade_type
+                "trade_type" => empty($arr['trade_type']) ? $this->trade_type : $arr['trade_type']
             );
-            $order = array_merge($order,$arr);
+            !empty($arr['trade_type']) && $arr['trade_type'] == 'JSAPI' && $order['openid'] = $arr['openid'];
             //签名
             $this->sign = $this->getSign($order,$this->app_key);
             //请求服务器
@@ -66,7 +66,19 @@
                     return $prepay;
                 }elseif ($resultArr['trade_type'] == 'MWEB'){
                     return $resultArr['mweb_url'];
-                }else{
+                }elseif ($resultArr['trade_type'] == 'JSAPI' ){
+                    $prepay = [
+                        'appId'=>$resultArr['appid'],
+                        'timeStamp'=>''.time(),
+                        'nonceStr'=>$this->getRandChar(32),
+                        'package'=>"prepay_id=".$resultArr['prepay_id'],
+                        'signType'=>'MD5'
+                    ];
+                    $sign = $this->getSign($prepay,$this->app_key);
+                    $prepay['paySign'] = $sign;
+                    //前端调起支付需要json不能encode编码
+                    return $prepay;
+                } else{
                     return false;
                 }
             }else{
@@ -97,26 +109,6 @@
             }else {
                 return false;
             }
-        }
-
-        public function payLq()
-        {
-            $order = [
-                'mch_appid'=>$this->app_id,
-                'mchid'=>$this->mch_id,
-                'nonce_str'=>$this->getRandChar(32),
-                'partner_trade_no'=>date('YmdHis').getRandom().time(),
-                'openid'=>'',
-                'check_name'=>'NO_CHECK',
-                'amount'=>1*100,
-                'desc'=>'测试',
-                'spbill_create_ip'=>$this->get_client_ip()
-            ];
-            $this->sign = $this->getSign($order,$this->app_key);
-            $xml = $this->ArrayToXml($order,$this->sign);
-            $result = $this->postXmlCurl($xml,$this->payUrl,$this->out_time,true,"/var/www/wxcert/apiclient_cert.pem","/var/www/wxcert/apiclient_key.pem");
-            $resultArr = $this->xmlToArray($result);
-            dump($resultArr);
         }
 
 
@@ -158,7 +150,7 @@
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
             curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
-        
+
             if($useCert == true){
                 curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,TRUE);
                 curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,2);//严格校验
@@ -174,19 +166,19 @@
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
             //运行curl
             $data = curl_exec($ch);
-             
+
             //返回结果
             if($data){
                 curl_close($ch);
                 return $data;
             } else {
                 $error = curl_errno($ch);
-        
+
                 curl_close($ch);
                 return false;
             }
         }
-        
+
         /**
          * 获取当前服务器的IP
          * @return Ambigous <string, unknown>
