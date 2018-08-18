@@ -73,7 +73,7 @@ class AdminBase extends ControllerBase
         $this->authMenuUrlList = $this->logicAuthGroupAccess->getAuthMenuUrlList($this->authMenuList);
         
         // 检查菜单权限
-        list($jump_type, $message) = $this->logicAdminBase->authCheck(URL_MODULE, $this->authMenuUrlList);
+        list($jump_type, $message) = $this->logicAdminBase->authCheck(URL, $this->authMenuUrlList);
         
         // 权限验证不通过则跳转提示
         RESULT_SUCCESS == $jump_type ?: $this->jump($jump_type, $message, url('index/index'));

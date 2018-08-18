@@ -20,13 +20,13 @@ class Seo extends IndexBase
     public function getSeoInfo()
     {
         
-        $cache_key = 'cache_' . serialize(URL_MODULE);
+        $cache_key = 'cache_' . serialize(URL);
         
         $data = cache($cache_key);
         
         if (empty($data)) {
             
-            $info = $this->modelSeo->getInfo(['url' => URL_MODULE]);
+            $info = $this->modelSeo->getInfo(['url' => URL]);
 
             if (empty($info)) {
 

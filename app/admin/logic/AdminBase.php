@@ -24,7 +24,7 @@ class AdminBase extends LogicBase
      */
     public function authCheck($url = '', $url_list = [])
     {
-
+        
         $pass_data = [RESULT_SUCCESS, '权限检查通过'];
         
         $allow_url = config('allow_url');
@@ -36,22 +36,20 @@ class AdminBase extends LogicBase
             return $pass_data;
         }
         
-        $s_url = sr(strtolower($url), '_');
-        
         if (!empty($allow_url_list)) {
             
             foreach ($allow_url_list as $v) {
                 
-                if (strpos($s_url, strtolower($v)) !== false) {
+                if (strpos($url, strtolower($v)) !== false) {
                     
                     return $pass_data;
                 }
             }
         }
         
-        $result = in_array($s_url, array_map("strtolower", $url_list)) ? true : false;
+        $result = in_array($url, array_map("strtolower", $url_list)) ? true : false;
         
-        !('admin/index/index' == $s_url && !$result) ?: clear_login_session();
+        !('index/index' == $url && !$result) ?: clear_login_session();
         
         return $result ? $pass_data : [RESULT_ERROR, '未授权操作'];
     }
@@ -64,7 +62,7 @@ class AdminBase extends LogicBase
         
         foreach ($menu_list as $key => $menu_info) {
             
-            list($status, $message) = $this->authCheck(strtolower(MODULE_NAME . SYS_DS_PROS . $menu_info['url']), $url_list);
+            list($status, $message) = $this->authCheck(strtolower($menu_info['url']), $url_list);
             
             [$message];
             
@@ -100,15 +98,14 @@ class AdminBase extends LogicBase
         $temp_url = sr($full_url, URL_ROOT);
 
         $url_array_tmp = explode(SYS_DS_PROS, $temp_url); 
-
-        if(strpos($url_array_tmp[3], '.')){
-
-            $action_arr = explode('.', $url_array_tmp[3]); 
-
-            $url_array_tmp[3] = $action_arr[0];
-        }
-
-        return $url_array_tmp[1] . SYS_DS_PROS . $url_array_tmp[2] . SYS_DS_PROS . $url_array_tmp[3];
+        
+        $return_url = $url_array_tmp[1] . SYS_DS_PROS . $url_array_tmp[2];
+        
+        $index = strpos($return_url, '.');
+        
+        $index !== false && $return_url = substr($return_url, DATA_DISABLE, $index);
+        
+        return $return_url;
     }
     
     /**
