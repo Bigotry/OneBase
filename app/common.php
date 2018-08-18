@@ -521,6 +521,21 @@ function get_dir($dir_name)
 }
 
 /**
+ * 获取文件根目录
+ */
+function get_file_root_path()
+{
+    
+    $root_arr = explode(SYS_DS_PROS, URL_ROOT);
+    
+    array_pop($root_arr);
+    
+    $root_url = arr2str($root_arr, SYS_DS_PROS);
+    
+    return $root_url . SYS_DS_PROS;
+}
+
+/**
  * 获取图片url
  */
 function get_picture_url($id = 0)
@@ -533,12 +548,14 @@ function get_picture_url($id = 0)
         return config('static_domain') . SYS_DS_PROS . $info['url'];
     }
 
+    $root_url = get_file_root_path();
+    
     if (!empty($info['path'])) {
-
-        return URL_ROOT . '/upload/picture/'.$info['path'];
+        
+        return $root_url . 'upload/picture/'.$info['path'];
     }
 
-    return URL_ROOT . '/static/module/admin/img/onimg.png';
+    return $root_url . 'static/module/admin/img/onimg.png';
 }
 
 /**
@@ -556,7 +573,9 @@ function get_file_url($id = 0)
 
     if (!empty($info['path'])) {
 
-        return URL_ROOT . '/upload/file/'.$info['path'];
+        $root_url = get_file_root_path();
+    
+        return $root_url . 'upload/file/'.$info['path'];
     }
 
     return '暂无文件';
