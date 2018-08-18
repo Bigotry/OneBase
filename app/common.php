@@ -190,35 +190,6 @@ function addon_ioc($this_class, $name, $layer)
 }
 
 /**
- * 获得浏览器
- */
-function browser_info()
-{
-    if (!empty($_SERVER['HTTP_USER_AGENT'])) {
-        
-        $br = $_SERVER['HTTP_USER_AGENT'];
-        if (preg_match('/MSIE/i', $br)) {
-            $br = 'MSIE';
-        } else if (preg_match('/Firefox/i', $br)) {
-            $br = 'Firefox';
-        } else if (preg_match('/Chrome/i', $br)) {
-            $br = 'Chrome';
-        } else if (preg_match('/Safari/i', $br)) {
-            $br = 'Safari';
-        } else if (preg_match('/Opera/i', $br)) {
-            $br = 'Opera';
-        } else {
-            $br = 'Other';
-        }
-        
-        return $br;
-    } else {
-        
-        return 'unknow';
-    }
-}
-
-/**
  * 抛出响应异常
  */
 function throw_response_exception($data = [], $type = 'json')
@@ -227,67 +198,6 @@ function throw_response_exception($data = [], $type = 'json')
     $response = Response::create($data, $type);
 
     throw new HttpResponseException($response);
-}
-
-/**
- * 写入执行信息记录
- */
-function write_exe_log($begin = 'app_begin', $end = 'app_end', $type = 0)
-{
-    
-    if (empty(config('is_write_exe_log'))) { return false; }
-    
-    $source_url = empty($_SERVER["HTTP_REFERER"]) ? '未知来源' : $_SERVER["HTTP_REFERER"];
-    
-    $exe_log['ip']              = request()->ip();
-    $exe_log['exe_url']         = request()->url();
-    $exe_log['exe_time']        = debug($begin, $end);
-    $exe_log['exe_memory']      = debug($begin, $end, 'm');
-    $exe_log['exe_os']          = get_os();
-    $exe_log['source_url']      = $source_url;
-    $exe_log['session_id']      = session_id();
-    $exe_log['browser']         = browser_info();
-    $exe_log['status']          = DATA_NORMAL;
-    $exe_log['create_time']     = TIME_NOW;
-    $exe_log['update_time']     = TIME_NOW;
-    $exe_log['type']            = $type;
-    $exe_log['login_id']        = is_login();
-    
-    $exe_log_path = "../log/exe_log.php";
-    
-    file_exists($exe_log_path) && $now_contents = file_get_contents($exe_log_path);
-    
-    $arr = var_export($exe_log, true);
-    
-    empty($now_contents) ? $contents = "<?php\nreturn array (".$arr.");\n" : $contents = str_replace(');', ','. $arr . ');', $now_contents);
-    
-    file_put_contents($exe_log_path, $contents);
-}
-
-/**
- * 获得操作系统
- */
-function get_os()
-{
-    if (!empty($_SERVER['HTTP_USER_AGENT'])) {
-        $os = $_SERVER['HTTP_USER_AGENT'];
-        if (preg_match('/win/i', $os)) {
-            $os = 'Windows';
-        } else if (preg_match('/mac/i', $os)) {
-            $os = 'MAC';
-        } else if (preg_match('/linux/i', $os)) {
-            $os = 'Linux';
-        } else if (preg_match('/unix/i', $os)) {
-            $os = 'Unix';
-        } else if (preg_match('/bsd/i', $os)) {
-            $os = 'BSD';
-        } else {
-            $os = 'Other';
-        }
-        return $os;
-    } else {
-        return 'unknow';
-    }
 }
 
 /**
@@ -742,16 +652,14 @@ function get_date_from_range($startdate, $enddate)
 // +---------------------------------------------------------------------+
 
 /**
- * 将数据保存为PHP文件，用于调试，默认将调试数据输出到log目录下
+ * 将数据保存为PHP文件，用于调试
  */
-function sf($arr = [], $fpath = 'debug')
+function sf($arr = [], $fpath = './test.php')
 {
     
     $data = "<?php\nreturn ".var_export($arr, true).";\n?>";
     
-    $obj = get_sington_object('obIdWork', \ob\IdWork::class);
-    
-    file_put_contents('../log/' . $fpath . '_' . $obj->nextId() . EXT, $data);
+    file_put_contents($fpath, $data);
 }
 
 /**

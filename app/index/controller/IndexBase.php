@@ -31,7 +31,5 @@ class IndexBase extends ControllerBase
         
         // 前台控制器钩子
         Hook::listen('hook_controller_index_base', $this->request);
-        
-        $this->assign('seo_info', $this->logicSeo->getSeoInfo());
     }
 }

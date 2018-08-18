@@ -42,11 +42,9 @@ class ApiBase extends ControllerBase
     public function apiReturn($code_data = [], $return_data = [], $return_type = 'json')
     {
         
-        $result = $this->logicApiBase->apiReturn($code_data, $return_data, $return_type);
-        
         debug('api_end');
         
-        write_exe_log('api_begin', 'api_end', DATA_NORMAL);
+        $result = $this->logicApiBase->apiReturn($code_data, $return_data, $return_type);
         
         return $result;
     }

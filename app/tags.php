@@ -29,7 +29,5 @@ if (defined('BIND_MODULE') && BIND_MODULE == 'install') {
 }
     
 $data['app_init']   = [BEHAVIOR_PATH . 'InitBase', BEHAVIOR_PATH . 'InitHook'];
-$data['app_begin']  = [BEHAVIOR_PATH . 'AppBegin'];
-$data['app_end']    = [BEHAVIOR_PATH . 'AppEnd'];
 
 return $data;

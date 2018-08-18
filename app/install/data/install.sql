@@ -282,7 +282,7 @@ INSERT INTO `ob_config` VALUES ('30', 'data_backup_compress', '4', '数据库备
 INSERT INTO `ob_config` VALUES ('31', 'data_backup_compress_level', '4', '数据库备份文件压缩级别', '2', '1:普通\r\n4:一般\r\n9:最高', '数据库备份文件的压缩级别，该配置在开启压缩时生效', '1381713408', '1507197630', '1', '9', '10');
 INSERT INTO `ob_config` VALUES ('33', 'allow_url', '3', '不受权限验证的url', '3', '', '', '1386644047', '1512982406', '1', '0:file/pictureupload\r\n1:addon/execute', '100');
 INSERT INTO `ob_config` VALUES ('43', 'empty_list_describe', '1', '数据列表为空时的描述信息', '2', '', '', '1492278127', '1507197630', '1', 'aOh! 暂时还没有数据~', '0');
-INSERT INTO `ob_config` VALUES ('44', 'trash_config', '3', '回收站配置', '3', '', 'key为模型名称，值为显示列。', '1492312698', '1512982406', '1', 'Config:name\r\nAuthGroup:name\r\nMember:nickname\r\nMenu:name\r\nArticle:name\r\nArticleCategory:name\r\nAddon:name\r\nPicture:name\r\nFile:name\r\nActionLog:describe\r\nApi:name\r\nApiGroup:name\r\nBlogroll:name\r\nExeLog:exe_url\r\nSeo:name', '0');
+INSERT INTO `ob_config` VALUES ('44', 'trash_config', '3', '回收站配置', '3', '', 'key为模型名称，值为显示列。', '1492312698', '1512982406', '1', 'Config:name\r\nAuthGroup:name\r\nMember:nickname\r\nMenu:name\r\nArticle:name\r\nArticleCategory:name\r\nAddon:name\r\nPicture:name\r\nFile:name\r\nActionLog:describe\r\nApi:name\r\nApiGroup:name\r\nBlogroll:name', '0');
 INSERT INTO `ob_config` VALUES ('49', 'static_domain', '1', '静态资源域名', '1', '', '若静态资源为本地资源则此项为空，若为外部资源则为存放静态资源的域名', '1502430387', '1512555314', '1', '', '0');
 INSERT INTO `ob_config` VALUES ('52', 'team_developer', '3', '研发团队人员', '4', '', '', '1504236453', '1510894595', '1', '0:Bigotry\r\n1:扫地僧', '0');
 INSERT INTO `ob_config` VALUES ('53', 'api_status_option', '3', 'API接口状态', '4', '', '', '1504242433', '1510894595', '1', '0:待研发\r\n1:研发中\r\n2:测试中\r\n3:已完成', '0');
@@ -294,7 +294,6 @@ INSERT INTO `ob_config` VALUES ('58', 'loading_icon', '4', '页面Loading图标�
 INSERT INTO `ob_config` VALUES ('59', 'sys_file_field', '3', '文件字段配置', '3', '', 'key为模型名，值为文件列名。', '1505799386', '1512982406', '1', '0_article:file_id', '0');
 INSERT INTO `ob_config` VALUES ('60', 'sys_picture_field', '3', '图片字段配置', '3', '', 'key为模型名，值为图片列名。', '1506315422', '1512982406', '1', '0_article:cover_id\r\n1_article:img_ids', '0');
 INSERT INTO `ob_config` VALUES ('61', 'jwt_key', '1', 'JWT加密KEY', '4', '', '', '1506748805', '1510894595', '1', 'l2V|DSFXXXgfZp{8`;FjzR~6Y1_', '0');
-INSERT INTO `ob_config` VALUES ('64', 'is_write_exe_log', '4', '是否写入执行记录', '3', '0:否\r\n1:是', '', '1510544340', '1512982406', '1', '0', '101');
 INSERT INTO `ob_config` VALUES ('65', 'admin_allow_ip', '3', '超级管理员登录IP', '3', '', '后台超级管理员登录IP限制，其他角色不受限。', '1510995580', '1512982406', '1', '0:27.22.112.250', '0');
 INSERT INTO `ob_config` VALUES ('66', 'pjax_mode', '8', 'PJAX模式', '3', '0:否\r\n1:是', '若为PJAX模式则浏览器不会刷新，若为常规模式则为AJAX+刷新', '1512370397', '1512982406', '1', '1', '120');
 
@@ -315,32 +314,6 @@ CREATE TABLE `ob_driver` (
 
 -- ----------------------------
 -- Records of ob_driver
--- ----------------------------
-
--- ----------------------------
--- Table structure for `ob_exe_log`
--- ----------------------------
-DROP TABLE IF EXISTS `ob_exe_log`;
-CREATE TABLE `ob_exe_log` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键自增',
-  `ip` char(50) NOT NULL DEFAULT '' COMMENT 'IP地址',
-  `exe_url` varchar(2000) NOT NULL DEFAULT '' COMMENT '执行URL',
-  `exe_time` float(10,6) unsigned NOT NULL DEFAULT '0.000000' COMMENT '执行时间 单位 秒',
-  `exe_memory` char(20) NOT NULL DEFAULT '' COMMENT '内存占用KB',
-  `exe_os` char(30) NOT NULL DEFAULT '' COMMENT '操作系统',
-  `source_url` varchar(2000) NOT NULL DEFAULT '' COMMENT '来源URL',
-  `session_id` char(32) NOT NULL DEFAULT '' COMMENT 'session_id',
-  `browser` char(30) NOT NULL DEFAULT '' COMMENT '浏览器',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `login_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '执行者ID',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型  0 ： 应用范围 ， 1：API 范围 ',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17222 DEFAULT CHARSET=utf8 COMMENT='执行记录表';
-
--- ----------------------------
--- Records of ob_exe_log
 -- ----------------------------
 
 -- ----------------------------
@@ -484,20 +457,11 @@ INSERT INTO `ob_menu` VALUES ('163', '接口添加', '157', '0', 'admin', 'api/a
 INSERT INTO `ob_menu` VALUES ('164', '接口编辑', '157', '0', 'admin', 'api/apiedit', '1', '', '1', '1504172414', '1504172414');
 INSERT INTO `ob_menu` VALUES ('165', '接口删除', '157', '0', 'admin', 'api/apidel', '1', '', '1', '1504172435', '1504172435');
 INSERT INTO `ob_menu` VALUES ('166', '优化维护', '0', '6', 'admin', 'maintain/index', '0', 'fa-legal', '1', '1520506753', '1505387256');
-INSERT INTO `ob_menu` VALUES ('167', 'SEO管理', '166', '0', 'admin', 'seo/seolist', '0', 'fa-list', '1', '1506309608', '1505387303');
 INSERT INTO `ob_menu` VALUES ('168', '数据库', '166', '0', 'admin', 'maintain/database', '0', 'fa-database', '1', '1505539670', '1505539394');
 INSERT INTO `ob_menu` VALUES ('169', '数据备份', '168', '0', 'admin', 'database/databackup', '0', 'fa-download', '1', '1506309900', '1505539428');
 INSERT INTO `ob_menu` VALUES ('170', '数据还原', '168', '0', 'admin', 'database/datarestore', '0', 'fa-exchange', '1', '1506309911', '1505539492');
 INSERT INTO `ob_menu` VALUES ('171', '文件清理', '166', '0', 'admin', 'fileclean/cleanlist', '0', 'fa-file', '1', '1506310152', '1505788517');
 INSERT INTO `ob_menu` VALUES ('174', '行为日志', '166', '0', 'admin', 'log/loglist', '0', 'fa-street-view', '1', '1507201516', '1507200836');
-INSERT INTO `ob_menu` VALUES ('176', '执行记录', '166', '0', 'admin', 'exelog/index', '0', 'fa-list-alt', '1', '1509433351', '1509433351');
-INSERT INTO `ob_menu` VALUES ('177', '全局范围', '176', '0', 'admin', 'exelog/applist', '0', 'fa-tags', '1', '1509433570', '1509433570');
-INSERT INTO `ob_menu` VALUES ('178', '接口范围', '176', '0', 'admin', 'exelog/apilist', '0', 'fa-tag', '1', '1509433591', '1509433591');
-INSERT INTO `ob_menu` VALUES ('198', '统计分析', '0', '7', 'admin', 'statistic/index', '0', 'fa-connectdevelop', '1', '1520506758', '1512638014');
-INSERT INTO `ob_menu` VALUES ('199', '权限等级', '198', '0', 'admin', 'statistic/membertree', '0', 'fa-users', '1', '1512638868', '1512638868');
-INSERT INTO `ob_menu` VALUES ('200', '浏览器统计', '198', '0', 'admin', 'statistic/performerfacility', '0', 'fa-edge', '1', '1512727672', '1512727672');
-INSERT INTO `ob_menu` VALUES ('201', '执行速度', '198', '0', 'admin', 'statistic/exespeed', '0', 'fa-fighter-jet', '1', '1512787226', '1512787226');
-INSERT INTO `ob_menu` VALUES ('202', '会员增长', '198', '0', 'admin', 'statistic/membergrowth', '0', 'fa-line-chart', '1', '1512801997', '1512801997');
 INSERT INTO `ob_menu` VALUES ('203', '友情链接', '68', '7', 'admin', 'blogroll/index', '0', 'fa-link', '1', '1520505723', '1520505717');
 INSERT INTO `ob_menu` VALUES ('204', '链接列表', '203', '0', 'admin', 'blogroll/blogrolllist', '0', 'fa-th', '1', '1520505777', '1520505777');
 INSERT INTO `ob_menu` VALUES ('205', '链接添加', '203', '0', 'admin', 'blogroll/blogrolladd', '0', 'fa-plus', '1', '1520505826', '1520505826');
@@ -520,32 +484,3 @@ CREATE TABLE `ob_picture` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='图片表';
-
--- ----------------------------
--- Records of ob_picture
--- ----------------------------
-
--- ----------------------------
--- Table structure for `ob_seo`
--- ----------------------------
-DROP TABLE IF EXISTS `ob_seo`;
-CREATE TABLE `ob_seo` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键自增',
-  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
-  `url` varchar(40) NOT NULL DEFAULT '' COMMENT '模块',
-  `seo_title` text NOT NULL COMMENT '标题',
-  `seo_keywords` text NOT NULL COMMENT '关键字',
-  `seo_description` text NOT NULL COMMENT '描述',
-  `usable_val` varchar(255) NOT NULL DEFAULT '' COMMENT '可用变量',
-  `sort` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0',
-  `update_time` int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='seo表';
-
--- ----------------------------
--- Records of ob_seo
--- ----------------------------
-INSERT INTO `ob_seo` VALUES ('40', '首页SEO信息', 'index/index/index', 'OneBase 开发架构{$category_name}{$article_title}', 'OneBase,PHP,{$category_name},{$article_title}', '一款基于ThinkPHP5研发的开源免费基础架构，基于OneBase可以快速的研发各类Web应用。{$article_describe}', '{$category_name}，{$article_title}，{$article_describe}', '0', '1', '1505445912', '1505470293');
-INSERT INTO `ob_seo` VALUES ('41', 'OneBase-系统登录', 'index/index/login', 'OneBase', 'OneBase', 'OneBase', '', '0', '1', '1505538002', '1505538026');
