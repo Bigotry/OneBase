@@ -38,6 +38,27 @@ class Region extends AdminBase
     }
     
     /**
+     * 获取省市县选项信息
+     */
+    public function getRegionOptions($upid = 0, $level = 1, $select_id = 0)
+    {
+        
+        $list = $this->getRegionList(['upid' => $upid, 'level' => $level]);
+        
+        switch ($level)
+        {
+            case 1: $default_option_text = "---请选择省份---"; break;
+            case 2: $default_option_text = "---请选择城市---"; break;
+            case 3: $default_option_text = "---请选择区县---"; break;
+            default: $this->error('省市县 level 不存在');
+        }
+        
+        $data = $this->combineOptions($select_id, $list, $default_option_text);
+        
+        return $this->result($data);
+    }
+    
+    /**
      * 获取区域列表
      */
     public function getRegionList($where = [])
