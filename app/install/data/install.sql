@@ -421,8 +421,6 @@ INSERT INTO `ob_menu` VALUES ('72', '配置删除', '70', '0', 'admin', 'config/
 INSERT INTO `ob_menu` VALUES ('73', '配置添加', '70', '0', 'admin', 'config/configadd', '0', 'fa-plus', '1', '1491666947', '0');
 INSERT INTO `ob_menu` VALUES ('75', '菜单管理', '68', '1', 'admin', 'menu/index', '0', 'fa-th-large', '1', '1520505453', '0');
 INSERT INTO `ob_menu` VALUES ('98', '菜单编辑', '75', '0', 'admin', 'menu/menuedit', '1', '', '1', '1512459021', '0');
-INSERT INTO `ob_menu` VALUES ('108', '修改密码', '17', '0', 'admin', 'user/update_password', '1', '', '1', '0', '0');
-INSERT INTO `ob_menu` VALUES ('109', '修改昵称', '17', '0', 'admin', 'user/update_nickname', '1', '', '1', '1491578211', '0');
 INSERT INTO `ob_menu` VALUES ('124', '菜单列表', '75', '0', 'admin', 'menu/menulist', '0', 'fa-list', '1', '1491318271', '0');
 INSERT INTO `ob_menu` VALUES ('125', '菜单添加', '75', '0', 'admin', 'menu/menuadd', '0', 'fa-plus', '1', '1491318307', '0');
 INSERT INTO `ob_menu` VALUES ('126', '配置列表', '70', '0', 'admin', 'config/configlist', '0', 'fa-list', '1', '1491666890', '1491666890');
@@ -468,7 +466,8 @@ INSERT INTO `ob_menu` VALUES ('205', '链接添加', '203', '0', 'admin', 'blogr
 INSERT INTO `ob_menu` VALUES ('206', '链接编辑', '203', '0', 'admin', 'blogroll/blogrolledit', '1', 'fa-edit', '1', '1520505863', '1520505863');
 INSERT INTO `ob_menu` VALUES ('207', '链接删除', '203', '0', 'admin', 'blogroll/blogrolldel', '1', 'fa-minus', '1', '1520505889', '1520505889');
 INSERT INTO `ob_menu` VALUES ('208', '菜单排序', '75', '0', 'admin', 'menu/setsort', '1', '', '1', '1520506696', '1520506696');
-
+INSERT INTO `ob_menu` VALUES ('209', '会员编辑', '16', '2', 'admin', 'member/memberedit', '1', 'fa-edit', '1', '1520505510', '0');
+INSERT INTO `ob_menu` VALUES ('210', '修改密码', '1', '2', 'admin', 'member/editpassword', '1', 'fa-edit', '1', '1520505510', '0');
 -- ----------------------------
 -- Table structure for `ob_picture`
 -- ----------------------------

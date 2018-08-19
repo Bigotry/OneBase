@@ -44,7 +44,9 @@ class Member extends AdminBase
         
         $where['m.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
         
-        return $this->modelMember->getList($where, $field, $order, $paginate, $join);
+        $this->modelMember->join = $join;
+        
+        return $this->modelMember->getList($where, $field, $order, $paginate);
     }
     
     /**
@@ -225,6 +227,37 @@ class Member extends AdminBase
         $result && action_log('编辑', '编辑会员，id：' . $data['id']);
         
         return $result ? [RESULT_SUCCESS, '会员编辑成功', $url] : [RESULT_ERROR, $this->modelMember->getError()];
+    }
+    
+    /**
+     * 修改密码
+     */
+    public function editPassword($data = [])
+    {
+        
+        $validate_result = $this->validateMember->scene('password')->check($data);
+        
+        if (!$validate_result) {
+            
+            return [RESULT_ERROR, $this->validateMember->getError()];
+        }
+        
+        $member = $this->getMemberInfo(['id' => $data['id']]);
+        
+        if (data_md5_key($data['old_password']) != $member['password']) {
+            
+            return [RESULT_ERROR, '旧密码输入不正确'];
+        }
+        
+        $data['id'] = MEMBER_ID;
+        
+        $url = url('index/index');
+        
+        $result = $this->modelMember->setInfo($data);
+        
+        $result && action_log('编辑', '会员密码修改，id：' . $data['id']);
+        
+        return $result ? [RESULT_SUCCESS, '密码修改成功', $url] : [RESULT_ERROR, $this->modelMember->getError()];
     }
     
     /**

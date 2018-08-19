@@ -87,7 +87,9 @@ class AuthGroupAccess extends AdminBase
                     [SYS_DB_PREFIX . 'auth_group g', 'a.group_id = g.id'],
                 ];
         
-        return $this->modelAuthGroupAccess->getList($where, $field, '', false, $join);
+        $this->modelAuthGroupAccess->join = $join;
+        
+        return $this->modelAuthGroupAccess->getList($where, $field, '', false);
     }
     
     /**

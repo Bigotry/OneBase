@@ -56,7 +56,9 @@ class Article extends LogicBase
         
         $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
         
-        return $this->modelArticle->getList($where, $field, $order, DB_LIST_ROWS, $join);
+        $this->modelArticle->join = $join;
+        
+        return $this->modelArticle->getList($where, $field, $order);
     }
     
     /**
@@ -89,8 +91,6 @@ class Article extends LogicBase
         
         empty($data['id']) && $data['member_id'] = MEMBER_ID;
         
-        $data['content'] = html_entity_decode($data['content']);
-        
         $result = $this->modelArticle->setInfo($data);
         
         $handle_text = empty($data['id']) ? '新增' : '编辑';
@@ -103,7 +103,7 @@ class Article extends LogicBase
     /**
      * 获取文章信息
      */
-    public function getArticleInfo($where = [], $field = 'a.*')
+    public function getArticleInfo($where = [], $field = 'a.*,m.nickname,c.name as category_name')
     {
         
         $this->modelArticle->alias('a');
@@ -115,7 +115,9 @@ class Article extends LogicBase
         
         $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
         
-        return $this->modelArticle->getInfo($where, $field, $join);
+        $this->modelArticle->join = $join;
+        
+        return $this->modelArticle->getInfo($where, $field);
     }
     
     /**

@@ -60,10 +60,6 @@ class Article extends ApiBase
     public function getArticleInfo($data = [])
     {
         
-        $info = static::$commonArticleLogic->getArticleInfo(['a.id' => $data['article_id']], 'a.*,m.nickname,c.name as category_name');
-        
-        $info['content'] = html_entity_decode($info['content'] );
-        
-        return $info;
+        return static::$commonArticleLogic->getArticleInfo(['a.id' => $data['article_id']], 'a.*,m.nickname,c.name as category_name');
     }
 }

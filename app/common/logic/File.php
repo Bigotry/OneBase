@@ -54,7 +54,7 @@ class File extends LogicBase
         
         $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
         
-        $result = $this->modelPicture->addInfo($data);
+        $result = $this->modelPicture->setInfo($data);
 
         unset($object);
 
@@ -92,7 +92,7 @@ class File extends LogicBase
         
         $data = ['name' => $filename, 'path' => $file_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
         
-        $result = $this->modelFile->addInfo($data);
+        $result = $this->modelFile->setInfo($data);
 
         unset($object);
         

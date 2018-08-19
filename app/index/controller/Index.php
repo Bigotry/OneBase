@@ -42,8 +42,6 @@ class Index extends IndexBase
         
         $data = $this->logicArticle->getArticleInfo($where);
         
-        $data['content'] = html_entity_decode($data['content']);
-        
         $this->assign('article_info', $data);
         
         $this->assign('category_list', $this->logicArticle->getArticleCategoryList([], true, 'create_time asc', false));

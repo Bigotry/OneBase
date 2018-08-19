@@ -64,7 +64,11 @@
           
         <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
         
-        {include file="layout/edit_btn_group"/}
+        <button  type="submit" class="btn ladda-button ajax-post" data-style="slide-up" target-form="form_single">
+            <span class="ladda-label"><i class="fa fa-send"></i> 确 定</span>
+        </button>
+
+        <a class="btn" href="{:url('menuList')}"><i class="fa fa-history"></i> 返 回</a>
         
       </div>
     </div>

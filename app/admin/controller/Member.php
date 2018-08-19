@@ -99,4 +99,19 @@ class Member extends AdminBase
         
         return $this->jump($this->logicMember->memberDel(['id' => $id]));
     }
+    
+    /**
+     * 修改密码
+     */
+    public function editPassword()
+    {
+        
+        IS_POST && $this->jump($this->logicMember->editPassword($this->param));
+        
+        $info = $this->logicMember->getMemberInfo(['id' => MEMBER_ID]);
+        
+        $this->assign('info', $info);
+        
+        return $this->fetch('edit_password');
+    }
 }

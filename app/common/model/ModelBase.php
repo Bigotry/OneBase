@@ -37,16 +37,16 @@ class ModelBase extends Model
     /**
      * 设置数据
      */
-    final protected function setInfo($data = [], $where = [], $sequence = null)
+    final protected function setInfo($data = [], $where = [])
     {
         
         $pk = $this->getPk();
         
-        $return_data = null;
-        
         if (empty($data[$pk])) {
             
-            $return_data = $this->allowField(true)->save($data, $where, $sequence);
+            $this->allowField(true)->save($data, $where);
+            
+            return $this->getQuery()->getLastInsID();
             
         } else {
             
@@ -56,23 +56,8 @@ class ModelBase extends Model
             
             $default_where[$pk] = $data[$pk];
             
-            $return_data = $this->updateInfo(array_merge($default_where, $where), $data);
+            return $this->updateInfo(array_merge($default_where, $where), $data);
         }
-        
-        return $return_data;
-    }
-    
-    /**
-     * 新增数据
-     */
-    final protected function addInfo($data = [], $is_return_pk = true)
-    {
-        
-        $data[TIME_CT_NAME] = TIME_NOW;
-        
-        $return_data = $this->insert($data, false, $is_return_pk);
-        
-        return $return_data;
     }
     
     /**
@@ -154,47 +139,43 @@ class ModelBase extends Model
     /**
      * 获取单条数据
      */
-    final protected function getInfo($where = [], $field = true, $join = null, $data = null)
+    final protected function getInfo($where = [], $field = true)
     {
         
-        empty($join) ? self::$ob_query = $this->where($where)->field($field) : self::$ob_query = $this->join($join)->where($where)->field($field);
+        self::$ob_query = $this->where($where)->field($field);
         
-        return $this->getResultData(DATA_DISABLE, $data);
+        !empty($this->join)  && self::$ob_query = self::$ob_query->join($this->join);
+        
+        return $this->getResultData(DATA_DISABLE);
     }
     
     /**
      * 获取列表数据
+     * 若不需要分页 $paginate 设置为 false
      */
-    final protected function getList($where = [], $field = true, $order = '', $paginate = 0, $join = [], $group = '', $limit = null, $data = null)
+    final protected function getList($where = [], $field = true, $order = '', $paginate = 0)
     {
         
-        if (is_string($where)) {
+        if (empty($this->join) && !isset($where[DATA_STATUS_NAME])) {
             
-            return $this->query($where);
+            $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
         }
-        
-        empty($join) && !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
         
         self::$ob_query = $this->where($where)->order($order)->field($field);
         
-        !empty($join)  && self::$ob_query = self::$ob_query->join($join);
+        !empty($this->join)  && self::$ob_query = self::$ob_query->join($this->join);
         
-        !empty($group) && self::$ob_query = self::$ob_query->group($group);
+        !empty($this->group) && self::$ob_query = self::$ob_query->group($this->group);
     
-        !empty($limit) && self::$ob_query = self::$ob_query->limit($limit);
+        !empty($this->limit) && self::$ob_query = self::$ob_query->limit($this->limit);
         
-        if (DATA_DISABLE === $paginate) {
-            
-            $paginate = DB_LIST_ROWS;
-        }
-        
-        return $this->getResultData($paginate, $data);
+        return $this->getResultData($paginate);
     }
     
     /**
      * 获取结果数据
      */
-    final protected function getResultData($paginate = 0, $data = null)
+    final protected function getResultData($paginate = 0)
     {
         
         $result_data = null;
@@ -218,11 +199,11 @@ class ModelBase extends Model
                 $paginate = DB_LIST_ROWS;
             }
 
-            $result_data = false !== $paginate ? self::$ob_query->paginate($paginate, false, ['query' => request()->param()]) : self::$ob_query->select($data);
+            $result_data = false !== $paginate ? self::$ob_query->paginate($paginate, false, ['query' => request()->param()]) : self::$ob_query->select();
 
         } else {
 
-            $result_data = self::$ob_query->find($data);
+            $result_data = self::$ob_query->find();
         }
 
         self::$ob_query->removeOption();
