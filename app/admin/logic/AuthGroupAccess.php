@@ -95,7 +95,7 @@ class AuthGroupAccess extends AdminBase
     /**
      * 获取授权列表
      */
-    public function getAuthGroupAccessList($where = [], $field = true, $order = '', $paginate = false)
+    public function getAuthGroupAccessList($where = [], $field = 'member_id,group_id', $order = 'member_id', $paginate = false)
     {
         
         return $this->modelAuthGroupAccess->getList($where, $field, $order, $paginate);

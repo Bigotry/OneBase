@@ -20,9 +20,6 @@ use think\Db;
 class ModelBase extends Model
 {
     
-    // 查询对象
-    private static $ob_query = null;
-
     /**
      * 状态获取器
      */
@@ -142,11 +139,9 @@ class ModelBase extends Model
     final protected function getInfo($where = [], $field = true)
     {
         
-        self::$ob_query = $this->where($where)->field($field);
+        $query = !empty($this->join) ? $this->join($this->join) : $this;
         
-        !empty($this->join)  && self::$ob_query = self::$ob_query->join($this->join);
-        
-        return $this->getResultData(DATA_DISABLE);
+        return $query->where($where)->field($field)->find();
     }
     
     /**
@@ -156,59 +151,29 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = 0)
     {
         
-        if (empty($this->join) && !isset($where[DATA_STATUS_NAME])) {
+        empty($this->join) && !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+
+        if (empty($this->join)) {
             
-            $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
-        }
-        
-        self::$ob_query = $this->where($where)->order($order)->field($field);
-        
-        !empty($this->join)  && self::$ob_query = self::$ob_query->join($this->join);
-        
-        !empty($this->group) && self::$ob_query = self::$ob_query->group($this->group);
-    
-        !empty($this->limit) && self::$ob_query = self::$ob_query->limit($this->limit);
-        
-        return $this->getResultData($paginate);
-    }
-    
-    /**
-     * 获取结果数据
-     */
-    final protected function getResultData($paginate = 0)
-    {
-        
-        $result_data = null;
-        
-        $backtrace = debug_backtrace(false, 2);
-
-        array_shift($backtrace);
-
-        $function = $backtrace[0]['function'];
-
-        if ($function == 'getList') {
-
-            $list_rows = input('list_rows');
+            !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
             
-            if (false != $paginate && !empty($list_rows)) {
-                
-                $paginate = $list_rows;
-                
-            } elseif (false != $paginate && empty($paginate)) {
-                
-                $paginate = DB_LIST_ROWS;
-            }
-
-            $result_data = false !== $paginate ? self::$ob_query->paginate($paginate, false, ['query' => request()->param()]) : self::$ob_query->select();
-
+            $query = $this;
+            
         } else {
-
-            $result_data = self::$ob_query->find();
+            
+            $query = $this->join($this->join);
         }
-
-        self::$ob_query->removeOption();
-
-        return $result_data;
+        
+        $query = $query->where($where)->order($order)->field($field);
+        
+        if (false === $paginate) {
+            
+            return $query->select();
+        }
+        
+        $list_rows = empty($paginate) ? DB_LIST_ROWS : $paginate;
+        
+        return $query->paginate(input('list_rows', $list_rows), false, ['query' => request()->param()]);
     }
     
     /**

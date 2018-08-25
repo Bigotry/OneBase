@@ -44,7 +44,7 @@ class Article extends LogicBase
     /**
      * 获取文章列表
      */
-    public function getArticleList($where = [], $field = 'a.*', $order = '')
+    public function getArticleList($where = [], $field = 'a.*,m.nickname,c.name as category_name', $order = '')
     {
         
         $this->modelArticle->alias('a');
