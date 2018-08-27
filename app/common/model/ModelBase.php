@@ -19,7 +19,12 @@ use think\Db;
  */
 class ModelBase extends Model
 {
-    
+
+    /**
+     * 连接查询
+     */
+    protected $join = [];
+
     /**
      * 状态获取器
      */
@@ -141,7 +146,11 @@ class ModelBase extends Model
         
         $query = !empty($this->join) ? $this->join($this->join) : $this;
         
-        return $query->where($where)->field($field)->find();
+        $info = $query->where($where)->field($field)->find();
+        
+        $this->join = [];
+        
+        return $info;
     }
     
     /**
@@ -165,15 +174,21 @@ class ModelBase extends Model
         }
         
         $query = $query->where($where)->order($order)->field($field);
-        
+ 
         if (false === $paginate) {
+       
+            $list = $query->select();
             
-            return $query->select();
+        } else {
+        
+            $list_rows = empty($paginate) ? DB_LIST_ROWS : $paginate;
+
+            $list = $query->paginate(input('list_rows', $list_rows), false, ['query' => request()->param()]);
         }
+
+        $this->join = [];
         
-        $list_rows = empty($paginate) ? DB_LIST_ROWS : $paginate;
-        
-        return $query->paginate(input('list_rows', $list_rows), false, ['query' => request()->param()]);
+        return $list;
     }
     
     /**
