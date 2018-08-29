@@ -17,17 +17,17 @@ $(function(){
     
     function changeProvince(province_id = 0, select_id = 0)
     {
-        $.get(get_options_url, {upid: province_id, select_id: select_id, level : 1}, function(result){ $("#province_{$widget_data.name}").html(result.data); });
+        $.get(get_options_url, {upid: province_id, select_id: select_id, level : 1}, function(result){ $("#province_{$widget_data.name}").html(result); });
     }
 
     function changeCity(city_id = 0, select_id = 0)
     {
-        $.get(get_options_url, {upid: city_id, select_id: select_id, level : 2}, function(result){ $("#city_{$widget_data.name}").html(result.data); });
+        $.get(get_options_url, {upid: city_id, select_id: select_id, level : 2}, function(result){ $("#city_{$widget_data.name}").html(result); });
     }
 
     function changeCounty(county_id = 0, select_id = 0)
     {
-        $.get(get_options_url, {upid: county_id, select_id: select_id, level : 3}, function(result){ $("#county_{$widget_data.name}").html(result.data); });
+        $.get(get_options_url, {upid: county_id, select_id: select_id, level : 3}, function(result){ $("#county_{$widget_data.name}").html(result); });
     }
     
     changeProvince(0, province_id);

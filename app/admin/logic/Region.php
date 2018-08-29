@@ -53,9 +53,7 @@ class Region extends AdminBase
             default: $this->error('省市县 level 不存在');
         }
         
-        $data = $this->combineOptions($select_id, $list, $default_option_text);
-        
-        return $this->result($data);
+        return $this->combineOptions($select_id, $list, $default_option_text);
     }
     
     /**
