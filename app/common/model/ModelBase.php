@@ -174,7 +174,10 @@ class ModelBase extends Model
         }
         
         $query = $query->where($where)->order($order)->field($field);
- 
+        
+        !empty($this->limit) && $query->limit($this->limit);
+        !empty($this->group) && $query->group($this->group);
+        
         if (false === $paginate) {
        
             $list = $query->select();
@@ -186,7 +189,7 @@ class ModelBase extends Model
             $list = $query->paginate(input('list_rows', $list_rows), false, ['query' => request()->param()]);
         }
 
-        $this->join = [];
+        $this->join = []; $this->limit = []; $this->group = [];
         
         return $list;
     }
