@@ -26,7 +26,7 @@ class ApiBase extends LogicBase
     public function apiReturn($code_data = [], $return_data = [], $return_type = 'json')
     {
         
-        if (array_key_exists(API_CODE_NAME, $code_data)) {
+        if (is_array($code_data) && array_key_exists(API_CODE_NAME, $code_data)) {
             
             !empty($return_data) && $code_data['data'] = $return_data;
 
