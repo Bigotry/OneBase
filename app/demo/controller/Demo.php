@@ -40,6 +40,11 @@ class Demo extends ControllerBase
     public function demoStorage() { $this->logicDemo->demoStorage(); }
     
     /**
+     * 视频点播服务
+     */
+    public function demoVod() { $this->logicDemo->demoVod(); }
+    
+    /**
      * 短信服务
      */
     public function demoSendSms() { $this->logicDemo->demoSendSms(); }

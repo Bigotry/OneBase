@@ -156,4 +156,17 @@ class Demo extends LogicBase
         
         dump($data);
     }
+    
+    /**
+     * 视频点播服务
+     */
+    public function demoVod()
+    {
+        
+        $obj = $this->serviceVod->driverAlivod->createUploadVideo();
+        
+        $video_info = $this->serviceVod->driverAlivod->uploadVideo($obj, './test.mp4');
+        
+        dump($video_info);
+    }
 }
