@@ -840,6 +840,10 @@ class RequestCore
         set_time_limit(0);
 
         $curl_handle = $this->prep_request();
+        
+        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYHOST, false);
+        
         $this->response = curl_exec($curl_handle);
 
         if ($this->response === false) {
