@@ -97,9 +97,13 @@ class AdminBase extends LogicBase
         
         $temp_url = sr($full_url, URL_ROOT);
 
-        $url_array_tmp = explode(SYS_DS_PROS, $temp_url); 
+        $url_array_tmp = explode(SYS_DS_PROS, $temp_url);
         
-        $return_url = $url_array_tmp[1] . SYS_DS_PROS . $url_array_tmp[2];
+        $subscript = DATA_NORMAL;
+        
+        !defined('BIND_MODULE') && $subscript++;
+        
+        $return_url = $url_array_tmp[$subscript] . SYS_DS_PROS . $url_array_tmp[++$subscript];
         
         $index = strpos($return_url, '.');
         
@@ -116,7 +120,7 @@ class AdminBase extends LogicBase
         
         $results = [];
         
-        preg_match_all('/<ob_link>.*?<\/ob_link>/', $content, $results);
+        preg_match_all('/<ob_link>.*?[\s\S]*?<\/ob_link>/', $content, $results);
         
         foreach ($results[0] as $a)
         {
