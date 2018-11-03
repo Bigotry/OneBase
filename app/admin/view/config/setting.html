@@ -14,6 +14,8 @@ case value
 11:时间
 12:颜色
 -->
+<link rel="stylesheet" href="__STATIC__/module/admin/ext/datetimepicker/css/datetimepicker.css" type="text/css">
+<link rel="stylesheet" href="__STATIC__/module/admin/ext/datetimepicker/css/dropdown.css" type="text/css">
 
 <form action="{:url()}" method="post" class="form_single">
     
@@ -203,16 +205,18 @@ case value
 
 <script type="text/javascript">
 
-
-    $(function(){
-        
+    var arr = [
+        static_root + 'module/admin/ext/datetimepicker/js/bootstrap-datetimepicker.min.js', 
+        static_root + 'module/admin/ext/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js', 
+    ];
+    ob.loadMultiScripts(arr).done(function() {
         $('.date').datetimepicker({
             format: 'yyyy-mm-dd',
             language:"zh-CN",
             minView:2,
             autoclose:true
         });
-        
+
         $('.time').datetimepicker({
             format: 'yyyy-mm-dd hh:ii:ss',
             language:"zh-CN",
@@ -220,7 +224,7 @@ case value
             autoclose:true
         });
     });
-    
+
     function selectCheckbox(obj)
     {
         

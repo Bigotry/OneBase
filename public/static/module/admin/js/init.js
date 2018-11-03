@@ -65,5 +65,21 @@
         }
     };
     
+    /* 批量加载JS脚本文件 */
+    ob.loadMultiScripts = function(arr) {
+
+        var _arr = $.map(arr, function(scr) {
+
+            return $.getScript(scr);
+        });
+
+        _arr.push($.Deferred(function(deferred){
+
+            $(deferred.resolve);
+
+        }));
+
+        return $.when.apply($, _arr);
+    }
 
 })(jQuery);

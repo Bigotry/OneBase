@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="__STATIC__/widget/admin/file/Huploadify.css">
-
+    
 <div id="upload_picture_{$widget_data['name']}"></div>
 
 <input type="hidden" name="{$widget_data['name']}" id="{$widget_data['name']}" value="{$widget_data['value']}"/>
@@ -21,17 +21,23 @@
 
     var maxwidth = "{$widget_config['maxwidth']}";
 
-    $("#upload_picture_{$widget_data.name}").Huploadify({
-        auto: true,
-        height: 30,
-        fileObjName: "file",
-        buttonText: "上传图片",
-        uploader: "{:url('File/pictureUpload',array('session_id'=>session_id()))}",
-        width: 120,
-        removeTimeout: 1,
-        fileSizeLimit:"{$widget_config['max_size']}",
-        fileTypeExts: "{$widget_config['allow_postfix']}",
-        onUploadComplete: uploadPicture{$widget_data.name}
+    var arr = [
+        static_root + 'widget/admin/file/jquery.Huploadify.js'
+    ];
+
+    ob.loadMultiScripts(arr).done(function() {
+        $("#upload_picture_{$widget_data.name}").Huploadify({
+            auto: true,
+            height: 30,
+            fileObjName: "file",
+            buttonText: "上传图片",
+            uploader: "{:url('File/pictureUpload',array('session_id'=>session_id()))}",
+            width: 120,
+            removeTimeout: 1,
+            fileSizeLimit:"{$widget_config['max_size']}",
+            fileTypeExts: "{$widget_config['allow_postfix']}",
+            onUploadComplete: uploadPicture{$widget_data.name}
+        });
     });
 
     function uploadPicture{$widget_data.name}(file, data)

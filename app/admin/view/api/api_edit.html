@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="__STATIC__/module/admin/ext/edittable/jquery.edittable.min.css">
+
 <form action="{:url()}" method="post" class="form_single">
     <div class="box">
       <div class="box-body">
@@ -238,87 +240,96 @@
 
 <script type="text/javascript">
 
-var request_data_table = $('#request_data_table').editTable({
-    field_templates: {
-        'request_data_field_describe' : {
-            html: "<textarea name='request_data[field_describe][]'/>",
-            getValue: function (input) {
-                return $(input).val();
+var arr = [
+    static_root + 'module/admin/ext/edittable/jquery.edittable.js', 
+];
+
+ob.loadMultiScripts(arr).done(function() {
+
+    var request_data_table = $('#request_data_table').editTable({
+        field_templates: {
+            'request_data_field_describe' : {
+                
+                html: "<textarea name='request_data[field_describe][]'/>",
+                getValue: function (input) {
+                    return $(input).val();
+                },
+                setValue: function (input, value) {
+                    return $(input).text(value);
+                }
             },
-            setValue: function (input, value) {
-                return $(input).text(value);
+            'request_data_is_require' : {
+                html: "<select name='request_data[is_require][]' style='margin: 5px;'><option value='1'>是</option><option  value='0'>否</option></select>",
+                getValue: function (input) {
+                    return $(input).val();
+                },
+                setValue: function (input, value) {
+                    var select = $(input);
+                    select.find('option').filter(function() {
+                        return $(this).val() == value; 
+                    }).attr('selected', true);
+                    return select;
+                }
+            },
+            'request_data_type' : {
+                html: "<select name='request_data[data_type][]' style='margin: 5px;'>"+api_data_type_option+"</select>",
+                getValue: function (input) {
+                    return $(input).val();
+                },
+                setValue: function (input, value) {
+                    var select = $(input);
+                    select.find('option').filter(function() {
+                        return $(this).val() == value; 
+                    }).attr('selected', true);
+                    return select;
+                }
             }
         },
-        'request_data_is_require' : {
-            html: "<select name='request_data[is_require][]' style='margin: 5px;'><option value='1'>是</option><option  value='0'>否</option></select>",
-            getValue: function (input) {
-                return $(input).val();
+        row_template: ['text', 'request_data_type', 'request_data_is_require', 'request_data_field_describe'],
+        headerCols: ['字段名称', '数据类型', '&nbsp;&nbsp;是否必填&nbsp;&nbsp;' , '字段描述'],
+        first_row: false,
+        data: [],
+        tableClass: 'inputtable custom'
+    });
+
+    request_data_table.loadData({$info.request_data_json});
+
+    default_text_name = 'response_data[field_name][]';
+
+    var response_data_table = $('#response_data_table').editTable({
+        field_templates: {
+            'response_data_field_describe' : {
+                html: "<textarea name='response_data[field_describe][]'/>",
+                getValue: function (input) {
+                    return $(input).val();
+                },
+                setValue: function (input, value) {
+                    return $(input).text(value);
+                }
             },
-            setValue: function (input, value) {
-                var select = $(input);
-                select.find('option').filter(function() {
-                    return $(this).val() == value; 
-                }).attr('selected', true);
-                return select;
+            'response_data_type' : {
+                html: "<select name='response_data[data_type][]' style='margin: 5px;'>"+api_data_type_option+"</select>",
+                getValue: function (input) {
+                    return $(input).val();
+                },
+                setValue: function (input, value) {
+                    var select = $(input);
+                    select.find('option').filter(function() {
+                        return $(this).val() == value; 
+                    }).attr('selected', true);
+                    return select;
+                }
             }
         },
-        'request_data_type' : {
-            html: "<select name='request_data[data_type][]' style='margin: 5px;'>"+api_data_type_option+"</select>",
-            getValue: function (input) {
-                return $(input).val();
-            },
-            setValue: function (input, value) {
-                var select = $(input);
-                select.find('option').filter(function() {
-                    return $(this).val() == value; 
-                }).attr('selected', true);
-                return select;
-            }
-        }
-    },
-    row_template: ['text', 'request_data_type', 'request_data_is_require', 'request_data_field_describe'],
-    headerCols: ['字段名称', '数据类型', '&nbsp;&nbsp;是否必填&nbsp;&nbsp;' , '字段描述'],
-    first_row: false,
-    data: [],
-    tableClass: 'inputtable custom'
+        row_template: ['text', 'response_data_type', 'response_data_field_describe'],
+        headerCols: ['字段名称', '数据类型', '字段描述'],
+        first_row: false,
+        data: [],
+        tableClass: 'inputtable custom'
+    });
+
+    response_data_table.loadData({$info.response_data_json});
+
 });
-
-request_data_table.loadData({$info.request_data_json});
-
-default_text_name = 'response_data[field_name][]';
-
-var response_data_table = $('#response_data_table').editTable({
-    field_templates: {
-        'response_data_field_describe' : {
-            html: "<textarea name='response_data[field_describe][]'/>",
-            getValue: function (input) {
-                return $(input).val();
-            },
-            setValue: function (input, value) {
-                return $(input).text(value);
-            }
-        },
-        'response_data_type' : {
-            html: "<select name='response_data[data_type][]' style='margin: 5px;'>"+api_data_type_option+"</select>",
-            getValue: function (input) {
-                return $(input).val();
-            },
-            setValue: function (input, value) {
-                var select = $(input);
-                select.find('option').filter(function() {
-                    return $(this).val() == value; 
-                }).attr('selected', true);
-                return select;
-            }
-        }
-    },
-    row_template: ['text', 'response_data_type', 'response_data_field_describe'],
-    headerCols: ['字段名称', '数据类型', '字段描述'],
-    first_row: false,
-    data: [],
-    tableClass: 'inputtable custom'
-});
-
-response_data_table.loadData({$info.response_data_json});
 
 </script>

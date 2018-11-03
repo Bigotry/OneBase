@@ -60,7 +60,7 @@ class ControllerBase extends Controller
         defined('URL_TRUE')         or define('URL_TRUE',        $this->request->url(true));
         defined('DOMAIN')           or define('DOMAIN',          $this->request->domain());
         defined('URL_ROOT')         or define('URL_ROOT',        $this->request->root());
-        
+
         $this->param = $this->request->param();
     }
     
@@ -119,6 +119,8 @@ class ControllerBase extends Controller
         $this->assign('loading_icon', config('loading_icon'));
         
         $this->assign('pjax_mode',    config('pjax_mode'));
+        
+        $this->assign('static_root',  DOMAIN . dirname(URL_ROOT) . SYS_DS_PROS . SYS_STATIC_DIR_NAME . SYS_DS_PROS);
     }
     
     /**
