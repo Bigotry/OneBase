@@ -91,6 +91,8 @@ class Article extends LogicBase
         
         empty($data['id']) && $data['member_id'] = MEMBER_ID;
         
+        $data['content'] = html_entity_decode($data['content']);
+        
         $result = $this->modelArticle->setInfo($data);
         
         $handle_text = empty($data['id']) ? '新增' : '编辑';

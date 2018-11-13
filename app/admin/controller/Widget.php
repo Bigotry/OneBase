@@ -11,6 +11,7 @@
 
 namespace app\admin\controller;
 use app\common\controller\ControllerBase;
+use app\common\logic\File as LogicFile;
 
 /**
  * Widget控制器
@@ -25,5 +26,18 @@ class Widget extends ControllerBase
     {
         
         return $this->logicRegion->getRegionOptions($upid, $level, $select_id);
+    }
+    
+    /**
+     * 编辑器图片上传
+     */
+    public function editorPictureUpload()
+    {
+        
+        $result = get_sington_object('fileLogic', LogicFile::class)->pictureUpload('imgFile');
+        
+        $data  = false === $result ? [RESULT_ERROR => DATA_NORMAL, RESULT_MESSAGE => '文件上传失败'] : [RESULT_ERROR => DATA_DISABLE, RESULT_URL => get_picture_url($result['id'])];
+        
+        return throw_response_exception($data);
     }
 }

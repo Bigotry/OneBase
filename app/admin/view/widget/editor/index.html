@@ -16,13 +16,15 @@ ob.loadMultiScripts(arr).done(function() {
                 pasteType : 2,
                 urlType : 'absolute',
                 fileManagerJson : '{:url('fileManagerJson')}',
-                uploadJson : "{:url('file/editorPictureUpload')}",
+                uploadJson : "{:url('widget/editorPictureUpload')}",
+                pluginsPath: static_root + 'widget/admin/editor/kindeditor/plugins/',
                 items : [
-                'source', 'undo', 'redo', 'cut', 'copy','paste', 'plainpaste', 'wordpaste','selectall',
-                'justifyleft','justifycenter','justifyright','justifyfull','insertorderedlist','indent',
-                'outdent','subscript','superscript','fontname','fontsize','forecolor','hilitecolor','bold',
-                'italic','underline','strikethrough','removeformat','image','table',
-                'link','unlink','fullscreen'
+                'source',       'undo',             'redo',             'cut',              'copy',             'paste',        'plainpaste',
+                'wordpaste',    'selectall',        'justifyleft',      'justifycenter',    'justifyright',     'justifyfull',  'insertorderedlist',
+                'indent',       'outdent',          'subscript',        'superscript',      'fontname',         'fontsize',     'forecolor',
+                'hilitecolor',  'bold',             'italic',           'underline',        'strikethrough',    'removeformat', 'image',
+                'table',        'link',             'unlink',           'fullscreen',       'emoticons',        'baidumap',      'preview',
+                'print',        'template',         'code',             'quickformat'
                 ],
                 extraFileUploadParams: { session_id : '{:session_id()}'},
                 afterBlur: function(){editor_{$widget_data.name}.sync();}
