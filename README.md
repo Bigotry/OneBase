@@ -36,13 +36,13 @@ OneBase是一个基于ThinkPHP5的免费开源，快速简单，面向对象的�
 
 
 
-官网首页：https://onebase.org
+官网首页：http://onebase.org
 
-后台演示：https://demo.onebase.org/admin.php （账号:demo，密码:111111，后台演示仅部分权限，完整权限需部署安装）
+后台演示：http://demo.onebase.org/admin.php （账号:demo，密码:111111，后台演示仅部分权限，完整权限需部署安装）
 
-接口演示：https://demo.onebase.org/api.php
+接口演示：http://demo.onebase.org/api.php
 
-前端演示：https://demo.onebase.org
+前端演示：http://demo.onebase.org
 
 视频演示：http://static.onebase.org/OneBase.mp4
 
