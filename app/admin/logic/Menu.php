@@ -66,28 +66,29 @@ class Menu extends AdminBase
     public function menuToSelect($menu_list = [], $level = 0, $name = 'name', $child = 'child')
     {
         
-        foreach ($menu_list as $info) {
+        $menu_list_count = count($menu_list);
+        
+        foreach ($menu_list as $k => $info) {
             
-            $tmp_str = str_repeat("&nbsp;", $level * 4);
+            empty($k) && ++$level;
             
-            $tmp_str .= "├";
-
-            $info['level'] = $level;
+            $tmp_str = str_repeat("&nbsp;", $level * 6) . "├";
             
-            $info[$name] = empty($level) || empty($info['pid']) ? $info[$name]."&nbsp;" : $tmp_str . $info[$name] . "&nbsp;";
+            $info[$name] = $tmp_str . $info[$name] . "&nbsp;";
+            
+            array_push(self::$menuSelect, $info);
             
             if (!array_key_exists($child, $info)) {
 
-                array_push(self::$menuSelect, $info);
+                $k != $menu_list_count - DATA_NORMAL ? : $level > DATA_NORMAL && --$level;
+                
             } else {
                 
                 $tmp_ary = $info[$child];
                 
                 unset($info[$child]);
                 
-                array_push(self::$menuSelect, $info);
-                
-                $this->menuToSelect($tmp_ary, ++$level, $name, $child);
+                $this->menuToSelect($tmp_ary, $level, $name, $child);
             }
         }
         
