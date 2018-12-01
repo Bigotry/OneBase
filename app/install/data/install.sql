@@ -394,6 +394,7 @@ CREATE TABLE `ob_menu` (
   `module` char(20) NOT NULL DEFAULT '' COMMENT '模块',
   `url` char(255) NOT NULL DEFAULT '' COMMENT '链接地址',
   `is_hide` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否隐藏',
+  `is_shortcut` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否快捷操作',
   `icon` char(30) NOT NULL DEFAULT '' COMMENT '图标',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0',
@@ -404,70 +405,70 @@ CREATE TABLE `ob_menu` (
 -- ----------------------------
 -- Records of ob_menu
 -- ----------------------------
-INSERT INTO `ob_menu` VALUES ('1', '系统首页', '0', '1', 'admin', 'index/index', '0', 'fa-home', '1', '1520506753', '0');
-INSERT INTO `ob_menu` VALUES ('16', '会员管理', '0', '3', 'admin', 'member/index', '0', 'fa-users', '1', '1520506753', '0');
-INSERT INTO `ob_menu` VALUES ('17', '会员列表', '16', '1', 'admin', 'member/memberlist', '0', 'fa-list', '1', '1495272875', '0');
-INSERT INTO `ob_menu` VALUES ('18', '会员添加', '16', '2', 'admin', 'member/memberadd', '0', 'fa-user-plus', '1', '1520505510', '0');
-INSERT INTO `ob_menu` VALUES ('27', '权限管理', '16', '3', 'admin', 'auth/grouplist', '0', 'fa-key', '1', '1520505512', '0');
-INSERT INTO `ob_menu` VALUES ('32', '权限组编辑', '27', '0', 'admin', 'auth/groupedit', '1', '', '1', '1492002620', '0');
-INSERT INTO `ob_menu` VALUES ('34', '授权', '27', '0', 'admin', 'auth_manager/group', '1', '', '1', '0', '0');
-INSERT INTO `ob_menu` VALUES ('35', '菜单授权', '27', '0', 'admin', 'auth/menuauth', '1', '', '1', '1492095653', '0');
-INSERT INTO `ob_menu` VALUES ('36', '会员授权', '27', '0', 'admin', 'auth_manager/memberaccess', '1', '', '1', '0', '0');
-INSERT INTO `ob_menu` VALUES ('68', '系统管理', '0', '2', 'admin', 'config/group', '0', 'fa-wrench', '1', '1520506753', '0');
-INSERT INTO `ob_menu` VALUES ('69', '系统设置', '68', '3', 'admin', 'config/setting', '0', 'fa-cogs', '1', '1520505460', '0');
-INSERT INTO `ob_menu` VALUES ('70', '配置管理', '68', '2', 'admin', 'config/index', '0', 'fa-cog', '1', '1520505457', '0');
-INSERT INTO `ob_menu` VALUES ('71', '配置编辑', '70', '0', 'admin', 'config/configedit', '1', '', '1', '1491674180', '0');
-INSERT INTO `ob_menu` VALUES ('72', '配置删除', '70', '0', 'admin', 'config/configDel', '1', '', '1', '1491674201', '0');
-INSERT INTO `ob_menu` VALUES ('73', '配置添加', '70', '0', 'admin', 'config/configadd', '0', 'fa-plus', '1', '1491666947', '0');
-INSERT INTO `ob_menu` VALUES ('75', '菜单管理', '68', '1', 'admin', 'menu/index', '0', 'fa-th-large', '1', '1520505453', '0');
-INSERT INTO `ob_menu` VALUES ('98', '菜单编辑', '75', '0', 'admin', 'menu/menuedit', '1', '', '1', '1512459021', '0');
-INSERT INTO `ob_menu` VALUES ('124', '菜单列表', '75', '0', 'admin', 'menu/menulist', '0', 'fa-list', '1', '1491318271', '0');
-INSERT INTO `ob_menu` VALUES ('125', '菜单添加', '75', '0', 'admin', 'menu/menuadd', '0', 'fa-plus', '1', '1491318307', '0');
-INSERT INTO `ob_menu` VALUES ('126', '配置列表', '70', '0', 'admin', 'config/configlist', '0', 'fa-list', '1', '1491666890', '1491666890');
-INSERT INTO `ob_menu` VALUES ('127', '菜单状态', '75', '0', 'admin', 'menu/setstatus', '1', '', '1', '1520506673', '1491674128');
-INSERT INTO `ob_menu` VALUES ('128', '权限组添加', '27', '0', 'admin', 'auth/groupadd', '1', '', '1', '1492002635', '1492002635');
-INSERT INTO `ob_menu` VALUES ('134', '授权', '17', '0', 'admin', 'member/memberauth', '1', '', '1', '1492238568', '1492101426');
-INSERT INTO `ob_menu` VALUES ('135', '回收站', '68', '4', 'admin', 'trash/trashlist', '0', ' fa-recycle', '1', '1520505468', '1492311462');
-INSERT INTO `ob_menu` VALUES ('136', '回收站数据', '135', '0', 'admin', 'trash/trashdatalist', '1', 'fa-database', '1', '1492319477', '1492319392');
-INSERT INTO `ob_menu` VALUES ('140', '服务管理', '68', '5', 'admin', 'service/servicelist', '0', 'fa-server', '1', '1520505473', '1492352972');
-INSERT INTO `ob_menu` VALUES ('141', '插件管理', '68', '6', 'admin', 'addon/index', '0', 'fa-puzzle-piece', '1', '1520505475', '1492427605');
-INSERT INTO `ob_menu` VALUES ('142', '钩子列表', '141', '0', 'admin', 'addon/hooklist', '0', 'fa-anchor', '1', '1492427665', '1492427665');
-INSERT INTO `ob_menu` VALUES ('143', '插件列表', '141', '0', 'admin', 'addon/addonlist', '0', 'fa-list', '1', '1492428116', '1492427838');
-INSERT INTO `ob_menu` VALUES ('144', '文章管理', '0', '4', 'admin', 'article/index', '0', 'fa-edit', '1', '1520506753', '1492480187');
-INSERT INTO `ob_menu` VALUES ('145', '文章列表', '144', '0', 'admin', 'article/articlelist', '0', 'fa-list', '1', '1492480245', '1492480245');
-INSERT INTO `ob_menu` VALUES ('146', '文章分类', '144', '0', 'admin', 'article/articlecategorylist', '0', 'fa-list', '1', '1492480359', '1492480342');
-INSERT INTO `ob_menu` VALUES ('147', '文章分类编辑', '146', '0', 'admin', 'article/articlecategoryedit', '1', '', '1', '1492485294', '1492485294');
-INSERT INTO `ob_menu` VALUES ('148', '分类添加', '144', '0', 'admin', 'article/articlecategoryadd', '0', 'fa-plus', '1', '1492486590', '1492486576');
-INSERT INTO `ob_menu` VALUES ('149', '文章添加', '144', '0', 'admin', 'article/articleadd', '0', 'fa-plus', '1', '1492518453', '1492518453');
-INSERT INTO `ob_menu` VALUES ('150', '文章编辑', '145', '0', 'admin', 'article/articleedit', '1', '', '1', '1492879589', '1492879589');
-INSERT INTO `ob_menu` VALUES ('151', '插件安装', '143', '0', 'admin', 'addon/addoninstall', '1', '', '1', '1492879763', '1492879763');
-INSERT INTO `ob_menu` VALUES ('152', '插件卸载', '143', '0', 'admin', 'addon/addonuninstall', '1', '', '1', '1492879789', '1492879789');
-INSERT INTO `ob_menu` VALUES ('153', '文章删除', '145', '0', 'admin', 'article/articledel', '1', '', '1', '1492879960', '1492879960');
-INSERT INTO `ob_menu` VALUES ('154', '文章分类删除', '146', '0', 'admin', 'article/articlecategorydel', '1', '', '1', '1492879995', '1492879995');
-INSERT INTO `ob_menu` VALUES ('156', '驱动安装', '140', '0', 'admin', 'service/driverinstall', '1', '', '1', '1502267009', '1502267009');
-INSERT INTO `ob_menu` VALUES ('157', '接口管理', '0', '5', 'admin', 'api/index', '0', 'fa fa-book', '1', '1520506753', '1504000434');
-INSERT INTO `ob_menu` VALUES ('158', '分组管理', '157', '0', 'admin', 'api/apigrouplist', '0', 'fa fa-fw fa-th-list', '1', '1504000977', '1504000723');
-INSERT INTO `ob_menu` VALUES ('159', '分组添加', '157', '0', 'admin', 'api/apigroupadd', '0', 'fa fa-fw fa-plus', '1', '1504004646', '1504004646');
-INSERT INTO `ob_menu` VALUES ('160', '分组编辑', '157', '0', 'admin', 'api/apigroupedit', '1', '', '1', '1504004710', '1504004710');
-INSERT INTO `ob_menu` VALUES ('161', '分组删除', '157', '0', 'admin', 'api/apigroupdel', '1', '', '1', '1504004732', '1504004732');
-INSERT INTO `ob_menu` VALUES ('162', '接口列表', '157', '0', 'admin', 'api/apilist', '0', 'fa fa-fw fa-th-list', '1', '1504172326', '1504172326');
-INSERT INTO `ob_menu` VALUES ('163', '接口添加', '157', '0', 'admin', 'api/apiadd', '0', 'fa fa-fw fa-plus', '1', '1504172352', '1504172352');
-INSERT INTO `ob_menu` VALUES ('164', '接口编辑', '157', '0', 'admin', 'api/apiedit', '1', '', '1', '1504172414', '1504172414');
-INSERT INTO `ob_menu` VALUES ('165', '接口删除', '157', '0', 'admin', 'api/apidel', '1', '', '1', '1504172435', '1504172435');
-INSERT INTO `ob_menu` VALUES ('166', '优化维护', '0', '6', 'admin', 'maintain/index', '0', 'fa-legal', '1', '1520506753', '1505387256');
-INSERT INTO `ob_menu` VALUES ('168', '数据库', '166', '0', 'admin', 'maintain/database', '0', 'fa-database', '1', '1505539670', '1505539394');
-INSERT INTO `ob_menu` VALUES ('169', '数据备份', '168', '0', 'admin', 'database/databackup', '0', 'fa-download', '1', '1506309900', '1505539428');
-INSERT INTO `ob_menu` VALUES ('170', '数据还原', '168', '0', 'admin', 'database/datarestore', '0', 'fa-exchange', '1', '1506309911', '1505539492');
-INSERT INTO `ob_menu` VALUES ('171', '文件清理', '166', '0', 'admin', 'fileclean/cleanlist', '0', 'fa-file', '1', '1506310152', '1505788517');
-INSERT INTO `ob_menu` VALUES ('174', '行为日志', '166', '0', 'admin', 'log/loglist', '0', 'fa-street-view', '1', '1507201516', '1507200836');
-INSERT INTO `ob_menu` VALUES ('203', '友情链接', '68', '7', 'admin', 'blogroll/index', '0', 'fa-link', '1', '1520505723', '1520505717');
-INSERT INTO `ob_menu` VALUES ('204', '链接列表', '203', '0', 'admin', 'blogroll/blogrolllist', '0', 'fa-th', '1', '1520505777', '1520505777');
-INSERT INTO `ob_menu` VALUES ('205', '链接添加', '203', '0', 'admin', 'blogroll/blogrolladd', '0', 'fa-plus', '1', '1520505826', '1520505826');
-INSERT INTO `ob_menu` VALUES ('206', '链接编辑', '203', '0', 'admin', 'blogroll/blogrolledit', '1', 'fa-edit', '1', '1520505863', '1520505863');
-INSERT INTO `ob_menu` VALUES ('207', '链接删除', '203', '0', 'admin', 'blogroll/blogrolldel', '1', 'fa-minus', '1', '1520505889', '1520505889');
-INSERT INTO `ob_menu` VALUES ('208', '菜单排序', '75', '0', 'admin', 'menu/setsort', '1', '', '1', '1520506696', '1520506696');
-INSERT INTO `ob_menu` VALUES ('209', '会员编辑', '16', '2', 'admin', 'member/memberedit', '1', 'fa-edit', '1', '1520505510', '0');
-INSERT INTO `ob_menu` VALUES ('210', '修改密码', '1', '2', 'admin', 'member/editpassword', '1', 'fa-edit', '1', '1520505510', '0');
+INSERT INTO `ob_menu` VALUES ('1', '系统首页', '0', '1', 'admin', 'index/index', '0', '0', 'fa-home', '1', '1520506753', '0');
+INSERT INTO `ob_menu` VALUES ('16', '会员管理', '0', '3', 'admin', 'member/index', '0', '0', 'fa-users', '1', '1520506753', '0');
+INSERT INTO `ob_menu` VALUES ('17', '会员列表', '16', '1', 'admin', 'member/memberlist', '0', '1', 'fa-list', '1', '1495272875', '0');
+INSERT INTO `ob_menu` VALUES ('18', '会员添加', '16', '2', 'admin', 'member/memberadd', '0', '0', 'fa-user-plus', '1', '1520505510', '0');
+INSERT INTO `ob_menu` VALUES ('27', '权限管理', '16', '3', 'admin', 'auth/grouplist', '0', '0', 'fa-key', '1', '1520505512', '0');
+INSERT INTO `ob_menu` VALUES ('32', '权限组编辑', '27', '0', 'admin', 'auth/groupedit', '1', '0', '', '1', '1492002620', '0');
+INSERT INTO `ob_menu` VALUES ('34', '授权', '27', '0', 'admin', 'auth_manager/group', '1', '0', '', '1', '0', '0');
+INSERT INTO `ob_menu` VALUES ('35', '菜单授权', '27', '0', 'admin', 'auth/menuauth', '1', '0', '', '1', '1492095653', '0');
+INSERT INTO `ob_menu` VALUES ('36', '会员授权', '27', '0', 'admin', 'auth_manager/memberaccess', '1', '0', '', '1', '0', '0');
+INSERT INTO `ob_menu` VALUES ('68', '系统管理', '0', '2', 'admin', 'config/group', '0', '0', 'fa-wrench', '1', '1520506753', '0');
+INSERT INTO `ob_menu` VALUES ('69', '系统设置', '68', '3', 'admin', 'config/setting', '0', '0', 'fa-cogs', '1', '1520505460', '0');
+INSERT INTO `ob_menu` VALUES ('70', '配置管理', '68', '2', 'admin', 'config/index', '0', '0', 'fa-cog', '1', '1520505457', '0');
+INSERT INTO `ob_menu` VALUES ('71', '配置编辑', '70', '0', 'admin', 'config/configedit', '1', '0', '', '1', '1491674180', '0');
+INSERT INTO `ob_menu` VALUES ('72', '配置删除', '70', '0', 'admin', 'config/configDel', '1', '0', '', '1', '1491674201', '0');
+INSERT INTO `ob_menu` VALUES ('73', '配置添加', '70', '0', 'admin', 'config/configadd', '0', '0', 'fa-plus', '1', '1491666947', '0');
+INSERT INTO `ob_menu` VALUES ('75', '菜单管理', '68', '1', 'admin', 'menu/index', '0', '0', 'fa-th-large', '1', '1520505453', '0');
+INSERT INTO `ob_menu` VALUES ('98', '菜单编辑', '75', '0', 'admin', 'menu/menuedit', '1', '0', '', '1', '1512459021', '0');
+INSERT INTO `ob_menu` VALUES ('124', '菜单列表', '75', '0', 'admin', 'menu/menulist', '0', '1', 'fa-list', '1', '1491318271', '0');
+INSERT INTO `ob_menu` VALUES ('125', '菜单添加', '75', '0', 'admin', 'menu/menuadd', '0', '0', 'fa-plus', '1', '1491318307', '0');
+INSERT INTO `ob_menu` VALUES ('126', '配置列表', '70', '0', 'admin', 'config/configlist', '0', '1', 'fa-list', '1', '1491666890', '1491666890');
+INSERT INTO `ob_menu` VALUES ('127', '菜单状态', '75', '0', 'admin', 'menu/setstatus', '1', '0', '', '1', '1520506673', '1491674128');
+INSERT INTO `ob_menu` VALUES ('128', '权限组添加', '27', '0', 'admin', 'auth/groupadd', '1', '0', '', '1', '1492002635', '1492002635');
+INSERT INTO `ob_menu` VALUES ('134', '授权', '17', '0', 'admin', 'member/memberauth', '1', '0', '', '1', '1492238568', '1492101426');
+INSERT INTO `ob_menu` VALUES ('135', '回收站', '68', '4', 'admin', 'trash/trashlist', '0', '0', ' fa-recycle', '1', '1520505468', '1492311462');
+INSERT INTO `ob_menu` VALUES ('136', '回收站数据', '135', '0', 'admin', 'trash/trashdatalist', '1', '0', 'fa-database', '1', '1492319477', '1492319392');
+INSERT INTO `ob_menu` VALUES ('140', '服务管理', '68', '5', 'admin', 'service/servicelist', '0', '0', 'fa-server', '1', '1520505473', '1492352972');
+INSERT INTO `ob_menu` VALUES ('141', '插件管理', '68', '6', 'admin', 'addon/index', '0', '0', 'fa-puzzle-piece', '1', '1520505475', '1492427605');
+INSERT INTO `ob_menu` VALUES ('142', '钩子列表', '141', '0', 'admin', 'addon/hooklist', '0', '0', 'fa-anchor', '1', '1492427665', '1492427665');
+INSERT INTO `ob_menu` VALUES ('143', '插件列表', '141', '0', 'admin', 'addon/addonlist', '0', '0', 'fa-list', '1', '1492428116', '1492427838');
+INSERT INTO `ob_menu` VALUES ('144', '文章管理', '0', '4', 'admin', 'article/index', '0', '0', 'fa-edit', '1', '1520506753', '1492480187');
+INSERT INTO `ob_menu` VALUES ('145', '文章列表', '144', '0', 'admin', 'article/articlelist', '0', '1', 'fa-list', '1', '1492480245', '1492480245');
+INSERT INTO `ob_menu` VALUES ('146', '文章分类', '144', '0', 'admin', 'article/articlecategorylist', '0', '0', 'fa-list', '1', '1492480359', '1492480342');
+INSERT INTO `ob_menu` VALUES ('147', '文章分类编辑', '146', '0', 'admin', 'article/articlecategoryedit', '1', '0', '', '1', '1492485294', '1492485294');
+INSERT INTO `ob_menu` VALUES ('148', '分类添加', '144', '0', 'admin', 'article/articlecategoryadd', '0', '0', 'fa-plus', '1', '1492486590', '1492486576');
+INSERT INTO `ob_menu` VALUES ('149', '文章添加', '144', '0', 'admin', 'article/articleadd', '0', '0', 'fa-plus', '1', '1492518453', '1492518453');
+INSERT INTO `ob_menu` VALUES ('150', '文章编辑', '145', '0', 'admin', 'article/articleedit', '1', '0', '', '1', '1492879589', '1492879589');
+INSERT INTO `ob_menu` VALUES ('151', '插件安装', '143', '0', 'admin', 'addon/addoninstall', '1', '0', '', '1', '1492879763', '1492879763');
+INSERT INTO `ob_menu` VALUES ('152', '插件卸载', '143', '0', 'admin', 'addon/addonuninstall', '1', '0', '', '1', '1492879789', '1492879789');
+INSERT INTO `ob_menu` VALUES ('153', '文章删除', '145', '0', 'admin', 'article/articledel', '1', '0', '', '1', '1492879960', '1492879960');
+INSERT INTO `ob_menu` VALUES ('154', '文章分类删除', '146', '0', 'admin', 'article/articlecategorydel', '1', '0', '', '1', '1492879995', '1492879995');
+INSERT INTO `ob_menu` VALUES ('156', '驱动安装', '140', '0', 'admin', 'service/driverinstall', '1', '0', '', '1', '1502267009', '1502267009');
+INSERT INTO `ob_menu` VALUES ('157', '接口管理', '0', '5', 'admin', 'api/index', '0', '0', 'fa fa-book', '1', '1520506753', '1504000434');
+INSERT INTO `ob_menu` VALUES ('158', '分组管理', '157', '0', 'admin', 'api/apigrouplist', '0', '0', 'fa fa-fw fa-th-list', '1', '1504000977', '1504000723');
+INSERT INTO `ob_menu` VALUES ('159', '分组添加', '157', '0', 'admin', 'api/apigroupadd', '0', '0', 'fa fa-fw fa-plus', '1', '1504004646', '1504004646');
+INSERT INTO `ob_menu` VALUES ('160', '分组编辑', '157', '0', 'admin', 'api/apigroupedit', '1', '0', '', '1', '1504004710', '1504004710');
+INSERT INTO `ob_menu` VALUES ('161', '分组删除', '157', '0', 'admin', 'api/apigroupdel', '1', '0', '', '1', '1504004732', '1504004732');
+INSERT INTO `ob_menu` VALUES ('162', '接口列表', '157', '0', 'admin', 'api/apilist', '0', '0', 'fa fa-fw fa-th-list', '1', '1504172326', '1504172326');
+INSERT INTO `ob_menu` VALUES ('163', '接口添加', '157', '0', 'admin', 'api/apiadd', '0', '0', 'fa fa-fw fa-plus', '1', '1504172352', '1504172352');
+INSERT INTO `ob_menu` VALUES ('164', '接口编辑', '157', '0', 'admin', 'api/apiedit', '1', '0', '', '1', '1504172414', '1504172414');
+INSERT INTO `ob_menu` VALUES ('165', '接口删除', '157', '0', 'admin', 'api/apidel', '1', '0', '', '1', '1504172435', '1504172435');
+INSERT INTO `ob_menu` VALUES ('166', '优化维护', '0', '6', 'admin', 'maintain/index', '0', '0', 'fa-legal', '1', '1520506753', '1505387256');
+INSERT INTO `ob_menu` VALUES ('168', '数据库', '166', '0', 'admin', 'maintain/database', '0', '0', 'fa-database', '1', '1505539670', '1505539394');
+INSERT INTO `ob_menu` VALUES ('169', '数据备份', '168', '0', 'admin', 'database/databackup', '0', '0', 'fa-download', '1', '1506309900', '1505539428');
+INSERT INTO `ob_menu` VALUES ('170', '数据还原', '168', '0', 'admin', 'database/datarestore', '0', '0', 'fa-exchange', '1', '1506309911', '1505539492');
+INSERT INTO `ob_menu` VALUES ('171', '文件清理', '166', '0', 'admin', 'fileclean/cleanlist', '0', '0', 'fa-file', '1', '1506310152', '1505788517');
+INSERT INTO `ob_menu` VALUES ('174', '行为日志', '166', '0', 'admin', 'log/loglist', '0', '1', 'fa-street-view', '1', '1507201516', '1507200836');
+INSERT INTO `ob_menu` VALUES ('203', '友情链接', '68', '7', 'admin', 'blogroll/index', '0', '0', 'fa-link', '1', '1520505723', '1520505717');
+INSERT INTO `ob_menu` VALUES ('204', '链接列表', '203', '0', 'admin', 'blogroll/blogrolllist', '0', '0', 'fa-th', '1', '1520505777', '1520505777');
+INSERT INTO `ob_menu` VALUES ('205', '链接添加', '203', '0', 'admin', 'blogroll/blogrolladd', '0', '0', 'fa-plus', '1', '1520505826', '1520505826');
+INSERT INTO `ob_menu` VALUES ('206', '链接编辑', '203', '0', 'admin', 'blogroll/blogrolledit', '1', '0', 'fa-edit', '1', '1520505863', '1520505863');
+INSERT INTO `ob_menu` VALUES ('207', '链接删除', '203', '0', 'admin', 'blogroll/blogrolldel', '1', '0', 'fa-minus', '1', '1520505889', '1520505889');
+INSERT INTO `ob_menu` VALUES ('208', '菜单排序', '75', '0', 'admin', 'menu/setsort', '1', '0', '', '1', '1520506696', '1520506696');
+INSERT INTO `ob_menu` VALUES ('209', '会员编辑', '16', '2', 'admin', 'member/memberedit', '1', '0', 'fa-edit', '1', '1520505510', '0');
+INSERT INTO `ob_menu` VALUES ('210', '修改密码', '1', '2', 'admin', 'member/editpassword', '1', '0', 'fa-edit', '1', '1520505510', '0');
 -- ----------------------------
 -- Table structure for `ob_picture`
 -- ----------------------------
