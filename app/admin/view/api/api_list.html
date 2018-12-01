@@ -1,16 +1,27 @@
 <div class="box">
   <div class="box-header">
-        <ob_link><a class="btn" href="{:url('apiAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
-        <a class="btn" href="{:dirname($Think.const.URL_ROOT)}/api.php" target="_blank"><i class="fa fa-book"></i> 接口文档</a>
-        <div class="box-tools ">
-            <div class="input-group input-group-sm search-form">
-                <input name="search_data" class="pull-right search-input" value="{:input('search_data')}" placeholder="请输入接口名称" type="text">
-                <div class="input-group-btn">
-                  <button type="button" id="search" url="{:url('apilist')}" class="btn btn-default"><i class="fa fa-search"></i></button>
-                </div>
-            </div>
+      
+    <div class="row">
+        <div class="col-sm-4">
+            <ob_link><a class="btn" href="{:url('apiAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+            <a class="btn" href="{:dirname($Think.const.URL_ROOT)}/api.php" target="_blank"><i class="fa fa-book"></i> 接口文档</a>
         </div>
-        <br/>
+        
+        <div class="col-sm-8">
+            <div class="box-tools search-form pull-right">
+                <div class="input-group input-group-sm">
+                    
+                    <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right" value="{:input('search_data')}" placeholder="请输入接口名称">
+
+                    <div class="input-group-btn">
+                      <button type="button" id="search"  url="{:url('apilist')}" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                    </div>
+
+                </div>
+           </div>
+        </div>
+    </div>
+
   </div>
   <div class="box-body table-responsive">
     <table  class="table table-bordered table-hover">

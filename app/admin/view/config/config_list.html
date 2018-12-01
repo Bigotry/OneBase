@@ -1,35 +1,41 @@
 <div class="box">
   <div class="box-header">
-      
-    <div class="btn-group">
-        
-        {empty name="group"}
-            <a class="btn active">全部</a>
-               {else/}
-            <a class="btn" href="{:url('configList')}">全部</a>
-        {/empty}
-        
-        {volist name='config_group_list' id='vo'}
-            {neq name="group" value="$key"}
-               <a class="btn" href="{:url('configList',array('group' => $key))}">{$vo}</a>
-                   {else/}
-               <a class="btn active">{$vo}</a>
-            {/neq}
-        {/volist}
-    </div>
-      
-    <ob_link><a class="btn" href="{:url('configAdd',array('group' => $group))}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
-    
-    <div class="box-tools ">
-        <div class="input-group input-group-sm search-form">
-            <input name="search_data" class="pull-right search-input" value="{:input('search_data')}" placeholder="请输入配置名称或标题" type="text">
-            <div class="input-group-btn">
-              <button type="button" id="search" url="{:url('configlist')}" class="btn btn-default"><i class="fa fa-search"></i></button>
+
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="btn-group">
+
+                {empty name="group"}
+                    <a class="btn active">全部</a>
+                       {else/}
+                    <a class="btn" href="{:url('configList')}">全部</a>
+                {/empty}
+
+                {volist name='config_group_list' id='vo'}
+                    {neq name="group" value="$key"}
+                       <a class="btn" href="{:url('configList',array('group' => $key))}">{$vo}</a>
+                           {else/}
+                       <a class="btn active">{$vo}</a>
+                    {/neq}
+                {/volist}
             </div>
+
+            <ob_link><a class="btn" href="{:url('configAdd',array('group' => $group))}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+        </div>
+        
+        
+        <div class="col-sm-7">
+            <div class="box-tools search-form pull-right">
+                <div class="input-group input-group-sm">
+                    <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right" value="{:input('search_data')}" placeholder="请输入配置名称或标题">
+                    <div class="input-group-btn">
+                      <button type="button" id="search"  url="{:url('configlist')}" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+           </div>
         </div>
     </div>
     
-    <br/>
   </div>
     
   <div class="box-body table-responsive">

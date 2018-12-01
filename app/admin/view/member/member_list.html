@@ -1,20 +1,31 @@
 <div class="box">
-  <div class="box-header ">
     
-    <ob_link><a class="btn" href="{:url('memberAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
-    &nbsp;
-    <ob_link><a class="btn export" url="{:url('exportMemberList')}"><i class="fa fa-download"></i> 导 出</a></ob_link>
-    
-    <div class="box-tools ">
-        <div class="input-group input-group-sm search-form">
-            <input name="search_data" class="pull-right search-input" value="{:input('search_data')}" placeholder="支持昵称|用户名|邮箱|手机" type="text">
-            <div class="input-group-btn">
-              <button type="button" id="search" url="{:url('memberlist')}" class="btn btn-default"><i class="fa fa-search"></i></button>
-            </div>
+  <div class="box-header">
+
+    <div class="row">
+        <div class="col-sm-5">
+            <ob_link><a class="btn" href="{:url('memberAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+            &nbsp;
+            <ob_link><a class="btn export" url="{:url('exportMemberList')}"><i class="fa fa-download"></i> 导 出</a></ob_link>
+        </div>
+        
+        <div class="col-sm-7">
+            <div class="box-tools search-form pull-right">
+                <div class="input-group input-group-sm">
+                    
+                    <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right" value="{:input('search_data')}" placeholder="支持昵称|用户名|邮箱|手机">
+
+                    <div class="input-group-btn">
+                      <button type="button" id="search"  url="{:url('memberlist')}" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                    </div>
+
+                </div>
+           </div>
         </div>
     </div>
-    <br/>
+    
   </div>
+    
     
   <div class="box-body table-responsive">
     <table  class="table table-bordered table-hover">
