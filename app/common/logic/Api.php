@@ -47,6 +47,9 @@ class Api extends LogicBase
         !empty($data['is_request_data'])  ? $data['request_data']  = transform_array_to_json($data['request_data'])  : $data['request_data']  = '';
         !empty($data['is_response_data']) ? $data['response_data'] = transform_array_to_json($data['response_data']) : $data['response_data'] = '';
         
+        $data['describe_text']     = html_entity_decode($data['describe_text']);
+        $data['response_examples'] = html_entity_decode($data['response_examples']);
+        
         $url = url('apiList');
         
         $result = $this->modelApi->setInfo($data);
