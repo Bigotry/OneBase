@@ -25,6 +25,12 @@
         "qiniu/php-sdk": "^7.1",
         "aliyuncs/oss-sdk-php": "^2.3"
     },
+    "autoload": {
+        "files": [""],
+        "psr-4": {
+
+        }
+    },
     "extra": {
         "think-path": "thinkphp"
     },

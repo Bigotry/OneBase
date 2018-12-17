@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     '1cfd2761b63b0a29ed23657ea394cb2d' => $vendorDir . '/topthink/think-captcha/src/helper.php',
     '841780ea2e1d6545ea3a253239d59c05' => $vendorDir . '/qiniu/php-sdk/src/Qiniu/functions.php',
+    'e42585580e6c8599e080de67832fdfca' => $baseDir . '/',
 );
