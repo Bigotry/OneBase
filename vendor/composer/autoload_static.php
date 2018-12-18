@@ -9,7 +9,6 @@ class ComposerStaticInit20593ddf6ddc60b753a4d38645524074
     public static $files = array (
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
-        'e42585580e6c8599e080de67832fdfca' => __DIR__ . '/../..' . '/',
     );
 
     public static $prefixLengthsPsr4 = array (
