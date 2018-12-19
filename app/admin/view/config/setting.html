@@ -121,7 +121,7 @@ case value
                                         
                                         {case value="7"}
                                             
-                                            <textarea class="form-control textarea_editor" name="{$vo.name}" placeholder="请输入富文本内容">{$vo.value|default=''}</textarea>
+                                            <textarea class="form-control textarea_editor" name="{$vo.name}" placeholder="请输入富文本内容">{$vo.value|html_entity_decode}</textarea>
                                             
                                             {:widget('editor/index', array('name'=> $vo.name,'value'=> ''))}
                                             
