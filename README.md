@@ -36,7 +36,7 @@ OneBase是一个基于ThinkPHP5的免费开源，快速简单，面向对象的�
 
 
 
-官网首页：http://onebase.org
+官网首页：http://obstore.cn
 
 后台演示：http://demo.onebase.org/admin.php （账号:demo，密码:111111，后台演示仅部分权限，完整权限需部署安装）
 
