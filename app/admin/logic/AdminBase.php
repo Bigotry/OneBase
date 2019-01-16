@@ -185,7 +185,7 @@ class AdminBase extends LogicBase
     /**
      * 数据状态设置
      */
-    public function setStatus($model = null, $param = null)
+    public function setStatus($model = null, $param = null,$index = 'id')
     {
         
         if (empty($model) || empty($param)) {
@@ -201,7 +201,7 @@ class AdminBase extends LogicBase
         
         is_array($param['ids']) ? $ids = array_extract((array)$param['ids'], 'value') : $ids[] = (int)$param['ids'];
         
-        $result = $obj->setFieldValue(['id' => ['in', $ids]], DATA_STATUS_NAME, $status);
+        $result = $obj->setFieldValue([$index => ['in', $ids]], DATA_STATUS_NAME, $status);
         
         $result && action_log('数据状态', '数据状态调整' . '，model：' . $model . '，ids：' . arr2str($ids) . '，status：' . $status);
         
