@@ -26,18 +26,17 @@ class Trash extends AdminBase
         $list = [];
         
         $trash_config = parse_config_array('trash_config');
-        
         foreach ($trash_config as $k => $v) {
-            
             $temp = [];[$v];
             $m = LAYER_MODEL_NAME   . $k;
+            $key = $this->$m->getPk();  //获取数据表主键
             $temp['name']           = $k;
             $temp['model_path']     = $this->$m->class;
-            $temp['number']         = $this->$m->stat([DATA_STATUS_NAME => DATA_DELETE]);
+            $temp['number']         = $this->$m->stat([DATA_STATUS_NAME => DATA_DELETE],'count',$key);
             
             $list[] = $temp;
         }
-        
+
         return $list;
     }
     
