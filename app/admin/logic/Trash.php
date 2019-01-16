@@ -59,10 +59,11 @@ class Trash extends AdminBase
         $list = $this->$m->getList([DATA_STATUS_NAME => DATA_DELETE], $field, $key . ' desc');
 
         foreach($list as $k=>$v){
-
-            $list[$k]['id'] = $v[$key];
+            if($key != 'id'){
+                $list[$k]['id'] = $v[$key];
             
-            unset($list[$k][$key]);
+                unset($list[$k][$key]);
+            }
         }
 
         return compact('list', 'dynamic_field', 'model_name');
