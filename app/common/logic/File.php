@@ -153,4 +153,12 @@ class File extends LogicBase
         }
         return $arr;
     }
+
+    public function checkPictureExists($param = []) {
+        return $this->modelPicture->where('sha1',$param['sha1'])->find();
+    }
+
+    public function checkFileExists($param = []) {
+        return $this->modelFile->where('sha1',$param['sha1'])->find();
+    }
 }

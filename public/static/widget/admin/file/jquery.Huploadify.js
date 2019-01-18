@@ -24,6 +24,7 @@
 			onClearQueue:null,//清空上传队列后的回调函数，在调用cancel并传入参数*时触发
 			onDestroy:null,//在调用destroy方法时触发
 			onSelect:null,//选择文件后的回调函数，可传入参数file
+            onChange:null,//选择文件的事件,用于检测文件是否重复
 			onQueueComplete:null//队列中的所有文件上传完成后触发
 		}
 			
@@ -65,7 +66,7 @@
 
 		this.each(function(index, element){
 			var _this = $(element);
-			var instanceNumber = $('.uploadify').length+1;
+            var instanceNumber = $('.selectbtn').length+1;
 			var uploadManager = {
 				container : _this,
 				filteredFiles : [],//过滤后的文件数组
@@ -236,18 +237,26 @@
 			 		});
 				},
 				//获取选择后的文件
-				_getFiles : function(e){
-			  		var files = e.target.files;
-			  		files = uploadManager._filter(files);
-			  		var fileCount = _this.find('.uploadify-queue .uploadify-queue-item').length;//队列中已经有的文件个数
-		  			for(var i=0,len=files.length;i<len;i++){
-		  				files[i].index = ++fileCount;
-		  				files[i].status = 0;//标记为未开始上传
-		  				uploadManager.filteredFiles.push(files[i]);
-		  				var l = uploadManager.filteredFiles.length;
-		  				uploadManager._renderFile(uploadManager.filteredFiles[l-1]);
-		  			}
-				},
+                _getFiles : function(e){
+                    var files = e.target.files;
+                    files = uploadManager._filter(files);
+                    var fileCount = _this.find('.uploadify-queue .uploadify-queue-item').length;//队列中已经有的文件个数
+                    for(var i=0,len=files.length;i<len;i++){
+                        if(option.onChange) {
+                            option.onChange(files[i],++fileCount,uploadManager.__getFiles);
+                        }else {
+                            uploadManager.__getFiles(files[i],++fileCount);
+                        }
+
+                    }
+                },
+                __getFiles : function(file,fileCount) {
+                    file.index = ++fileCount;
+                    file.status = 0;//标记为未开始上传
+                    uploadManager.filteredFiles.push(file);
+                    var l = uploadManager.filteredFiles.length;
+                    uploadManager._renderFile(uploadManager.filteredFiles[l-1]);
+                },
 				//删除文件
 				_deleteFile : function(file){
 					for (var i = 0,len=uploadManager.filteredFiles.length; i<len; i++) {
