@@ -151,7 +151,8 @@
 					var fileInput = this._getInputBtn();
 				  	if (fileInput.length>0) {
 						fileInput.change(function(e) { 
-							uploadManager._getFiles(e); 
+							uploadManager._getFiles(e);
+							$(this).val('');
 					 	});	
 				 	}
 				  
