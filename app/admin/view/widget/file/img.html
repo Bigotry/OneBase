@@ -22,7 +22,8 @@
     var maxwidth = "{$widget_config['maxwidth']}";
 
     var arr = [
-        static_root + 'widget/admin/file/jquery.Huploadify.js'
+        static_root + 'widget/admin/file/jquery.Huploadify.js',
+        static_root + 'module/common/util/hex_sha1.js'
     ];
 
     ob.loadMultiScripts(arr).done(function() {
@@ -36,6 +37,7 @@
             removeTimeout: 1,
             fileSizeLimit:"{$widget_config['max_size']}",
             fileTypeExts: "{$widget_config['allow_postfix']}",
+            onChange:changeFile{$widget_data.name},
             onUploadComplete: uploadPicture{$widget_data.name}
         });
     });
@@ -60,5 +62,21 @@
         $("#" + widget_name).val(0);
         
         $(obj).parent().remove();
+    }
+
+    function changeFile{$widget_data.name}(file,fileCount,next) {
+        var reader = new FileReader();
+        reader.readAsBinaryString(file);
+        reader.onload = function (ev) {
+            var sha1 = hex_sha1(ev.target.result);
+            $.post("{:url('File/checkPictureExists')}",{sha1:sha1}, function (res) {
+                if(res.code) {
+                    uploadPicture{$widget_data.name}(file,JSON.stringify(res.data));
+                }else {
+                    //不存在图片则调用下一步
+                    next(file,fileCount);
+                }
+            });
+        }
     }
 </script>

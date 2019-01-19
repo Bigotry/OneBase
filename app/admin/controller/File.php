@@ -38,4 +38,34 @@ class File extends AdminBase
 
         return json($result);
     }
+
+    public function checkPictureExists() {
+        $result = $this->logicFile->checkPictureExists($this->param);
+        $return_result = [];
+        if($result) {
+            $return_result['code'] = 1;
+            $return_result['msg'] = '该图片已存在';
+            $return_result['data'] = $result;
+        }else {
+            $return_result['code'] = 0;
+            $return_result['msg'] = '该图片不存在';
+            $return_result['data'] = '';
+        }
+        return json($return_result);
+    }
+
+    public function checkFileExists() {
+        $result = $this->logicFile->checkFileExists($this->param);
+        $return_result = [];
+        if($result) {
+            $return_result['code'] = 1;
+            $return_result['msg'] = '该文件已存在';
+            $return_result['data'] = $result;
+        }else {
+            $return_result['code'] = 0;
+            $return_result['msg'] = '该文件不存在';
+            $return_result['data'] = '';
+        }
+        return json($return_result);
+    }
 }
