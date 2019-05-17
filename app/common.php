@@ -759,3 +759,33 @@ function closure_list_exe($list = [])
         throw $e;
     }
 }
+
+/**
+ * 自动封装事务
+ */
+function trans($parameter = [], $callback = null)
+{
+    
+    try {
+
+        Db::startTrans();
+
+        $backtrace = debug_backtrace(false, 2);
+
+        array_shift($backtrace);
+
+        $class = $backtrace[0]['class'];
+
+        $result = (new $class())->$callback($parameter);
+
+        Db::commit();
+
+        return $result;
+
+    } catch (Exception $ex) {
+
+        Db::rollback();
+
+        throw new Exception($ex->getMessage());
+    }
+}
