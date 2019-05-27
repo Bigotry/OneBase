@@ -238,13 +238,9 @@
     
 </script>
 
+<script src="__STATIC__/module/admin/ext/edittable/jquery.edittable.js"></script>
+
 <script type="text/javascript">
-
-var arr = [
-    static_root + 'module/admin/ext/edittable/jquery.edittable.js', 
-];
-
-ob.loadMultiScripts(arr).done(function() {
 
     var request_data_table = $('#request_data_table').editTable({
         field_templates: {
@@ -329,7 +325,5 @@ ob.loadMultiScripts(arr).done(function() {
     });
 
     response_data_table.loadData({$info.response_data_json});
-
-});
 
 </script>

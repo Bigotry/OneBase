@@ -203,26 +203,23 @@ case value
     </div>
 </form>
 
+<script src="__STATIC__/module/admin/ext/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="__STATIC__/module/admin/ext/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
 <script type="text/javascript">
 
-    var arr = [
-        static_root + 'module/admin/ext/datetimepicker/js/bootstrap-datetimepicker.min.js', 
-        static_root + 'module/admin/ext/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js', 
-    ];
-    ob.loadMultiScripts(arr).done(function() {
-        $('.date').datetimepicker({
-            format: 'yyyy-mm-dd',
-            language:"zh-CN",
-            minView:2,
-            autoclose:true
-        });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
 
-        $('.time').datetimepicker({
-            format: 'yyyy-mm-dd hh:ii:ss',
-            language:"zh-CN",
-            minView:0,
-            autoclose:true
-        });
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii:ss',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
     });
 
     function selectCheckbox(obj)

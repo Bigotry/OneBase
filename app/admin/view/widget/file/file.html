@@ -12,28 +12,23 @@
     {/notempty}
 </div>
 
+<script src="__STATIC__/widget/admin/file/jquery.Huploadify.js"></script>
+<script src="__STATIC__/module/common/util/hex_sha1.js"></script>
+
 <script type="text/javascript">
 
-    var arr = [
-        static_root + 'widget/admin/file/jquery.Huploadify.js',
-        static_root + 'module/common/util/hex_sha1.js'
-    ];
-
-    ob.loadMultiScripts(arr).done(function() {
-
-        $("#upload_file_{$widget_data.name}").Huploadify({
-            auto: true,
-            height: 30,
-            fileObjName: "file",
-            buttonText: "上传文件",
-            uploader: "{:url('File/fileUpload',array('session_id'=>session_id()))}",
-            width: 120,
-            removeTimeout: 1,
-            fileSizeLimit:"{$widget_config['max_size']}",
-            fileTypeExts: "{$widget_config['allow_postfix']}",
-            onChange:changeFile{$widget_data.name},
-            onUploadComplete: uploadFile{$widget_data.name}
-        });
+    $("#upload_file_{$widget_data.name}").Huploadify({
+        auto: true,
+        height: 30,
+        fileObjName: "file",
+        buttonText: "上传文件",
+        uploader: "{:url('File/fileUpload',array('session_id'=>session_id()))}",
+        width: 120,
+        removeTimeout: 1,
+        fileSizeLimit:"{$widget_config['max_size']}",
+        fileTypeExts: "{$widget_config['allow_postfix']}",
+        onChange:changeFile{$widget_data.name},
+        onUploadComplete: uploadFile{$widget_data.name}
     });
     
     function uploadFile{$widget_data.name}(file, data){

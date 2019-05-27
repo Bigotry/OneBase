@@ -1,10 +1,10 @@
 <link rel="stylesheet" href="__STATIC__/widget/admin/editor/kindeditor/default/default.css" />
-<script type="text/javascript">
-var arr = [
-    static_root + 'widget/admin/editor/kindeditor/kindeditor.js', 
-];
 
-ob.loadMultiScripts(arr).done(function() {
+<script src="__STATIC__/widget/admin/editor/kindeditor/kindeditor.js"></script>
+<script src="__STATIC__/widget/admin/editor/kindeditor/zh_CN.js"></script>
+
+<script type="text/javascript">
+
     
     var editor_{$widget_data.name};
         editor_{$widget_data.name} = KindEditor.create('textarea[name="{$widget_data.name}"]', {
@@ -29,8 +29,4 @@ ob.loadMultiScripts(arr).done(function() {
                 extraFileUploadParams: { session_id : '{:session_id()}'},
                 afterBlur: function(){editor_{$widget_data.name}.sync();}
             });
-}).fail(function(){
-    
-  alert('kindeditor加载失败...');
-});
 </script>

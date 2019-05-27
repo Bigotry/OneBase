@@ -64,25 +64,5 @@
           window.alert('store error!');
         }
     };
-    
-    var url_arr = new Array();
-    
-    /* 批量加载JS脚本文件 */
-    ob.loadMultiScripts = function(arr) {
-
-        var _arr = $.map(arr, function(scr) {
-
-            var index = $.inArray(scr,url_arr);
-            
-            if(index <= 0) {
-                return $.getScript(scr, function() {
-
-                  url_arr.push(scr);
-                });
-            }
-        });
-
-        return $.when.apply($, _arr);
-    };
 
 })(jQuery);
