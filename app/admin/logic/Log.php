@@ -63,6 +63,8 @@ class Log extends AdminBase
         
         $url = url('logList');
         
+        $this->modelActionLog->is_update_cache_version = false;
+        
         return $this->modelActionLog->setInfo($data) ? [RESULT_SUCCESS, '日志添加成功', $url] : [RESULT_ERROR, $this->modelActionLog->getError()];
     }
 }

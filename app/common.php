@@ -16,6 +16,7 @@
 use think\Db;
 use think\Response;
 use think\exception\HttpResponseException;
+use app\common\logic\File as LogicFile;
 
 
 // +---------------------------------------------------------------------+
@@ -434,6 +435,28 @@ function arr2str($arr, $glue = ',')
     return implode($glue, $arr);
 }
 
+/**
+ * 数组转字符串多维
+ * @param  array  $arr  要连接的数组
+ * @param  string $glue 分割符
+ * @return string
+ */
+function arr22str($arr)
+{
+    
+    $t ='' ;
+    $temp = [];
+    foreach ($arr as $v) {
+        $v = join(",",$v);
+        $temp[] = $v;
+    }
+    foreach ($temp as $v) {
+        $t.=$v.",";
+    }
+    $t = substr($t, 0, -1);
+    return $t;
+}
+
 
 // +---------------------------------------------------------------------+
 // | 字符串相关函数
@@ -540,22 +563,10 @@ function get_file_root_path()
  */
 function get_picture_url($id = 0)
 {
+
+    $fileLogic = get_sington_object('fileLogic', LogicFile::class);
     
-    $info = Db::name('picture')->where(['id' => $id])->field('path,url')->find();
-
-    if (!empty($info['url'])) {
-
-        return config('static_domain') . SYS_DS_PROS . $info['url'];
-    }
-
-    $root_url = get_file_root_path();
-    
-    if (!empty($info['path'])) {
-        
-        return $root_url . 'upload/picture/'.$info['path'];
-    }
-
-    return $root_url . 'static/module/admin/img/onimg.png';
+    return $fileLogic->getPictureUrl($id);
 }
 
 /**
@@ -564,21 +575,9 @@ function get_picture_url($id = 0)
 function get_file_url($id = 0)
 {
     
-    $info = Db::name('file')->where(['id' => $id])->field('path,url')->find();
-
-    if (!empty($info['url'])) {
-
-        return config('static_domain') . SYS_DS_PROS . $info['url'];
-    }
-
-    if (!empty($info['path'])) {
-
-        $root_url = get_file_root_path();
+    $fileLogic = get_sington_object('fileLogic', LogicFile::class);
     
-        return $root_url . 'upload/file/'.$info['path'];
-    }
-
-    return '暂无文件';
+    return $fileLogic->getFileUrl($id);
 }
 
 /**
@@ -788,4 +787,17 @@ function trans($parameter = [], $callback = null)
 
         throw new Exception($ex->getMessage());
     }
+}
+
+/**
+ * 更新缓存版本
+ */
+function update_cache_version($obj = null)
+{
+    
+    $ob_auto_cache = cache('ob_auto_cache');
+
+    $ob_auto_cache[$obj->getTable()]['version']++;
+
+    cache('ob_auto_cache', $ob_auto_cache);
 }

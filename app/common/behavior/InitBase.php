@@ -12,6 +12,7 @@
 namespace app\common\behavior;
 
 use think\Loader;
+use think\Db;
 
 /**
  * 初始化基础信息行为
@@ -33,6 +34,9 @@ class InitBase
         
         // 注册命名空间
         $this->registerNamespace();
+        
+        // 初始化自动缓存
+        config('is_auto_cache') && $this->initAutoCache();
     }
     
     /**
@@ -209,5 +213,29 @@ class InitBase
         
         // 注册插件根命名空间
         Loader::addNamespace(SYS_ADDON_DIR_NAME, PATH_ADDON);
+    }
+    
+    /**
+     * 初始化自动缓存
+     */
+    private function initAutoCache()
+    {
+        
+        $ob_auto_cache = cache('ob_auto_cache');
+        
+        if (empty($ob_auto_cache)) {
+            
+            $list  = Db::query('SHOW TABLE STATUS');
+            
+            $ob_auto_cache = [];
+            
+            foreach ($list as $v) {
+
+                $ob_auto_cache[$v['Name']]['name']       = $v['Name'];
+                $ob_auto_cache[$v['Name']]['version']    = DATA_NORMAL;
+            }
+            
+            cache('ob_auto_cache', $ob_auto_cache, DATA_DISABLE);
+        }
     }
 }

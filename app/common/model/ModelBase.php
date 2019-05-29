@@ -42,6 +42,8 @@ class ModelBase extends Model
     final protected function setInfo($data = [], $where = [])
     {
         
+        $this->updateCache($this);
+        
         $pk = $this->getPk();
         
         if (empty($data[$pk])) {
@@ -70,6 +72,8 @@ class ModelBase extends Model
         
         $data[TIME_UT_NAME] = TIME_NOW;
         
+        $this->updateCache($this);
+        
         return $this->allowField(true)->save($data, $where);
     }
     
@@ -90,6 +94,8 @@ class ModelBase extends Model
         
         $return_data = $this->saveAll($data_list, $replace);
         
+        $this->updateCache($this);
+        
         return $return_data;
     }
     
@@ -99,6 +105,8 @@ class ModelBase extends Model
     final protected function setFieldValue($where = [], $field = '', $value = '')
     {
         
+        $this->updateCache($this);
+        
         return $this->updateInfo($where, [$field => $value]);
     }
     
@@ -107,6 +115,8 @@ class ModelBase extends Model
      */
     final protected function deleteInfo($where = [], $is_true = false)
     {
+        
+        $this->updateCache($this);
         
         if ($is_true) {
             
@@ -146,7 +156,18 @@ class ModelBase extends Model
         
         $query = !empty($this->join) ? $this->join($this->join) : $this;
         
+        $ob_auto_cache_key = $this->getCacheKey($this, $query, $where, $field);
+        
+        $cache_data = cache($ob_auto_cache_key);
+        
+        if (!empty($cache_data)) {
+
+            return $cache_data;
+        }
+        
         $info = $query->where($where)->field($field)->find();
+        
+        $this->setCache($this, $info, $ob_auto_cache_key);
         
         $this->join = [];
         
@@ -160,38 +181,60 @@ class ModelBase extends Model
     final protected function getList($where = [], $field = true, $order = '', $paginate = 0)
     {
         
-        empty($this->join) && !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+        list($query, $where_temp) = $this->getListQuery($this, $where);
+        
+        $ob_auto_cache_key = $this->getCacheKey($this, $query, $where_temp, $field, $order, $paginate);
+        
+        $cache_data = cache($ob_auto_cache_key);
+        
+        if (!empty($cache_data)) {
 
-        if (empty($this->join)) {
-            
-            !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
-            
-            $query = $this;
-            
-        } else {
-            
-            $query = $this->join($this->join);
+            return $cache_data;
         }
+
+        $query_temp = $query->where($where_temp)->order($order)->field($field);
         
-        $query = $query->where($where)->order($order)->field($field);
-        
-        !empty($this->limit) && $query->limit($this->limit);
-        !empty($this->group) && $query->group($this->group);
+        !empty($this->limit) && $query_temp->limit($this->limit);
+        !empty($this->group) && $query_temp->group($this->group);
         
         if (false === $paginate) {
        
-            $list = $query->select();
+            $list = $query_temp->select();
             
         } else {
         
             $list_rows = empty($paginate) ? DB_LIST_ROWS : $paginate;
 
-            $list = $query->paginate(input('list_rows', $list_rows), false, ['query' => request()->param()]);
+            $list = $query_temp->paginate(input('list_rows', $list_rows), false, ['query' => request()->param()]);
         }
-
+        
         $this->join = []; $this->limit = []; $this->group = [];
+
+        $this->setCache($this, $list, $ob_auto_cache_key);
         
         return $list;
+    }
+    
+    /**
+     * 获取列表查询query对象
+     */
+    final protected function getListQuery($obj = null, $where = [])
+    {
+        
+        empty($obj->join) && !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+
+        if (empty($obj->join)) {
+            
+            !isset($where[DATA_STATUS_NAME]) && $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+            
+            $query = $obj;
+            
+        } else {
+            
+            $query = $obj->join($obj->join);
+        }
+        
+        return [$query, $where];
     }
     
     /**
@@ -210,6 +253,54 @@ class ModelBase extends Model
     {
         
         return Db::execute($sql);
+    }
+    
+    /**
+     * 更新缓存
+     */
+    final protected function updateCache($obj = null)
+    {
+        
+        config('is_auto_cache') && !isset($obj->is_update_cache_version) && update_cache_version($obj);
+    }
+    
+    /**
+     * 写入缓存
+     */
+    final protected function setCache($obj = null, $data = [], $ob_auto_cache_key = '')
+    {
+        
+        if (config('is_auto_cache') && !isset($obj->no_auto_cache)) {
+            
+            !empty($data) && cache($ob_auto_cache_key, $data);
+        }
+    }
+    
+    /**
+     * 获取缓存
+     */
+    final protected function getCacheKey($obj = null, $query = null, $where = [], $field = true, $order = null, $paginate = null)
+    {
+        
+        if (!config('is_auto_cache') && isset($obj->no_auto_cache)) {
+            
+            return [];
+        }
+        
+        $ob_auto_cache      = cache('ob_auto_cache');
+        
+        $where['field']     = $field;
+        
+        isset($order)       && $where['order'] = $order;
+        isset($paginate)    && $where['paginate'] = $paginate;
+        
+        $table_name = $query->getTable();
+        
+        $temp_str = $table_name . json_encode($obj) . json_encode($where) . json_encode($ob_auto_cache[$query->getTable()]);
+        
+        isset($order) && $temp_str .= json_encode(request()->param());
+        
+        return md5($temp_str);
     }
     
     /**
