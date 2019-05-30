@@ -436,7 +436,7 @@ function arr2str($arr, $glue = ',')
 }
 
 /**
- * 数组转字符串多维
+ * 数组转字符串二维
  * @param  array  $arr  要连接的数组
  * @param  string $glue 分割符
  * @return string
@@ -797,7 +797,7 @@ function update_cache_version($obj = null)
     
     $ob_auto_cache = cache('ob_auto_cache');
 
-    $ob_auto_cache[$obj->getTable()]['version']++;
+    is_string($obj) ? $ob_auto_cache[$obj]['version']++ : $ob_auto_cache[$obj->getTable()]['version']++;
 
     cache('ob_auto_cache', $ob_auto_cache);
 }

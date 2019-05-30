@@ -158,11 +158,16 @@ class ModelBase extends Model
         
         $ob_auto_cache_key = $this->getCacheKey($this, $query, $where, $field);
         
-        $cache_data = cache($ob_auto_cache_key);
+        $is_update_cache = $this->checkCacheVersion($this, $query);
         
-        if (!empty($cache_data)) {
+        if (!empty($ob_auto_cache_key) && !$is_update_cache) {
+        
+            $cache_data = cache($ob_auto_cache_key);
 
-            return $cache_data;
+            if (!empty($cache_data)) {
+
+                return $cache_data;
+            }
         }
         
         $info = $query->where($where)->field($field)->find();
@@ -185,11 +190,16 @@ class ModelBase extends Model
         
         $ob_auto_cache_key = $this->getCacheKey($this, $query, $where_temp, $field, $order, $paginate);
         
-        $cache_data = cache($ob_auto_cache_key);
+        $is_update_cache = $this->checkCacheVersion($this, $query);
         
-        if (!empty($cache_data)) {
-
-            return $cache_data;
+        if (!empty($ob_auto_cache_key) && !$is_update_cache) {
+            
+            $cache_data = cache($ob_auto_cache_key);
+            
+            if (!empty($cache_data)) {
+                
+                return $cache_data;
+            }
         }
 
         $query_temp = $query->where($where_temp)->order($order)->field($field);
@@ -203,13 +213,11 @@ class ModelBase extends Model
             
         } else {
         
-            $list_rows = empty($paginate) ? DB_LIST_ROWS : $paginate;
-
-            $list = $query_temp->paginate(input('list_rows', $list_rows), false, ['query' => request()->param()]);
+            $list = $query_temp->paginate(input('list_rows', empty($paginate) ? DB_LIST_ROWS : $paginate), false, ['query' => request()->param()]);
         }
         
         $this->join = []; $this->limit = []; $this->group = [];
-
+        
         $this->setCache($this, $list, $ob_auto_cache_key);
         
         return $list;
@@ -265,12 +273,38 @@ class ModelBase extends Model
     }
     
     /**
+     * 清除多表缓存
+     */
+    final protected function clearTablesCache($tables = [])
+    {
+            
+        $ob_auto_cache_keys = cache('ob_auto_cache_keys');
+
+        foreach ($ob_auto_cache_keys as $k => $v) {
+
+            foreach ($tables as $vv) {
+
+                $pos = strpos($v, $vv);
+
+                if ($pos !== false) {
+
+                    cache($v, null);
+
+                    unset($ob_auto_cache_keys[$k]);
+                }
+            }
+        }
+
+        cache('ob_auto_cache_keys', array_values($ob_auto_cache_keys));
+    }
+    
+    /**
      * 写入缓存
      */
     final protected function setCache($obj = null, $data = [], $ob_auto_cache_key = '')
     {
         
-        if (config('is_auto_cache') && !isset($obj->no_auto_cache)) {
+        if (config('is_auto_cache') && !isset($obj->no_auto_cache) && !empty($ob_auto_cache_key)) {
             
             !empty($data) && cache($ob_auto_cache_key, $data);
         }
@@ -282,25 +316,98 @@ class ModelBase extends Model
     final protected function getCacheKey($obj = null, $query = null, $where = [], $field = true, $order = null, $paginate = null)
     {
         
-        if (!config('is_auto_cache') && isset($obj->no_auto_cache)) {
-            
-            return [];
-        }
-        
-        $ob_auto_cache      = cache('ob_auto_cache');
+        if (!config('is_auto_cache') || isset($obj->no_auto_cache)) { return []; }
         
         $where['field']     = $field;
         
         isset($order)       && $where['order'] = $order;
         isset($paginate)    && $where['paginate'] = $paginate;
         
+        $ob_auto_cache      = cache('ob_auto_cache');
+        
         $table_name = $query->getTable();
         
-        $temp_str = $table_name . json_encode($obj) . json_encode($where) . json_encode($ob_auto_cache[$query->getTable()]);
+        unset($ob_auto_cache[$table_name]['data_version']);
+      
+        $table_arr = $this->getTableArray($obj);
+        
+        $temp_str = arr22str($obj->join);
+        
+        $temp_str = $table_name . json_encode($obj) . json_encode($where) . json_encode($ob_auto_cache[$table_name]);
         
         isset($order) && $temp_str .= json_encode(request()->param());
         
-        return md5($temp_str);
+        $ck = arr2str($table_arr, '*') . '$' . md5($temp_str);
+        
+        $ob_auto_cache_keys = cache('ob_auto_cache_keys');
+        
+        if (!in_array($ck, $ob_auto_cache_keys)) {
+            
+            $ob_auto_cache_keys[] = $ck;
+            
+            cache('ob_auto_cache_keys', $ob_auto_cache_keys);
+        }
+        
+        return $ck;
+    }
+    
+    /**
+     * 获取表数组
+     */
+    final protected function getTableArray($obj = null)
+    {
+        
+        $temp_str = arr22str($obj->join);
+        
+        $preg = SYS_DS_PROS . SYS_DB_PREFIX . '[\s\S]*? /i';
+        
+        $res_data = [];
+        
+        preg_match_all($preg, $temp_str, $res_data);
+        
+        $table_arr = [];
+        
+        foreach ($res_data[DATA_DISABLE] as $v) {
+            
+            $table_arr[] = sr($v, ' ');
+        }
+        
+        return $table_arr;
+    }
+    
+    /**
+     * 检查缓存版本
+     */
+    final protected function checkCacheVersion($obj = null, $query = null)
+    {
+        
+        if (!config('is_auto_cache') || isset($obj->no_auto_cache)) { return true; }
+        
+        $table_name = $query->getTable();
+        
+        $table_arr = $this->getTableArray($obj);
+        
+        $table_arr[] = $table_name;
+        
+        $ob_auto_cache_data = cache('ob_auto_cache');
+        
+        $is_update = false;
+        
+        foreach ($table_arr as $v) {
+            
+            if ($ob_auto_cache_data[$v]['version'] != $ob_auto_cache_data[$v]['data_version']) {
+                
+                $is_update = true;
+                
+                $ob_auto_cache_data[$v]['data_version'] = $ob_auto_cache_data[$v]['version'];
+            }
+        }
+        
+        cache('ob_auto_cache', $ob_auto_cache_data);
+        
+        $is_update && $this->clearTablesCache($table_arr);
+        
+        return $is_update;
     }
     
     /**

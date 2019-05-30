@@ -221,7 +221,10 @@ class InitBase
     private function initAutoCache()
     {
         
-        $ob_auto_cache = cache('ob_auto_cache');
+        $ob_auto_cache          = cache('ob_auto_cache');
+        $ob_auto_cache_keys     = cache('ob_auto_cache_keys');
+        
+        !false === $ob_auto_cache_keys ?: cache('ob_auto_cache_keys', []);
         
         if (empty($ob_auto_cache)) {
             
@@ -231,8 +234,9 @@ class InitBase
             
             foreach ($list as $v) {
 
-                $ob_auto_cache[$v['Name']]['name']       = $v['Name'];
-                $ob_auto_cache[$v['Name']]['version']    = DATA_NORMAL;
+                $ob_auto_cache[$v['Name']]['name']          = $v['Name'];
+                $ob_auto_cache[$v['Name']]['version']       = DATA_NORMAL;
+                $ob_auto_cache[$v['Name']]['data_version']  = DATA_NORMAL;
             }
             
             cache('ob_auto_cache', $ob_auto_cache, DATA_DISABLE);
