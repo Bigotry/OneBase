@@ -160,14 +160,9 @@ class ModelBase extends Model
         
         $is_update_cache = $this->checkCacheVersion($this, $query);
         
-        if (!empty($ob_auto_cache_key) && !$is_update_cache) {
+        if (!empty($ob_auto_cache_key) && !$is_update_cache && !empty($cache_data = cache($ob_auto_cache_key))) {
         
-            $cache_data = cache($ob_auto_cache_key);
-
-            if (!empty($cache_data)) {
-
-                return $cache_data;
-            }
+            return $cache_data;
         }
         
         $info = $query->where($where)->field($field)->find();
@@ -192,14 +187,9 @@ class ModelBase extends Model
         
         $is_update_cache = $this->checkCacheVersion($this, $query);
         
-        if (!empty($ob_auto_cache_key) && !$is_update_cache) {
+        if (!empty($ob_auto_cache_key) && !$is_update_cache && !empty($cache_data = cache($ob_auto_cache_key))) {
             
-            $cache_data = cache($ob_auto_cache_key);
-            
-            if (!empty($cache_data)) {
-                
-                return $cache_data;
-            }
+            return $cache_data;
         }
 
         $query_temp = $query->where($where_temp)->order($order)->field($field);
