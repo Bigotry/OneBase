@@ -296,7 +296,7 @@ class ModelBase extends Model
         
         if (config('is_auto_cache') && !isset($obj->no_auto_cache) && !empty($ob_auto_cache_key)) {
             
-            !empty($data) && cache($ob_auto_cache_key, $data);
+            !empty($data) && cache($ob_auto_cache_key, $data, config('auto_cache_time'));
         }
     }
     

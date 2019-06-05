@@ -20,6 +20,8 @@ return [
     'app_debug'              => true,
     // 是否启用自动缓存
     'is_auto_cache'          => false,
+    // 自动缓存过期时间（若为文件缓存过期会自动删除物理文件）秒
+    'auto_cache_time'        => 3600,
     // 应用Trace
     'app_trace'              => true,
     // 应用模式状态

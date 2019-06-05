@@ -13,6 +13,7 @@ namespace app\common\behavior;
 
 use think\Loader;
 use think\Db;
+use think\Cache;
 
 /**
  * 初始化基础信息行为
@@ -241,5 +242,34 @@ class InitBase
             
             cache('ob_auto_cache', $ob_auto_cache, DATA_DISABLE);
         }
+        
+        $this->autoClearCache($ob_auto_cache_keys);
+    }
+    
+    /**
+     * 自动清理缓存
+     */
+    private function autoClearCache($keys = [])
+    {
+    
+        // 检查自动缓存是否过期
+        if (!empty($keys)) {
+
+            foreach ($keys as $k => $v) {
+
+                if (!Cache::has($v)) {
+
+                    cache($v, null);
+
+                    unset($keys[$k]);
+                }
+            }
+
+            cache('ob_auto_cache_keys', array_values($keys));
+        }
+
+        $cache_config = config('cache');
+
+        rm_empty_dir($cache_config['path']);
     }
 }
