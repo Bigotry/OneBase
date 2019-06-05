@@ -48,7 +48,7 @@ class ModelBase extends Model
         
         if (empty($data[$pk])) {
             
-            $this->allowField(true)->isUpdate(false)->data($data, true)->save();
+            $this->allowField(true)->save($data, $where);
             
             return $this->getQuery()->getLastInsID();
             
