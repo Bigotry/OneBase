@@ -48,9 +48,14 @@ class ModelBase extends Model
         
         if (empty($data[$pk])) {
             
-            $this->allowField(true)->save($data, $where);
-            
-            return $this->getQuery()->getLastInsID();
+            if (empty($where)) {
+                
+                empty($data[TIME_CT_NAME]) && $data[TIME_CT_NAME] = time();
+                
+                return Db::name($this->name)->insertGetId($data);
+            }
+                
+            return $this->updateInfo($where, $data);
             
         } else {
             
