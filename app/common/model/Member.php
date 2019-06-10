@@ -17,12 +17,4 @@ namespace app\common\model;
 class Member extends ModelBase
 {
     
-    /**
-     * 密码修改器
-     */
-    public function setPasswordAttr($value)
-    {
-        
-        return data_md5_key($value);
-    }
 }

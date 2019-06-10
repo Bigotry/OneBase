@@ -200,6 +200,8 @@ class Member extends AdminBase
         $data['leader_id'] = MEMBER_ID;
         $data['is_inside'] = DATA_NORMAL;
         
+        $data['password'] = data_md5_key($data['password']);
+        
         $result = $this->modelMember->setInfo($data);
         
         $result && action_log('新增', '新增会员，username：' . $data['username']);
