@@ -71,9 +71,9 @@ class Database extends AdminBase
     /**
      * 数据备份
      */
-    public function dataBackup()
+    public function dataBackup($param = [])
     {
-
+        
         $path = $this->getBackupDir();
         
         $config = [
@@ -94,46 +94,69 @@ class Database extends AdminBase
         // 检查备份目录是否可写
         if (!is_writeable($config['path'])) {  return [RESULT_ERROR, '备份目录不存在或不可写，请检查后重试！']; }
         
+        session('backup_config', $config);
+        
         // 生成备份文件信息
         $file = ['name' => date('Ymd-His', TIME_NOW), 'part' => DATA_NORMAL ];
         
         session('backup_file', $file);
+        session('backup_tables', $param['tables']);
         
-        $Database = new \ob\Database($file, $config);
+        $database = new \ob\Database($file, $config);
         
-        if (false == $Database) { return [RESULT_ERROR, '备份初始化失败！']; }
+        if (false == $database) { return [RESULT_ERROR, '备份初始化失败！']; }
         
-        // 开始备份
-        return $this->startBackup($Database, $this->getTableListIndex(), $lock);
+        $tab = array('id' => 0, 'start' => 0);
+        
+        header('Content-Type:application/json; charset=utf-8');
+        
+        exit(json_encode(array('tables' => $param['tables'], 'tab' => $tab, 'status' => DATA_NORMAL)));
     }
     
     /**
-     * 开始备份
+     * 数据备份，步骤2
      */
-    public function startBackup($database = null, $table_list = [], $lock = '')
+    public function dataBackupStep2($param = [])
     {
         
-        $error_table = '';
+        $id      = $param['id'];
+        $start   = $param['start'];
         
-        foreach ($table_list as $v)
-        {
+        $tables = session('backup_tables');
+        
+        $database = new \ob\Database(session('backup_file'), session('backup_config'));
+        
+        $start  = $database->backup($tables[$id], $start);
+        
+        header('Content-Type:application/json; charset=utf-8');
+        
+        if (false === $start) {
             
-            $start  = $database->backup($v, 0);
+            exit(json_encode(array('status' => DATA_NORMAL, 'msg' => '备份出错')));
+        } elseif (0 === $start) {
             
-            if ($start === false) { $error_table = $v; break; }
+            if(isset($tables[++$id])){
+                
+                $tab = array('id' => $id, 'start' => 0);
+                exit(json_encode(array('msg' => '备份完成', 'tab' => $tab, 'status' => DATA_NORMAL)));
+            } else {
+                
+                $config = session('backup_config');
+
+                @unlink($config['path'] . 'backup.lock');
+                session('backup_tables', null);
+                session('backup_file', null);
+                session('backup_config', null);
+                exit(json_encode(array('msg' => '备份完成', 'status' => DATA_NORMAL)));
+            }
+        } else {
+            
+            $tab  = array('id' => $id, 'start' => $start[0]);
+            $rate = floor(100 * ($start[0] / $start[1]));
+            exit(json_encode(array('msg' => "正在备份...({$rate}%)", 'tab' => $tab, 'status' => DATA_NORMAL)));
         }
-        
-        unlink($lock);
-        
-        session('backup_file', null);
-        
-        if (!empty($error_table)) { return [RESULT_ERROR, '备份出错，表名：' . $error_table]; }
-        
-        action_log('备份', '数据库备份');
-        
-        return [RESULT_SUCCESS, '备份成功'];
     }
-    
+
     /**
      * 优化 or 修复 表
      */
@@ -233,65 +256,75 @@ class Database extends AdminBase
     /**
      * 数据还原
      */
-    public function dataRestore($time = 0)
+    public function dataRestore($param = [])
     {
         
-        $path   = $this->getBackupPathByTime($time);
+        header('Content-Type:application/json; charset=utf-8');
         
-        $files  = glob($path);
+        if (is_numeric($param['time']) && !isset($param['part']) && !isset($param['start'])) {
+            
+            $path   = $this->getBackupPathByTime($param['time']);
+
+            $files  = glob($path);
+
+            $list   = [];
+            
+            foreach($files as $name)
+            {
+                $basename = basename($name);
+                $match    = sscanf($basename, '%4s%2s%2s-%2s%2s%2s-%d');
+                $gz       = preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql.gz$/', $basename);
+                $list[$match[6]] = array($match[6], $name, $gz);
+            }
+
+            ksort($list);
+            
+            // 检测文件正确性
+            $last = end($list);
+
+            if (!(count($list) === $last[0])) { return [RESULT_ERROR, '备份文件可能已经损坏，请检查！']; }
+            
+            session('backup_list', $list);
+                
+            exit(json_encode(array('msg' => "初始化完成,数据还原中...", 'part' => 1, 'start' => 0, 'status' => DATA_NORMAL)));
+        }  elseif(is_numeric($param['part']) && is_numeric($param['start'])) {
+            
+            $part  = $param['part'];
+            $start = $param['start'];
+            
+            $list  = session('backup_list');
         
-        $list   = [];
-        
-        foreach($files as $name)
-        {
-            $basename = basename($name);
-            $match    = sscanf($basename, '%4s%2s%2s-%2s%2s%2s-%d');
-            $gz       = preg_match('/^\d{8,8}-\d{6,6}-\d+\.sql.gz$/', $basename);
-            $list[$match[6]] = array($match[6], $name, $gz);
+            $path = $this->getBackupDir();
+
+            $db = new \ob\Database($list[$part], array(
+                    'path'     => realpath($path) . SYS_DS_PROS,
+                    'compress' => $list[$part][2]
+                    ));
+
+
+            $start = $db->import($start);
+
+            if(false === $start){
+                exit(json_encode(array('msg' => "还原数据出错", 'status' => DATA_ERROR)));
+            } elseif(0 === $start) { //下一卷
+                if(isset($list[++$part])){
+                    exit(json_encode(array('msg' => "正在还原...#{$part}", 'part' => $part, 'start' => 0, 'status' => DATA_NORMAL)));
+                } else {
+                    session('backup_list', null);
+                    exit(json_encode(array('msg' => "还原完成", 'status' => DATA_NORMAL)));
+                }
+            } else {
+                $data = array('part' => $part, 'start' => $start[0]);
+                if($start[1]){
+                    $rate = floor(100 * ($start[0] / $start[1]));
+                    exit(json_encode(array('msg' => "正在还原...#{$part} ({$rate}%)", 'part' => $part, 'start' => $start[0], 'status' => DATA_NORMAL)));
+                } else {
+                    $data['gz'] = 1;
+                    exit(json_encode(array('msg' => "正在还原...#{$part}", 'part' => $part, 'start' => $start[0], 'gz' => 1,'status' => DATA_NORMAL)));
+                }
+            }
+        } else {
+            exit(json_encode(array('msg' => "还原数据出错", 'status' => DATA_ERROR)));
         }
-        
-        ksort($list);
-
-        // 检测文件正确性
-        $last = end($list);
-        
-        if (!(count($list) === $last[0])) { return [RESULT_ERROR, '备份文件可能已经损坏，请检查！']; }
-        
-        // 开始还原
-        return $this->startRestore($list);
     }
-    
-    
-    /**
-     * 开始还原
-     */
-    public function startRestore($list)
-    {
-        
-        $path = $this->getBackupDir();
-        
-        $config = [
-            'path'     => realpath($path) . SYS_DS_PROS,
-            'compress' => config('data_backup_compress'),
-        ];
-        
-        $error = '';
-        
-        foreach ($list as $file)
-        {
-        
-            $database = new \ob\Database($file, $config);
-
-            $start = $database->import(DATA_DISABLE);
-
-            if (false === $start) { $error = '还原数据出错'; break; }
-        }
-
-        if (!empty($error)) { return [RESULT_ERROR, $error]; }
-        
-        action_log('还原', '数据库还原');
-        
-        return [RESULT_SUCCESS, '还原成功'];
-    }
-
 }

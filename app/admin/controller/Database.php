@@ -41,7 +41,9 @@ class Database extends AdminBase
     public function dataBackup()
     {
         
-        IS_POST && $this->jump($this->logicDatabase->dataBackup());
+        IS_POST && $this->jump($this->logicDatabase->dataBackup($this->param));
+        
+        IS_GET  && isset($this->param['id']) && isset($this->param['start']) && $this->logicDatabase->dataBackupStep2($this->param);
         
         $this->assign('list', $this->logicDatabase->getTableList());
         
@@ -62,10 +64,10 @@ class Database extends AdminBase
     /**
      * 数据还原处理
      */
-    public function dataRestoreHandle($time = 0)
+    public function dataRestoreHandle()
     {
 
-       $this->jump($this->logicDatabase->dataRestore($time));
+       $this->jump($this->logicDatabase->dataRestore($this->param));
     }
     
     /**
