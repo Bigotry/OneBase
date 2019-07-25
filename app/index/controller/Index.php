@@ -14,38 +14,13 @@ namespace app\index\controller;
 /**
  * 前端首页控制器
  */
-class Index extends IndexBase
+class Index extends \think\Controller
 {
     
     // 首页
-    public function index($cid = 0)
+    public function index()
     {
         
-        $where = [];
-        
-        !empty((int)$cid) && $where['a.category_id'] = $cid;
-        
-        $this->assign('article_list', $this->logicArticle->getArticleList($where, 'a.*,m.nickname,c.name as category_name', 'a.create_time desc'));
-        
-        $this->assign('category_list', $this->logicArticle->getArticleCategoryList([], true, 'create_time asc', false));
-        
-        return $this->fetch('index');
-    }
-    
-    // 详情
-    public function details($id = 0)
-    {
-        
-        $where = [];
-        
-        !empty((int)$id) && $where['a.id'] = $id;
-        
-        $data = $this->logicArticle->getArticleInfo($where);
-        
-        $this->assign('article_info', $data);
-        
-        $this->assign('category_list', $this->logicArticle->getArticleCategoryList([], true, 'create_time asc', false));
-        
-        return $this->fetch('details');
+        die('Forbidden');
     }
 }
