@@ -2,17 +2,17 @@
 
 return [
     // 数据库类型
-    'type'            => 'mysql',
+    'type'            => '[type]',
     // 服务器地址
-    'hostname'        => '119.23.225.30',
+    'hostname'        => '[hostname]',
     // 数据库名
-    'database'        => 'medical',
+    'database'        => '[database]',
     // 用户名
-    'username'        => 'root',
+    'username'        => '[username]',
     // 密码
-    'password'        => 'E#$#hobo#)$Fhn$C',
+    'password'        => '[password]',
     // 端口
-    'hostport'        => '3306',
+    'hostport'        => '[hostport]',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
@@ -20,7 +20,7 @@ return [
     // 数据库编码默认采用utf8
     'charset'         => 'utf8',
     // 数据库表前缀
-    'prefix'          => 'ob_',
+    'prefix'          => '[prefix]',
     // 数据库调试模式
     'debug'           => true,
     // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
@@ -42,5 +42,5 @@ return [
     // 是否需要进行SQL性能分析
     'sql_explain'     => true,
     // 系统数据加密key
-    'sys_data_key'    => ']nsKb5~7f(#"hz*O`A$lNIpVG?SX,a4-Lr.<u;do'
+    'sys_data_key'    => '[sys_data_key]'
 ];

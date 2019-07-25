@@ -16,7 +16,7 @@ $(document).on('pjax:complete', function() {
 
     if (ob_title_hidden != null && ob_title_hidden != '') {
         
-         document.title =  '爱心互联网医院 | ' + ob_title_hidden;
+         document.title =  'OneBase | ' + ob_title_hidden;
     }
 
     var $checkboxAll = $(".js-checkbox-all"),
