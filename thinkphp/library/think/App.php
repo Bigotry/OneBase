@@ -373,10 +373,13 @@ class App
         $controller = strip_tags($result[1] ?: $config['default_controller']);
         $controller = $convert ? strtolower($controller) : $controller;
 
+        
+        //---------------------------修复 2018 年 12 月 9 日 发布 安全漏洞------------------------------------
         if (!preg_match('/^[A-Za-z](\w|\.)*$/', $controller)) {
             throw new HttpException(404, 'controller not exists:' . $controller);
         }
-        
+        //---------------------------修复 2018 年 12 月 9 日 发布 安全漏洞------------------------------------
+
         // 获取操作名
         $actionName = strip_tags($result[2] ?: $config['default_action']);
         $actionName = $convert ? strtolower($actionName) : $actionName;
