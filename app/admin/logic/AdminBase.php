@@ -35,21 +35,21 @@ class AdminBase extends LogicBase
             
             return $pass_data;
         }
-        
+        $s_url = sr(strtolower($url), '_');
         if (!empty($allow_url_list)) {
             
             foreach ($allow_url_list as $v) {
                 
-                if (strpos($url, strtolower($v)) !== false) {
+                if (strpos($s_url, strtolower($v)) !== false) {
                     
                     return $pass_data;
                 }
             }
         }
         
-        $result = in_array($url, array_map("strtolower", $url_list)) ? true : false;
+        $result = in_array($s_url, array_map("strtolower", $url_list)) ? true : false;
         
-        !('index/index' == $url && !$result) ?: clear_login_session();
+        !('index/index' == $s_url && !$result) ?: clear_login_session();
         
         return $result ? $pass_data : [RESULT_ERROR, '未授权操作'];
     }
