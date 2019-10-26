@@ -255,6 +255,8 @@ class Member extends AdminBase
         
         $url = url('index/index');
         
+		$data['password'] = data_md5_key($data['password']);
+		
         $result = $this->modelMember->setInfo($data);
         
         $result && action_log('编辑', '会员密码修改，id：' . $data['id']);
