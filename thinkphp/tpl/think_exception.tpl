@@ -401,48 +401,8 @@
     </div>
     <?php } ?>
 
-    <?php if(!empty($tables)){ ?>
-    <div class="exception-var">
-        <h2>Environment Variables</h2>
-        <?php foreach ((array) $tables as $label => $value) { ?>
-        <div>
-            <?php if(empty($value)){ ?>
-            <div class="clearfix">
-                <div class="col-md-3"><strong><?php echo $label; ?></strong></div>
-                <div class="col-md-9"><small>empty</small></div>
-            </div>
-            <?php } else { ?>
-            <h3 class="subheading"><?php echo $label; ?></h3>
-            <div>
-                <?php foreach ((array) $value as $key => $val) { ?>
-                <div class="clearfix">
-                    <div class="col-md-3"><strong><?php echo htmlentities($key); ?></strong></div>
-                    <div class="col-md-9"><small>
-                        <?php 
-                            if(is_array($val) || is_object($val)){ 
-                                echo htmlentities(json_encode($val, JSON_PRETTY_PRINT));
-                            } else if(is_bool($val)) { 
-                                echo $val ? 'true' : 'false';
-                            } else if(is_scalar($val)) {
-                                echo htmlentities($val);
-                            } else {
-                                echo 'Resource';
-                            }
-                        ?>
-                    </small></div>
-                </div>
-                <?php } ?>
-            </div>
-            <?php } ?>
-        </div>
-        <?php } ?>
-    </div>
-    <?php } ?>
-
     <div class="copyright">
-        <a title="官方网站" href="http://www.thinkphp.cn">ThinkPHP</a> 
-        <span>V<?php echo THINK_VERSION; ?></span> 
-        <span>{ 十年磨一剑-为API开发设计的高性能框架 }</span>
+        <a title="官方网站" href="http://www.obstore.cn/">OneBase</a>
     </div>
     <?php if(\think\App::$debug) { ?>
     <script>
