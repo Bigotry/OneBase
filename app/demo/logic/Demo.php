@@ -86,7 +86,83 @@ class Demo extends LogicBase
         $test_order['body']             =   '测试';
         $test_order['order_amount']     =   0.01;
         
+        //(微信公众号下使用JSAPI支付时才需要此参数，用于跳转授权)
+        $test_order['redirect_uri']     =   'http://ob.xxx.cn';
+        
+        //-------------- 支付宝相关支付-----------------
+        
+        // （电脑网站环境下）支付宝PC网站发起支付
         echo $this->servicePay->driverAlipay->pay($test_order);
+        
+        // （移动端非微信环境浏览器下）支付宝H5支付
+        echo $this->servicePay->driverAlipay->pay($test_order, 'h5');
+
+        // （支付宝APP支付） 返回给IOS或安卓 客户端处理
+        dump($this->servicePay->driverAlipay->pay($test_order, 'app'));
+        
+        
+        //-------------- 微信相关支付------------------
+
+        // （电脑网站环境下）微信PC网站发起支付
+        echo $this->servicePay->driverWxpay->pay($test_order);
+
+        // （移动端非微信环境的浏览器下）微信 H5 支付
+        echo '<a href="'.$this->servicePay->driverWxpay->pay($test_order, 'h5').'">点击跳转H5微信支付</a>';
+        
+        // （微信公众号环境下） JSAPI 支付
+        echo $this->servicePay->driverWxpay->pay($test_order, 'JSAPI');
+        
+        //（微信APP支付） 返回给IOS或安卓 客户端处理
+        dump($this->servicePay->driverWxpay->pay($test_order, 'app'));
+    }
+    
+    /**
+     * 前端支付状态检测
+     */
+    public function demoCheckPayStatus($param = [])
+    {
+
+        // 业务逻辑代码块...
+        
+        dump($param['order_sn']);
+        
+        // 未支付
+        die('error');
+        
+        
+        // 已支付
+        die('succeed');
+    }
+
+    /**
+     * 支付异步通知处理
+     */
+    public function demoPayNotify()
+    {
+        
+        // 获取订单号
+        $order_sn = get_order_sn();
+        
+        // 获取订单信息
+        $info = $this->modelOrder->getInfo(['order_sn' => $order_sn]);
+        
+        // 验证订单是否存在
+        empty($info) && die('不存在订单号');
+        
+        // 获取支付驱动
+        $select_driver = SYS_DRIVER_DIR_NAME . $info['pay_type'];
+        
+        // 验证通知是否合法
+        $result = $this->servicePay->$select_driver->notify();
+        
+        /**
+         * @todo 支付完成后通过订单号处理相应业务逻辑
+         */
+        if ($result) {
+            
+            // 执行支付成功业务逻辑代码块...
+        }
+        
     }
     
     /**
@@ -95,12 +171,29 @@ class Demo extends LogicBase
     public function demoSendSms()
     {
         
+        // 短信发送
         $parameter['sign_name']      = 'OneBase架构';
         $parameter['template_code']  = 'SMS_113455309';
         $parameter['phone_number']   = '18555550710';
         $parameter['template_param'] = ['code' => '123456'];
         
         return $this->serviceSms->driverAlidy->sendSms($parameter);
+        
+        /*
+        // 短信验证码验证
+        $check_data['phone_number']   = '18555550710';
+        $check_data['code']           = '123456';
+        
+        $check_result = $this->serviceSms->driverAlidy->checkSmsCode($check_data);
+        
+        if ($check_result) {
+            
+            // 短信验证码验证通过
+        } else {
+            
+            // 短信验证码不正确
+        }
+        */
     }
     
     /**

@@ -35,6 +35,16 @@ class Demo extends ControllerBase
     public function demoPay() { $this->logicDemo->demoPay(); }
     
     /**
+     * 支付状态监测
+     */
+    public function demoCheckPayStatus() { $this->logicDemo->demoCheckPayStatus($this->param); }
+    
+    /**
+     * 支付异步通知处理
+     */
+    public function demoPayNotify() { $this->logicDemo->demoPayNotify(); }
+    
+    /**
      * 云存储服务
      */
     public function demoStorage() { $this->logicDemo->demoStorage(); }
