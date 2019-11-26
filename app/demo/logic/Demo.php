@@ -86,7 +86,7 @@ class Demo extends LogicBase
         $test_order['body']             =   '测试';
         $test_order['order_amount']     =   0.01;
         
-        //(微信公众号下使用JSAPI支付时才需要此参数，用于跳转授权)
+        // （微信公众号下使用JSAPI支付时才需要此参数，用于跳转授权）
         $test_order['redirect_uri']     =   'http://ob.xxx.cn';
         
         //-------------- 支付宝相关支付-----------------
@@ -112,7 +112,7 @@ class Demo extends LogicBase
         // （微信公众号环境下） JSAPI 支付
         echo $this->servicePay->driverWxpay->pay($test_order, 'JSAPI');
         
-        //（微信APP支付） 返回给IOS或安卓 客户端处理
+        // （微信APP支付） 返回给IOS或安卓 客户端处理
         dump($this->servicePay->driverWxpay->pay($test_order, 'app'));
     }
     
