@@ -17,9 +17,12 @@ namespace app\common\service;
 class Pay extends ServiceBase implements BaseInterface
 {
     
-    const NOTIFY_URL    = 'http://xxx/payment/notify';
-    const CALLBACK_URL  = 'http://xxx/payment/notify';
+    // 支付成功异步通知处理URL
+    const NOTIFY_URL    = 'http://ob.xxx.cn/demo.php/demo/demoPayNotify';
     
+    // 同步支付成功跳转URL
+    const CALLBACK_URL  = 'http://ob.xxx.cn/demo.php/demo/demoPayCallback';
+
     /**
      * 服务基本信息
      */
