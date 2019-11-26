@@ -801,3 +801,29 @@ function update_cache_version($obj = null)
 
     cache('ob_auto_cache', $ob_auto_cache);
 }
+
+/**
+ * 获取通知订单号
+ */
+function get_order_sn()
+{
+   
+    $where['service_name']  = 'Pay';
+    $where['status']        = DATA_NORMAL;
+
+    $pay_types = Db::name('driver')->where($where)->select();
+    
+    $order_sn = null;
+    
+    foreach ($pay_types as $v)
+    {
+        
+        $model = model($v['driver_name'], 'service\\pay\\driver');
+        
+        $order_sn = $model->getOrderSn();
+        
+        if (!empty($order_sn)) {  break; }
+    }
+    
+    return $order_sn;
+}
