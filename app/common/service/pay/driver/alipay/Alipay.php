@@ -25,8 +25,8 @@
             $this->alipay_config['timestamp'] = date("Y-m-d H:i:s");
             $this->alipay_config['seller_id'] = $params['alipay_partner'];
             $this->alipay_config['appid'] = $params['alipay_appid'];
-            $this->alipay_config['rsaPrivateKey'] = $params['alipay_rsaPrivateKey'];
-            $this->alipay_config['alipayrsaPublicKey'] = $params['alipay_alipayrsaPublicKey'];
+            $this->alipay_config['rsaPrivateKey'] = $params['alipay_rsa_private_key'];
+            $this->alipay_config['alipayrsaPublicKey'] = $params['alipay_rsa_public_key'];
         }
 
         //生成提交支付宝参数数组
@@ -35,10 +35,11 @@
             //构造业务请求参数的集合(订单信息)
            $content = array();
            $content['body'] = '';
-           $content['subject'] = $params['subject'];//商品的标题/交易标题/订单标题/订单关键字等
-           $content['out_trade_no'] = $params['out_trade_no'];//商户网站唯一订单号
+           $content['subject'] = !empty($params['subject']) ? $params['subject'] : $params['body'];//商品的标题/交易标题/订单标题/订单关键字等
+           
+           $content['out_trade_no'] = $params['order_sn'];//商户网站唯一订单号
            $content['timeout_express'] = '1d';//该笔订单允许的最晚付款时间
-           $content['total_amount'] = floatval($params['price']);//订单总金额(必须定义成浮点型)
+           $content['total_amount'] = floatval($params['order_amount']);//订单总金额(必须定义成浮点型)
            $content['product_code'] = 'QUICK_MSECURITY_PAY';//销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
            // $content['store_id'] = 'BJ_001';//商户门店编号
            $con = json_encode($content);//$content是biz_content的值,将之转化成字符串
@@ -57,9 +58,9 @@
            //生成签名
            $paramStr = $Client->getSignContent($param);
            $sign = $Client->alonersaSign($paramStr,$this->alipay_config['rsaPrivateKey'],'RSA2',is_file($this->alipay_config['rsaPrivateKey'])?true:false);
-            $param['sign'] = $sign;
-            $str = $Client->getSignContentUrlencode($param);
-            return $str;
+           $param['sign'] = $sign;
+           $str = $Client->getSignContentUrlencode($param);
+           return $str;
         }
     }
 ?>
