@@ -26,7 +26,7 @@ class Alipay extends Pay implements Driver
     public function getDriverParam()
     {
         
-        return ['alipay_account' => '支付宝帐户', 'alipay_partner' => '合作身份者id', 'alipay_key' => '安全检验码',"alipay_appid"=>"支付宝appid","alipay_rsaPrivateKey"=>"商户私钥(可填写路径)","alipay_alipayrsaPublicKey"=>"支付宝公钥(可填写路径)"];
+        return ['alipay_account' => '支付宝帐户', 'alipay_partner' => '合作身份者id', 'alipay_key' => '安全检验码',"alipay_appid"=>"支付宝appid","alipay_rsa_private_key"=>"商户私钥(可填写路径)","alipay_rsa_public_key"=>"支付宝公钥(可填写路径)"];
     }
     
     /**
@@ -35,7 +35,7 @@ class Alipay extends Pay implements Driver
     public function driverInfo()
     {
         
-        return ['driver_name' => '支付宝驱动', 'driver_class' => 'Alipay', 'driver_describe' => '支付宝支付', 'author' => 'Bigotry', 'version' => '1.0'];
+        return ['driver_name' => '支付宝', 'driver_class' => 'Alipay', 'driver_describe' => '支付宝支付', 'author' => 'Bigotry', 'version' => '1.0'];
     }
     
     /**
@@ -47,6 +47,8 @@ class Alipay extends Pay implements Driver
             return $this->getPayCode($order);
         }elseif ($type == 'app'){
             return $this->createAppPara($order);
+        }elseif ($type == 'h5'){
+            return $this->createH5Para($order);
         }else{
             //补充...
         }
@@ -125,9 +127,47 @@ class Alipay extends Pay implements Driver
                 'price'=>0.01
             ];
         }
+        
         return $alipay->createAppPara($order);
     }
 
+    /**
+     * h5支付
+     * @param $order
+     * @return string
+     */
+    public function createH5Para($order)
+    {
+        require_once "alipay/alipay-sdk-PHP-3.4.2/AopSdk.php";
+        
+        $alipay_config = $this->config();
+        
+        $aop = new \AopClient ();
+        $aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
+        $aop->appId = $alipay_config['alipay_appid'];
+        $aop->rsaPrivateKey = $alipay_config['alipay_rsa_private_key'];
+        $aop->alipayrsaPublicKey= $alipay_config['alipay_rsa_public_key'];
+        $aop->apiVersion = '1.0';
+        $aop->postCharset='UTF-8';
+        $aop->format='json';
+        $aop->signType='RSA2';
+        $request = new \AlipayTradeWapPayRequest ();
+        $request->setNotifyUrl(Pay::NOTIFY_URL);
+        $request->setReturnUrl(Pay::CALLBACK_URL);
+        $subject = !empty($order['subject']) ? $order['subject'] : $order['body'];
+        
+        $request->setBizContent("{" .
+        "    \"body\":\"".$order['body']."\"," .
+        "    \"subject\":\"".$subject."\"," .
+        "    \"out_trade_no\":\"".$order['order_sn']."\"," .
+        "    \"timeout_express\":\"90m\"," .
+        "    \"total_amount\":".$order['order_amount']."," .
+        "    \"product_code\":\"QUICK_WAP_WAY\"" .
+        "  }");
+        $result = $aop->pageExecute ( $request); 
+              
+        return $result;
+    }
     
     /**
      * 获取订单号

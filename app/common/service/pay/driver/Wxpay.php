@@ -11,7 +11,6 @@
 
 namespace app\common\service\pay\driver;
 
-use app\api\error\Common;
 use app\common\service\pay\Driver;
 use app\common\service\Pay;
 
@@ -44,6 +43,7 @@ class Wxpay extends Pay implements Driver
      */
     public function pay($order=[],$type='web')
     {
+        
         switch ($type)
         {
             case 'app' :
@@ -97,7 +97,7 @@ class Wxpay extends Pay implements Driver
         $unifiedOrder = new wxpay\UnifiedOrder_pub();
         
         
-        $unifiedOrder->setParameter("body", $order['body']);//商品描述
+        $unifiedOrder->setParameter("body", !empty($order['subject']) ? $order['subject'] : $order['body']);//商品描述
         //自定义订单号，此处仅作举例
         $config = $this->config();
         
@@ -156,6 +156,9 @@ class Wxpay extends Pay implements Driver
                 "spbill_create_ip" => $wx->get_client_ip()
             ];
         }
+        
+        $order['trade_type'] = 'APP';
+        
         $result_data = $wx->getPrepay($order);
         return $result_data;
     }
@@ -168,26 +171,92 @@ class Wxpay extends Pay implements Driver
     public function getH5Pay($order=[])
     {
         require_once "wxpay/Wxpay.php";
+
         $wx = new \Wxpay($this->config());
-        if(empty($order)) {
-            $order = [
-                "body"=>"测试",
-                "out_trade_no" => date("YmdHis") . mt_rand(1000,9999) . time(),
-                "total_fee" => 0.01,
-                "spbill_create_ip" => $wx->get_client_ip(),
-                "trade_type"=>"MWEB",
-                "scene_info"=>"{\"h5_info\": {\"type\":\"Wap\",\"wap_url\": \"https://pay.qq.com\",\"wap_name\": \"腾讯充值\"}} "
-            ];
-        }
+
+        $order['trade_type'] = 'MWEB';
+        
         $result_data = $wx->getPrepay($order);
         return $result_data;
     }
 
     public function getJsApi($order = [])
     {
-        require_once "wxpay/Wxpay.php";
-        $wx = new \Wxpay($this->config());
-        return $wx->getPrepay($order);
+        
+        require_once('wxpay/WxPayPubHelper.php');
+
+        //使用jsapi接口
+        $jsApi = new wxpay\JsApi_pub();
+        $config = $this->config();
+        $jsApi->setConfig($config);
+
+        $unifiedOrder = new wxpay\UnifiedOrder_pub();
+
+        $unifiedOrder->setConfig($config);
+
+        $wx_openid = cache('wx_openid');
+
+        if(empty($wx_openid) && !isset($_GET['code'])){
+
+            header("Content-type: text/html; charset=utf-8");
+            $redirect_uri = $order['redirect_uri'];
+            $scope='snsapi_base';
+
+            $url='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$this->appid.'&redirect_uri='.urlencode($redirect_uri).'&response_type=code&scope='.$scope.'&state=wx'.'#wechat_redirect';
+
+            header("Location:".$url);
+            exit();
+        }
+
+        if (!empty($_GET['code']) && empty($wx_openid)) {
+
+            $appid  = $config['appid'];
+            $secret  = $config['appsecret'];
+
+            $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . $appid . '&secret=' . $secret . '&code=' . $_GET['code'] . '&grant_type=authorization_code';
+
+            $weixin = file_get_contents($url);
+
+            $jsondecode = json_decode($weixin);
+
+            $array = get_object_vars($jsondecode);
+
+            if (!empty($array['openid'])) {
+
+                cache('wx_openid', $array['openid'], 0);
+
+                $wx_openid = $array['openid'];
+            }
+        }
+  
+        //设置统一支付接口参数
+        //设置必填参数
+        $unifiedOrder->setParameter("openid", $wx_openid);
+        $unifiedOrder->setParameter("body",!empty($order['subject']) ? $order['subject'] : $order['body']);
+        //自定义订单号，此处仅作举例
+        $unifiedOrder->setParameter("out_trade_no",$order['order_sn']);
+
+        $unifiedOrder->setParameter("total_fee",$order['order_amount']*100);
+
+        $unifiedOrder->setParameter("notify_url", Pay::NOTIFY_URL);
+        $unifiedOrder->setParameter("trade_type","JSAPI");
+
+        $prepay_id = $unifiedOrder->getPrepayId();
+
+        $jsApi->setPrepayId($prepay_id);
+
+        $jsApiParameters = $jsApi->getParameters();
+
+        //模版输出
+        ob_start();
+        
+        require_once('wxpay/tmp_jsapi.php');
+        
+        $info = ob_get_contents();
+        
+        ob_clean();
+
+        return $info;
     }
     
     //设置配置信息
