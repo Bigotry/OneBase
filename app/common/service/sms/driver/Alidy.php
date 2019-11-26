@@ -47,16 +47,23 @@ class Alidy extends Sms implements Driver
         return $this->driverConfig('Alidy');
     }
     
+    
     /**
-     * 发送短信
+     *  发送短信验证码
+        $parameter['sign_name']      = 'OneBase架构';
+        $parameter['template_code']  = 'SMS_113455309';
+        $parameter['phone_number']   = '18555550710';
+        $parameter['template_param'] = ['code' => '123456'];
      */
     public function sendSms($parameter = [])
     {
-        
+
         $alidy_config = $this->config();
         
         $sms = new alidy\SmsApi($alidy_config['access_key'], $alidy_config['secret_key']);
         
+        empty($parameter['template_param']['code']) && $parameter['template_param'] = null;
+
         $response = $sms->sendSms(
                 
                     $parameter['sign_name'],
@@ -65,7 +72,15 @@ class Alidy extends Sms implements Driver
                     $parameter['template_param']
                 );
         
-        return $response->Code == 'OK' ? true : false;
+        if ($response->Code == 'OK') {
+            
+           //code缓存5分钟
+           cache('send_sms_code_'.$parameter['phone_number'], $parameter['template_param']['code'], 300);
+           
+           return true;
+        }
+
+        return false;
     }
    
 }
