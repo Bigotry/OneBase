@@ -1,7 +1,16 @@
 <script src="/static/module/common/pay/wxpay/jquery-2.0.3.min.js"></script>
 <script src="/static/module/common/pay/wxpay/qrcode.js"></script>
 
-<div id="wx_pay_qrcode" style="height: 180px; width: 180px; margin:200 auto; text-align: center;"></div>
+<style>
+    
+    body{
+        background-color: rgb(34,34,34);
+        color: #fff;
+    }
+
+</style>
+
+<div id="wx_pay_qrcode" class="impowerBox" style="height: 200px; width: 200px; margin:200 auto; text-align: center;"></div>
 
 <script>
     
@@ -24,22 +33,26 @@
         var timer;
         var jump=1;
         
-//        $(function(){
-//                //轮询订单付款状态
-//                timer = window.setInterval(check_order,1000); 
-//                
-//                function check_order(){
-//                        $.get("/payment/checkPayStatus", { order_sn: "<?php echo $order['order_sn']; ?>" },function(data){
-//                                
-//                                if('succeed' == data){	//支付成功后页面跳转
-//                                    
-//                                    window.location.href="/center/paylist"; 
-//
-//                                    jump=0;
-//                                    
-//                                    clearInterval(timer);
-//                                }
-//                        });
-//                }
-//        })
+        $(function(){
+                timer = window.setInterval(check_order,1000); 
+                
+                function check_order(){
+                    
+                    // 微信PC端扫码支付，前端页面在此处监听，一旦支付状态异步调整后则进行相关前端JS处理
+                    
+                    $.get("/demo.php/Demo/demoCheckPayStatus", { order_sn: "<?php echo $order['order_sn']; ?>" },function(data){
+
+                            if('succeed' == data){	//支付成功后页面跳转
+
+                                alert('扫码支付成功');
+
+                                window.location.href="http://xxxxx";
+
+                                jump=0;
+
+                                clearInterval(timer);
+                            }
+                    });
+                }
+        })
 </script>

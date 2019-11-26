@@ -6,7 +6,8 @@
         private $app_key = '';//商户密钥
         private $sign='';//签名
         private $notify_url = \app\common\service\Pay::NOTIFY_URL;//回调地址
-        private $trade_type = 'APP';//支付类型
+        private $trade_type = '';//支付类型
+        private $appsecret = '';//appsecret
         private $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';//统一下单请求地址
         private $queryUrl = "https://api.mch.weixin.qq.com/pay/orderquery";//查询订单地址
 
@@ -19,6 +20,7 @@
             $this->app_key = isset($param['partnerkey'])?$param['partnerkey']:$this->app_key;
             $this->notify_url = isset($param['notify_url'])?$param['notify_url']:$this->notify_url;
             $this->out_time = isset($param['curl_timeout'])?$param['curl_timeout']:$this->out_time;
+            $this->appsecret = isset($param['appsecret'])?$param['appsecret']:$this->appsecret;
         }
 
         //统一下单
@@ -26,9 +28,15 @@
             if(empty($arr)){
                 return false;
             }
+            
+            $arr['out_trade_no']        = $arr['order_sn'];
+            $arr['total_fee']           = $arr['order_amount'];
+            $arr['spbill_create_ip']    = $this->get_client_ip();
+            
             if(!isset($arr['out_trade_no']) || !isset($arr['total_fee']) || !isset($arr['spbill_create_ip']) || !isset($arr['body'])){
                 return false;
             }
+            
             //构造一个订单
             $order = array(
                 "body" => $arr['body'],
@@ -41,13 +49,14 @@
                 "total_fee" => intval($arr['total_fee'] * 100),//注意：前方有坑！！！最小单位是分，跟支付宝不一样。1表示1分钱。只能是整形。
                 "trade_type" => empty($arr['trade_type']) ? $this->trade_type : $arr['trade_type']
             );
-            !empty($arr['trade_type']) && $arr['trade_type'] == 'JSAPI' && $order['openid'] = $arr['openid'];
+            
             //签名
             $this->sign = $this->getSign($order,$this->app_key);
             //请求服务器
             $xml = $this->ArrayToXml($order,$this->sign);
             //发起curl请求
             $result = $this->postXmlCurl($xml,$this->url,$this->out_time);
+            
             //将xml转为数组
             $resultArr = $this->xmlToArray($result);
             if($resultArr['return_code'] == 'SUCCESS' && $resultArr['result_code'] == 'SUCCESS'){
