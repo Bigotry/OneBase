@@ -240,6 +240,34 @@ class Demo extends LogicBase
     }
     
     /**
+     * 生成海报
+     */
+    public function demoPoster()
+    {
+        
+        // windows
+        $poster_data = create_poster(
+                "D:/xampp/htdocs/OneBase/public/upload/extend/qrcode/e9ff27b4d969cfad54b5388c381e2022.png",
+                "D:/xampp/htdocs/OneBase/public/upload/extend/poster/poster_bg.jpg",
+                 200,
+                 [200,100]
+                );
+        
+        // linux
+        
+        /*
+        $poster_data = create_poster(
+                "./upload/extend/qrcode/e9ff27b4d969cfad54b5388c381e2022.png",
+                "./upload/extend/poster/poster_bg.jpg",
+                 200,
+                 [200,100]
+                );
+        */
+        
+        dump($poster_data);
+    }
+    
+    /**
      * 邮件发送
      */
     public function demoSendEmail()

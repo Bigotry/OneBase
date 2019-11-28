@@ -259,3 +259,47 @@ function create_qrcode($data = '', $path = '', $ecc = 'H', $size = 10)
     return $return_data;
     
 }
+
+/**
+ * 生成海报
+ * @param staring $qrcode_path          海报二维码图片路径
+ * @param staring $poster_bg_path       海报背景图片路径
+ * @param int     $qrcode_size          二维码大小
+ * @param array   $location             二维码位置，数组中包含2个值，分别代表x y距离，通过此参数调整二维码在海报中的位置
+ */
+function create_poster($qrcode_path = '', $poster_bg_path = '', $qrcode_size = 200, $location = [0,0])
+{
+    
+    // 海报目录路径
+    $poster_path = './upload/extend/poster/';
+    
+    // 将二维码生成缩略图
+    if (file_exists($qrcode_path) && file_exists($poster_bg_path)) {
+
+        $qrcode_tmp_file = md5($qrcode_path).'_qrcode.jpg';
+        
+        $qrcode_tmp_file_path = $poster_path . $qrcode_tmp_file;
+        
+        $image_thumb = \think\Image::open($qrcode_path);
+
+        $image_thumb->thumb($qrcode_size, $qrcode_size,\think\Image::THUMB_SCALING)->save($qrcode_tmp_file_path);
+
+        $poster_file_name = md5($qrcode_path).'_poster.jpg';
+        $poster_file_path = $poster_path .$poster_file_name;
+        
+        $image_water = \think\Image::open($poster_bg_path);
+        
+        $image_water->water($qrcode_tmp_file_path, $location)->save($poster_file_path);
+
+        @unlink($qrcode_tmp_file_path);
+    
+        $return_data['name'] = $poster_file_name;
+        $return_data['path'] = $poster_file_path;
+
+        return $return_data;
+        
+    } else {
+
+        return false;
+    }
+}
