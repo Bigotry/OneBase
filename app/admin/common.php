@@ -60,7 +60,7 @@ function get_chat_contents()
 
         $ob_chat_contents = file_get_contents($file_path);
 
-        $ob_chat_contents_arr = sr(array_filter(str2arr($ob_chat_contents, PHP_EOL)), '\\');
+        $ob_chat_contents_arr = array_filter(str2arr($ob_chat_contents, PHP_EOL));
 
         foreach ($ob_chat_contents_arr as &$v)
         {
