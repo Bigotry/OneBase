@@ -32,7 +32,16 @@
               <input class="form-control" name="mobile" placeholder="请输入手机号码" value="{$info['mobile']}" type="text">
             </div>
           </div>
-    
+            
+          <div class="col-md-6">
+            <div class="form-group">
+                <label>头像图片</label>
+                <br/>
+                {assign name="head_img_id" value="$info.head_img_id|default='0'" /}
+                {:widget('file/index', ['name' => 'head_img_id', 'value' => $head_img_id, 'type' => 'img'])}
+            </div>
+          </div>
+            
         </div>
       </div>
       <div class="box-footer">

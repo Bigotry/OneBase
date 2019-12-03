@@ -66,6 +66,9 @@ class AdminBase extends ControllerBase
         // 验证登录
         !MEMBER_ID && $this->redirect('login/login');
         
+        // 检查session_id保持只有一个活动后台登录
+        !check_session_id(MEMBER_ID) && $this->redirect('login/logout');
+        
         // 获取授权菜单列表
         $this->authMenuList = $this->logicAuthGroupAccess->getAuthMenuList(MEMBER_ID);
         
@@ -119,7 +122,7 @@ class AdminBase extends ControllerBase
         $this->assign('auth_menu_list', $this->authMenuList);
         
         // 登录会员信息
-        $this->assign('member_info', session('member_info'));
+        $this->assign('member_info', $this->logicMember->getMemberInfo(['id' => MEMBER_ID]));
     }
     
     /**

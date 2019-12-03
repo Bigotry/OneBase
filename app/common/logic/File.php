@@ -139,7 +139,7 @@ class File extends LogicBase
     /**
      * 获取图片URL路径
      */
-    public function getPictureUrl($id = 0)
+    public function getPictureUrl($id = 0, $is_head = false)
     {
         
         $info = $this->modelPicture->getInfo(['id' => $id], 'path,url');
@@ -154,6 +154,11 @@ class File extends LogicBase
         if (!empty($info['path'])) {
 
             return $root_url . 'upload/picture/'.$info['path'];
+        }
+
+        if ($is_head) {
+            
+            return $root_url . 'static/module/admin/img/default_head.jpg';
         }
 
         return $root_url . 'static/module/admin/img/onimg.png';

@@ -34,7 +34,7 @@ class Login extends AdminBase
         
         if (!empty($member['password']) && data_md5_key($password) == $member['password']) {
             
-            $this->logicMember->setMemberValue(['id' => $member['id']], TIME_UT_NAME, TIME_NOW);
+            $this->modelMember->setInfo([TIME_UT_NAME => TIME_NOW, 'session_id' => session_id()], ['id' => $member['id']]);
 
             $auth = ['member_id' => $member['id'], TIME_UT_NAME => TIME_NOW];
 

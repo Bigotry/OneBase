@@ -29,7 +29,7 @@ class Article extends ApiBase
         // 执行父类构造方法
         parent::__construct();
         
-        empty(static::$commonArticleLogic) && static::$commonArticleLogic = get_sington_object('Article', CommonArticle::class);
+        empty(static::$commonArticleLogic) && static::$commonArticleLogic = new CommonArticle();
     }
     
     /**

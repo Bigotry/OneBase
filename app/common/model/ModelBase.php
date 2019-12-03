@@ -165,7 +165,9 @@ class ModelBase extends Model
         
         $is_update_cache = $this->checkCacheVersion($this, $query);
         
-        if (!empty($ob_auto_cache_key) && !$is_update_cache && !empty($cache_data = cache($ob_auto_cache_key))) {
+        $cache_data = cache($ob_auto_cache_key);
+        
+        if (!empty($ob_auto_cache_key) && !$is_update_cache && !empty($cache_data)) {
         
             return $cache_data;
         }
@@ -192,7 +194,9 @@ class ModelBase extends Model
         
         $is_update_cache = $this->checkCacheVersion($this, $query);
         
-        if (!empty($ob_auto_cache_key) && !$is_update_cache && !empty($cache_data = cache($ob_auto_cache_key))) {
+        $cache_data = cache($ob_auto_cache_key);
+                
+        if (!empty($ob_auto_cache_key) && !$is_update_cache && !empty($cache_data)) {
             
             return $cache_data;
         }

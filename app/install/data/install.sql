@@ -364,10 +364,12 @@ INSERT INTO `ob_hook` VALUES ('38', 'ArticleEditor', '富文本编辑器', 'Edit
 DROP TABLE IF EXISTS `ob_member`;
 CREATE TABLE `ob_member` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `head_img_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '头像图片ID',
   `nickname` char(50) NOT NULL DEFAULT '' COMMENT '昵称',
   `username` char(16) NOT NULL DEFAULT '' COMMENT '用户名',
   `password` char(32) NOT NULL DEFAULT '' COMMENT '密码',
   `email` char(32) NOT NULL DEFAULT '' COMMENT '用户邮箱',
+  `session_id` char(32) NOT NULL DEFAULT '' COMMENT 'session_id',
   `mobile` char(15) NOT NULL DEFAULT '' COMMENT '用户手机',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',

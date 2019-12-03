@@ -564,9 +564,16 @@ function get_file_root_path()
 function get_picture_url($id = 0)
 {
 
-    $fileLogic = get_sington_object('fileLogic', LogicFile::class);
-    
-    return $fileLogic->getPictureUrl($id);
+    return (new LogicFile())->getPictureUrl($id);
+}
+
+/**
+ * 获取头像图片url
+ */
+function get_head_picture_url($id = 0)
+{
+
+    return (new LogicFile())->getPictureUrl($id, true);
 }
 
 /**
@@ -575,9 +582,7 @@ function get_picture_url($id = 0)
 function get_file_url($id = 0)
 {
     
-    $fileLogic = get_sington_object('fileLogic', LogicFile::class);
-    
-    return $fileLogic->getFileUrl($id);
+    return (new LogicFile())->getFileUrl($id);
 }
 
 /**
