@@ -174,7 +174,7 @@ function build_auth_key()
 function register_administrator($db_object, $prefix, $admin, $auth)
 {
     $sql = "INSERT INTO `[PREFIX]member` VALUES " .
-           "(1, '[NICKNAME]', '[USERNAME]', '[PASSWORD]', '[EMAIL]', '18555550710', '[UPDATETIME]', '[CREATETIME]', 1, 0, 0, 1)";
+           "(1, 0, '[NICKNAME]', '[USERNAME]', '[PASSWORD]', '[EMAIL]', '', '18555550710', '[UPDATETIME]', '[CREATETIME]', 1, 0, 0, 1)";
 
     $password = data_md5_key($admin['password'], $auth);
     
