@@ -31,7 +31,6 @@ abstract class Server
      */
     public function __construct()
     {
-        
         // 实例化 Websocket 服务
         $this->worker = new Worker($this->socket ?: $this->protocol . '://' . $this->host . ':' . $this->port);
         // 设置进程数

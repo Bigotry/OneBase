@@ -380,6 +380,44 @@
         ]
     },
     {
+        "name": "topthink/think-queue",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/top-think/think-queue.git",
+            "reference": "5eaa66aa73741f544aa3e010cd787be55b20320c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/top-think/think-queue/zipball/5eaa66aa73741f544aa3e010cd787be55b20320c",
+            "reference": "5eaa66aa73741f544aa3e010cd787be55b20320c",
+            "shasum": ""
+        },
+        "time": "2016-08-09T04:20:35+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "think\\queue\\": "src"
+            },
+            "files": [
+                "src/config.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "yunwuxin",
+                "email": "448901948@qq.com"
+            }
+        ],
+        "description": "The ThinkPHP5 Queue Package"
+    },
+    {
         "name": "topthink/think-worker",
         "version": "v1.0.0",
         "version_normalized": "1.0.0.0",
